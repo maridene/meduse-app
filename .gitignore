@@ -105,3 +105,9 @@ dist
 
 #intellij
 .idea/
+
+#angular client
+web-app/logs/*
+web-app/node_modules/
+web-app/app/lib/
+web-app/tmp
