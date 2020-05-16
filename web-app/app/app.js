@@ -7,6 +7,7 @@ angular.module('meduseApp', [
   'meduseApp.view2',
   'meduseApp.home',
   'meduseApp.contact',
+  'meduseApp.aboutUs',
   'meduseApp.version'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
