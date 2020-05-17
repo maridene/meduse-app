@@ -1,3 +1,5 @@
+'use strict';
+
 class Product {
   constructor(id, label, description, price, quantity, video_link, category_id) {
     this.id = id;
