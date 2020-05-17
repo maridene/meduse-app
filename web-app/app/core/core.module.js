@@ -2,5 +2,6 @@
 
 // Define the `core` module
 angular.module('meduseApp.core', [
-  'meduseApp.core.restService'
+  'meduseApp.core.restService',
+  'meduseApp.core.category'
 ]);
