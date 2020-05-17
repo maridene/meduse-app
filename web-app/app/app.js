@@ -3,6 +3,7 @@
 // Declare app level module which depends on views, and core components
 angular.module('meduseApp', [
   'ngRoute',
+  'meduseApp.core',
   'meduseApp.view1',
   'meduseApp.view2',
   'meduseApp.home',
