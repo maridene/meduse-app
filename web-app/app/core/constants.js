@@ -1,6 +1,6 @@
 'use strict';
 
-export const RESOURCE = {
+const RESOURCE = {
   CATEGORY: 'category',
   CATEGORIES: 'categories',
   PRODUCT: 'product'

@@ -1,7 +1,5 @@
 'use strict';
 
-import {RESOURCE} from "../constants";
-
 const CATEGORIES_URL = 'categories';
 
 angular.module('meduseApp.core.category', ['meduseApp.core.restService', 'meduseApp.core.objectbuilder'])

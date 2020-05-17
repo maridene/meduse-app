@@ -1,5 +1,3 @@
-import {RESOURCE} from "../constants";
-import Category from "../models/category";
 
 angular.module('meduseApp.core.objectbuilder', [])
   .service('ObjectBuilder', () => {
