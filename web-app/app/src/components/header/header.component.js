@@ -2,7 +2,7 @@
 
 angular.module('meduseApp.core.header', ['meduseApp.core.category'])
   .component('muHeader', {
-    templateUrl: 'core/components/header/header.html',
+    templateUrl: 'src/components/header/header.html',
     binding: {
 
     },
