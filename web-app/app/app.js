@@ -4,8 +4,6 @@
 angular.module('meduseApp', [
   'ngRoute',
   'meduseApp.core',
-  'meduseApp.view1',
-  'meduseApp.view2',
   'meduseApp.home',
   'meduseApp.contact',
   'meduseApp.aboutUs',
@@ -15,5 +13,5 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('');
 
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/'});
 }]);
