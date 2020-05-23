@@ -7,3 +7,5 @@ class Category {
     this.description = description;
   }
 }
+
+export default Category;

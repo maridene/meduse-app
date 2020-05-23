@@ -2,97 +2,37 @@
 <html lang="fr">
 
   <head>
-  <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta name="keywords" content="Meduse, matériel médical, vente en ligne">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <base href="/">
-  <title>Meduse</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="Meduse, matériel médical, vente en ligne">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <base href="/">
+    <title ng-bind="pageTitle"></title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-  <!-- Css Styles -->
-  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="css/themify-icons.css" type="text/css">
-  <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-  <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-  <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-  <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-  <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-  <link rel="stylesheet" href="css/style.css" type="text/css">
-</head>
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+  </head>
 
-  <body ng-app="meduseApp">
+  <!--body ng-app="meduseApp">-->
+  <body>
     <!-- Page Preloder -->
     <div id="preloder">
       <div class="loader"></div>
     </div>
 
-    <!-- Header Section Begin -->
-    <mu-header></mu-header>
-    <!-- Header End -->
-
-    <div ng-view></div>
-
-    <!-- Footer Section -->
-    <footer class="footer-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <div class="footer-left">
-              <div class="footer-logo">
-                <a href="#"><img src="assets/img/footer-logo.png" alt=""></a>
-              </div>
-              <ul>
-                <li>Address: 16 avenue de Nabeul 8090 Kélibia</li>
-                <li>Phone: +216 22 55 93 06</li>
-                <li>Email: info@meduse.com</li>
-              </ul>
-              <div class="footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-pinterest"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-2 offset-lg-1">
-            <div class="footer-widget">
-              <h5>Informations</h5>
-              <ul>
-                <li><a href="#">Qui sommes nous</a></li>
-                <li><a href="#">Contactez nous</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-lg-2">
-            <div class="footer-widget">
-              <h5>My Account</h5>
-              <ul>
-                <li><a href="#">My Account</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Shopping Cart</a></li>
-                <li><a href="#">Shop</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="newslatter-item">
-              <h5>Abonnez-vous à notre newsletter</h5>
-              <p>Vous recevrez régulièrement des mises à jour par courriel sur nos actualités et nos offres.</p>
-              <form action="#" class="subscribe-form">
-                <input type="text" placeholder="Votre adresse e-mail">
-                <button type="button">Souscrire</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <!-- Footer Section -->
+    <div ui-view></div>
 
     <!-- Js Plugins -->
     <script src="lib/jquery-3.3.1.min.js"></script>
@@ -106,26 +46,7 @@
     <script src="lib/owl.carousel.min.js"></script>
     <script src="lib/main.js"></script>
 
-  <!-- AngularJS -->
-    <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular-route/angular-route.js"></script>
-  <!---->
-    <script src="src/constants.js"></script>
-    <script src="src/models/category.js"></script>
-  <!--core-->
-    <script src="app.js"></script>
-    <script src="src/core.module.js"></script>
-    <script src="src/version/version.js"></script>
-    <script src="src/version/version-directive.js"></script>
-    <script src="src/version/interpolate-filter.js"></script>
-    <script src="src/services/objectBuilder.js" type="module"></script>
-    <script src="src/services/restService.js"></script>
-    <script src="src/services/categoryService.js" type="module"></script>
-    <script src="src/components/header/header.component.js"></script>
-  <!--views-->
-    <script src="src/views/home/home.js"></script>
-    <script src="src/views/contact/contact.js"></script>
-    <script src="src/views/aboutUs/aboutUs.js"></script>
+    <script src="main.js"></script>
   </body>
 
 </html>
