@@ -91,7 +91,7 @@ ol {
 .section-title .product-price {
 	font-size: 24px;
 	font-weight: 700;
-	color: #e7ab3c;
+	color: #33c0ec;
 }
 
 .section-title .product-price span {
@@ -115,7 +115,7 @@ ol {
 	bottom: -14px;
 	width: 80px;
 	height: 3px;
-	background: #e7ab3c;
+	background: #33c0ec;
 	content: "";
 	margin: 0 auto;
 }
@@ -156,14 +156,14 @@ ol {
 	font-weight: 700;
 	padding: 12px 30px;
 	color: #ffffff;
-	background: #e7ab3c;
+	background: #33c0ec;
 	text-transform: uppercase;
 }
 
 .site-btn {
 	color: #ffffff;
-	background: #e7ab3c;
-	border: 1px solid #e7ab3c;
+	background: #33c0ec;
+	border: 1px solid #33c0ec;
 	font-size: 14px;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -453,8 +453,8 @@ ol {
 	position: absolute;
 	right: -3px;
 	top: -1px;
-	border: 1px solid #e7ab3c;
-	background: #e7ab3c;
+	border: 1px solid #33c0ec;
+	background: #33c0ec;
 	padding: 12px 16px 12px;
 	cursor: pointer;
 }
@@ -482,7 +482,7 @@ ol {
 	top: -1px;
 	height: 15px;
 	width: 15px;
-	background: #e7ab3c;
+	background: #33c0ec;
 	color: #ffffff;
 	border-radius: 50%;
 	font-size: 11px;
@@ -513,7 +513,7 @@ ol {
 	top: -1px;
 	height: 15px;
 	width: 15px;
-	background: #e7ab3c;
+	background: #33c0ec;
 	color: #ffffff;
 	border-radius: 50%;
 	font-size: 11px;
@@ -557,7 +557,7 @@ ol {
 }
 
 .inner-header .nav-right li.cart-icon .cart-hover .select-items table tr td.si-text .product-selected p {
-	color: #e7ab3c;
+	color: #33c0ec;
 	line-height: 30px;
 	margin-bottom: 7px;
 }
@@ -581,14 +581,14 @@ ol {
 
 .inner-header .nav-right li.cart-icon .cart-hover .select-total span {
 	font-size: 14px;
-	color: #e7ab3c;
+	color: #33c0ec;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	float: left;
 }
 
 .inner-header .nav-right li.cart-icon .cart-hover .select-total h5 {
-	color: #e7ab3c;
+	color: #33c0ec;
 	float: right;
 }
 
@@ -619,7 +619,7 @@ ol {
 }
 
 .nav-item {
-	background: #252525;
+	background: #19346d;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -687,7 +687,7 @@ ol {
 }
 
 .nav-item .nav-depart .depart-btn .depart-hover li.active a {
-	color: #e7ab3c;
+	color: #33c0ec;
 }
 
 .nav-item .nav-depart .depart-btn .depart-hover li a {
@@ -703,7 +703,7 @@ ol {
 }
 
 .nav-item .nav-depart .depart-btn .depart-hover li a:hover {
-	color: #e7ab3c;
+	color: #33c0ec;
 }
 
 .nav-item .nav-menu {
@@ -721,7 +721,7 @@ ol {
 }
 
 .nav-item .nav-menu li.active a {
-	background: #e7ab3c;
+	background: #33c0ec;
 }
 
 .nav-item .nav-menu li a {
@@ -738,7 +738,7 @@ ol {
 }
 
 .nav-item .nav-menu li:hover>a {
-	background: #e7ab3c;
+	background: #33c0ec;
 }
 
 .nav-item .nav-menu li:hover .dropdown {
@@ -768,7 +768,7 @@ ol {
 
 .nav-item .nav-menu li .dropdown li:hover>a {
 	background: transparent;
-	color: #e7ab3c;
+	color: #33c0ec;
 }
 
 .nav-item .nav-menu li .dropdown li a {
