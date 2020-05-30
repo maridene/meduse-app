@@ -12,6 +12,7 @@
                 </div>
             </div>
             <div class="ht-right">
+                <a href="/contact" class="login-panel">Contacts</a>
                 <a href="#" class="login-panel"><i class="fa fa-user"></i>Connexion</a>
                 <div class="top-social">
                     <a href="#"><i class="ti-facebook"></i></a>
@@ -95,38 +96,9 @@
     </div>
     <div class="nav-item">
         <div class="container">
-            <div class="nav-depart">
-                <div class="depart-btn">
-                    <i class="ti-menu"></i>
-                    <span>Tous catégories</span>
-                    <ul class="depart-hover">
-                        <li ng-repeat="item in categories">
-                            <a href="#">{{item.label}}</a>
-                        </li>
-                        <!--<li class="active"><a href="#">Women’s Clothing</a></li>
-                        <li><a href="#">Men’s Clothing</a></li>
-                        <li><a href="#">Underwear</a></li>
-                        <li><a href="#">Kid's Clothing</a></li>
-                        <li><a href="#">Brand Fashion</a></li>
-                        <li><a href="#">Accessories/Shoes</a></li>
-                        <li><a href="#">Luxury Brands</a></li>
-                        <li><a href="#">Brand Outdoor Apparel</a></li>
-                        -->
-                    </ul>
-                </div>
-            </div>
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li class="active"><a href="/">Accueil</a></li>
-                    <li><a href="aboutUs">Qui sommes nous</a></li>
-                    <li><a href="#">Collection</a>
-                        <ul class="dropdown">
-                            <li><a href="#">Men's</a></li>
-                            <li><a href="#">Women's</a></li>
-                            <li><a href="#">Kid's</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="contact">Contact</a></li>
+                    <li ng-repeat="category in $ctrl.categories"><a href="#"> {{category.label}}</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>

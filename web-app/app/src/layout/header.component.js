@@ -1,8 +1,20 @@
 class AppHeaderCtrl {
-  constructor(AppConstants) {
+  constructor(AppConstants, CategoryService) {
     'ngInject';
 
     this.appName = AppConstants.appName;
+    this.categoryService = CategoryService;
+
+    this.categories = [];
+    this.initCategories();
+  }
+
+  initCategories() {
+    this.categoryService.getAllCategories()
+        .then((categories) => {
+          this.categories = categories;
+          console.log(this.categories);
+        });
   }
 }
 
