@@ -12,6 +12,7 @@ import './layout';
 //import './components';
 import './home';
 import './contact';
+import './product';
 import './services';
 
 
@@ -23,6 +24,7 @@ const requires = [
   //'app.components',
   'app.home',
   'app.contact',
+  'app.product',
   'app.services'
 ];
 
