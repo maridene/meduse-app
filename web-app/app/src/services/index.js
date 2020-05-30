@@ -1,14 +1,14 @@
 import angular from 'angular';
-import categoryService from './categoryService';
-import restService from './restService';
-import objectBuilder from './objectBuilder';
+import CategoryService from './categoryService';
+import RestService from './restService';
+import ObjectBuilder from './objectBuilder';
 
 // Create the module where our functionality can attach to
 let servicesModule = angular.module('app.services', []);
 
-servicesModule.factory('CategoryService', categoryService);
-servicesModule.factory('RestService', restService);
-servicesModule.factory('ObjectBuilder', objectBuilder);
+servicesModule.service('CategoryService', CategoryService);
+servicesModule.service('RestService', RestService);
+servicesModule.service('ObjectBuilder', ObjectBuilder);
 
 
 

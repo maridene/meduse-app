@@ -4,4 +4,8 @@ const AppConstants = {
   appName: 'MEDUSE',
 };
 
+export const ApiConstants = {
+  CATEGORIES: 'categories'
+};
+
 export default AppConstants;

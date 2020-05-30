@@ -1,38 +1,36 @@
-function categoryService(RestService){
+import { ApiConstants } from '../config/app.constants';
+import { RESOURCE } from '../constants';
 
-  const getAllCategories = () => {
-    const deferred = $q.defer();
-    RestService.get(CATEGORIES_URL)
+export default class CategoryService {
+  constructor(RestService, $q, ObjectBuilder) {
+    this._RestService = RestService;
+    this._$q = $q;
+    this.ObjectBuilder = ObjectBuilder;
+  }
+
+  getAllCategories() {
+    const deferred = this._$q.defer();
+    this._RestService.get(ApiConstants.CATEGORIES)
         .then(
-            (result) => deferred.resolve(ObjectBuilder.buildObject(RESOURCE.CATEGORIES, result.data)),
+            (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.CATEGORIES, result.data)),
             (error) => deferred.reject(error)
         );
     return deferred.promise;
-  };
-
-  const getCategoryById = (id) => {
-    const deferred = $q.defer();
-    RestService.get(`${CATEGORIES_URL}`/`${id}`)
+  }
+  getCategoryById(id) {
+    const deferred = this._$q.defer();
+    this._RestService.get(`${ApiConstants.CATEGORIES}`/`${id}`)
         .then(
-            (result) => deferred.resolve(ObjectBuilder.buildObject(RESOURCE.CATEGORY, result.data)),
+            (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.CATEGORY, result.data)),
             (error) => deferred.reject(error));
     return deferred.promise;
-  };
-
-  const addCategory = (category) => {
-    RestService.post(CATEGORIES_URL, category)
+  }
+  addCategory(category) {
+    this._RestService.post(ApiConstants.CATEGORIES, category)
         .then((result) => {
 
         }, (error) => {
 
         });
-  };
-
-  return {
-    getAllCategories,
-    getCategoryById,
-    addCategory
   }
 }
-
-export default { categoryService };

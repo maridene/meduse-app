@@ -1,7 +1,12 @@
-function restService($http) {
+export default class RestService {
+  constructor($http) {
+    this._$http = $http;
+  }
+  getBaseUrl() {
+    return 'http://localhost:3000/';
+  }
 
-  const getBaseUrl = () => 'http://localhost:3000/';
-  function getRequestConfig(config) {
+  getRequestConfig(config) {
     if (typeof config === 'undefined') {
       config = {headers: {'X-Requested-With': 'XMLHttpRequest', 'Access-Control-Allow-Credentials': 'true'}};
     } else {
@@ -15,20 +20,16 @@ function restService($http) {
     return config;
   }
 
-  return {
-    get(url, config) {
-      return $http.get(`${getBaseUrl() + url}`, getRequestConfig(config));
-    },
-    put(url, data, config) {
-      return $http.post(`${getBaseUrl() + url}`, data, getRequestConfig(config));
-    },
-    delete(url, data, config) {
-      return $http.post(`${getBaseUrl() + url}`, data, getRequestConfig(config));
-    },
-    post(url, data, config) {
-      return $http.post(`${getBaseUrl() + url}`, data, getRequestConfig(config));
-    }
+  get(url, config) {
+    return this._$http.get(`${this.getBaseUrl() + url}`, this.getRequestConfig(config));
+  }
+  put(url, data, config) {
+    return this._$http.post(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
+  }
+  delete(url, data, config) {
+    return this._$http.post(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
+  }
+  post(url, data, config) {
+    return this._$http.post(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
   }
 }
-
-export default { restService };
