@@ -125,4 +125,29 @@ Product.removeAll = result => {
   });
 };
 
+Product.getByCategory = (categoryId, result) => {
+  sql.query(`SELECT * FROM products WHERE category_id = ${categoryId}`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+
+        if (res.length === 0) {
+          console.log("no product found in categoryId: ", categoryId);
+          result(null, []);
+          return;
+        }
+
+        if (res.length) {
+          console.log("found products: ", res);
+          result(null, res);
+          return;
+        }
+
+        // not found Product with the id
+        result({ kind: "not_found" }, null);
+  });
+};
+
 module.exports = Product;

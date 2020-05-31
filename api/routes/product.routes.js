@@ -18,4 +18,7 @@ module.exports = app => {
 
   // Delete all Products
   app.delete("/products", products.deleteAll);
+
+  //get Products by Category id
+  app.get("/products/category/:categoryId", products.getProductsByCategory);
 };

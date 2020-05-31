@@ -115,3 +115,14 @@ exports.deleteAll = (req, res) => {
     else res.send({ message: `All Products were deleted successfully!` });
   });
 };
+
+// Get products by category id
+exports.getProductsByCategory = (req, res) => {
+  Product.getByCategory(req.params.categoryId, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: "Error retrieving Products with category id " + req.params.categoryId
+      });
+    } else res.send(data);
+  });
+};
