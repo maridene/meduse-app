@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="ht-right">
-                <a href="/contact" class="login-panel">Contacts</a>
+                <a href="#!/contact" class="login-panel">Contacts</a>
                 <a href="#" class="login-panel"><i class="fa fa-user"></i>Connexion</a>
                 <div class="top-social">
                     <a href="#"><i class="ti-facebook"></i></a>
@@ -98,7 +98,7 @@
         <div class="container">
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li ng-repeat="category in $ctrl.categories"><a href="#"> {{category.label}}</a></li>
+                    <li ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}">{{category.label}}</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
