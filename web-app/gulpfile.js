@@ -13,6 +13,7 @@ let merge         = require('merge-stream');
 // Where our files are located
 let jsFiles   = "app/src/**/*.js";
 let viewFiles = "app/src/**/*.html";
+let styleFiles = "app/css/*.css";
 
 let interceptErrors = function(error) {
   let args = Array.prototype.slice.call(arguments);
@@ -100,4 +101,5 @@ gulp.task('default', ['html', 'copy-resources', 'browserify'], function() {
   gulp.watch("app/index.html", ['html']);
   gulp.watch(viewFiles, ['views']);
   gulp.watch(jsFiles, ['browserify']);
+  gulp.watch(styleFiles, ['copy-css']);
 });
