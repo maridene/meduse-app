@@ -13,6 +13,7 @@ import './layout';
 import './home';
 import './contact';
 import './product';
+import './category';
 import './services';
 
 
@@ -21,10 +22,10 @@ const requires = [
   'ui.router',
   'templates',
   'app.layout',
-  //'app.components',
   'app.home',
   'app.contact',
   'app.product',
+  'app.category',
   'app.services'
 ];
 
