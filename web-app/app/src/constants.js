@@ -3,5 +3,6 @@
 export const RESOURCE = {
   CATEGORY: 'category',
   CATEGORIES: 'categories',
-  PRODUCT: 'product'
+  PRODUCT: 'product',
+  PRODUCTS: 'products'
 };

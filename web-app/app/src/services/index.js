@@ -1,5 +1,6 @@
 import angular from 'angular';
 import CategoryService from './categoryService';
+import ProductService from './productService';
 import RestService from './restService';
 import ObjectBuilder from './objectBuilder';
 
@@ -7,6 +8,7 @@ import ObjectBuilder from './objectBuilder';
 let servicesModule = angular.module('app.services', []);
 
 servicesModule.service('CategoryService', CategoryService);
+servicesModule.service('ProductService', ProductService);
 servicesModule.service('RestService', RestService);
 servicesModule.service('ObjectBuilder', ObjectBuilder);
 
