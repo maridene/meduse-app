@@ -4,8 +4,8 @@ import angular from 'angular';
 let index = angular.module('app.contact', []);
 
 // Include our UI-Router config settings
-import contactConfig from './contact.config';
-index.config(contactConfig);
+import ContactConfig from './contact.config';
+index.config(ContactConfig);
 
 
 // Controllers
