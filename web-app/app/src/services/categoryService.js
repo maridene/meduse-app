@@ -3,6 +3,8 @@ import { RESOURCE } from '../constants';
 
 export default class CategoryService {
   constructor(RestService, $q, ObjectBuilder) {
+    'ngInject';
+
     this._RestService = RestService;
     this._$q = $q;
     this.ObjectBuilder = ObjectBuilder;

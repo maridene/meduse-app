@@ -1,5 +1,7 @@
 export default class RestService {
   constructor($http) {
+    'ngInject';
+
     this._$http = $http;
   }
   getBaseUrl() {
