@@ -14,6 +14,7 @@ let merge         = require('merge-stream');
 let jsFiles   = "app/src/**/*.js";
 let viewFiles = "app/src/**/*.html";
 let styleFiles = "app/css/*.css";
+let mainStyleFile = "app/css/style.css";
 
 let interceptErrors = function(error) {
   let args = Array.prototype.slice.call(arguments);
@@ -85,6 +86,11 @@ gulp.task('copy-css', function() {
       .pipe(gulp.dest('./build/css'));
 });
 
+gulp.task('copy-mainStyleFile', function() {
+  return gulp.src('./app/css/style.css')
+      .pipe(gulp.dest('./build/css'));
+});
+
 gulp.task('copy-resources', ['copy-libs', 'copy-assets', 'copy-css']);
 
 gulp.task('default', ['html', 'copy-resources', 'browserify'], function() {
@@ -101,5 +107,5 @@ gulp.task('default', ['html', 'copy-resources', 'browserify'], function() {
   gulp.watch("app/index.html", ['html']);
   gulp.watch(viewFiles, ['views']);
   gulp.watch(jsFiles, ['browserify']);
-  gulp.watch(styleFiles, ['copy-css']);
+  gulp.watch(mainStyleFile, ['copy-mainStyleFile']);
 });
