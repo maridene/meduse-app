@@ -22,27 +22,76 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="inner-header">
-            <div class="row">
-                <div class="col-lg-2 col-md-2">
-                    <div class="logo">
-                        <a href="/">
-                            <img src="assets/img/logo.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-7 col-md-7">
-                    <div class="advanced-search">
-                        <div class="input-group">
-                            <input type="text" placeholder="What do you need?">
-                            <button type="button"><i class="ti-search"></i></button>
+    <nav class="navbar navbar-expand-md">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="collapsingNavbar">
+            <ul class="navbar-nav">
+                <li class="logo">
+                    <a href="#!/">
+                        <img src="assets/img/mu+-02.png">
+                    </a>
+                </li>
+            </ul>           
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item category-item" ng-repeat="category in $ctrl.categories" data-toggle="collapse"><a href="#!/category/{{category.id}}">{{category.label}}</a></li>
+                <li class="nav-item category-item" data-toggle="collapse"><a href="#!/category/{{category.id}}">nos services</a></li>
+                <li class="nav-item category-item" data-toggle="collapse"><a href="#!/category/{{category.id}}">catalogue</a></li>
+                <li class="nav-item category-item" data-toggle="collapse"><a href="#!/category/{{category.id}}">a propos</a></li>
+                <li class="cart">
+                    <a href="#">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>3</span>
+                    </a>
+                    <div class="cart-hover">
+                        <div class="select-items">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="si-pic"><img src="assets/img/select-product-1.jpg" alt=""></td>
+                                        <td class="si-text">
+                                            <div class="product-selected">
+                                                <p>$60.00 x 1</p>
+                                                <h6>Kabino Bedside Table</h6>
+                                            </div>
+                                        </td>
+                                        <td class="si-close">
+                                            <i class="ti-close"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="si-pic"><img src="assets/img/select-product-2.jpg" alt=""></td>
+                                        <td class="si-text">
+                                            <div class="product-selected">
+                                                <p>$60.00 x 1</p>
+                                                <h6>Kabino Bedside Table</h6>
+                                            </div>
+                                        </td>
+                                        <td class="si-close">
+                                            <i class="ti-close"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="select-total">
+                            <span>total:</span>
+                            <h5>$120.00</h5>
+                        </div>
+                        <div class="select-button">
+                            <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                            <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 text-right col-md-3">
-                    <ul class="nav-right">
-                        <li class="cart-icon">
+                </li>
+                <li class="search"><i class="fas fa-search"></i></li>
+            </ul>
+        </div>
+    </nav>
+    <!--
+
+        <li class="cart-icon">
                             <a href="#">
                                 <i class="icon_bag_alt"></i>
                                 <span>3</span>
@@ -89,19 +138,6 @@
                             </div>
                         </li>
                         <li class="cart-price">17000.000 DT</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="nav-item">
-        <div class="container">
-            <nav class="nav-menu mobile-menu">
-                <ul>
-                    <li ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}">{{category.label}}</a></li>
-                </ul>
-            </nav>
-            <div id="mobile-menu-wrap"></div>
-        </div>
-    </div>
+
+    -->
 </header>
