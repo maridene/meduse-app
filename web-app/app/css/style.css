@@ -2077,11 +2077,6 @@ ol {
   Map
 -----------------------*/
 
-.map {
-	padding-top: 80px;
-	padding-bottom: 0;
-}
-
 .map-inner {
 	height: 610px;
 	position: relative;
@@ -2239,24 +2234,18 @@ ol {
     padding-bottom: 70px;
 }
 
+.aboutUs-section .aboutUs-section-row img {
+	width: inherit;
+}
+
 .aboutUs-section p {
 	font: 400 14px/26px "Roboto",sans-serif;
     color: #555;
     padding-top: 28px;
     padding-bottom: 54px;
 }
-.aboutUs-section .contact-button {
-	font: 700 18px/59px "Roboto",sans-serif;
-    width: 180px;
-    text-align: center;
-    background: #33c0ec;
-    display: block;
-    border: 0;
-    color: #222;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 2;
-    padding: 0;
+.aboutUs-section .tittle h4 {
+	padding: 55px 15px 0 15px;
 }
 
 /*---------------------
