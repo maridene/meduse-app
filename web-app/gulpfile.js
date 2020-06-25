@@ -37,7 +37,7 @@ gulp.task('browserify', ['views'], function() {
       .bundle()
       .on('error', interceptErrors)
       //Pass desired output filename to vinyl-source-stream
-      .pipe(source('main.js'))
+      .pipe(source('bundle.js'))
       // Start piping stream to tasks!
       .pipe(gulp.dest('./build/'));
 });
@@ -64,7 +64,7 @@ gulp.task('build', ['html', 'browserify'], function() {
   let html = gulp.src("build/index.html")
       .pipe(gulp.dest('./dist/'));
 
-  let js = gulp.src("build/main.js")
+  let js = gulp.src("build/bundle.js")
       .pipe(uglify())
       .pipe(gulp.dest('./dist/'));
 

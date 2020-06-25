@@ -110,6 +110,7 @@ dist
 web-app/logs/*
 web-app/node_modules/
 web-app/app/lib/
+!web-app/lib/main.js
 web-app/tmp
 web-app/build
 web-app/dist
