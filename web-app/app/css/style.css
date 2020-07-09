@@ -2494,6 +2494,122 @@ ol {
     margin-bottom: 12px;
 }
 
+/*---------------------
+	login
+---------------------*/
+.LoginSection {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.LoginSection .container {
+	max-width: 580px;
+}
+
+.LoginSection .LoginSection-text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 50px;
+}
+
+.LoginSection .LoginSection-text h3 {
+	padding-bottom: 10px;
+}
+
+.LoginSection .LoginSection-text-separator {
+	border:	2px solid #19346d;
+	width: 150px;
+}
+
+.LoginSection .LoginSection-container {
+	border: 1px solid #b2b2b2;
+	padding: 20px 10px 15px;
+}
+
+.LoginSection .LoginSection-container > div {
+	padding: 10px 20px;
+	display: flex;
+	justify-content: center;
+    align-items: baseline;
+}
+
+.LoginSection .LoginSection-container input {
+	width: 320px
+}
+
+.LoginSection .LoginSection-container .LoginSection-email {
+    justify-content: space-between;
+}
+
+.LoginSection .LoginSection-email .LoginSection-email-label {
+	padding-right: 20px;
+}
+
+.LoginSection .LoginSection-container .LoginSection-password {
+	justify-content: space-between;
+}
+
+.LoginSection .LoginSection-password .LoginSection-password-label {
+	padding-right: 20px;
+}
+
+.LoginSection .LoginSection-container .LoginSection-login {
+	padding-bottom: 30px;
+}
+
+.LoginSection .LoginSection-resetPassword a {
+	color: #33c0ec;
+}
+
+.LoginSection .LoginSection-resetPassword a:hover {
+	color: #19346d;
+}
+
+.LoginSection .LoginSection-register {
+	background-color: #f5f5f5;
+}
+
+.LoginSection .LoginSection-register a {
+	color: #33c0ec;
+}
+
+.LoginSection .LoginSection-register a:hover {
+	color: #19346d;
+}
+
+/*---------------------
+	register
+---------------------*/
+
+.RegisterSection {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.RegisterSection .RegisterSection-text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 50px;
+}
+
+.RegisterSection .RegisterSection-text h3 {
+	padding-bottom: 10px;
+}
+
+.RegisterSection .RegisterSection-text-separator {
+	border:	2px solid #19346d;
+	width: 150px;
+}
+
+.RegisterSection .card-body .text-center a {
+	color: #33c0ec;
+}
+
+.RegisterSection .card-body .text-center a:hover {
+	color: #19346d;
+}
 
 /* ------------------------------ Responsive Media Styles ---------------------------- */
 

@@ -15,6 +15,8 @@ import './contact';
 import './product';
 import './category';
 import './services';
+import './login';
+import './register';
 
 
 // Create and bootstrap application
@@ -26,7 +28,9 @@ const requires = [
   'app.contact',
   'app.product',
   'app.category',
-  'app.services'
+  'app.services',
+  'app.login',
+  'app.register'
 ];
 
 // Mount on window for testing
