@@ -17,6 +17,7 @@ import './category';
 import './services';
 import './login';
 import './register';
+import './passwordReset';
 
 
 // Create and bootstrap application
@@ -30,7 +31,8 @@ const requires = [
   'app.category',
   'app.services',
   'app.login',
-  'app.register'
+  'app.register',
+  'app.passwordReset'
 ];
 
 // Mount on window for testing
