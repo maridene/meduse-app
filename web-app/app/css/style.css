@@ -2974,9 +2974,6 @@ ol {
 	.inner-header {
 		padding: 0;
 	}
-	.inner-header .logo {
-		text-align: center;
-	}
 	.inner-header .nav-right {
 		text-align: left;
 	}
