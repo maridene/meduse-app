@@ -292,7 +292,6 @@ ol {
 
 .header-top .ht-left .mail-service {
 	font-size: 16px;
-	color: #252525;
 	float: left;
 	border-right: 1px solid #E5E5E5;
 	padding-top: 15px;
@@ -302,6 +301,31 @@ ol {
 
 .header-top .ht-left .mail-service i {
 	margin-right: 5px;
+}
+
+.header-top .ht-left .mail-service .fa, .header-top .ht-left .mail-service a,
+.header-top .ht-right .top-social .fa,
+.header-top .ht-right .login-panel .fa {
+
+	color: #19346d;
+}
+
+.header-top .ht-left .mail-service:hover,
+.header-top .ht-left .mail-service:hover .fa,
+.header-top .ht-left .phone-service:hover,
+.header-top .ht-left .phone-service:hover .fa,
+.header-top .ht-right .login-panel:hover,
+.header-top .ht-right .login-panel:hover .fa 
+{
+	color: #33c0ec;
+}
+
+.header-top .ht-left .mail-service a {
+	color: #19346d;
+}
+
+.header-top .ht-left .mail-service:hover a {
+	color: #33c0ec;
 }
 
 .header-top .ht-left .phone-service {
@@ -333,7 +357,7 @@ ol {
 .header-top .ht-right .login-panel {
 	float: right;
 	font-size: 14px;
-	color: #252525;
+	color: #19346d;
 	display: inline-block;
 	padding: 18px 20px 15px;
 	border-left: 1px solid #e5e5e5;
@@ -352,7 +376,6 @@ ol {
 }
 
 .header-top .ht-right .top-social a {
-	color: #252525;
 	font-size: 14px;
 	display: inline-block;
 	margin-left: 15px;
@@ -373,7 +396,19 @@ ol {
 }
 .navbar .logo {
 	width: 180px;
+	height: 100px;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
+.navbar .logo a {
+	overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .navbar .category-item a {
 	padding: 0 15px;
 	color: #19346d;
