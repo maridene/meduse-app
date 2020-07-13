@@ -314,6 +314,14 @@ ol {
 	padding-left: 20px;
 }
 
+.header-top .ht-right .fa {
+	color: #19346d;
+}
+
+.header-top .ht-right .fa:hover {
+	color: #33c0ec;
+}
+
 .header-top .ht-left .phone-service i {
 	margin-right: 5px;
 }
