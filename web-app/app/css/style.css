@@ -2317,6 +2317,54 @@ ol {
 }
 
 /*---------------------
+	Premium section
+---------------------*/
+
+.PremiumSection {
+	padding: 30px 60px;
+}
+
+.PremiumSection .PremiumSection-overview .PremiumSection-overview-text {
+	margin: auto;
+}
+
+.PremiumSection .PremiumSection-overview .PremiumSection-overview-text-title {
+	margin-bottom: 40px;
+}
+
+.PremiumSection .PremiumSection-overview .PremiumSection-overview-image {
+	display: flex;
+    justify-content: center;
+}
+
+
+.PremiumSection .PremiumSection-overview .PremiumSection-overview-image img {
+	width: 300px;
+}
+
+
+.PremiumSection .PremiumSection-details {
+	padding: 120px 0;
+}
+
+.PremiumSection .PremiumSection-details-header {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 40px;
+}
+
+.PremiumSection .PremiumSection-details-header img {
+	width: 120px;
+}
+
+.PremiumSection .PremiumSection-details-description {
+	text-align: center;
+}
+
+
+
+
+/*---------------------
 	Achievements section
 ---------------------*/
 
