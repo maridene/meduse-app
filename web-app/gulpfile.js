@@ -9,12 +9,12 @@ let rename        = require('gulp-rename');
 let templateCache = require('gulp-angular-templatecache');
 let uglify        = require('gulp-uglify');
 let merge         = require('merge-stream');
+let concatCss     = require('gulp-concat-css');
 
 // Where our files are located
 let jsFiles   = "app/src/**/*.js";
 let viewFiles = "app/src/**/*.html";
-let styleFiles = "app/css/*.css";
-let mainStyleFile = "app/css/style.css";
+let styleFiles = "app/src/**/*.css";
 
 let interceptErrors = function(error) {
   let args = Array.prototype.slice.call(arguments);
@@ -86,14 +86,15 @@ gulp.task('copy-css', function() {
       .pipe(gulp.dest('./build/css'));
 });
 
-gulp.task('copy-mainStyleFile', function() {
-  return gulp.src('./app/css/style.css')
-      .pipe(gulp.dest('./build/css'));
+gulp.task('concatCss', function () {
+  return gulp.src(styleFiles)
+    .pipe(concatCss('bundle.css'))
+    .pipe(gulp.dest('build/'));
 });
 
 gulp.task('copy-resources', ['copy-libs', 'copy-assets', 'copy-css']);
 
-gulp.task('default', ['html', 'copy-resources', 'browserify'], function() {
+gulp.task('default', ['html', 'copy-resources', 'concatCss', 'browserify'], function() {
 
   browserSync.init(['./build/**/**.**'], {
     server: "./build",
@@ -107,5 +108,5 @@ gulp.task('default', ['html', 'copy-resources', 'browserify'], function() {
   gulp.watch("app/index.html", ['html']);
   gulp.watch(viewFiles, ['views']);
   gulp.watch(jsFiles, ['browserify']);
-  gulp.watch(mainStyleFile, ['copy-mainStyleFile']);
+  gulp.watch(styleFiles, ['concatCss']);
 });

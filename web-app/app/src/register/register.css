@@ -1,0 +1,32 @@
+/*---------------------
+	register
+---------------------*/
+
+.RegisterSection {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.RegisterSection .RegisterSection-text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 50px;
+}
+
+.RegisterSection .RegisterSection-text h3 {
+	padding-bottom: 10px;
+}
+
+.RegisterSection .RegisterSection-text-separator {
+	border:	2px solid #19346d;
+	width: 150px;
+}
+
+.RegisterSection .card-body .text-center a {
+	color: #33c0ec;
+}
+
+.RegisterSection .card-body .text-center a:hover {
+	color: #19346d;
+}
