@@ -47,6 +47,11 @@
     justify-content: center;
 }
 
+.shipping-section .shipping-section-description-item-text {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 
 /*---------------------
 	new products section
