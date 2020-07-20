@@ -27,6 +27,26 @@
 	margin: 0;
 }
 
+/*---------------------
+	shipping section
+---------------------*/
+
+.shipping-section {
+    padding-top: 80px;
+    padding-bottom: 50px;
+}
+
+.shipping-section .shipping-section-image {
+    display: flex;
+    justify-content: center;
+}
+
+.shipping-section .shipping-section-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 
 /*---------------------
 	new products section
