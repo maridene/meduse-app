@@ -1,0 +1,27 @@
+.BlogSection {
+    padding: 40px 0;
+}
+
+.BlogSection .BlogSection-blogItem {
+    margin-bottom: 40px;
+}
+
+.BlogSection .BlogSection-blogItem-header {
+    width: 100%;
+    padding: 20px 0 20px 15px;
+}
+
+.BlogSection .BlogSection-blogItem-header .BlogSection-blogItem-header-date {
+    font-style: italic;
+    color: grey;
+    text-align: end;
+}
+
+.BlogSection .BlogSection-blogItem-content {
+    padding: 15px;
+}
+
+.BlogSection .BlogSection-blogItem-content .BlogSection-blogItem-content-media * {
+    width: 100%;
+    height: 400px;
+}

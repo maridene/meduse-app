@@ -19,6 +19,7 @@ import './login';
 import './register';
 import './passwordReset';
 import './premium';
+import './blog';
 
 
 // Create and bootstrap application
@@ -34,7 +35,8 @@ const requires = [
   'app.login',
   'app.register',
   'app.passwordReset',
-  'app.premium'
+  'app.premium',
+  'app.blog'
 ];
 
 // Mount on window for testing
