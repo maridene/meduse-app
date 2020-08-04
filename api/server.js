@@ -1,6 +1,8 @@
+require('rootpath')();
 const express = require("express");
 var cors = require('cors');
 const bodyParser = require("body-parser");
+const errorHandler = require('helpers/error-handler');
 
 const app = express();
 
@@ -17,10 +19,16 @@ app.use((req, res, next) => {
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// global error handler
+app.use(errorHandler);
+
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to meduse." });
 });
+
+// api routes
+app.use('/users', require('./users/users.controller'));
 
 require("./routes/category.routes.js")(app);
 require("./routes/product.routes.js")(app);

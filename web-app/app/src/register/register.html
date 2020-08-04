@@ -10,37 +10,37 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="Nom et prénom" type="text">
+                <input name="" class="form-control" placeholder="Nom et prénom" type="text" ng-model="$ctrl.user.name" required>
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="Adresse E-mail" type="email">
+                <input name="" class="form-control" placeholder="Adresse E-mail" type="email" ng-model="$ctrl.user.email" required>
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
                 </div>
-                <select class="custom-select" style="max-width: 120px;">
-                    <option selected="">+216</option>
+                <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
+                    <option selected="true">+216</option>
                 </select>
-                <input name="" class="form-control" placeholder="Numéro de téléphone" type="text">
+                <input name="" type="text" class="form-control" id="phoneValidation" placeholder="Numéro de téléphone" pattern="[0-9]{8}" ng-model="$ctrl.user.phone" required>
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Créez votre mot de passe" type="password">
+                <input class="form-control" placeholder="Mot de passe (8 caractères minimum)" type="password" ng-model="$ctrl.user.password" required>
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Répétez le mot de passe" type="password">
-            </div> <!-- form-group// -->                                      
+                <input class="form-control" placeholder="Répétez le mot de passe" type="password" ng-model="$ctrl.user.passwordRepeat" required>
+            </div> <!-- form-group// -->                                  
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> Créez votre compte </button>
+                <button type="submit" ng-click="$ctrl.register()" class="btn btn-primary btn-block"> Créez votre compte </button>
             </div> <!-- form-group// -->      
             <p class="text-center">Déja enregistré? <a href="#!/login">Connexion</a> </p>                                                                 
         </form>

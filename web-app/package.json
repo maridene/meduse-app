@@ -7,8 +7,9 @@
   "license": "MIT",
   "dependencies": {
     "angular": "^1.7.9",
+    "angular-cookies": "^1.8.0",
     "angular-loader": "^1.7.5",
-    "angular-route": "^1.7.5",
+    "angular-route": "^1.8.0",
     "angular-ui-router": "^1.0.26",
     "html5-boilerplate": "0.0.1"
   },

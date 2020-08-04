@@ -7,17 +7,17 @@
         <form class="LoginSection-container">
             <div class="LoginSection-email form-group">
                 <label for="emailInput">E-mail</label>
-                <input type="email" class="form-control"/>
+                <input name="email" type="email" class="form-control" ng-model="$ctrl.email" required/>
             </div>
             <div class="LoginSection-password">
                 <label for="passwordInput">Mot de passe</label>
-                <input type="password" class="form-control"/>
+                <input name="email" type="password" class="form-control" ng-model="$ctrl.password" required/>
             </div>
             <div class="LoginSection-resetPassword">
                 <a href="#!/passwordReset">Mot de passe oublié?</a>
             </div>
             <div class="LoginSection-login">
-                <button type="button" class="btn btn-primary">connexion</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.login($ctrl.email, $ctrl.password)">connexion</button>
             </div>
             <div class="LoginSection-register">
                 <a href="#!/register">Pas de compte? Créez-en un</a>

@@ -14,3 +14,11 @@ CREATE TABLE IF NOT EXISTS `products` (
   category_id int(11),
   FOREIGN KEY (category_id) REFERENCES categories(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `meduse`.`user` (
+  `id` INT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(80) NOT NULL,
+  `phone` VARCHAR(45) NULL,
+  PRIMARY KEY (`email`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);

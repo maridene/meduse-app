@@ -12,8 +12,10 @@
                 </div>
             </div>
             <div class="ht-right">
-                <a href="#!/register" class="login-panel"><i class="fa fa-user-plus"></i>Inscription</a>
-                <a href="#!/login" class="login-panel"><i class="fa fa-sign-in"></i>Connexion</a>
+                <a ng-if="!$ctrl.currentUser" href="#!/register" class="login-panel"><i class="fa fa-user-plus"></i>Inscription</a>
+                <a ng-if="!$ctrl.currentUser" href="#!/login" class="login-panel"><i class="fa fa-sign-in"></i>Connexion</a>
+                <a ng-if="!!$ctrl.currentUser" href="#!/profile" class="login-panel"><i class="fa fa-user"></i>{{$ctrl.currentUser.name}}</a>
+
                 <div class="top-social">
                     <a href="#"><i class="fa ti-facebook"></i></a>
                     <a href="#"><i class="fa fa-instagram"></i></a>
