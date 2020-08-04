@@ -36,20 +36,15 @@
     padding-bottom: 50px;
 }
 
-.shipping-section .shipping-section-image {
-    display: flex;
-    justify-content: center;
-}
-
-.shipping-section .shipping-section-description {
+.shipping-section .shipping-section-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
-.shipping-section .shipping-section-description-item-text {
-    margin-top: auto;
-    margin-bottom: auto;
+.shipping-section .shipping-section-item-description {
+    padding-top: 25px;
 }
 
 
