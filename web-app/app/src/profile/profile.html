@@ -1,0 +1,72 @@
+<div class="container">
+     <!-- Breadcrumb Section Begin -->
+     <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Mon compte</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+</div>
+
+<div class="Profile container">
+    <div class="tittle wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+        <h2>MON COMPTE</h2>
+        <h4>Bienvenue sur votre compte. Vous pouvez y gérer vos informations personnelles ainsi que vos commandes</h4>
+    </div>
+
+    <div class="Profile-Menu row">
+        <div class="Profile-Menu-Item col-lg-3">
+            <a href="#!/profile/details">
+                <div class="Profile-Menu-Item-container">
+                    <div class="Profile-Menu-Item-icon">
+                        <i class="fas fa-id-card fa-3x"></i>
+                    </div>
+                    <div class="Profile-Menu-Item-label">MES INFORMATIONS</div>
+                </div>
+            </a>
+        </div>
+        <div class="Profile-Menu-Item col-lg-3">
+            <a href="#!/profile/adresses">
+                <div class="Profile-Menu-Item-container">
+                    <div class="Profile-Menu-Item-icon">
+                        <i class="fas fa-map-marker-alt fa-3x"></i>
+                    </div>
+                    <div class="Profile-Menu-Item-label">MES ADRESSES</div>
+                </div>
+            </a>
+        </div>
+        <div class="Profile-Menu-Item col-lg-3">
+            <a href="#!/profile/orders">
+                <div class="Profile-Menu-Item-container">
+                    <div class="Profile-Menu-Item-icon">
+                        <i class="fas fa-history fa-3x"></i>
+                    </div>
+                    <div class="Profile-Menu-Item-label">MES COMMANDES</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="Profile-Menu-Item col-lg-3">
+            <a href="#!/profile/points">
+                <div class="Profile-Menu-Item-container">
+                    <div class="Profile-Menu-Item-icon">
+                        <i class="fas fa-award fa-3x"></i>
+                    </div>
+                    <div class="Profile-Menu-Item-label">MES POINTS DE FIDELITE</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="Profile-logout row">
+        <button type="button" class="btn btn-info" ng-click="$ctrl.logout()">Se déconnecter</button>
+    </div>
+
+</div>

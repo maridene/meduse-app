@@ -1,0 +1,111 @@
+.Profile .Profile-Menu {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.Profile .Profile-Menu .Profile-Menu-Item-container {
+    padding: 20px 10px;
+    margin: 0 20px;
+    border: 1px solid lightgrey;
+}
+
+.Profile .Profile-Menu .Profile-Menu-Item-container:hover .Profile-Menu-Item-icon,
+.Profile .Profile-Menu .Profile-Menu-Item-container:hover .Profile-Menu-Item-label {
+    color: #19346d;
+}
+
+.Profile .Profile-Menu .Profile-Menu-Item-container .Profile-Menu-Item-icon {
+    display: flex;
+    justify-content: center;
+    color: #33c0ec;
+    padding: 10px 0;
+}
+
+.Profile .Profile-Menu .Profile-Menu-Item-container .Profile-Menu-Item-label {
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+    color: #33c0ec;
+}
+
+.Profile .Profile-logout {
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+/* Adresses setion */
+
+.AdressesSection {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.AdressesSection .AdressesSection-text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 50px;
+}
+
+.AdressesSection .AdressesSection-text h3 {
+	padding-bottom: 10px;
+}
+
+.AdressesSection .AdressesSection-text-separator {
+	border:	2px solid #19346d;
+	width: 150px;
+}
+
+.AdressesSection .AdressesSection-adresses-item {
+    border: 1px solid lightgrey;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    margin: 10px;
+}
+
+.AdressesSection .AdressesSection-adresses-item .AdressesSection-adresses-item-adressLine {
+    padding-bottom: 5px;
+}
+
+.AdressesSection .AdressesSection-adresses-item .AdressesSection-adresses-item-adressSeparator {
+    border: 1px solid lightgrey;
+    margin-bottom: 20px;
+}
+
+.AdressesSection .AdressesSection-adresses-item .AdressesSection-adresses-item-adressLine.adressTitle {
+    font-size: 18px;
+}
+
+.AdressesSection .AdressesSection-adresses-item .AdressesSection-adresses-item-adressActions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.AdressesSection .AdressesSection-adresses-item .AdressesSection-adresses-item-adressActions button {
+    width: 180px;
+}
+
+.AdressesSection .AdressesSection-addAdress {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.AdressesSection .AdressesSection-addAdress button {
+    width: 260px;
+}
+
+
+/* orders section */
+
+.OrdersSection .OrdersSection-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
