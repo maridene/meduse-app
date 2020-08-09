@@ -1,0 +1,6 @@
+class ProductItemController {
+    constructor() {
+        'ngInject';
+        
+    }
+}

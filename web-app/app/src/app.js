@@ -23,6 +23,7 @@ import './passwordReset';
 import './premium';
 import './blog';
 import './profile';
+import './components';
 
 
 // Create and bootstrap application
@@ -37,6 +38,7 @@ const requires = [
   'app.product',
   'app.category',
   'app.services',
+  'app.components',
   'app.login',
   'app.register',
   'app.passwordReset',
