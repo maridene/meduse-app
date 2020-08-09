@@ -29,9 +29,9 @@ app.get("/", (req, res) => {
 
 // api routes
 app.use('/users', require('./users/users.controller'));
+app.use('/products', require('./products/products.controller'));
 
 require("./routes/category.routes.js")(app);
-require("./routes/product.routes.js")(app);
 
 // set port, listen for requests
 app.listen(3000, () => {
