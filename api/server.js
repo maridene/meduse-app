@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
 // api routes
 app.use('/users', require('./users/users.controller'));
 app.use('/products', require('./products/products.controller'));
+app.use('/assets', require('./assets/assets.controller'));
 
 require("./routes/category.routes.js")(app);
 
