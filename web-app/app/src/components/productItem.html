@@ -5,13 +5,13 @@
             <div class="ProductItem-preview">
                 <i class="fas fa-eye fa-spin fa-lg"></i>
             </div>
-            <div class="ProductItem-addToCart">
+            <div class="ProductItem-addToCart" ng-click="$ctrl.addToCart()">
                 <i class="fas fa-shopping-cart fa-spin fa-lg"></i>
             </div>
         </div>
     </div>
     <div class="ProductItem-caption">
-        <h3><a href="product_details.html">Thermo Ball Etip Gloves</a></h3>
-        <span>$ 45,743</span>
+        <h3><a href="product_details.html">{{$ctrl.product.label}}</a></h3>
+        <span>{{$ctrl.product.price}} DT</span>
     </div>
 </div>

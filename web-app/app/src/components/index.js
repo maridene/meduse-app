@@ -6,7 +6,7 @@ componentsModule.component('productItem', {
     templateUrl: 'components/productItem.html',
     controller: ProductItemController,
     bindings: {
-        product: '<'
+        product: '='
     }}
 );
 
