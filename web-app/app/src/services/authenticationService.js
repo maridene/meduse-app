@@ -121,5 +121,8 @@ export default class AuthenticationService {
         this.$http.defaults.headers.common.Authorization = 'Basic';
     }
 
+    isAuthenticated () {
+        return this.$rootScope.globals && this.$rootScope.globals.currentUser && this.$rootScope.globals.currentUser.data;
+    }
     
 }

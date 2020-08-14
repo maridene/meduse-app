@@ -45,30 +45,18 @@
                 <li class="cart">
                     <a href="#">
                         <i class="fas fa-shopping-cart"></i>
-                        <span>3</span>
+                        <span>{{$ctrl.cart.items.length}}</span>
                     </a>
                     <div class="cart-hover">
                         <div class="select-items">
                             <table>
                                 <tbody>
-                                    <tr>
+                                    <tr ng-repeat="cartItem in $ctrl.cart.items">
                                         <td class="si-pic"><img src="assets/img/select-product-1.jpg" alt=""></td>
                                         <td class="si-text">
                                             <div class="product-selected">
-                                                <p>$60.00 x 1</p>
-                                                <h6>Kabino Bedside Table</h6>
-                                            </div>
-                                        </td>
-                                        <td class="si-close">
-                                            <i class="ti-close"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="si-pic"><img src="assets/img/select-product-2.jpg" alt=""></td>
-                                        <td class="si-text">
-                                            <div class="product-selected">
-                                                <p>$60.00 x 1</p>
-                                                <h6>Kabino Bedside Table</h6>
+                                                <p>{{cartItem.product.price}} DT x {{cartItem.quantity}}</p>
+                                                <h6>{{cartItem.product.label}}</h6>
                                             </div>
                                         </td>
                                         <td class="si-close">
@@ -80,11 +68,11 @@
                         </div>
                         <div class="select-total">
                             <span>total:</span>
-                            <h5>$120.00</h5>
+                            <h5>{{$ctrl.cart.total}} DT</h5>
                         </div>
                         <div class="select-button">
-                            <a href="#" class="primary-btn view-card">VIEW CARD</a>
-                            <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                            <a href="#!/cart" class="primary-btn view-card">Voir panier</a>
+                            <a href="#" class="primary-btn checkout-btn">Commander</a>
                         </div>
                     </div>
                 </li>

@@ -1,4 +1,4 @@
-function AppRun(AppConstants, $rootScope, $location, $cookies, $http) {
+function AppRun(AppConstants, $rootScope, $location, $cookies, $http, CartService) {
   'ngInject';
 
   // change page title based on state
@@ -24,13 +24,16 @@ function AppRun(AppConstants, $rootScope, $location, $cookies, $http) {
 
   $rootScope.$on('$locationChangeStart', function (event, next, current) {
       // redirect to login page if not logged in and trying to access a restricted page
-      const restrictedPages = ['/profile', '/cart'];
+      const restrictedPages = ['/profile'];
       const isInRestrictedPage = restrictedPages.includes($location.path());
       const loggedIn = $rootScope.globals.currentUser;
       if (isInRestrictedPage && !loggedIn) {
           $location.path('/login');
       }
   });
+
+  //init cart
+  CartService.init();
 
 }
 
