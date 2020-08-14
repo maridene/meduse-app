@@ -36,7 +36,7 @@ function findById(req, res, next) {
 }
 
 function findByCategory(req, res, next) {
-    productService.findByCategory(req.body.categoryId)
+    productService.findByCategory(req.params.categoryId)
         .then((products) => {
             res.json(products);
         })

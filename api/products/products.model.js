@@ -42,7 +42,7 @@ Product.findByCategory = (categoryId) => {
             if (err) {
                 console.log(err);
                 reject(err);
-            } else if (res.length) {
+            } else if (res) {
                 console.log("found products", res);
                 resolve(res);
             }
