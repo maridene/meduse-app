@@ -24,6 +24,7 @@ import './premium';
 import './blog';
 import './profile';
 import './components';
+import './cart';
 
 
 // Create and bootstrap application
@@ -44,7 +45,8 @@ const requires = [
   'app.passwordReset',
   'app.premium',
   'app.blog',
-  'app.profile'
+  'app.profile',
+  'app.cart'
 ];
 
 // Mount on window for testing

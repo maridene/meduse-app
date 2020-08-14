@@ -1,0 +1,58 @@
+.CartSection-content {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.CartSection .CartSection-content-table {
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 0px;
+}
+
+.CartSection .CartSection-content-table th {
+    text-align: center;
+}
+
+.CartSection .CartSection-content-table .CartSection-content-table-item .CartSection-content-table-item-text {
+    vertical-align: middle;
+}
+
+.CartSection .CartSection-content-table .CartSection-content-table-item .CartSection-content-table-item-quantity {
+    vertical-align: middle;
+}
+
+.CartSection .CartSection-content-table .CartSection-content-table-item .CartSection-content-table-item-quantity input {
+    width: 120px;
+}
+
+.CartSection-content-table .CartSection-content-table-item .CartSection-content-table-item-img {
+    display: flex;
+    justify-content: center;
+}
+
+.CartSection-content-table .CartSection-content-table-item .CartSection-content-table-item-img img {
+    width: 120px;
+    height: 120px;
+}
+
+.CartSection .CartSection-content-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.CartSection-content-total-container {
+    border: 1px solid lightgray;
+}
+
+.CartSection .CartSection-content-total-line {
+    display: flex;
+    flex-direction: row;
+}
+
+.CartSection .CartSection-content-total-line:first-child {
+    border-bottom: 1px solid lightgray;
+}
+
+.CartSection .CartSection-content-total-line .CartSection-content-total-line-label {
+    border-right: 1px solid lightgray;
+}
