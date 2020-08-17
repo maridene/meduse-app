@@ -389,3 +389,8 @@
 	background: #33c0ec;
 	content: "";
 }
+
+.product-list-pagination {
+	display: flex;
+	justify-content: center;
+}

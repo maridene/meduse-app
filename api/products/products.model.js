@@ -36,9 +36,9 @@ Product.findById = (productId) => {
   });
 };
 
-Product.findByCategory = (categoryId) => {
+Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM PRODUCTS WHERE CATEGORY_ID = ${categoryId}`, (err, res) => {
+        sql.query(findByCategoryQuery(categoryId, startAt, maxResult, orderBy), (err, res) => {
             if (err) {
                 console.log(err);
                 reject(err);
@@ -80,6 +80,40 @@ Product.findByRef =  (ref) => {
     });
   });
 };
+
+Product.countItemsByCategory = (categoryId) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT COUNT(*) FROM PRODUCTS WHERE CATEGORY_ID = ${categoryId}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject({error: err});
+      } else {
+        console.log('count: ', res);
+        resolve(res);
+      }
+    });
+  });
+}
+
+function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
+  const orderByValues = [
+    {key: 'priceUp', value: 'price ASC'},
+    {key: 'priceDown', value: 'price DESC'},
+    {key: 'AZ', name:'label ASC'},
+    {key: 'ZA', value:'label DESC'}
+  ];
+  let query = `SELECT * FROM PRODUCTS WHERE CATEGORY_ID = ${categoryId}`;
+  const index = orderByValues.map((item) => item.key).indexOf(orderBy);
+  if (index !== -1) {
+    query +=  ` ORDER BY ${orderByValues[index].value}`;
+  }
+  if (!isNaN(startAt) && !isNaN(maxResult) && startAt >= 0 && maxResult > 0) {
+    query += ` LIMIT ${startAt}, ${maxResult}`;
+  }
+
+  console.log(query);
+  return query;
+}
 
 
 module.exports = Product;

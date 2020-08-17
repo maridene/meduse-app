@@ -36,7 +36,10 @@ function findById(req, res, next) {
 }
 
 function findByCategory(req, res, next) {
-    productService.findByCategory(req.params.categoryId)
+    const startAt = req.query.startat;
+    const maxResult = req.query.maxresult;
+    const orderBy = req.query.orderBy || 'default';
+    productService.findByCategory(req.params.categoryId, startAt, maxResult, orderBy)
         .then((products) => {
             res.json(products);
         })

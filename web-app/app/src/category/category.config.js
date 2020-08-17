@@ -9,9 +9,12 @@ function CategoryConfig($stateProvider) {
         templateUrl: 'category/category.html',
         title: 'Category',
         resolve: {
-          products: function(ProductService, $state, $stateParams) {
-            return ProductService.getProductsByCategory($stateParams.slug).then(
-                (products) => products,
+          data: function(ProductService, $state, $stateParams) {
+            return ProductService.getProductsByCategory($stateParams.slug, 0, 10, 'default').then(
+                (data) => {
+                  data.categoryId = $stateParams.slug;
+                  return data;
+                },
                 (err) => $state.go('app.home')
             )
           }

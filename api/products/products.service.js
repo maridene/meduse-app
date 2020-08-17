@@ -30,14 +30,18 @@ function getAll() {
     });
 }
 
-function findByCategory(categoryId) {
+function findByCategory(categoryId, startAt, maxResult, orderBy) {
     return new Promise((resolve, reject) => {
-        products.findByCategory(categoryId)
+        products.countItemsByCategory(categoryId).then((count) => {
+            products.findByCategory(categoryId, startAt, maxResult, orderBy)
             .then((res) => {
-                resolve(res);
+                resolve({count: Object.values(count[0])[0], items: res});
             }, (err) => {
                 reject(err);
             })
+        }, (err) => {
+            reject(err);
+        }) 
     });
 }
 

@@ -40,15 +40,17 @@
                     <div class="row">
                         <div class="col-lg-7 col-md-7">
                             <div class="select-option">
-                                <select class="sorting">
+                                <select class="sorting" ng-model="$ctrl.orderBy">
                                     <option value="default">Affichage par défaut</option>
-                                    <option value="price_up">Prix croissant</option>
-                                    <option value="price_down">Prix décroissant</option>
+                                    <option value="priceUp">Le plus cher</option>
+                                    <option value="priceDown">Le moin cher</option>
+                                    <option value="AZ">De A à Z</option>
+                                    <option value="ZA">De Z à A</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-5 col-md-5 text-right">
-                            <p>Show 01- 09 Of 36 Product</p>
+                            <p> {{$ctrl.currentPage * $ctrl.itemsPerPage + 1}} - {{($ctrl.currentPage + 1) * $ctrl.itemsPerPage }} de {{$ctrl.count}} Produits</p>
                         </div>
                     </div>
                 </div>
@@ -57,6 +59,24 @@
                         <div class="col-lg-4 col-sm-6" ng-repeat="product in $ctrl.products">
                             <product-item product="product"></product-item>
                         </div>
+                    </div>
+                    <div class="product-list-pagination row">
+                        <ul class="pagination">
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                            <li ng-repeat="page in $ctrl.pages" class="page-item"><a class="page-link" href="" ng-click="$ctrl.loadProducts(page)">{{page + 1}}</a></li>
+                            
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                              </a>
+                            </li>
+                          </ul>
                     </div>
                 </div>
                 <div ng-if="$ctrl.products.length === 0">
