@@ -26,9 +26,13 @@ Asset.findById = (assetId) => {
     });
 }
 
-Asset.getByProductRef = (productRef) => {
+Asset.getByProductRef = (productRef, main) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM ASSETS WHERE PRODUCTREF = '${productRef}'`, (err, res) => {
+        let query = `SELECT * FROM ASSETS WHERE PRODUCTREF = '${productRef}'`;
+        if (main === 1) {
+            query += ' AND MAIN = 1';
+        }
+        sql.query(query, (err, res) => {
             if (err)  {
                 console.log("error: ", err);
                 reject(err);

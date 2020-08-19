@@ -21,7 +21,8 @@ function findById(req, res, next) {
 
 function getByProductRef(req, res, next) {
     const ref = req.params.ref;
-    assetsService.getByProductRef(ref)
+    const main = parseInt(req.query.main);
+    assetsService.getByProductRef(ref, main)
         .then((asset) => {
             res.json(asset);
         })

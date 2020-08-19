@@ -31,9 +31,9 @@ function findById(id) {
     });
 }
 
-function getByProductRef(ref) {
+function getByProductRef(ref, main) {
     return new Promise((resolve, reject) => {
-        assets.getByProductRef(ref)
+        assets.getByProductRef(ref, main)
             .then((result) => {
                 resolve(result);
             }, (err) => {

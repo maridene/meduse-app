@@ -22,7 +22,6 @@ export default class ProductService {
   getProductsByCategory(categoryId, startAt, maxResult, orderBy) {
     const deferred = this._$q.defer();
     const url = ApiConstants.PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId).replace('{1}', startAt).replace('{2}', maxResult).replace('{3}', orderBy);
-    console.log(url);
     this._RestService.get(url)
       .then(
           (result) => deferred.resolve({count: result.data.count, items: this.ObjectBuilder.buildObject(RESOURCE.PRODUCTS, result.data.items)}),

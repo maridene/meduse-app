@@ -11,7 +11,8 @@ export const ApiConstants = {
   USERS: 'users',
   USERS_REGISTER: 'users/register',
   USERS_AUTHENTICATE: 'users/authenticate',
-  USERS_UPDATE: 'users/'
+  USERS_UPDATE: 'users/',
+  MAIN_ASSET_FOR_PRODUCT: 'assets/reference/{0}?main=1'
 };
 
 export default AppConstants;

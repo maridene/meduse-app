@@ -102,15 +102,17 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
     {key: 'AZ', name:'label ASC'},
     {key: 'ZA', value:'label DESC'}
   ];
-  let query = `SELECT * FROM PRODUCTS WHERE CATEGORY_ID = ${categoryId}`;
+  let productsQuery =`SELECT * FROM (select * from PRODUCTS where category_id = ${categoryId}`; 
   const index = orderByValues.map((item) => item.key).indexOf(orderBy);
   if (index !== -1) {
-    query +=  ` ORDER BY ${orderByValues[index].value}`;
+    productsQuery +=  ` ORDER BY ${orderByValues[index].value}`;
   }
   if (!isNaN(startAt) && !isNaN(maxResult) && startAt >= 0 && maxResult > 0) {
-    query += ` LIMIT ${startAt}, ${maxResult}`;
+    productsQuery += ` LIMIT ${startAt}, ${maxResult}`;
   }
-
+  productsQuery += ')';
+  const query = `${productsQuery} AS P LEFT JOIN (SELECT assets.image, assets.color, assets.productRef FROM ASSETS where ASSETS.main = 1) As A ON (P.label = A.productRef)`;
+  
   console.log(query);
   return query;
 }

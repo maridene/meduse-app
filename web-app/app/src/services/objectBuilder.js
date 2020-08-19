@@ -17,7 +17,7 @@ export default class ObjectBuilder {
     return data.map((item) => this.buildProduct(item));
   }
   buildProduct(data) {
-    return new Product(data.id, data.label, data.description, data.price, data.quantity, data.video_link, data.category_id, data.color, data.size, data.promo_price);
+    return new Product(data);
   }
   buildUser(data) {
     return new User(data.id, data.name, data.email, data.phone);

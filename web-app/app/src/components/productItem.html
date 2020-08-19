@@ -1,6 +1,7 @@
 <div class="ProductItem">
     <div class="ProductItem-img">
-        <img src="assets/img/products/product-1.jpg" alt="">
+        <img ng-if="!$ctrl.image" src="assets/img/no-image.jpg" alt="">
+        <img ng-if="$ctrl.image" ng-src="{{$ctrl.image}}" alt="">
         <div class="img-cap">
             <div class="ProductItem-preview">
                 <i class="fas fa-eye fa-spin fa-lg"></i>
