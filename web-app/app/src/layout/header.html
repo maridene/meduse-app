@@ -52,7 +52,7 @@
                             <table>
                                 <tbody>
                                     <tr ng-repeat="cartItem in $ctrl.cart.items">
-                                        <td class="si-pic"><img src="assets/img/select-product-1.jpg" alt=""></td>
+                                        <td class="si-pic"><img ng-src="{{cartItem.product.image}}" alt=""></td>
                                         <td class="si-text">
                                             <div class="product-selected">
                                                 <p>{{cartItem.product.price}} DT x {{cartItem.quantity}}</p>
@@ -71,8 +71,7 @@
                             <h5>{{$ctrl.cart.total}} DT</h5>
                         </div>
                         <div class="select-button">
-                            <a href="#!/cart" class="primary-btn view-card">Voir panier</a>
-                            <a href="#" class="primary-btn checkout-btn">Commander</a>
+                            <a href="#!/cart" class="primary-btn checkout-btn">Voir panier</a>
                         </div>
                     </div>
                 </li>

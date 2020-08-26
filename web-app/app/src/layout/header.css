@@ -204,6 +204,8 @@
 
 .navbar .cart .cart-hover .select-items table tr td.si-pic img {
     border: 1px solid #ebebeb;
+    width: 80px;
+    height: 80px;
 }
 
 .navbar .cart .cart-hover .select-items table tr td.si-text {

@@ -32,26 +32,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="CartSection-content-table-item">
-                <th scope="row" class="CartSection-content-table-item-img"><img src="assets/img/products/product-4.jpg"></th>
-                <td class="CartSection-content-table-item-text">Dispo ICE spray</td>
+              <tr ng-repeat="item in $ctrl.cartItems"class="CartSection-content-table-item">
+                <th scope="row" class="CartSection-content-table-item-img"><img ng-src="{{item.product.image}}"></th>
+                <td class="CartSection-content-table-item-text">{{item.product.label}}</td>
                 <td class="CartSection-content-table-item-text">Disponible</td>
-                <td class="CartSection-content-table-item-text">20.000 DT</td>
+                <td class="CartSection-content-table-item-text">{{item.product.price}} TND</td>
                 <td class="CartSection-content-table-item-quantity">
-                    <input type="number" id="quantity" name="quantity" step="1" ng-model="quantity">
+                    <input min="0" type="number" id="quantity" name="quantity" step="1" ng-model="item.quantity" ng-change="$ctrl.update()">
                 </td>
-                <td class="CartSection-content-table-item-text">{{quantity * 20}} DT</td>
-              </tr>
-
-              <tr class="CartSection-content-table-item">
-                <th scope="row" class="CartSection-content-table-item-img"><img src="assets/img/products/product-5.jpg"></th>
-                <td class="CartSection-content-table-item-text">Dispo ICE spray</td>
-                <td class="CartSection-content-table-item-text">Disponible</td>
-                <td class="CartSection-content-table-item-text">10.000 DT</td>
-                <td class="CartSection-content-table-item-quantity">
-                    <input type="number" id="quantity" name="quantity" step="1" ng-model="quantity">
-                </td>
-                <td class="CartSection-content-table-item-text">{{quantity * 20}} DT</td>
+                <td class="CartSection-content-table-item-text">{{item.quantity * item.product.price}} TND</td>
               </tr>
             </tbody>
         </table>
@@ -59,11 +48,17 @@
             <div class="CartSection-content-total-container">
                 <div class="CartSection-content-total-line">
                     <div class="CartSection-content-total-line-label">Total produits TTC:</div>
-                    <div class="CartSection-content-total-line-value">59,600 DT</div>
+                    <div class="CartSection-content-total-line-value">{{$ctrl.total}} DT</div>
                 </div>
                 <div class="CartSection-content-total-line">
-                    <div class="CartSection-content-total-line-label">TOTAL</div>
-                    <div class="CartSection-content-total-line-value">59,600 DT</div>
+                    <div class="CartSection-content-total-line-label">Frais de Livraison</div>
+                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total < 50"> 7 TND</div>
+                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total > 50"> Gratuite</div>
+                </div>
+                <div class="CartSection-content-total-line">
+                    <div class="CartSection-content-total-line-label">Total TTC</div>
+                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total < 50"> {{$ctrl.total + 7}} TND</div>
+                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total > 50"> {{$ctrl.total}}</div>
                 </div>
             </div>
         </div>

@@ -28,7 +28,7 @@ export default class CartService {
     localStorage.setItem('cart', JSON.stringify(cart));
   }
 
-  addItemToCart(product) {
+  addItemToCart(product, count) {
     if (this.AuthenticationService.isAuthenticated()) {
 
     } else {
