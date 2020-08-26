@@ -43,6 +43,10 @@
     cursor: pointer;
 }
 
+.ProductItem .ProductItem-img .img-cap .ProductItem-preview:hover,  .ProductItem .ProductItem-img .img-cap .ProductItem-addToCart:hover{
+    background: #19346d;
+}
+
 .ProductItem .ProductItem-img .img-cap .ProductItem-preview {
     border-right: 1px solid lightgray;
 }

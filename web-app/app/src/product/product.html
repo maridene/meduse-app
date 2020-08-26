@@ -6,15 +6,20 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="xzoom-container">
-                            <img class="xzoom" id="xzoom-default" src="assets/img/products/product-1.jpg" xoriginal="assets/img/products/product-1.jpg" />
+                            <img class="xzoom" src="assets/img/products/product-1.jpg" xoriginal="assets/img/products/product-1.jpg" />
                             <div class="xzoom-thumbs">
-                                <a href="assets/img/products/product-2.jpg"><img class="xzoom-gallery" width="80" src="assets/img/products/product-2.jpg"  xpreview="assets/img/products/product-2.jpg"></a>
-                                
-                                <a href="assets/img/products/product-3.jpg"><img class="xzoom-gallery" width="80" src="assets/img/products/product-3.jpg"></a>
-                                
-                                <a href="assets/img/products/product-4.jpg"><img class="xzoom-gallery" width="80" src="assets/img/products/product-4.jpg"></a>
-                                
-                                <a href="assets/img/products/product-5.jpg"><img class="xzoom-gallery" width="80" src="assets/img/products/product-5.jpg"></a>
+                                <a href="assets/img/products/product-1.jpg">
+                                    <img class="xzoom-gallery" width="80" src="assets/img/products/product-1.jpg"  xpreview="assets/img/products/product-1.jpg">
+                                </a>
+                                <a href="assets/img/products/product-1.jpg">
+                                    <img class="xzoom-gallery" width="80" src="assets/img/products/product-1.jpg">
+                                </a>
+                                <a href="assets/img/products/product-1.jpg">
+                                    <img class="xzoom-gallery" width="80" src="assets/img/products/product-1.jpg">
+                                </a>
+                                <a href="assets/img/products/product-1.jpg">
+                                    <img class="xzoom-gallery" width="80" src="assets/img/products/product-1.jpg">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -22,15 +27,14 @@
                         <div class="product-details">
                             <div class="pd-title">
                                 <span>oranges</span>
-                                <h3>Pure Pineapple</h3>
+                                <h3>{{$ctrl.product.label}}</h3>
                             </div>
                             <div class="pd-desc">
-                                <p>Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor sum dolor
-                                    sit amet, consectetur adipisicing elit, sed do mod tempor</p>
-                                <h4>$495.00 <span>629.99</span></h4>
+                                <p>{{$ctrl.product.description}}</p>
+                                <h4>{{$ctrl.product.price}} D.T<span>629.99</span></h4>
                             </div>
                             <div class="pd-color">
-                                <h6>Color</h6>
+                                <h6>Couleurs</h6>
                                 <div class="pd-color-choose">
                                     <div class="cc-item">
                                         <input type="radio" id="cc-black">
@@ -68,10 +72,10 @@
                                 <div class="pro-qty">
                                     <input type="text" value="1">
                                 </div>
-                                <a href="#" class="primary-btn pd-cart">Add To Cart</a>
+                                <a href="#" class="primary-btn pd-cart">Ajouter au panier</a>
                             </div>
                             <div class="pd-share">
-                                <div class="p-code">Sku : 00012</div>
+                                <div class="p-code">Référence : {{$ctrl.product.sku}}</div>
                                 <div class="pd-social">
                                     <div>partager:</div>
                                     <a href="#"><i class="ti-facebook"></i></a>
@@ -176,7 +180,7 @@
                     <div class="newProducts-section-item-img">
                         <img src="assets/img/products/product-6.jpg" alt="">
                         <div class="img-cap">
-                            <span>Add to cart</span>
+                            <span>Ajouter au panier</span>
                         </div>
                     </div>
                     <div class="newProducts-caption">

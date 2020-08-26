@@ -2,30 +2,47 @@ const sql = require("../model/db.js");
 
 // constructor
 const Product = function(product) {
-  this.ref = product.ref;
-  this.id = product.name;
-  this.label = product.email;
-  this.description = product.phone;
-  this.price = product.role;
+  this.id = product.id;
+  this.sku = product.sku;
+  this.label = product.label;
+  this.description = product.description;
+  this.price = product.price;
   this.quantity = product.quantity;
-  this.videoLink = product.videoLink;
   this.categoryId = product.categoryId;
-  this.color = product.color;
-  this.size = product.size;
-  this.promoPrice = product.promoPrice;
-  this.premiumPrice = product.premiumPrice;
 };
+
+Product.getProductVariants = (productId) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM (SELECT * FROM PRODUCTVARIANT WHERE product_id = ${productId}) AS P 
+    LEFT JOIN (SELECT assets.image, assets.sku FROM ASSETS) AS A ON (P.sku = A.sku)`,
+     (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          console.log("found product varaiants: ", res);
+          resolve(res);
+        } else {
+          console.log(`no product variants found for product with id = ${productId}`);
+          resolve([]);
+        }
+      }
+    });
+  });
+}
 
 Product.findById = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM PRODUCTS WHERE id = ${productId}`, (err, res) => {
+    sql.query(`SELECT * FROM PRODUCTS WHERE id = ${productId}`, 
+    (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
       } else {
         if (res.length) {
           console.log("found products: ", res);
-          resolve(res);
+          resolve(res[0]);
         } else {
           console.log(`no products found with id = ${productId}`);
           resolve([]);
@@ -35,6 +52,25 @@ Product.findById = (productId) => {
     });
   });
 };
+
+Product.getProductImages = (sku) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ASSETS WHERE sku = "${sku}"`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          console.log(`found ${res.length} images for product sku = ${sku}`);
+          resolve(res);
+        } else {
+          console.log(`no image found for product with sku = ${sku}`);
+          reject();
+        }
+      }
+    })
+  });
+}
 
 Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
     return new Promise((resolve, reject) => {
@@ -111,7 +147,7 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
     productsQuery += ` LIMIT ${startAt}, ${maxResult}`;
   }
   productsQuery += ')';
-  const query = `${productsQuery} AS P LEFT JOIN (SELECT assets.image, assets.color, assets.productRef FROM ASSETS where ASSETS.main = 1) As A ON (P.label = A.productRef)`;
+  const query = `${productsQuery} AS P LEFT JOIN (SELECT assets.image, assets.sku FROM ASSETS) As A ON (P.sku = A.sku)`;
   
   console.log(query);
   return query;

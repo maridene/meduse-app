@@ -12,9 +12,15 @@ export default class ProductService {
 
   getProductById(id) {
     const deferred = this._$q.defer();
-    this._RestService.get(`${ApiConstants.PRODUCTS}`/`${id}`)
+    this._RestService.get(`${ApiConstants.PRODUCTS}/${id}`)
         .then(
-            (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.PRODUCT, result.data)),
+            (result) => {
+              deferred.resolve({
+                product: this.ObjectBuilder.buildObject(RESOURCE.PRODUCT, result.data.product),
+                variants: this.ObjectBuilder.buildObject(RESOURCE.PRODUCT_VARIANTS, result.data.variants),
+                images: this.ObjectBuilder.buildObject(RESOURCE.IMAGES, result.data.images)
+              })
+            },
             (error) => deferred.reject(error));
     return deferred.promise;
   }

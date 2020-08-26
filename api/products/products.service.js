@@ -9,10 +9,28 @@ module.exports = {
 
 function findById(id) {
     return new Promise((resolve, reject) => {
-        products.findById(id).then((result) => {
-            if (result) {
-                resolve(result);
-            }}), (err) => {
+        products.findById(id).then((product) => {
+            if (product) {
+                products.getProductImages(product.sku).then((images) => {
+                    products.getProductVariants(id).then((variants) => {
+                        resolve ({product, variants, images});
+                    }, (err) => {
+                        console.log(err);
+                        resolve({product, images});
+                    })
+                }, (err) => {
+                    products.getProductVariants(id).then((variants) => {
+                        resolve ({product, variants});
+                    }, (err) => {
+                        console.log(err);
+                        resolve(product);
+                    })
+                });
+            } else {
+                console.log(`no product found with id = ${id}`);
+                resolve();
+            }
+        }), (err) => {
                 reject(err);
             }
         });

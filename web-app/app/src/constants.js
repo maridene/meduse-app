@@ -6,5 +6,9 @@ export const RESOURCE = {
   PRODUCT: 'product',
   PRODUCTS: 'products',
   USERS: 'users',
-  USER: 'user'
+  USER: 'user',
+  PRODUCT_VARIANT: 'product_variant',
+  PRODUCT_VARIANTS: 'product_variants',
+  IMAGE: 'image',
+  IMAGES: 'images'
 };

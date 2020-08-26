@@ -1,18 +1,18 @@
 <div class="ProductItem">
     <div class="ProductItem-img">
-        <img ng-if="!$ctrl.image" src="assets/img/no-image.jpg" alt="">
-        <img ng-if="$ctrl.image" ng-src="{{$ctrl.image}}" alt="">
+        <img ng-if="!$ctrl.image" src="assets/img/no-image.jpg">
+        <img ng-if="$ctrl.image" ng-src="{{$ctrl.image}}">
         <div class="img-cap">
-            <div class="ProductItem-preview">
-                <i class="fas fa-eye fa-spin fa-lg"></i>
+            <div class="ProductItem-preview" ng-click="$ctrl.openPreviewPopup($event)">
+                <i class="fas fa-eye fa-lg"></i>
             </div>
             <div class="ProductItem-addToCart" ng-click="$ctrl.addToCart()">
-                <i class="fas fa-shopping-cart fa-spin fa-lg"></i>
+                <i class="fas fa-shopping-cart fa-lg"></i>
             </div>
         </div>
     </div>
     <div class="ProductItem-caption">
-        <h3><a href="product_details.html">{{$ctrl.product.label}}</a></h3>
+        <h3><a href="#!/product/{{$ctrl.product.id}}">{{$ctrl.product.label}}</a></h3>
         <span>{{$ctrl.product.price}} DT</span>
     </div>
 </div>
