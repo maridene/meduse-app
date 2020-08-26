@@ -56,3 +56,8 @@
 .CartSection .CartSection-content-total-line .CartSection-content-total-line-label {
     border-right: 1px solid lightgray;
 }
+
+._mdCartToast {
+    z-index: 10;
+    position: absolute;
+}

@@ -14,7 +14,8 @@ export default class ToastService {
       this.$mdToast.simple()
       .textContent(text)
       .position('top right')
-      .hideDelay(3000))
+      .hideDelay(3000)
+      .toastClass('CartToast'))
     .then(function() {
       console.log('Toast dismissed.');
     }).catch(function() {
