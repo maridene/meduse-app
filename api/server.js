@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 // api routes
 app.use('/users', require('./users/users.controller'));
 app.use('/products', require('./products/products.controller'));
-app.use('/adresses', require('./addresses/addresses.controller'));
+app.use('/addresses', require('./addresses/addresses.controller'));
 
 
 app.use(express.static('public'));
