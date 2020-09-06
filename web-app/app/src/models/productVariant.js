@@ -8,7 +8,7 @@ class ProductVariant {
     this.color = data.color;
     this.size = data.size;
     this.quantity = data.quantity;
-    this.image = data.image;
+    this.imgCount = data.imgCount;
   }
 }
 

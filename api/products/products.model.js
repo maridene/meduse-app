@@ -9,12 +9,16 @@ const Product = function(product) {
   this.price = product.price;
   this.quantity = product.quantity;
   this.categoryId = product.categoryId;
+  this.long_description = product.long_description;
+  this.promo_price = product.promo_price;
+  this.manufacturer = product.manufacturer;
+  this.weight = product.weight;
+  this.imgCount = product.imgCount;
 };
 
 Product.getProductVariants = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM (SELECT * FROM PRODUCTVARIANT WHERE product_id = ${productId}) AS P 
-    LEFT JOIN (SELECT assets.image, assets.sku FROM ASSETS) AS A ON (P.sku = A.sku)`,
+    sql.query(`SELECT * FROM PRODUCTVARIANT WHERE product_id = ${productId}`,
      (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -52,25 +56,6 @@ Product.findById = (productId) => {
     });
   });
 };
-
-Product.getProductImages = (sku) => {
-  return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ASSETS WHERE sku = "${sku}"`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        reject(err);
-      } else {
-        if (res.length) {
-          console.log(`found ${res.length} images for product sku = ${sku}`);
-          resolve(res);
-        } else {
-          console.log(`no image found for product with sku = ${sku}`);
-          reject();
-        }
-      }
-    })
-  });
-}
 
 Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
     return new Promise((resolve, reject) => {
@@ -138,7 +123,7 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
     {key: 'AZ', name:'label ASC'},
     {key: 'ZA', value:'label DESC'}
   ];
-  let productsQuery =`SELECT * FROM (select * from PRODUCTS where category_id = ${categoryId}`; 
+  let productsQuery =`select * from PRODUCTS where category_id = ${categoryId}`; 
   const index = orderByValues.map((item) => item.key).indexOf(orderBy);
   if (index !== -1) {
     productsQuery +=  ` ORDER BY ${orderByValues[index].value}`;
@@ -146,11 +131,7 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
   if (!isNaN(startAt) && !isNaN(maxResult) && startAt >= 0 && maxResult > 0) {
     productsQuery += ` LIMIT ${startAt}, ${maxResult}`;
   }
-  productsQuery += ')';
-  const query = `${productsQuery} AS P LEFT JOIN (SELECT assets.image, assets.sku FROM ASSETS) As A ON (P.sku = A.sku)`;
-  
-  console.log(query);
-  return query;
+  return productsQuery;
 }
 
 

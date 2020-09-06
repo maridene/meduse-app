@@ -1,7 +1,9 @@
 <div class="ProductItem">
     <div class="ProductItem-img">
-        <img ng-if="!$ctrl.image" src="assets/img/no-image.jpg">
-        <img ng-if="$ctrl.image" ng-src="{{$ctrl.image}}">
+        <a href="#!/product/{{$ctrl.product.id}}">
+            <img ng-src="{{$ctrl.product.imgUrl}}">
+        </a>
+        
         <div class="img-cap">
             <div class="ProductItem-preview" ng-click="$ctrl.openPreviewPopup($event)">
                 <i class="fas fa-eye fa-lg"></i>

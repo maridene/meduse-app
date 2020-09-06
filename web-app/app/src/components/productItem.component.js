@@ -1,4 +1,3 @@
-import { getImageFromBuffer } from './../utils';
 
 export default class ProductItemController {
     constructor($scope, CartService, $mdDialog, ProductService) {
@@ -9,14 +8,7 @@ export default class ProductItemController {
         this.CartService = CartService;
         this.ProductService = ProductService;
 
-        this.product = this.$scope.$parent.product;
-        this.image = null;
-
-        if (this.product.image && this.product.image.data) {
-            this.image = getImageFromBuffer(this.product.image.data);
-            this.product.image = this.image;
-        }
-        
+        this.product = this.$scope.$parent.product;        
     }
 
     addToCart() {
@@ -24,7 +16,6 @@ export default class ProductItemController {
     }
 
     openPreviewPopup(event) {
-        //this.ProductService.getProductById(this.product.id);
         this.$mdDialog.show({
             locals: {data: {product: this.product, image: this.image}},
             templateUrl: 'components/product-preview.html',

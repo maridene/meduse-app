@@ -3,11 +3,13 @@ import Product from './../models/product';
 import User from './../models/user'; 
 import ProductVariant from './../models/productVariant';
 import { RESOURCE } from './../constants';
-import { getImageFromBuffer } from './../utils';
+import { getImageUrlFromProduct } from './../utils';
 
 export default class ObjectBuilder {
-  constructor() {
+  constructor(RestService) {
+    'ngInject';
 
+    this.RestService = RestService;
   }
   buildCategory(data) {
     return new Category(data.id, data.label, data.description);
@@ -33,11 +35,14 @@ export default class ObjectBuilder {
   buildProductVariants(data) {
     return data.map((item) => this.buildProductVariant(item));
   }
-  buildImage(data) {
-    return {sku: data.sku, image: getImageFromBuffer(data.image.data)};
+  buildProductItems(data) {
+    return data && data.length ? data.map((item) => this.buildProductItem(item)) : [];
   }
-  buildImages(data) {
-    return data && data.length ? data.map((item) => this.buildImage(item)) : [];
+  buildProductItem(data) {
+    const productItem = new Product(data);
+    const imgUrl = getImageUrlFromProduct(this.RestService.getBaseUrl(), data); 
+    productItem.imgUrl = imgUrl;
+    return productItem;
   }
 
   buildObject(key, response) {
@@ -58,10 +63,10 @@ export default class ObjectBuilder {
         return this.buildProductVariants(response);
       case RESOURCE.PRODUCT_VARIANT:
         return this.buildProductVariant(response);
-      case RESOURCE.IMAGES:
-        return this.buildImages(response);
-        case RESOURCE.IMAGE:
-          return this.buildImage(response);
+      case RESOURCE.PRODUCT_ITEMS:
+        return this.buildProductItems(response);
+      case RESOURCE.PRODUCT_ITEM:
+        return this.buildProductItem(response);
     }
     return response;
   }

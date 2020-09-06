@@ -33,3 +33,15 @@ export function unit8ArrayToBase64(data) {
 export function getImageFromBuffer(data) {
     return 'data:image/jpg;base64,' + unit8ArrayToBase64(data);
 }
+
+export function getImageUrlFromProduct(baseUrl, product) {
+    return product.imgCount ? `${baseUrl}images/${product.sku}-1.jpg` : `${baseUrl}images/no-image.jpg`;
+}
+
+export function getImagesUrlsFromProduct(baseUrl, product) {
+    if (product.imgCount) {
+        return Array(product.imgCount).fill(`${baseUrl}images/${product.sku}`).map((item, index) => `${item}-${index+1}.jpg`);
+    } else {
+        return [`${baseUrl}images/no-image.jpg`];
+    }
+}

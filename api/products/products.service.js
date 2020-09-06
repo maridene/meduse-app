@@ -11,25 +11,17 @@ function findById(id) {
     return new Promise((resolve, reject) => {
         products.findById(id).then((product) => {
             if (product) {
-                products.getProductImages(product.sku).then((images) => {
-                    products.getProductVariants(id).then((variants) => {
-                        resolve ({product, variants, images});
-                    }, (err) => {
-                        console.log(err);
-                        resolve({product, images});
-                    })
+                products.getProductVariants(id).then((variants) => {
+                    resolve ({product, variants});
                 }, (err) => {
-                    products.getProductVariants(id).then((variants) => {
-                        resolve ({product, variants});
-                    }, (err) => {
-                        console.log(err);
-                        resolve(product);
-                    })
+                    console.log(err);
+                    resolve({product});
                 });
+                   
             } else {
                 console.log(`no product found with id = ${id}`);
                 resolve();
-            }
+            } 
         }), (err) => {
                 reject(err);
             }
