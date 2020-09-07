@@ -1,16 +1,26 @@
 export default class RestService {
-  constructor($http) {
+  constructor($http, $rootScope) {
     'ngInject';
 
     this._$http = $http;
+    this.$rootScope = $rootScope;
   }
   getBaseUrl() {
     return 'http://localhost:3000/';
   }
 
+  currentUser() {
+    return this.$rootScope.globals && this.$rootScope.globals.currentUser ? this.$rootScope.globals.currentUser.data : null; 
+  }
+
   getRequestConfig(config) {
     if (typeof config === 'undefined') {
-      config = {headers: {'X-Requested-With': 'XMLHttpRequest', 'Access-Control-Allow-Credentials': 'true'}};
+      const userId = this.currentUser() ? this.currentUser().id : null; 
+      config = {headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Access-Control-Allow-Credentials': 'true',
+        'userid': userId
+      }};
     } else {
       config.withCredentials = true;
       config.dontCheckCredentials = false;
