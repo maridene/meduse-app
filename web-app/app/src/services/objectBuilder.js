@@ -1,6 +1,7 @@
 import Category from './../models/category';
 import Product from './../models/product';
-import User from './../models/user'; 
+import User from './../models/user';
+import Address from './../models/address'; 
 import ProductVariant from './../models/productVariant';
 import { RESOURCE } from './../constants';
 import { getImageUrlFromProduct } from './../utils';
@@ -44,6 +45,12 @@ export default class ObjectBuilder {
     productItem.imgUrl = imgUrl;
     return productItem;
   }
+  buildAddress(data) {
+    return new Address(data);
+  }
+  buildAddresses(data) {
+    return data.map((item) => this.buildAddress(item));
+  }
 
   buildObject(key, response) {
     switch(key){
@@ -67,6 +74,10 @@ export default class ObjectBuilder {
         return this.buildProductItems(response);
       case RESOURCE.PRODUCT_ITEM:
         return this.buildProductItem(response);
+      case RESOURCE.ADDRESS:
+        return this.buildAddress(response);
+      case RESOURCE.ADDRESSES:
+      return this.buildAddresses(response);
     }
     return response;
   }

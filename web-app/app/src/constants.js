@@ -9,6 +9,8 @@ export const RESOURCE = {
   USER: 'user',
   PRODUCT_VARIANT: 'product_variant',
   PRODUCT_VARIANTS: 'product_variants',
-  IMAGE: 'image',
-  IMAGES: 'images'
+  PRODUCT_ITEMS: 'product_items',
+  PRODUCT_ITEM: 'product_item',
+  ADDRESS: 'address',
+  ADDRESSES: 'addresses'
 };

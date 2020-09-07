@@ -21,7 +21,16 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfileAdressesCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/adresses.html',
-          title: 'Profile'
+          title: 'Profile',
+          resolve : {
+            data: function(AddressesService, $state) {
+              return AddressesService.getMyAddresses().then((data) => {
+                return data;
+              }, (error) => {
+                $state.go('app.home');
+              });
+            }
+          }
         })
         .state('app.profileorders', {
           url: '/profile/orders',
@@ -35,6 +44,13 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfilePointsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/points.html',
+          title: 'Profile'
+        })
+        .state('app.addressFrom', {
+          url: '/profile/addressForm',
+          controller: 'AddressFormCtrl',
+          controllerAs: '$ctrl',
+          templateUrl: 'profile/addressForm.html',
           title: 'Profile'
         });
   };

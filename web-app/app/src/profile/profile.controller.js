@@ -78,11 +78,12 @@ export class ProfileDetailsCtrl {
 }
 
 export class ProfileAdressesCtrl {
-  constructor(AppConstants) {
+  constructor(AppConstants, data) {
     'ngInject';
 
     this.appName = AppConstants.appName;
-    
+    this.addresses = data;
+    console.log(this.addresses);
 
   }
 }
@@ -103,8 +104,14 @@ export class ProfilePointsCtrl {
     'ngInject';
 
     this.appName = AppConstants.appName;
-
   }
+}
 
+export class AddressFormCtrl {
+  constructor(AppConstants) {
+    'ngInject';
 
+    this.appName = AppConstants.appName;
+    this.addresses = data;
+  }
 }
