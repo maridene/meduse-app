@@ -5,20 +5,23 @@
                 <a ui-sref="dashboard.home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li ng-class="{active: collapseVar==1}">{{dropDown}}
-                <a href="" ng-click="check(1)"><i class="fa fa-wrench fa-fw"></i> Produits<span
+                <a href="" ng-click="check(1)"><i class="fa fa-tag fa-fw"></i> Produits<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=1">
                     <li ui-sref-active="active">
-                        <a ui-sref="dashboard.panels-wells">Liste des produits</a>
+                        <a ui-sref="dashboard.products-list">Liste des produits</a>
                     </li>
                     <li ui-sref-active="active">
-                        <a ui-sref="dashboard.buttons">Ajouter un produit</a>
+                        <a ui-sref="dashboard.add-product">Ajouter un produit</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.add-product-variant">Ajouter des variantes d'un produit</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
             <li ng-class="{active: collapseVar==2}">{{dropDown}}
-                <a href="" ng-click="check(2)"><i class="fa fa-wrench fa-fw"></i> Catégories<span
+                <a href="" ng-click="check(2)"><i class="fa fa-list fa-fw"></i> Catégories<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=2">
                     <li ui-sref-active="active">
@@ -31,10 +34,10 @@
                 <!-- /.nav-second-level -->
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="dashboard.home"><i class="fa fa-dashboard fa-fw"></i> Commandes</a>
+                <a ui-sref="dashboard.commandes"><i class="fa fa-shopping-cart fa-fw"></i> Commandes</a>
             </li>
             <li ng-class="{active: collapseVar==3}">{{dropDown}}
-                <a href="" ng-click="check(3)"><i class="fa fa-wrench fa-fw"></i> Blog<span
+                <a href="" ng-click="check(3)"><i class="fa fa-list-alt fa-fw"></i> Blog<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=3">
                     <li ui-sref-active="active">

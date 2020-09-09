@@ -93,6 +93,58 @@ angular
           }
         }
       })
+      .state('dashboard.products-list', {
+        url:'/products-list',
+        controller: 'ProductsListCtrl',
+        templateUrl: 'views/pages/products/productList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/productsListController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.add-product', {
+        url:'/add-product',
+        controller: 'AddProductCtrl',
+        templateUrl: 'views/pages/products/addProduct.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/addProductController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.add-product-variant', {
+        url:'/add-product-variant',
+        controller: 'AddProductVariantCtrl',
+        templateUrl: 'views/pages/products/addProductVariant.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/addProductVariantController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.commandes', {
+        url:'/orders',
+        controller: 'OrdersCtrl',
+        templateUrl: 'views/pages/orders/orders.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/ordersController.js']
+            })
+          }
+        }
+    })
       .state('dashboard.form',{
         templateUrl:'views/form.html',
         url:'/form'
