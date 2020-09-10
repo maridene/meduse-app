@@ -132,7 +132,7 @@ angular
           }
         }
     })
-      .state('dashboard.commandes', {
+      .state('dashboard.orders', {
         url:'/orders',
         controller: 'OrdersCtrl',
         templateUrl: 'views/pages/orders/orders.html',
