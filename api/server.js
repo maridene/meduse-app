@@ -31,14 +31,13 @@ app.get("/", (req, res) => {
 app.use('/users', require('./users/users.controller'));
 app.use('/products', require('./products/products.controller'));
 app.use('/addresses', require('./addresses/addresses.controller'));
+app.use('/categories', require('./categories/categories.controller'));
 
 
 app.use(express.static('public'));
 
 //Serves all the request which includes /images in the url from Images folder
 app.use('/images', express.static(__dirname + '/images'));
-
-require("./routes/category.routes.js")(app);
 
 // set port, listen for requests
 app.listen(3000, () => {
