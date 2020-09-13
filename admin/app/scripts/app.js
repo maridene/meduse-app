@@ -145,6 +145,38 @@ angular
           }
         }
     })
+      .state('dashboard.categories-list', {
+        url:'/categories-list',
+        controller: 'CategoriesListCtrl',
+        templateUrl: 'views/pages/categories/categoriesList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                  'scripts/controllers/categoriesListController.js',
+                  'scripts/services/categoryService.js'
+                ]
+            })
+          }
+        }
+    })
+      .state('dashboard.add-category', {
+        url:'/add-category',
+        controller: 'AddCategoryCtrl',
+        templateUrl: 'views/pages/categories/addCategory.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                  'scripts/controllers/addCategoryController.js',
+                  'scripts/services/categoryService.js'
+                ]
+            })
+          }
+        }
+    })
       .state('dashboard.orders', {
         url:'/orders',
         controller: 'OrdersCtrl',
@@ -218,6 +250,7 @@ angular
        templateUrl:'views/ui-elements/grid.html',
        url:'/grid'
    })
+  
   }]);
 
     
