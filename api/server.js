@@ -12,7 +12,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:4000');
+  const allowedOrigins = ['http://localhost:9000', 'http://localhost:4000'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  //res.header('Access-Control-Allow-Origin', 'http://localhost:4000');
   next();
 });
 
