@@ -36,7 +36,16 @@ angular
                     'scripts/directives/header/header.js',
                     'scripts/directives/header/header-notification/header-notification.js',
                     'scripts/directives/sidebar/sidebar.js',
-                    'scripts/directives/sidebar/sidebar-search/sidebar-search.js'
+                    'scripts/directives/sidebar/sidebar-search/sidebar-search.js',
+                    'scripts/models/address.js',
+                    'scripts/models/cart.js',
+                    'scripts/models/cartRow.js',
+                    'scripts/models/category.js',
+                    'scripts/models/product.js',
+                    'scripts/models/productVariant.js',
+                    'scripts/models/user.js',
+                    'scripts/services/objectBuilder.js',
+                    'scripts/services/restService.js',
                     ]
                 }),
                 $ocLazyLoad.load(
@@ -101,7 +110,11 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/productsListController.js']
+                files:[
+                  'scripts/controllers/productsListController.js',
+                  'scripts/services/categoryService.js',
+                  'scripts/services/productService.js'
+                ]
             })
           }
         }
