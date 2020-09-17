@@ -37,6 +37,7 @@ app.use('/users', require('./users/users.controller'));
 app.use('/products', require('./products/products.controller'));
 app.use('/addresses', require('./addresses/addresses.controller'));
 app.use('/categories', require('./categories/categories.controller'));
+app.use('/manufacturers', require('./manufacturers/manufacturers.controller'));
 
 
 app.use(express.static('public'));
