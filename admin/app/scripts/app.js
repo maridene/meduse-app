@@ -44,8 +44,10 @@ angular
                     'scripts/models/product.js',
                     'scripts/models/productVariant.js',
                     'scripts/models/user.js',
+                    'scripts/models/manufacturer.js',
                     'scripts/services/objectBuilder.js',
                     'scripts/services/restService.js',
+                    'scripts/services/manufacturerService.js'
                     ]
                 }),
                 $ocLazyLoad.load(
@@ -145,6 +147,35 @@ angular
           }
         }
     })
+      .state('dashboard.add-manufacturer', {
+        url:'/add-manufacturer',
+        controller: 'AddManufacturerCtrl',
+        templateUrl: 'views/pages/products/addManufacturer.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/addManufacturerController.js']
+            })
+          }
+        }
+      })
+      .state('dashboard.manufacturers-list', {
+        url:'/manufacturers-list',
+        controller: 'ManufacturersListCtrl',
+        templateUrl: 'views/pages/products/manufacturersList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                  'scripts/controllers/manufacturersListController.js',
+                  'scripts/services/manufacturerService.js'
+                ]
+            })
+          }
+        }
+      })
       .state('dashboard.categories-list', {
         url:'/categories-list',
         controller: 'CategoriesListCtrl',

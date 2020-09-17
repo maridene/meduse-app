@@ -12,7 +12,9 @@ const RESOURCE = {
   PRODUCT_ITEMS: 'product_items',
   PRODUCT_ITEM: 'product_item',
   ADDRESS: 'address',
-  ADDRESSES: 'addresses'
+  ADDRESSES: 'addresses',
+  MANUFACTURER: 'manufacturer',
+  MANUFACTURERS: 'manufacturers',
 };
 
 angular.module('sbAdminApp')
@@ -68,6 +70,12 @@ angular.module('sbAdminApp')
     function buildAddresses(data) {
       return data.map((item) => buildAddress(item));
     };
+    function buildManufacturer(data) {
+      return new Manufacturer(data);
+    };
+    function buildManufacturers(data) {
+      return data.map((item) => buildManufacturer(item));
+    };
 
     return {
       buildObject(key, response) {
@@ -95,7 +103,11 @@ angular.module('sbAdminApp')
           case RESOURCE.ADDRESS:
             return buildAddress(response);
           case RESOURCE.ADDRESSES:
-          return buildAddresses(response);
+            return buildAddresses(response);
+          case RESOURCE.MANUFACTURER:
+            return buildManufacturer(response);
+          case RESOURCE.MANUFACTURERS:
+            return buildManufacturers(response);
         }
         return response;
       }

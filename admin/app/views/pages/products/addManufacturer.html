@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Ajouter une marque</h1>
+    </div>  
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Détails de la marque
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form role="form" ng-controller="AddManufacturerCtrl">
+                    <div class="form-group">
+                        <label>Nom de la marque</label>
+                        <input class="form-control" ng-model="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Site web</label>
+                        <input class="form-control" ng-model="webSite">
+                    </div>
+
+                    <button type="submit" ng-click="submit()" class="btn btn-success" data-toggle="modal" data-target="#myModal">Ajouter</button>
+                    <button type="reset" class="btn btn-danger">Réinitialiser</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
