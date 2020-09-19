@@ -45,6 +45,7 @@ angular
                     'scripts/models/productVariant.js',
                     'scripts/models/user.js',
                     'scripts/models/manufacturer.js',
+                    'scripts/utils.js',
                     'scripts/services/objectBuilder.js',
                     'scripts/services/restService.js',
                     'scripts/services/manufacturerService.js'
