@@ -1,9 +1,10 @@
 'use strict';
 
 class Category {
-  constructor(id, label, description) {
-    this.id = id;
-    this.label = label;
-    this.description = description;
+  constructor(data) {
+    this.id = data.id;
+    this.label = data.label;
+    this.description = data.description;
+    this.productsCount = data.productscount;
   }
 }

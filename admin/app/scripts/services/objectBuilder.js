@@ -32,7 +32,7 @@ angular.module('sbAdminApp')
       }
     }
     function buildCategory(data) {
-      return new Category(data.id, data.label, data.description);
+      return new Category(data);
     }
     function buildCategories(data) {
       return data.map((item) => buildCategory(item));
