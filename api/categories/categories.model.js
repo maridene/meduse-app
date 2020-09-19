@@ -7,10 +7,12 @@ const Category = function(category) {
   this.description = category.description;
 };
 
+const tableName = "categories";
+
 Category.create = (newCategory) => {
     return new Promise((resolve, reject) => {
         console.log(newCategory);
-        sql.query("INSERT INTO categories SET ?", newCategory, (err, res) => {
+        sql.query(`INSERT INTO ${tableName} SET ?`, newCategory, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -22,7 +24,7 @@ Category.create = (newCategory) => {
 
 Category.findById = (categoryId) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM categories WHERE id = ${categoryId}`, (err, res) => {
+        sql.query(`SELECT * FROM ${tableName} WHERE id = ${categoryId}`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -38,8 +40,12 @@ Category.findById = (categoryId) => {
 }
 
 Category.getAll = () => {
+    const query = `SELECT ${tableName}.id, ${tableName}.label, ${tableName}.description,  COUNT(products.id) AS productscount 
+    FROM meduse.${tableName}
+    LEFT JOIN products ON ${tableName}.id = products.category_id
+    GROUP BY ${tableName}.id;`
     return new Promise((resolve, reject) => {
-        sql.query("SELECT * FROM categories", (err, res) => {
+        sql.query(query, (err, res) => {
             if (err) {
                 reject(err);
             } else {
@@ -52,7 +58,7 @@ Category.getAll = () => {
 Category.updateById = (id, category) => {
     return new Promise((resolve, reject) => {
         sql.query(
-            "UPDATE categories SET " +
+            `UPDATE ${tableName} SET ` +
             "label = ?, " +
             "description = ?, " +
             "WHERE id = ?",
@@ -81,7 +87,7 @@ Category.updateById = (id, category) => {
 
 Category.remove = (id) => {
     return new Promise((resolve, reject) => {
-        sql.query("DELETE FROM categories WHERE id = ?", id, (err, res) => {
+        sql.query(`DELETE FROM ${tableName} WHERE id = ?`, id, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -101,7 +107,7 @@ Category.remove = (id) => {
 };
 
 Category.removeAll = result => {
-sql.query("DELETE FROM categories", (err, res) => {
+sql.query(`DELETE FROM ${tableName}`, (err, res) => {
     if (err) {
     console.log("error: ", err);
     result(null, err);
