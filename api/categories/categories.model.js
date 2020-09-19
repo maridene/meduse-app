@@ -56,32 +56,26 @@ Category.getAll = () => {
 }
 
 Category.updateById = (id, category) => {
+    const query = `UPDATE ${tableName} SET 
+    \`label\` = '${category.label}', 
+    \`description\` = '${category.description}' 
+    WHERE (\`id\` = '${id}')`;
+    console.log(query);
     return new Promise((resolve, reject) => {
-        sql.query(
-            `UPDATE ${tableName} SET ` +
-            "label = ?, " +
-            "description = ?, " +
-            "WHERE id = ?",
-            [
-                category.label,
-                category.description,
-                id
-            ],
-            (err, res) => {
-                if (err) {
-                    console.log("error: ", err);
-                    reject(null, err);
-                }
-        
-                if (res.affectedRows == 0) {
-                    // not found Category with the id
-                    reject();
-                }
-        
-                console.log("updated category: ", { id: id, ...category });
-                resolve({ id: id, ...category });
+        sql.query(query, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                reject(null, err);
             }
-        );
+    
+            if (res.affectedRows == 0) {
+                // not found Category with the id
+                reject();
+            }
+    
+            console.log("updated category: ", { id: id, ...category });
+            resolve({ id: id, ...category });
+        });
     });
 };
 
