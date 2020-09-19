@@ -30,7 +30,7 @@ angular.module('sbAdminApp')
       return $http.get(`${getBaseUrl() + url}`, getRequestConfig(config));
     },
     put(url, data, config) {
-      return $http.post(`${getBaseUrl() + url}`, data, getRequestConfig(config));
+      return $http.put(`${getBaseUrl() + url}`, data, getRequestConfig(config));
     },
     delete(url, data, config) {
       return $http.delete(`${getBaseUrl() + url}`, data, getRequestConfig(config));
