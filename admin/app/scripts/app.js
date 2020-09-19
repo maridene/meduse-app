@@ -51,7 +51,9 @@ angular
                     'scripts/utils.js',
                     'scripts/services/objectBuilder.js',
                     'scripts/services/restService.js',
-                    'scripts/services/manufacturerService.js'
+                    'scripts/services/categoryService.js',
+                    'scripts/services/productService.js',
+                    'scripts/services/manufacturerService.js',
                     ]
                 }),
                 $ocLazyLoad.load(
@@ -123,11 +125,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:[
-                  'scripts/controllers/productsListController.js',
-                  'scripts/services/categoryService.js',
-                  'scripts/services/productService.js'
-                ]
+                files:['scripts/controllers/productsListController.js']
             })
           }
         }
@@ -179,10 +177,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:[
-                  'scripts/controllers/manufacturersListController.js',
-                  'scripts/services/manufacturerService.js'
-                ]
+                files:['scripts/controllers/manufacturersListController.js']
             })
           }
         }
@@ -195,10 +190,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:[
-                  'scripts/controllers/categoriesListController.js',
-                  'scripts/services/categoryService.js'
-                ]
+                files:['scripts/controllers/categories/categoriesListController.js']
             })
           }
         }
@@ -211,10 +203,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:[
-                  'scripts/controllers/addCategoryController.js',
-                  'scripts/services/categoryService.js'
-                ]
+                files:['scripts/controllers/categories/addCategoryController.js']
             })
           }
         }
