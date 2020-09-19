@@ -7,7 +7,7 @@
  * Controller of the add category page
  */
 angular.module('sbAdminApp')
-  .controller('AddCategoryCtrl', ['$scope', '$timeout', 'CategoryService', function ($scope, $timeout, CategoryService) {
+  .controller('AddCategoryCtrl', ['$scope', 'CategoryService', function ($scope, CategoryService) {
     
     $scope.name= '';
     $scope.description = '';
@@ -21,8 +21,16 @@ angular.module('sbAdminApp')
       CategoryService.addCategory({label: $scope.name, description: $scope.description})
         .then(() => {
           clear();
+          const dlgElem = angular.element("#successModal");
+          if (dlgElem) {
+              dlgElem.modal("show");
+          }
         }, (error) => {
-          
+          $scope.error = error;
+          const dlgElem = angular.element("#errorModal");
+          if (dlgElem) {
+              dlgElem.modal("show");
+          }
         });
     }
 }]);
