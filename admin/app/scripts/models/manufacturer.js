@@ -1,3 +1,5 @@
+'use strict';
+
 class Manufacturer {
     constructor(data) {
       this.id = data.id;
