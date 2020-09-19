@@ -8,42 +8,44 @@
     <!-- /.row -->
     <div class="row">
         
-        <stats goto="dashboard.home" number="6" comments="New comments!" colour="primary" type="comments"></stats>
-        <stats goto="dashboard.home" number="12" comments="New tasks!" colour="primary" type="user"></stats>
-        <stats goto="dashboard.home" number="18" comments="New orders!" colour="yellow" type="shopping-cart"></stats>
-        <stats goto="dashboard.home" number="24" comments="Support tickets!" colour="red" type="support"></stats>
+        <stats goto="dashboard.home" number="6" comments="Nouvelles visites!" colour="primary" type="eye"></stats>
+        <stats goto="dashboard.home" number="12" comments="Utilisateurs inscrits!" colour="primary" type="user"></stats>
+        <stats goto="dashboard.home" number="18" comments="Nouvelles commandes!" colour="yellow" type="shopping-cart"></stats>
+        <stats goto="dashboard.home" number="1200" comments="Recette du mois (D.T)" colour="red" type="money"></stats>
 
     </div>
-    
-    <!-- /.panel -->
+
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-6 col-sm-12" id="line-chart" ng-controller="MainCtrl">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                <div class="panel-heading">Recette par mois</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="line.data" labels="line.labels" legend="true"
+                    click="line.onClick" series="line.series"></canvas>
                 </div>
-                <!-- /.panel-heading -->
-                <timeline></timeline>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
         </div>
-        <!-- /.col-lg-8 -->
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-bell fa-fw"></i> Notifications Panel
-                </div>
-                <!-- /.panel-heading -->
-                <notifications></notifications> 
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
 
-            <chat></chat>
-             <!-- /.panel .chat-panel -->
+        <div class="col-lg-6 col-sm-12" id="pie-chart" ng-controller="MainCtrl">
+            <div class="panel panel-default">
+                <div class="panel-heading">Recette par catégorie</div>
+                <div class="panel-body">
+                    <canvas id="pie" class="chart chart-pie chart-xs" data="pie.data" labels="pie.labels"></canvas>
+                </div>
+            </div>
         </div>
-        <!-- /.col-lg-4 -->
     </div>
-    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-6 col-sm-12" id="bar-chart" ng-controller="MainCtrl">
+            <div class="panel panel-default">
+                <div class="panel-heading">Nouveaux clients / Nouvelles commandes</div>
+                <div class="panel-body">
+                    <canvas id="bar" class="chart chart-bar" data="bar.data" labels="bar.labels" series="bar.series"
+                    options="bar.options"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
