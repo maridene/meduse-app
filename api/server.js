@@ -3,6 +3,7 @@ const express = require("express");
 var cors = require('cors');
 const bodyParser = require("body-parser");
 const errorHandler = require('helpers/error-handler');
+var multer = require('multer');
 
 const app = express();
 
@@ -45,6 +46,32 @@ app.use(express.static('public'));
 
 //Serves all the request which includes /images in the url from Images folder
 app.use('/images', express.static(__dirname + '/images'));
+
+//Serves all the request which includes /images in the url from Images folder
+app.use('/blog', express.static(__dirname + '/public/blog'));
+
+var blogStorage = multer.diskStorage({ //multers disk storage settings
+  destination: function (req, file, cb) {
+      cb(null, './public/blog/')
+  },
+  filename: function (req, file, cb) {
+      var datetimestamp = Date.now();
+      cb(null, 'blogImage-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+  }
+});
+var blogUpload = multer({ //multer settings
+  storage: blogStorage
+}).single('file');
+/** API path that will upload the files */
+app.post('/blogupload', function(req, res) {
+  blogUpload(req,res,function(err){
+    if(err){
+      res.json({error_code:1,err_desc:err});
+      return;
+    }
+    res.json({filename: req.file.filename, error_code:0, err_desc:null});
+  })
+});
 
 // set port, listen for requests
 app.listen(3000, () => {
