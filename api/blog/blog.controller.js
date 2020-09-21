@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authorize = require('helpers/authorize');
-const categoryService = require('./blog.service');
+const blogService = require('./blog.service');
 
 // public routes
 router.get('/', getAll);
@@ -20,7 +20,7 @@ router.put('/:id', updateById);
 module.exports = router;
 
 function getAll(req, res, next) {
-    categoryService.getAll()
+    blogService.getAll()
         .then((categories) => {
             res.json(categories);
         })
@@ -29,7 +29,7 @@ function getAll(req, res, next) {
 
 function findById(req, res, next) {
     const id = parseInt(req.params.id);
-    categoryService.findById(id)
+    blogService.findById(id)
         .then((categories) => {
             res.json(categories);
         })
@@ -37,8 +37,8 @@ function findById(req, res, next) {
 }
 
 function create(req, res, next) {
-    const category = req.body;
-    categoryService.create(category)
+    const blog = req.body;
+    blogService.create(blog)
     .then((response) => {
         res.json(response);
     })
@@ -47,7 +47,7 @@ function create(req, res, next) {
 
 function remove(req, res, next) {
     const id = parseInt(req.params.id);
-    categoryService.remove(id)
+    blogService.remove(id)
         .then((response) => {
             res.json(response);
         })
@@ -56,7 +56,7 @@ function remove(req, res, next) {
 
 function updateById(req, res, next) {
     const id = parseInt(req.params.id);
-    categoryService.updateById(id, req.body)
+    blogService.updateById(id, req.body)
         .then((response) => {
             res.json(response);
         })
