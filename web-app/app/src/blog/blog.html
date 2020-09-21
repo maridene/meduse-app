@@ -16,75 +16,21 @@
 
 <section class="BlogSection">
     <div class="container">
-        <div class="BlogSection-blogItem cw-item card row">
+        <div ng-repeat="blogItem in $ctrl.blogItems" class="BlogSection-blogItem cw-item card row">
             <div class="BlogSection-blogItem-header row">
                 <h3 class="BlogSection-blogItem-header-title col-8">
-                    Notre dernier séminaire sur le Covid-19
+                    {{blogItem.title}}
                 </h3>
                 <h5 class="BlogSection-blogItem-header-date col-4">
-                    5 juillet 2020
+                    {{blogItem.date}}
                 </h5>
             </div>
             <div class="BlogSection-blogItem-content row">
                 <div class="BlogSection-blogItem-content-media col-md-6">
-                    <iframe height="400" src="https://www.youtube.com/embed/bmCcp2152JU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe ng-if="blogItem.videolink" height="400" ng-src={{$ctrl.trust(blogItem.videolink)}} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <img ng-if="blogItem.imagelink" height="400" ng-src={{blogItem.imagelink}}>
                 </div>
-                <div class="BlogSection-blogItem-content-description col-md-6">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                     standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-                      a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, 
-                      remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
-                      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions 
-                      of Lorem Ipsum.<br/>
-                      Pour plus d'information rendez vous à notre page <a href="http://wwww.facebook.com">facebook</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="BlogSection-blogItem cw-item card row">
-            <div class="BlogSection-blogItem-header row">
-                <h3 class="BlogSection-blogItem-header-title col-8">
-                    Ne rattez pas notre prochain webinaire sur l'avenir de l'industrie des instruments dentaires en Tunisie
-                </h3>
-                <h5 class="BlogSection-blogItem-header-date col-4">
-                    5 juillet 2020
-                </h5>
-            </div>
-            <div class="BlogSection-blogItem-content row">
-                <div class="BlogSection-blogItem-content-media col-md-6">
-                    <img height="400" src="https://www.codeur.com/blog/wp-content/uploads/2018/07/codeur-outil-webinaire-700x423.png">
-                </div>
-                <div class="BlogSection-blogItem-content-description col-md-6">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                     standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-                      a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, 
-                      remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
-                      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions 
-                      of Lorem Ipsum.<br/>
-                      Pour enregistrer vous, <a href="http://wwww.facebook.com">cliquez içi</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="BlogSection-blogItem cw-item card row">
-            <div class="BlogSection-blogItem-header row">
-                <h3 class="BlogSection-blogItem-header-title col-8">
-                    Comment la Chine tire les ficelles de l’Organisation mondiale de la santé?
-                </h3>
-                <h5 class="BlogSection-blogItem-header-date col-4">
-                    19 juin 2020
-                </h5>
-            </div>
-            <div class="BlogSection-blogItem-content row">
-                <div class="BlogSection-blogItem-content-media col-md-6">
-                    <img height="400" src="https://i.f1g.fr/media/eidos/767x431_crop/2020/04/09/XVM1f11b126-7a78-11ea-9e2c-96d0306afde6.jpg">
-                </div>
-                <div class="BlogSection-blogItem-content-description col-md-6">
-                    La guerre froide qui oppose les États-Unis à la Chine a franchi une nouvelle étape en s’installant à l’OMS,
-                     l’Organisation mondiale de la santé. Donald Trump, dont le pays est le principal contributeur de cette institution
-                      des Nations unies, a menacé de s’en retirer pour protester contre le biais pro-chinois de son directeur, 
-                      l’Éthiopien Tedros Adhanom Ghebreyesus.<br/>
-                      Pour plus d'information, <a href="https://www.lefigaro.fr/international/comment-la-chine-tire-les-ficelles-de-l-organisation-mondiale-de-la-sante-20200409">rendez vous içi</a>.
+                <div class="BlogSection-blogItem-content-description col-md-6" ng-bind-html="blogItem.description">
                 </div>
             </div>
         </div>

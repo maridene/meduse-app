@@ -8,6 +8,8 @@ import AuthenticationService from './authenticationService';
 import CartService from './cartService';
 import ToastService from './toastService';
 import AddressesService from './addressesService';
+import PointsService from './pointsService';
+import BlogService from './blogService';
 
 // Create the module where our functionality can attach to
 let servicesModule = angular.module('app.services', []);
@@ -21,6 +23,8 @@ servicesModule.service('AuthenticationService', AuthenticationService);
 servicesModule.service('CartService', CartService);
 servicesModule.service('ToastService', ToastService);
 servicesModule.service('AddressesService', AddressesService);
+servicesModule.service('PointsService', PointsService);
+servicesModule.service('BlogService', BlogService);
 
 
 

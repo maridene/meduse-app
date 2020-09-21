@@ -12,7 +12,8 @@ export const ApiConstants = {
   USERS_REGISTER: 'users/register',
   USERS_AUTHENTICATE: 'users/authenticate',
   USERS_UPDATE: 'users/',
-  ADDRESSES: 'addresses/'
+  ADDRESSES: 'addresses/',
+  BLOGS: 'blogs/'
 };
 
 export default AppConstants;

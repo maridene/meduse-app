@@ -3,6 +3,7 @@ import Product from './../models/product';
 import User from './../models/user';
 import Address from './../models/address'; 
 import ProductVariant from './../models/productVariant';
+import BlogItem from './../models/BlogItem';
 import { RESOURCE } from './../constants';
 import { getImageUrlFromProduct } from './../utils';
 
@@ -51,6 +52,13 @@ export default class ObjectBuilder {
   buildAddresses(data) {
     return data.map((item) => this.buildAddress(item));
   }
+  buildBlogItem(data) {
+    const baseUrl = this.RestService.getBaseUrl();
+    return new BlogItem(data, baseUrl);
+  }
+  buildBlogItems(data) {
+    return data && data.length ? data.map((item) => this.buildBlogItem(item)) : [];
+  }
 
   buildObject(key, response) {
     switch(key){
@@ -78,6 +86,10 @@ export default class ObjectBuilder {
         return this.buildAddress(response);
       case RESOURCE.ADDRESSES:
       return this.buildAddresses(response);
+      case RESOURCE.BLOG_ITEM:
+        return this.buildBlogItem(response);
+      case RESOURCE.BLOG_ITEMS:
+        return this.buildBlogItems(response);
     }
     return response;
   }

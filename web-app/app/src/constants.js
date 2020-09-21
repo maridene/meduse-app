@@ -12,5 +12,7 @@ export const RESOURCE = {
   PRODUCT_ITEMS: 'product_items',
   PRODUCT_ITEM: 'product_item',
   ADDRESS: 'address',
-  ADDRESSES: 'addresses'
+  ADDRESSES: 'addresses',
+  BLOG_ITEM: 'blog',
+  BLOG_ITEMS: 'blogs'
 };
