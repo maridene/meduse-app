@@ -40,6 +40,17 @@ angular.module('sbAdminApp')
               deferred.reject(error);
             });
         return deferred.promise;
+      },
+      update(id, manufacturer) {
+        const deferred = $q.defer();
+        RestService.put(`${MANUFACTURERS}/${id}`, manufacturer)
+          .then((result) => {
+            deferred.resolve(result);
+          }, (error) => {
+            deferred.reject(error);
+          });
+        
+        return deferred.promise;
       }
     }
   }]);

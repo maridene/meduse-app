@@ -16,10 +16,8 @@
                 <form role="form">
                     <div class="form-group">
                         <label>Catégorie: </label>
-                        <select class="form-control" required>
-                            <option>dentaire</option>
-                            <option>médical</option>
-                            <option>sportif</option>
+                        <select class="form-control" ng-model="selectedCategoryId" required>
+                            <option ng-repeat="category in categories track by category.id" value="{{category.id}}">{{category.label}}</option>
                         </select>
                     </div>
                     <div class="form-group">

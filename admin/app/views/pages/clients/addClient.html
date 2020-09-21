@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Ajouter une marque</h1>
+        <h1 class="page-header">Ajouter un client</h1>
     </div>  
     <!-- /.col-lg-12 -->
 </div>
@@ -9,33 +9,66 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Détails de la marque
+                Détails du client
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <form role="form" ng-controller="AddManufacturerCtrl" ng-submit="addManufacturer()">
+                <form role="form" ng-submit="submit()" ng-controller="AddClientCtrl">
                     <div class="form-group">
-                        <label>Nom de la marque</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="prefix" id="m" value="M." checked>M.
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="prefix" id="mme" value="Mme.">Mme.
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="prefix" id="mlle" value="Mlle.">Mlle.
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Nom et prénom</label>
                         <input class="form-control" ng-model="name" required>
                     </div>
                     <div class="form-group">
-                        <label>Site web</label>
-                        <input class="form-control" ng-model="webSite">
+                        <label>Adresse email</label>
+                        <input class="form-control" ng-model="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Téléphone</label>
+                        <input class="form-control" ng-model="phone" required>
                     </div>
 
-                    <button type="submit" ng-click="submit()" class="btn btn-success" data-toggle="modal">Ajouter</button>
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" class="form-control" ng-model="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirmer mot de passe</label>
+                        <input type="password" class="form-control" ng-model="passwordConfirm" required>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="">Inscrire à notre newsletter
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" data-toggle="modal">Ajouter</button>
                     <button type="reset" class="btn btn-danger">Réinitialiser</button>
-                    
-                    <!-- Modal -->
-                    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                     <!-- Modal -->
+                     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Marque ajoutée avec succes</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Client ajoutée avec succes</h4>
                                 </div>
                                 <div class="modal-body">
-                                    Votre novelle marque a été bien ajoutée!.
+                                    Nouveau client a été bien ajouté!.
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -46,6 +79,7 @@
                         <!-- /.modal-dialog -->
                     </div>
                     <!-- /.modal -->
+
                     <!-- Modal -->
                     <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -55,7 +89,7 @@
                                     <h4 class="modal-title" id="myModalLabel">Erreur</h4>
                                 </div>
                                 <div class="modal-body">
-                                    Un problème est survenu lors de l'ajout de la marque
+                                   Un problème est survenu lors de l'ajout du client.
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -66,6 +100,7 @@
                         <!-- /.modal-dialog -->
                     </div>
                     <!-- /.modal -->
+
                 </form>
             </div>
         </div>

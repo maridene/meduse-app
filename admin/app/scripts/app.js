@@ -9,12 +9,14 @@
  */
 angular
   .module('sbAdminApp', [
+    'ngRoute',
     'oc.lazyLoad',
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
+    'ngSanitize'
   ])
-  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
+  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
     
     $ocLazyLoadProvider.config({
       debug:false,
@@ -28,8 +30,14 @@ angular
         url:'/dashboard',
         templateUrl: 'views/dashboard/main.html',
         resolve: {
-            loadMyDirectives:function($ocLazyLoad){
-                return $ocLazyLoad.load(
+            loadMyDirectives:function($ocLazyLoad, $q){
+                var promises = [];
+                promises.push($ocLazyLoad.load(
+                  {
+                    name:'ngRoute',
+                    files:["bower_components/angular-route/angular-route.min.js"]
+                  })); 
+                promises.push($ocLazyLoad.load(
                 {
                     name:'sbAdminApp',
                     files:[
@@ -54,40 +62,47 @@ angular
                     'scripts/services/categoryService.js',
                     'scripts/services/productService.js',
                     'scripts/services/manufacturerService.js',
+                    'scripts/services/clientsService.js',
+                    'scripts/services/blogService.js',
+                    'scripts/services/ordersService.js'
                     ]
-                }),
-                $ocLazyLoad.load(
+                }));
+                  promises.push($ocLazyLoad.load(
                 {
                    name:'toggle-switch',
                    files:["bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
                           "bower_components/angular-toggle-switch/angular-toggle-switch.css"
                       ]
-                }),
-                $ocLazyLoad.load(
+                }));
+                promises.push($ocLazyLoad.load(
                 {
                   name:'ngAnimate',
-                  files:['bower_components/angular-animate/angular-animate.js']
-                })
-                $ocLazyLoad.load(
+                  files:["bower_components/angular-animate/angular-animate.js"]
+                })); 
+                promises.push($ocLazyLoad.load(
                 {
                   name:'ngCookies',
-                  files:['bower_components/angular-cookies/angular-cookies.js']
-                })
-                $ocLazyLoad.load(
+                  files:["bower_components/angular-cookies/angular-cookies.js"]
+                }));
+                promises.push($ocLazyLoad.load(
                 {
                   name:'ngResource',
                   files:['bower_components/angular-resource/angular-resource.js']
-                })
-                $ocLazyLoad.load(
+                }));
+                promises.push($ocLazyLoad.load(
                 {
                   name:'ngSanitize',
                   files:['bower_components/angular-sanitize/angular-sanitize.js']
-                })
-                $ocLazyLoad.load(
-                {
-                  name:'ngTouch',
-                  files:['bower_components/angular-touch/angular-touch.js']
-                })
+                }));
+                promises.push($ocLazyLoad.load(
+                  {
+                    name:'ngFileUpload',
+                    files:[
+                      'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+                      'bower_components/ng-file-upload/ng-file-upload.min.js'
+                  ]
+                  }));
+                return $q.all(promises);
             }
         }
     })
@@ -125,7 +140,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/productsListController.js']
+                files:['scripts/controllers/products/productsListController.js']
             })
           }
         }
@@ -138,7 +153,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/addProductController.js']
+                files:['scripts/controllers/products/addProductController.js']
             })
           }
         }
@@ -151,7 +166,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/addProductVariantController.js']
+                files:['scripts/controllers/products/addProductVariantController.js']
             })
           }
         }
@@ -164,7 +179,28 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/addManufacturerController.js']
+                files:['scripts/controllers/products/addManufacturerController.js']
+            })
+          }
+        }
+      })
+      .state('dashboard.edit-manufacturer', {
+        url:'/edit-manufacturer/:manufacturerId',
+        controller: 'EditManufacturerCtrl',
+        templateUrl: 'views/pages/products/editManufacturer.html',
+        resolve: {
+          manufacturer: function(ManufacturerService, $state, $stateParams) {
+            return ManufacturerService.getById($stateParams.manufacturerId).then(
+                (manufacturer) => {
+                  return manufacturer;
+                },
+                (err) => $state.go('dashboard.home')
+            )
+          },
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/products/editManufacturerController.js']
             })
           }
         }
@@ -177,7 +213,7 @@ angular
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/manufacturersListController.js']
+                files:['scripts/controllers/products/manufacturersListController.js']
             })
           }
         }
@@ -195,6 +231,27 @@ angular
           }
         }
     })
+      .state('dashboard.edit-category', {
+        url:'/edit-category/:categoryId',
+        controller: 'EditCategoryCtrl',
+        templateUrl: 'views/pages/categories/editCategory.html',
+        resolve: {
+          category: function(CategoryService, $state, $stateParams) {
+            return CategoryService.getCategoryById($stateParams.categoryId).then(
+                (category) => {
+                  return category;
+                },
+                (err) => $state.go('dashboard.home')
+            )
+          },
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/categories/editCategoryController.js']
+            })
+          }
+        }
+    })
       .state('dashboard.add-category', {
         url:'/add-category',
         controller: 'AddCategoryCtrl',
@@ -208,15 +265,119 @@ angular
           }
         }
     })
-      .state('dashboard.orders', {
-        url:'/orders',
-        controller: 'OrdersCtrl',
-        templateUrl: 'views/pages/orders/orders.html',
+      .state('dashboard.orders-list', {
+        url:'/orders-list',
+        controller: 'OrdersListCtrl',
+        templateUrl: 'views/pages/orders/ordersList.html',
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/ordersController.js']
+                files:['scripts/controllers/orders/ordersListController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.add-order', {
+        url:'/add-order',
+        controller: 'AddOrderCtrl',
+        templateUrl: 'views/pages/orders/addOrder.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/orders/addOrderController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.current-orders', {
+        url:'/current-orders',
+        controller: 'CurrentOrdersCtrl',
+        templateUrl: 'views/pages/orders/currentOrders.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/orders/currentOrdersController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.unpaid-orders', {
+        url:'/unpaid-orders',
+        controller: 'UnpaidOrdersCtrl',
+        templateUrl: 'views/pages/orders/unpaidOrders.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/orders/unpaidOrdersController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.order-details', {
+        url:'/order-details',
+        controller: 'OrderDetailsCtrl',
+        templateUrl: 'views/pages/orders/orderDetails.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/orders/orderDetailsController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.add-pub', {
+        url:'/add-pub',
+        controller: 'AddPubCtrl',
+        templateUrl: 'views/pages/blog/addPub.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/pub/addPubController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.pubs-list', {
+        url:'/pubs-list',
+        controller: 'PubsListCtrl',
+        templateUrl: 'views/pages/blog/pubsList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/pub/pubsListController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.add-client', {
+        url:'/add-client',
+        controller: 'AddClientCtrl',
+        templateUrl: 'views/pages/clients/addClient.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/clients/addClientController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.clients-list', {
+        url:'/clients-list',
+        controller: 'ClientsListCtrl',
+        templateUrl: 'views/pages/clients/clientsList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/clients/clientsListController.js']
             })
           }
         }

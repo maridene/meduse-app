@@ -69,32 +69,26 @@ Manufacturer.getAll = () => {
 }
 
 Manufacturer.updateById = (id, manufacturer) => {
+    const query = `UPDATE ${tableName} SET 
+    \`name\` = '${manufacturer.name}', 
+    \`website\` = '${manufacturer.website}' 
+    WHERE (\`id\` = '${id}')`;
+    console.log(query);
     return new Promise((resolve, reject) => {
-        sql.query(
-            `UPDATE ${tableName} SET ` +
-            "name = ?, " +
-            "website = ?, " +
-            "WHERE id = ?",
-            [
-                manufacturer.name,
-                manufacturer.website,
-                id
-            ],
-            (err, res) => {
-                if (err) {
-                    console.log("error: ", err);
-                    reject(null, err);
-                }
-        
-                if (res.affectedRows == 0) {
-                    // not found manufacturer with the id
-                    reject();
-                }
-        
-                console.log("updated manufacturer: ", { id: id, ...manufacturer });
-                resolve({ id: id, ...manufacturer });
+        sql.query(query, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                reject(null, err);
             }
-        );
+    
+            if (res.affectedRows == 0) {
+                // not found manufacturer with the id
+                reject();
+            }
+    
+            console.log("updated manufacturer: ", { id: id, ...manufacturer });
+            resolve({ id: id, ...manufacturer });
+        });
     });
 };
 

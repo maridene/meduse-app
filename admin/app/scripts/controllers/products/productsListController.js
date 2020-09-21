@@ -7,7 +7,8 @@
  * Controller of the products list page
  */
 angular.module('sbAdminApp')
-  .controller('ProductsListCtrl', ['$scope', 'ProductService', 'CategoryService', function ($scope, ProductService, CategoryService) {
+  .controller('ProductsListCtrl', ['$scope', 'ProductService', 'CategoryService', 'ManufacturerService',
+  function ($scope, ProductService, CategoryService, ManufacturerService) {
     $scope.selectedCategoryId = null;
     $scope.products = [];
     
@@ -15,6 +16,11 @@ angular.module('sbAdminApp')
       .then((result) => {
         $scope.categories = result;
       })
+
+    ManufacturerService.getAll()
+      .then((result) => {
+        $scope.brands = result;
+      });
     
 
    $scope.getProducts = () => {
