@@ -4,7 +4,8 @@ module.exports = {
     findById,
     findByCategory,
     findByReference,
-    getAll
+    getAll,
+    create
 };
 
 function findById(id) {
@@ -63,5 +64,16 @@ function findByReference(ref) {
             }, (err) => {
                 reject(err);
             })
+    });
+}
+
+function create(product) {
+    return new Promise((resolve, reject) => {
+        products.create(product)
+            .then((result) => {
+                resolve(result);
+            }, (err) => {
+                reject(err);
+            });
     });
 }

@@ -11,7 +11,7 @@ router.get('/reference/:ref', findByReference);
 
 
 //admin routes
-
+router.post('/', create);
 // all authenticated users routes
 
 // user only routes
@@ -49,6 +49,14 @@ function findByCategory(req, res, next) {
 function findByReference(req, res, next) {
     const ref = req.params.ref;
     productService.findByReference(ref)
+        .then((product) => {
+            res.json(product);
+        })
+        .catch(err => next(err));
+}
+
+function create (req, res, next) {
+    productService.create(req.body)
         .then((product) => {
             res.json(product);
         })

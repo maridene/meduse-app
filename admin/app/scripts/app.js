@@ -155,7 +155,24 @@ angular
                 name:'sbAdminApp',
                 files:['scripts/controllers/products/addProductController.js']
             })
+          },
+          categories: function(CategoryService, $state) {
+            return CategoryService.getAllCategories().then(
+                (categories) => {
+                  return categories;
+                },
+                (err) => $state.go('dashboard.home')
+            )
+          },
+          manufacturers: function(ManufacturerService, $state) {
+            return ManufacturerService.getAll().then(
+                (manufacturers) => {
+                  return manufacturers;
+                },
+                (err) => $state.go('dashboard.home')
+            )
           }
+
         }
     })
       .state('dashboard.add-product-variant', {

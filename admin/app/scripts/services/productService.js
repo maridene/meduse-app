@@ -31,13 +31,15 @@ angular.module('sbAdminApp')
     return deferred.promise;
   };
 
-  const addProduct = (product)  => {
+  const add = (product)  => {
+    const deferred = $q.defer();
     RestService.post(PRODUCTS, product)
         .then((result) => {
-
+          deferred.resolve(result);
         }, (error) => {
-
+          deferred.reject(error);
         });
+    return deferred.promise;
   }
 
   function getImagesUrls(product, variants) {
@@ -67,6 +69,6 @@ angular.module('sbAdminApp')
   return {
     getProductById,
     getProductsByCategory,
-    addProduct
+    add
   }
 }]);

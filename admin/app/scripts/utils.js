@@ -38,3 +38,14 @@ function getImagesUrlsFromProduct(baseUrl, product) {
 function isBlank(str) {
     return (!str || /^\s*$/.test(str));
 }
+
+function skuFromProductLabel(value) {
+    return value.split(' ').map((part) => {
+        
+        if (part.length < 3) {
+            return '';
+        } else {
+            return part.substring(0,3);
+        }
+    }).filter((part) => part !== '').join('-');
+}

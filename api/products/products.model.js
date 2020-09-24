@@ -16,6 +16,8 @@ const Product = function(product) {
   this.imgCount = product.imgCount;
 };
 
+const tableName = 'PRODUCTS';
+
 Product.getProductVariants = (productId) => {
   return new Promise((resolve, reject) => {
     sql.query(`SELECT * FROM PRODUCTVARIANT WHERE product_id = ${productId}`,
@@ -133,6 +135,19 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
   }
   return productsQuery;
 }
+
+Product.create = (product) => {
+  return new Promise((resolve, reject) => {
+    console.log(product);
+    sql.query(`INSERT INTO ${tableName} SET ?`, product, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            reject(err);
+        }
+        resolve({ id: res.insertId, ...product });
+    });
+});
+};
 
 
 module.exports = Product;
