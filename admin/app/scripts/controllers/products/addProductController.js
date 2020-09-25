@@ -40,6 +40,7 @@ angular.module('sbAdminApp')
               long_description: $scope.form.presentation,
               promo_price: null,
               manufacturerId: $scope.form.selectedManufacturerId,
+              weight: $scope.form.weight,
               images: filenames.toString(),
               video_link: $scope.form.videolink
             };
