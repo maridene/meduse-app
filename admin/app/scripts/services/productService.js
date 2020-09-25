@@ -25,7 +25,7 @@ angular.module('sbAdminApp')
     const url = PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId).replace('{1}', startAt).replace('{2}', maxResult).replace('{3}', orderBy);
     RestService.get(url)
       .then(
-          (result) => deferred.resolve({count: result.data.count, items: ObjectBuilder.buildObject('product_items', result.data.items)}),
+          (result) => deferred.resolve({count: result.data.count, items: ObjectBuilder.buildObject('products', result.data.items)}),
           (error) => deferred.reject(error)
       );
     return deferred.promise;

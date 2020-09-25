@@ -36,6 +36,7 @@ angular.module('sbAdminApp')
               description: $scope.form.description,
               price: $scope.form.price,
               quantity: $scope.form.quantity,
+              lowStockThreshold: $scope.form.lowStockThreshold,
               category_id: $scope.form.selectedCategoryId,
               long_description: $scope.form.presentation,
               promo_price: null,

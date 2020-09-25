@@ -125,7 +125,7 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
     {key: 'AZ', name:'label ASC'},
     {key: 'ZA', value:'label DESC'}
   ];
-  let productsQuery =`select * from PRODUCTS where category_id = ${categoryId}`; 
+  let productsQuery =`select PRODUCTS.*, MANUFACTURERS.name as manufacturerName from PRODUCTS LEFT JOIN MANUFACTURERS ON PRODUCTS.manufacturerId = MANUFACTURERS.id where category_id = ${categoryId}`; 
   const index = orderByValues.map((item) => item.key).indexOf(orderBy);
   if (index !== -1) {
     productsQuery +=  ` ORDER BY ${orderByValues[index].value}`;

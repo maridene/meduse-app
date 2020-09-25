@@ -51,6 +51,10 @@
                                 <span class="input-group-addon">unité(s)</span>
                             </div>
                             <div class="form-group input-group">
+                                <input type="number" min="0" step="1" class="form-control" placeholder="seuil faible stock (10)" ng-model="form.lowStockThreshold">
+                                <span class="input-group-addon">unité(s)</span>
+                            </div>
+                            <div class="form-group input-group">
                                 <input type="number" min="0" step="0.001" class="form-control" placeholder="Poids" ng-model="form.weight">
                                 <span class="input-group-addon">Kg</span>
                             </div>
