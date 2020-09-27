@@ -93,8 +93,6 @@ app.post('/blogupload', function(req, res) {
 });
 
 app.post('/productupload', function(req, res) {
-  console.log(req.productImages);
-  console.log(req.body);
   productUpload(req,res,function(err){
     if(err){
       res.json({error_code:1,err_desc:err});
