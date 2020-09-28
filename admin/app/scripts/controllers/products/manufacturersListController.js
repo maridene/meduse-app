@@ -28,6 +28,7 @@ angular.module('sbAdminApp')
       ManufacturerService.getAll()
       .then((result) => {
         $scope.manufacturers = result;
+        $scope.updateState();
       });
     };
 
