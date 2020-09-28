@@ -40,7 +40,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="product in products track by product.id" class="odd gradeX">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" ng-model="product.isSelected" ng-change="updateState()"></td>
                                     <td>{{product.label}}</td>
                                     <td>{{product.manufacturerName}}</td>
                                     <td>{{product.sku}}</td>
@@ -55,7 +55,72 @@
                             </tbody>
                         </table>
                     </div>
+                    <button type="button" ng-disabled="deleteDisabled" ng-click="delete()" class="btn btn-danger">Supprimer</button>
+                    <!-- Modal success -->
+                    <div class="modal fade" id="deleteSuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Marques supprimées avec succès</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Les marques séléctionnées ont été bien supprimées
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+
+                    <!-- Modal error-->
+                    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Erreur</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Un problème est survenu lors de la suppression des marques.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+
+                    <!-- Modal not authorized-->
+                    <div class="modal fade" id="deleteImpossibleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Erreur</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Impossible de supprimer cette (ces) marque(s). Au moins une marque contient des produits.
+                                    Veuillez changer les marques de ces produits avant de supprimer cette marque.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
                 </div>
+            </div>
         </div>
     </div>
 </div>

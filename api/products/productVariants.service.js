@@ -5,7 +5,8 @@ module.exports = {
     deleteById,
     updateById,
     getByProductId,
-    getById
+    getById,
+    deleteByProductId
 };
 
 function create(productVariant) {
@@ -55,6 +56,17 @@ function getByProductId(id) {
 function getById(id) {
     return new Promise((resolve, reject) => {
         productVariants.getById(id)
+            .then((result) => {
+                resolve(result);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
+function deleteByProductId(id) {
+    return new Promise((resolve, reject) => {
+        productVariants.deleteByProductId(id)
             .then((result) => {
                 resolve(result);
             }, (err) => {

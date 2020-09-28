@@ -12,6 +12,7 @@ router.get('/reference/:ref', findByReference);
 
 //admin routes
 router.post('/', create);
+router.delete('/:id', deleteById);
 // all authenticated users routes
 
 // user only routes
@@ -63,3 +64,11 @@ function create (req, res, next) {
         .catch(err => next(err));
 }
 
+function deleteById(req, res, next) {
+    const id = req.params.id;
+    productService.deleteById(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}

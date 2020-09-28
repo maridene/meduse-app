@@ -133,12 +133,12 @@ ProductVariant.deleteByProductId = (productId) => {
         
             if (res.affectedRows == 0) {
                 // not found product variant with the product id
-                console.log('not found product variant with the product id = ' + productId);
-                reject();
+                console.log('not found product variants with the product id = ' + productId);
+                resolve();
                 return;
             }
         
-            console.log("deleted product variant with product id: ", productId);
+            console.log("deleted product variants with product id: ", productId);
             resolve(res);
         });
       });

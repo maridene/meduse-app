@@ -1,11 +1,13 @@
 const products = require('./products.model');
+const productVariantsService = require('./productVariants.service');
 
 module.exports = {
     findById,
     findByCategory,
     findByReference,
     getAll,
-    create
+    create,
+    deleteById
 };
 
 function findById(id) {
@@ -76,4 +78,20 @@ function create(product) {
                 reject(err);
             });
     });
+}
+
+function deleteById(id) {
+    return new Promise((resolve, reject) => {
+        productVariantsService.deleteByProductId(id)
+            .then(() => {
+                products.deleteById(id)
+                    .then((result) => {
+                        resolve(result);
+                    }, (error) => {
+                        reject(error);
+                    })
+            }, (err) => {
+                reject(err);
+            });
+    });   
 }

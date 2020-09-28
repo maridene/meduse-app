@@ -146,7 +146,27 @@ Product.create = (product) => {
         }
         resolve({ id: res.insertId, ...product });
     });
-});
+  });
+};
+
+Product.deleteById = (id) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`DELETE FROM ${tableName} WHERE id = ${id}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      }
+
+      if (res.affectedRows == 0) {
+          // not found product with the id
+          reject();
+          return;
+      }
+
+      console.log("deleted product with id: ", id);
+      resolve(res);
+    });
+  });
 };
 
 

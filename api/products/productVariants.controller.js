@@ -10,6 +10,7 @@ router.get('/:id', getById);
 router.post('/', create);
 router.delete('/:id', deleteById);
 router.put('/:id', updateById);
+router.delete('/product/:id', deleteByProductId);
 // all authenticated users routes
 
 // user only routes
@@ -56,6 +57,15 @@ function getByProductId(req, res, next) {
     productVariantService.getByProductId(id)
         .then((pVariants) => {
             res.json(pVariants);
+        })
+        .catch(err => next(err));
+}
+
+function deleteByProductId(req, res, next) {
+    const id = parseInt(req.params.id);
+    productVariantService.deleteByProductId(id)
+        .then((result) => {
+            res.json(result);
         })
         .catch(err => next(err));
 }

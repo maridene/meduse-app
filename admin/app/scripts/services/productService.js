@@ -42,6 +42,17 @@ angular.module('sbAdminApp')
     return deferred.promise;
   }
 
+  const remove = (id) => {
+    const deferred = $q.defer();
+    RestService.delete(`${PRODUCTS}/${id}`)
+        .then((result) => {
+          deferred.resolve(result);
+        }, (error) => {
+          deferred.reject(error);
+        });
+    return deferred.promise;
+  };
+
   function getImagesUrls(product, variants) {
     if (product.imgCount || variants) {
       return [...getProductImagesUrls(product), ...getVariantsImagesUrls(variants)];
@@ -64,11 +75,12 @@ angular.module('sbAdminApp')
     } else {
         return [`${baseUrl}images/no-image.jpg`];
     }
-}
+  }
 
   return {
     getProductById,
     getProductsByCategory,
-    add
+    add,
+    remove
   }
 }]);
