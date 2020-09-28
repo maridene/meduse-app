@@ -7,7 +7,7 @@
  * Controller of the add manufacturer page
  */
 angular.module('sbAdminApp')
-  .controller('AddManufacturerCtrl', ['$scope', 'ManufacturerService', function ($scop, ManufacturerService) {
+  .controller('AddManufacturerCtrl', ['$scope', 'ManufacturerService', function ($scope, ManufacturerService) {
     
     $scope.addManufacturer = () => {
       const manufacturer = {name: $scope.name, website: $scope.webSite};
