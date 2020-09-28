@@ -33,7 +33,7 @@ angular.module('sbAdminApp')
       const selectedCategories = $scope.categories.filter((item) => item.isSelected);
       const ids = selectedCategories.map((item) => item.id);
       if (ids.length) {
-        if (selectedCategories.filter((item) => item.productsCount > 0)) {
+        if (selectedCategories.filter((item) => item.productsCount > 0).length) {
           const dlgElem = angular.element("#deleteImpossibleModal");
             if (dlgElem) {
                 dlgElem.modal("show");
