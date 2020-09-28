@@ -48,8 +48,8 @@
                                     <td class="center">{{product.quantity}}</td>
                                     <td class="center">
                                         <span ng-if="product.promo_price" class="label label-pill label-primary">en promo</span>
-                                        <span ng-if="product.quantity === 0" class="label badge-pill label-danger">hors stock</span>
-                                        <span ng-if="product.quantity <= product.lowStockThreshold" class="label label-pill label-warning">faible stock</span>
+                                        <span ng-if="product.quantity === 0" class="label label-pill label-danger">hors stock</span>
+                                        <span ng-if="product.quantity !== 0 && product.quantity <= product.lowStockThreshold" class="label label-pill label-warning">faible stock</span>
                                     </td>
                                 </tr>
                             </tbody>
