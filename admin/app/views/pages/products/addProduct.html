@@ -91,9 +91,118 @@
                             Images: <img ng-repeat="file in form.files" style="width:100px;" ngf-thumbnail="file || '/thumb.jpg'"/>
                         </div>
     
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Variantes dans ce produit
+                                    </div>
+                                    <div class="productVariantType form-group">
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="form.withVariants" name="variantsType" id="optionsRadiosInline1" value="none" ng-change="withVariantsOnchange()">Aucune
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="form.withVariants" name="variantsType" id="optionsRadiosInline2" value="colors" ng-change="withVariantsOnchange()">Couleurs
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="form.withVariants" name="variantsType" id="optionsRadiosInline3" value="sizes" ng-change="withVariantsOnchange()">Tailles 
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="form.withVariants" name="variantsType" id="optionsRadiosInline4" value="colors-sizes" ng-change="withVariantsOnchange()">Couleurs et tailles
+                                        </label>
+                                    </div>
+                                    <div ng-if="form.withVariants !== 'none'">
+                                        <div class="productVariantsList">
+                                            <div class="productVariantItem variant-colors" ng-if="form.withVariants === 'colors'" ng-repeat="item in form.variants">
+                                                <div class="form-inline">
+                                                    <div class="form-group input-group">
+                                                        <input class="form-control variant-color-input" placeholder="Couleur" ng-model="item.color" ng-change="variantPropertyChanged(item)" required></input>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input type="number" min="0" step="1" class="form-control variant-qty-input" placeholder="Quantité" ng-model="item.quantity" required>
+                                                        <span class="input-group-addon">unité(s)</span>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input class="form-control" ng-model="item.sku" readonly>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input 
+                                                            type="file" 
+                                                            ngf-select 
+                                                            ng-model="item.imageFile" 
+                                                            ng-attr-id="{{'varImg-' + item.id}}" 
+                                                            ng-attr-name="{{'varImg-' + item.id}}"
+                                                            ngf-pattern="'image/*'" 
+                                                            accept="image/*" 
+                                                            ngf-max-size="20MB" 
+                                                            class="file form-control">
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <button class="btn btn-danger" ng-click="deleteItem(item)">Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="productVariantItem variant-size" ng-if="form.withVariants === 'sizes'" ng-repeat="item in form.variants">
+                                                <div class="form-inline">
+                                                    <div class="form-group input-group">
+                                                        <input class="form-control variant-size-input" placeholder="Taille" ng-model="item.size" ng-change="variantPropertyChanged(item)" required></input>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input type="number" min="0" step="1" class="form-control variant-qty-input" placeholder="Quantité" ng-model="item.quantity" required>
+                                                        <span class="input-group-addon">unité(s)</span>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input class="form-control"  ng-model="item.sku" readonly>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <button class="btn btn-danger" ng-click="deleteItem(item)">Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="productVariantItem variant-color-size" ng-if="form.withVariants === 'colors-sizes'" ng-repeat="item in form.variants">
+                                                <div class="form-inline">
+                                                    <div class="form-group input-group">
+                                                        <input class="form-control variant-color-input" placeholder="Couleur" ng-model="item.color" ng-change="variantPropertyChanged(item)" required></input>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input class="form-control variant-size-input" placeholder="Taille" ng-model="item.size" ng-change="variantPropertyChanged(item)" required></input>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input type="number" min="0" step="1" class="form-control variant-qty-input" placeholder="Quantité" ng-model="item.quantity" required>
+                                                        <span class="input-group-addon">unité(s)</span>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input class="form-control"  ng-model="item.sku" readonly>
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <input 
+                                                            type="file" 
+                                                            ngf-select 
+                                                            ng-model="item.imageFile" 
+                                                            ng-attr-id="{{'varImg-' + item.id}}" 
+                                                            ng-attr-name="{{'varImg-' + item.id}}"
+                                                            ngf-pattern="'image/*'" 
+                                                            accept="image/*" 
+                                                            ngf-max-size="20MB" 
+                                                            class="file form-control">
+                                                    </div>
+                                                    <div class="form-group input-group">
+                                                        <button type="button" ng-click="deleteItem(item)" class="btn btn-danger">X</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="addProductVariantBtn">
+                                            <button type="button" class="btn btn-primary" ng-click="addVariant()"> Ajouter une variante</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-success">Ajouter</button>
+                    <button type="submit" class="btn btn-success">Ajouter produit</button>
                     
                     <!-- Modal success-->
                     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

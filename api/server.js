@@ -37,11 +37,11 @@ app.get("/", (req, res) => {
 // api routes
 app.use('/users', require('./users/users.controller'));
 app.use('/products', require('./products/products.controller'));
+app.use('/productvariants', require('./products/productVariants.controller'));
 app.use('/addresses', require('./addresses/addresses.controller'));
 app.use('/categories', require('./categories/categories.controller'));
 app.use('/blogs', require('./blog/blog.controller'));
 app.use('/manufacturers', require('./manufacturers/manufacturers.controller'));
-
 
 app.use(express.static('public'));
 
@@ -71,12 +71,25 @@ var productsStorage = multer.diskStorage({ //multers disk storage settings
   }
 });
 
+var productVariantsStorage = multer.diskStorage({ //multers disk storage settings
+  destination: function (req, file, cb) {
+      cb(null, './public/pimage/')
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.fieldname + file.originalname.split('.')[file.originalname.split('.').length -1])
+  }
+});
+
 var blogUpload = multer({ //multer settings
   storage: blogStorage
 }).single('file');
 
 var productUpload = multer({ //multer settings
   storage: productsStorage
+}).any();
+
+var productVariantUpload = multer({ //multer settings
+  storage: productVariantsStorage
 }).any();
 
 
@@ -94,6 +107,16 @@ app.post('/blogupload', function(req, res) {
 
 app.post('/productupload', function(req, res) {
   productUpload(req,res,function(err){
+    if(err){
+      res.json({error_code:1,err_desc:err});
+      return;
+    }
+    res.json({files: req.files, error_code:0, err_desc:null});
+  })
+});
+
+app.post('/productvariantupload', function(req, res) {
+  productVariantUpload(req,res,function(err){
     if(err){
       res.json({error_code:1,err_desc:err});
       return;

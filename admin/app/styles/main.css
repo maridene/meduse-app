@@ -109,3 +109,20 @@ background-color: #eee;
 .AddProductForm .product-images input[type=file] {
   margin-bottom: 20px;
 }
+
+.AddProductForm .productVariantItem {
+  padding: 5px;
+}
+
+.AddProductForm .productVariantType {
+  padding: 10px;
+  margin-bottom: 0px;
+}
+
+.AddProductForm .addProductVariantBtn {
+  padding: 10px;
+}
+
+.AddProductForm .variant-size-input, .AddProductForm .variant-color-input, .AddProductForm .variant-qty-input {
+  max-width: 100px;
+}

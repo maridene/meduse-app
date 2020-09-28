@@ -14,7 +14,8 @@ angular
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
-    'ngSanitize'
+    'ngSanitize',
+    'angular-uuid'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
     
@@ -61,6 +62,7 @@ angular
                     'scripts/services/restService.js',
                     'scripts/services/categoryService.js',
                     'scripts/services/productService.js',
+                    'scripts/services/productVariantsService.js',
                     'scripts/services/manufacturerService.js',
                     'scripts/services/clientsService.js',
                     'scripts/services/blogService.js',
@@ -173,19 +175,6 @@ angular
             )
           }
 
-        }
-    })
-      .state('dashboard.add-product-variant', {
-        url:'/add-product-variant',
-        controller: 'AddProductVariantCtrl',
-        templateUrl: 'views/pages/products/addProductVariant.html',
-        resolve: {
-          loadMyFile:function($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name:'sbAdminApp',
-                files:['scripts/controllers/products/addProductVariantController.js']
-            })
-          }
         }
     })
       .state('dashboard.add-manufacturer', {
