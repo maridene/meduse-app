@@ -25,6 +25,7 @@ angular.module('sbAdminApp')
       CategoryService.getAllCategories()
       .then((result) => {
         $scope.categories = result;
+        $scope.updateState();
       });
     };
 
