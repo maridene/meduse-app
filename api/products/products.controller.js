@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authorize = require('helpers/authorize');
 const productService = require('./products.service');
+const Role = require('helpers/role');
 
 // public routes
 router.get('/', getAll);
@@ -11,8 +12,8 @@ router.get('/reference/:ref', findByReference);
 
 
 //admin routes
-router.post('/', create);
-router.delete('/:id', deleteById);
+router.post('/', authorize(Role.Admin), create);
+router.delete('/:id', authorize(Role.Admin),deleteById);
 // all authenticated users routes
 
 // user only routes

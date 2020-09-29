@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authorize = require('helpers/authorize');
 const categoryService = require('./categories.service');
+const Role = require('helpers/role');
 
 // public routes
 router.get('/', getAll);
@@ -9,9 +10,9 @@ router.get('/:id', findById);
 
 
 //admin routes
-router.post('/', create);
-router.delete('/:id', remove);
-router.put('/:id', updateById);
+router.post('/', authorize(Role.Admin), create);
+router.delete('/:id', authorize(Role.Admin), remove);
+router.put('/:id', authorize(Role.Admin), updateById);
 
 // all authenticated users routes
 

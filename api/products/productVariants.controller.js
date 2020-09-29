@@ -2,15 +2,16 @@ const express = require('express');
 const router = express.Router();
 const authorize = require('helpers/authorize');
 const productVariantService = require('./productVariants.service');
+const Role = require('helpers/role');
 
 // public routes
 router.get('/product/:id', getByProductId);
 router.get('/:id', getById);
 //admin routes
-router.post('/', create);
-router.delete('/:id', deleteById);
-router.put('/:id', updateById);
-router.delete('/product/:id', deleteByProductId);
+router.post('/', authorize(Role.Admin), create);
+router.delete('/:id', authorize(Role.Admin), deleteById);
+router.put('/:id', authorize(Role.Admin), updateById);
+router.delete('/product/:id', authorize(Role.Admin), deleteByProductId);
 // all authenticated users routes
 
 // user only routes
