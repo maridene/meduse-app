@@ -30,18 +30,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(errorHandler);
 
 // simple route
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.json({ message: "Welcome to meduse." });
 });
 
 // api routes
-app.use('/users', require('./users/users.controller'));
-app.use('/products', require('./products/products.controller'));
-app.use('/productvariants', require('./products/productVariants.controller'));
-app.use('/addresses', require('./addresses/addresses.controller'));
-app.use('/categories', require('./categories/categories.controller'));
-app.use('/blogs', require('./blog/blog.controller'));
-app.use('/manufacturers', require('./manufacturers/manufacturers.controller'));
+app.use('/api/users', require('./users/users.controller'));
+app.use('/api/products', require('./products/products.controller'));
+app.use('/api/productvariants', require('./products/productVariants.controller'));
+app.use('/api/addresses', require('./addresses/addresses.controller'));
+app.use('/api/categories', require('./categories/categories.controller'));
+app.use('/api/blogs', require('./blog/blog.controller'));
+app.use('/api/manufacturers', require('./manufacturers/manufacturers.controller'));
 
 app.use(express.static('public'));
 
