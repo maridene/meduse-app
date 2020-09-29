@@ -10,6 +10,7 @@
 angular
   .module('sbAdminApp', [
     'ngRoute',
+    'ngCookies',
     'oc.lazyLoad',
     'ui.router',
     'ui.bootstrap',
@@ -60,6 +61,7 @@ angular
                     'scripts/utils.js',
                     'scripts/services/objectBuilder.js',
                     'scripts/services/restService.js',
+                    'scripts/services/authenticationService.js',
                     'scripts/services/categoryService.js',
                     'scripts/services/productService.js',
                     'scripts/services/productVariantsService.js',
@@ -398,7 +400,28 @@ angular
     })
       .state('login',{
         templateUrl:'views/pages/login.html',
-        url:'/login'
+        url:'/login',
+        controller: 'LoginCtrl',
+        isNonRestricted: true,
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                  'scripts/models/user.js',
+                  'scripts/services/restService.js',
+                  'scripts/services/authenticationService.js',
+                  'scripts/services/objectBuilder.js',
+                  'scripts/controllers/login/loginController.js',
+                  'bower_components/angular-cookies/angular-cookies.js'
+                ]
+            }), $ocLazyLoad.load(
+              {
+                name:'ngCookies',
+                files:["bower_components/angular-cookies/angular-cookies.js"]
+              })
+          }
+        }
     })
       .state('dashboard.chart',{
         templateUrl:'views/chart.html',
@@ -449,6 +472,36 @@ angular
        url:'/grid'
    })
   
-  }]);
+  }])
+  .run(function ($rootScope, $location, $cookieStore, $http) {
+    // change page title based on state
+    /*
+    $rootScope.$on('$stateChangeSuccess', (event, toState) => {
+      $rootScope.setPageTitle(toState.title);
+    });*/
+
+    // Helper method for setting the page's title
+    $rootScope.setPageTitle = (title) => {
+      $rootScope.pageTitle = '';
+      if (title) {
+        $rootScope.pageTitle += title;
+        $rootScope.pageTitle += ' \u2014 ';
+      }
+      $rootScope.pageTitle += AppConstants.appName;
+    };
+
+    // keep user logged in after page refresh
+    $rootScope.globals = $cookieStore.get('globals') || {};
+    if ($rootScope.globals && $rootScope.globals.currentUser) {
+        $http.defaults.headers.common['Authorization'] = 'Bearer ' + $rootScope.globals.currentUser.token;
+    }
+
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+      const loggedIn = $rootScope.globals.currentUser;
+      if (!loggedIn) {
+          $location.path('/login');
+      }  
+    });
+  });
 
     

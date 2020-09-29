@@ -1,10 +1,13 @@
 'use strict';
 
 class User {
-  constructor(id, name, email, phone) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
+  constructor(data) {
+    this.id = data.id;
+    this.name = data.name;
+    this.email = data.email;
+    this.phone = data.phone;
+    this.token = data.token;
+    this.creationDate = data.creationDate;
+    this.role = data.role;
   }
 }

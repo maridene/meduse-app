@@ -50,7 +50,7 @@ angular.module('sbAdminApp')
       return new Product(data);
     };
     function buildUser(data) {
-      return new User(data.id, data.name, data.email, data.phone);
+      return new User(data);
     };
     function buildUsers(data) {
       return data.map((item) => buildUser(item));

@@ -88,6 +88,15 @@ background-color: #eee;
   border-radius: 10rem;
 }
 
+/*
+  login
+*/
+
+.login-panel .login-button {
+  display: flex;
+  justify-content: center;
+}
+
 .pub-description .pub-description-preview {
   width: 100%;
   height: 140px;
