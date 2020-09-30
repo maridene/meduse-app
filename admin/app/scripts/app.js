@@ -48,8 +48,6 @@ angular
                     'scripts/directives/sidebar/sidebar.js',
                     'scripts/directives/sidebar/sidebar-search/sidebar-search.js',
                     'scripts/models/address.js',
-                    'scripts/models/cart.js',
-                    'scripts/models/cartRow.js',
                     'scripts/models/category.js',
                     'scripts/models/product.js',
                     'scripts/models/productVariant.js',
