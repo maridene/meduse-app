@@ -16,11 +16,11 @@ const Product = function(product) {
   this.imgCount = product.imgCount;
 };
 
-const tableName = 'PRODUCTS';
+const tableName = 'products';
 
 Product.getProductVariants = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM PRODUCTVARIANT WHERE product_id = ${productId}`,
+    sql.query(`SELECT * FROM productvariant WHERE product_id = ${productId}`,
      (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -40,7 +40,7 @@ Product.getProductVariants = (productId) => {
 
 Product.findById = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM PRODUCTS WHERE id = ${productId}`, 
+    sql.query(`SELECT * FROM ${tableName} WHERE id = ${productId}`, 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -75,7 +75,7 @@ Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
 
 Product.getAll = () => {
   return new Promise((resolve, reject) => {
-    sql.query("SELECT * FROM PRODUCTS", (err, res) => {
+    sql.query(`SELECT * FROM ${tableName}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -89,7 +89,7 @@ Product.getAll = () => {
 
 Product.findByRef =  (ref) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM PRODUCTS WHERE LABEL = '${ref}'`, (err, res) => {
+    sql.query(`SELECT * FROM ${tableName} WHERE LABEL = '${ref}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject({error: err});
@@ -106,7 +106,7 @@ Product.findByRef =  (ref) => {
 
 Product.countItemsByCategory = (categoryId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT COUNT(*) FROM PRODUCTS WHERE CATEGORY_ID = ${categoryId}`, (err, res) => {
+    sql.query(`SELECT COUNT(*) FROM ${tableName} WHERE CATEGORY_ID = ${categoryId}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject({error: err});

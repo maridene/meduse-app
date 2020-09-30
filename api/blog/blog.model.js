@@ -1,5 +1,5 @@
 const sql = require("../model/db.js");
-const tableName= "Blog";
+const tableName= "blog";
 
 // constructor
 const Blog = function(blog) {

@@ -11,7 +11,7 @@ const ProductVariant = function(productVariant) {
   this.image = productVariant.image;
 };
 
-const tableName = 'PRODUCTVARIANT';
+const tableName = 'productvariant';
 
 ProductVariant.create = (productVariant) => {
     return new Promise((resolve, reject) => {
