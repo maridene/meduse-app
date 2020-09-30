@@ -11,7 +11,6 @@ angular.module('sbAdminApp')
 
 		const headerController = function ($scope, $state, AuthenticationService) {
 			$scope.logout = function () {
-				console.log('ok');
 				AuthenticationService.clearCredentials();
 				$state.go('login');
 			};
