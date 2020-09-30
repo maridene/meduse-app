@@ -43,18 +43,13 @@ app.use('/api/categories', require('./categories/categories.controller'));
 app.use('/api/blogs', require('./blog/blog.controller'));
 app.use('/api/manufacturers', require('./manufacturers/manufacturers.controller'));
 
-app.use(express.static('public'));
-
 //Serves all the request which includes /images in the url from Images folder
-app.use('/images', express.static(__dirname + '/images'));
-
-//Serves all the request which includes /images in the url from Images folder
-app.use('/blog', express.static(__dirname + '/public/blog'));
-app.use('/pimage', express.static(__dirname + '/public/products'));
+app.use('/static/blogs', express.static(__dirname + '/public/blog'));
+app.use('/static/products', express.static(__dirname + '/public/pimages'));
 
 var blogStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, './public/blog/')
+      cb(null, __dirname + '/public/blog')
   },
   filename: function (req, file, cb) {
       var datetimestamp = Date.now();
@@ -64,7 +59,7 @@ var blogStorage = multer.diskStorage({ //multers disk storage settings
 
 var productsStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, './public/pimage/')
+      cb(null, __dirname + '/public/pimages')
   },
   filename: function (req, file, cb) {
       cb(null, 'pImage-' + uuidv4() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
@@ -73,7 +68,7 @@ var productsStorage = multer.diskStorage({ //multers disk storage settings
 
 var productVariantsStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, './public/pimage/')
+      cb(null, __dirname + '/public/pimages')
   },
   filename: function (req, file, cb) {
       cb(null, file.fieldname + file.originalname.split('.')[file.originalname.split('.').length -1])
