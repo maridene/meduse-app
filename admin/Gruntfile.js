@@ -398,8 +398,7 @@ module.exports = function (grunt) {
     'copy:dist',
     'cssmin',
     'ngAnnotate',
-    'uglify',
-    'htmlmin'
+    'uglify'
   ]);
 
   grunt.registerTask('default', [
