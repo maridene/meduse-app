@@ -1,46 +1,43 @@
 'use strict';
 
-angular.module('sbAdminApp')
-  .service('OrdersService', ['$q', 'ObjectBuilder', 'RestService', function($q, ObjectBuilder, RestService) {
-    const ORDERS = 'orders';
-    return {
-      getAll() {
-        const deferred = $q.defer();
-        RestService.get(ORDERS)
-            .then(
-                (result) => deferred.resolve(ObjectBuilder.buildObject('orders', result.data)),
-                (error) => deferred.reject(error)
-            );
-        return deferred.promise;
-      },
-      getById(id) {
-        const deferred = $q.defer();
-        RestService.get(`${ORDERS}/${id}`)
-            .then(
-                (result) => deferred.resolve(ObjectBuilder.buildObject('order', result.data)),
-                (error) => deferred.reject(error));
-        return deferred.promise;
-      },
-      add(order) {
-        const deferred = $q.defer();
-        RestService.post(ORDERS, order)
-            .then((result) => {
-              deferred.resolve(result);
-            }, (error) => {
-              deferred.reject(error);
-            });
-        return deferred.promise;
-      },
-      remove(id) {
-        const deferred = $q.defer();
-        RestService.delete(`${ORDERS}/${id}`)
-            .then((result) => {
-              deferred.resolve(result);
-            }, (error) => {
-              deferred.reject(error);
-            });
-        return deferred.promise;
-      }
+angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'RestService', function ($q, ObjectBuilder, RestService) {
+  var ORDERS = 'orders';
+  return {
+    getAll: function getAll() {
+      var deferred = $q.defer();
+      RestService.get(ORDERS).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('orders', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    getById: function getById(id) {
+      var deferred = $q.defer();
+      RestService.get("".concat(ORDERS, "/").concat(id)).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('order', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    add: function add(order) {
+      var deferred = $q.defer();
+      RestService.post(ORDERS, order).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    remove: function remove(id) {
+      var deferred = $q.defer();
+      RestService.delete("".concat(ORDERS, "/").concat(id)).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
     }
-  }]);
-
+  };
+}]);

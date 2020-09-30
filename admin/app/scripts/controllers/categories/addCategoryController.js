@@ -12,20 +12,20 @@ angular.module('sbAdminApp')
     $scope.name= '';
     $scope.description = '';
     
-    const clear = () => {
+    function clear() {
       $scope.name = '';
       $scope.description = '';
-    }
+    };
 
     $scope.submit = function () {
       CategoryService.addCategory({label: $scope.name, description: $scope.description})
-        .then(() => {
+        .then(function() {
           clear();
           const dlgElem = angular.element("#successModal");
           if (dlgElem) {
               dlgElem.modal("show");
           }
-        }, (error) => {
+        }, function(error) {
           $scope.error = error;
           const dlgElem = angular.element("#errorModal");
           if (dlgElem) {

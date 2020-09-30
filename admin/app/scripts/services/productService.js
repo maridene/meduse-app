@@ -1,61 +1,72 @@
 'use strict';
 
-angular.module('sbAdminApp')
-.service('ProductService', ['$q', 'RestService', 'ObjectBuilder', function($q, RestService, ObjectBuilder) {
-  const PRODUCTS = 'products';
-  const PRODUCTS_BY_CATEGORY_ID = 'products/category/{0}?startat={1}&maxresult={2}&orderBy={3}';
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-  const getProductById = (id) => {
-    const deferred = $q.defer();
-    RestService.get(`${PRODUCTS}/${id}`)
-        .then(
-            (result) => {
-              deferred.resolve({
-                product: ObjectBuilder.buildObject('product', result.data.product),
-                variants: ObjectBuilder.buildObject('product_variants', result.data.variants),
-                imagesUrl: getImagesUrls(result.data.product, result.data.variants)
-              })
-            },
-            (error) => deferred.reject(error));
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'ObjectBuilder', function ($q, RestService, ObjectBuilder) {
+  var PRODUCTS = 'products';
+  var PRODUCTS_BY_CATEGORY_ID = 'products/category/{0}?startat={1}&maxresult={2}&orderBy={3}';
+
+  var getProductById = function getProductById(id) {
+    var deferred = $q.defer();
+    RestService.get("".concat(PRODUCTS, "/").concat(id)).then(function (result) {
+      deferred.resolve({
+        product: ObjectBuilder.buildObject('product', result.data.product),
+        variants: ObjectBuilder.buildObject('product_variants', result.data.variants),
+        imagesUrl: getImagesUrls(result.data.product, result.data.variants)
+      });
+    }, function (error) {
+      return deferred.reject(error);
+    });
     return deferred.promise;
   };
 
-  const getProductsByCategory = (categoryId, startAt, maxResult, orderBy) => {
-    const deferred = $q.defer();
-    const url = PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId).replace('{1}', startAt).replace('{2}', maxResult).replace('{3}', orderBy);
-    RestService.get(url)
-      .then(
-          (result) => deferred.resolve({count: result.data.count, items: ObjectBuilder.buildObject('products', result.data.items)}),
-          (error) => deferred.reject(error)
-      );
+  var getProductsByCategory = function getProductsByCategory(categoryId, startAt, maxResult, orderBy) {
+    var deferred = $q.defer();
+    var url = PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId).replace('{1}', startAt).replace('{2}', maxResult).replace('{3}', orderBy);
+    RestService.get(url).then(function (result) {
+      return deferred.resolve({
+        count: result.data.count,
+        items: ObjectBuilder.buildObject('products', result.data.items)
+      });
+    }, function (error) {
+      return deferred.reject(error);
+    });
     return deferred.promise;
   };
 
-  const add = (product)  => {
-    const deferred = $q.defer();
-    RestService.post(PRODUCTS, product)
-        .then((result) => {
-          deferred.resolve(result);
-        }, (error) => {
-          deferred.reject(error);
-        });
+  var add = function add(product) {
+    var deferred = $q.defer();
+    RestService.post(PRODUCTS, product).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
     return deferred.promise;
-  }
+  };
 
-  const remove = (id) => {
-    const deferred = $q.defer();
-    RestService.delete(`${PRODUCTS}/${id}`)
-        .then((result) => {
-          deferred.resolve(result);
-        }, (error) => {
-          deferred.reject(error);
-        });
+  var remove = function remove(id) {
+    var deferred = $q.defer();
+    RestService.delete("".concat(PRODUCTS, "/").concat(id)).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
     return deferred.promise;
   };
 
   function getImagesUrls(product, variants) {
     if (product.imgCount || variants) {
-      return [...getProductImagesUrls(product), ...getVariantsImagesUrls(variants)];
+      return [].concat(_toConsumableArray(getProductImagesUrls(product)), _toConsumableArray(getVariantsImagesUrls(variants)));
     } else {
       return [];
     }
@@ -66,21 +77,25 @@ angular.module('sbAdminApp')
   };
 
   function getVariantsImagesUrls(variants) {
-    return variants.reduce((acc, cur) => [...acc, ...getImagesUrlsFromProduct(RestService.getBaseUrl(), cur)], []);
+    return variants.reduce(function (acc, cur) {
+      return [].concat(_toConsumableArray(acc), _toConsumableArray(getImagesUrlsFromProduct(RestService.getBaseUrl(), cur)));
+    }, []);
   };
 
   function getImagesUrlsFromProduct(baseUrl, product) {
     if (product.imgCount) {
-        return Array(product.imgCount).fill(`${baseUrl}images/${product.sku}`).map((item, index) => `${item}-${index+1}.jpg`);
+      return Array(product.imgCount).fill("".concat(baseUrl, "images/").concat(product.sku)).map(function (item, index) {
+        return "".concat(item, "-").concat(index + 1, ".jpg");
+      });
     } else {
-        return [`${baseUrl}images/no-image.jpg`];
+      return ["".concat(baseUrl, "images/no-image.jpg")];
     }
   }
 
   return {
-    getProductById,
-    getProductsByCategory,
-    add,
-    remove
-  }
+    getProductById: getProductById,
+    getProductsByCategory: getProductsByCategory,
+    add: add,
+    remove: remove
+  };
 }]);

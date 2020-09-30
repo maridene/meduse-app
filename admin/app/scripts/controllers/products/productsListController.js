@@ -6,56 +6,59 @@
  * # MainCtrl
  * Controller of the products list page
  */
-angular.module('sbAdminApp')
-  .controller('ProductsListCtrl', ['$scope', '$q', 'ProductService', 'CategoryService', 'ManufacturerService',
-  function ($scope, $q, ProductService, CategoryService, ManufacturerService) {
-    $scope.selectedCategoryId = null;
-    $scope.products = [];
-    $scope.deleteDisabled = true;
-    
-    CategoryService.getAllCategories()
-      .then((result) => {
-        $scope.categories = result;
-      })
 
-    ManufacturerService.getAll()
-      .then((result) => {
-        $scope.brands = result;
+angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', 'ProductService', 'CategoryService', 'ManufacturerService', function ($scope, $q, ProductService, CategoryService, ManufacturerService) {
+  $scope.selectedCategoryId = null;
+  $scope.products = [];
+  $scope.deleteDisabled = true;
+  CategoryService.getAllCategories().then(function (result) {
+    $scope.categories = result;
+  });
+  ManufacturerService.getAll().then(function (result) {
+    $scope.brands = result;
+  });
+
+  $scope.getProducts = function () {
+    if ($scope.selectedCategoryId) {
+      ProductService.getProductsByCategory($scope.selectedCategoryId, 0, 20).then(function (result) {
+        $scope.products = result.items;
+        $scope.updateState();
       });
-    
-
-   $scope.getProducts = () => {
-     if ($scope.selectedCategoryId) {
-       ProductService.getProductsByCategory($scope.selectedCategoryId, 0, 20)
-        .then((result) => {
-          $scope.products = result.items;
-          $scope.updateState();
-        })
-     }
-   }
-
-   $scope.updateState = () => {
-    $scope.deleteDisabled = $scope.products.filter((item) => item.isSelected).length === 0;
+    }
   };
 
-  $scope.delete = () => {
-    const selectedProducts = $scope.products.filter((item) => item.isSelected);
-    const ids = selectedProducts.map((item) => item.id);
+  $scope.updateState = function () {
+    $scope.deleteDisabled = $scope.products.filter(function (item) {
+      return item.isSelected;
+    }).length === 0;
+  };
+
+  $scope.delete = function () {
+    var selectedProducts = $scope.products.filter(function (item) {
+      return item.isSelected;
+    });
+    var ids = selectedProducts.map(function (item) {
+      return item.id;
+    });
+
     if (ids.length) {
-      const promises = ids.map((id) => ProductService.remove(id));
-      $q.all(promises)
-        .then(() => {
-          $scope.getProducts();
-          const dlgElem = angular.element("#deleteSuccessModal");
-          if (dlgElem) {
-              dlgElem.modal("show");
-          }
-        }, () => {
-          const dlgElem = angular.element("#deleteErrorModal");
-          if (dlgElem) {
-              dlgElem.modal("show");
-          }
-        });
+      var promises = ids.map(function (id) {
+        return ProductService.remove(id);
+      });
+      $q.all(promises).then(function () {
+        $scope.getProducts();
+        var dlgElem = angular.element("#deleteSuccessModal");
+
+        if (dlgElem) {
+          dlgElem.modal("show");
+        }
+      }, function () {
+        var dlgElem = angular.element("#deleteErrorModal");
+
+        if (dlgElem) {
+          dlgElem.modal("show");
+        }
+      });
     }
   };
 }]);

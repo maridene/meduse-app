@@ -161,19 +161,19 @@ angular
             })
           },
           categories: function(CategoryService, $state) {
-            return CategoryService.getAllCategories().then(
-                (categories) => {
-                  return categories;
-                },
-                (err) => $state.go('dashboard.home')
-            )
+            return CategoryService.getAllCategories().then(function(categories) {
+              return categories
+            }, function (err) {
+              $state.go('dashboard.home')
+            })
           },
           manufacturers: function(ManufacturerService, $state) {
             return ManufacturerService.getAll().then(
-                (manufacturers) => {
-                  return manufacturers;
-                },
-                (err) => $state.go('dashboard.home')
+              function(manufacturers) {
+                return manufacturers
+              }, function(err) {
+                $state.go('dashboard.home')
+              }
             )
           }
 
@@ -199,12 +199,12 @@ angular
         resolve: {
           manufacturer: function(ManufacturerService, $state, $stateParams) {
             return ManufacturerService.getById($stateParams.manufacturerId).then(
-                (manufacturer) => {
-                  return manufacturer;
-                },
-                (err) => $state.go('dashboard.home')
-            )
-          },
+              function(manufacturer) {
+                return manufacturer;
+              }, function (err) {
+                $state.go('dashboard.home');
+              }
+          )},
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
@@ -246,10 +246,11 @@ angular
         resolve: {
           category: function(CategoryService, $state, $stateParams) {
             return CategoryService.getCategoryById($stateParams.categoryId).then(
-                (category) => {
-                  return category;
-                },
-                (err) => $state.go('dashboard.home')
+              function(category) {
+                return category;
+              }, function (err) {
+                $state.go('dashboard.home')
+              }
             )
           },
           loadMyFile:function($ocLazyLoad) {
@@ -481,7 +482,7 @@ angular
     });*/
 
     // Helper method for setting the page's title
-    $rootScope.setPageTitle = (title) => {
+    $rootScope.setPageTitle = function (title) {
       $rootScope.pageTitle = '';
       if (title) {
         $rootScope.pageTitle += title;
@@ -497,7 +498,7 @@ angular
     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
-      const loggedIn = $rootScope.globals.currentUser;
+      var loggedIn = $rootScope.globals.currentUser;
       if (!loggedIn) {
           $location.path('/login');
       }  

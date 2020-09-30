@@ -1,57 +1,52 @@
 'use strict';
 
-angular.module('sbAdminApp')
-  .service('CategoryService', ['$q', 'ObjectBuilder', 'RestService', function($q, ObjectBuilder, RestService) {
-    const CATEGORIES = 'categories';
-    return {
-      getAllCategories() {
-        const deferred = $q.defer();
-        RestService.get(CATEGORIES)
-            .then(
-                (result) => deferred.resolve(ObjectBuilder.buildObject('categories', result.data)),
-                (error) => deferred.reject(error)
-            );
-        return deferred.promise;
-      },
-      getCategoryById(id) {
-        const deferred = $q.defer();
-        RestService.get(`${CATEGORIES}/${id}`)
-            .then(
-                (result) => deferred.resolve(ObjectBuilder.buildObject('category', result.data)),
-                (error) => deferred.reject(error));
-        return deferred.promise;
-      },
-      addCategory(category) {
-        const deferred = $q.defer();
-        RestService.post(CATEGORIES, category)
-            .then((result) => {
-              deferred.resolve(result);
-            }, (error) => {
-              deferred.reject(error);
-            });
-        return deferred.promise;
-      },
-      removeCategory(id) {
-        const deferred = $q.defer();
-        RestService.delete(`${CATEGORIES}/${id}`)
-            .then((result) => {
-              deferred.resolve(result);
-            }, (error) => {
-              deferred.reject(error);
-            });
-        return deferred.promise;
-      },
-      update(id, category) {
-        const deferred = $q.defer();
-        RestService.put(`${CATEGORIES}/${id}`, category)
-          .then((result) => {
-            deferred.resolve(result);
-          }, (error) => {
-            deferred.reject(error);
-          });
-        
-        return deferred.promise;
-      }
+angular.module('sbAdminApp').service('CategoryService', ['$q', 'ObjectBuilder', 'RestService', function ($q, ObjectBuilder, RestService) {
+  var CATEGORIES = 'categories';
+  return {
+    getAllCategories: function getAllCategories() {
+      var deferred = $q.defer();
+      RestService.get(CATEGORIES).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('categories', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    getCategoryById: function getCategoryById(id) {
+      var deferred = $q.defer();
+      RestService.get("".concat(CATEGORIES, "/").concat(id)).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('category', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    addCategory: function addCategory(category) {
+      var deferred = $q.defer();
+      RestService.post(CATEGORIES, category).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    removeCategory: function removeCategory(id) {
+      var deferred = $q.defer();
+      RestService.delete("".concat(CATEGORIES, "/").concat(id)).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    update: function update(id, category) {
+      var deferred = $q.defer();
+      RestService.put("".concat(CATEGORIES, "/").concat(id), category).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
     }
-  }]);
-
+  };
+}]);

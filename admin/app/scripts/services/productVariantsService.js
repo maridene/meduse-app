@@ -1,34 +1,33 @@
 'use strict';
 
-angular.module('sbAdminApp')
-.service('ProductVariantsService', ['$q', 'RestService', 'ObjectBuilder', function($q, RestService, ObjectBuilder) {
-  const PRODUCTS_VARIANTS = 'productvariants';
+angular.module('sbAdminApp').service('ProductVariantsService', ['$q', 'RestService', 'ObjectBuilder', function ($q, RestService, ObjectBuilder) {
+  var PRODUCTS_VARIANTS = 'productvariants';
 
-  const addAll = (variants)  => {
-    const deferred = $q.defer();
-    const promises = variants.map((variant) => RestService.post(PRODUCTS_VARIANTS, variant));
-    $q.all(promises)
-        .then((result) => {
-            deferred.resolve(result);
-        }, (error) => {
-            deferred.reject(error);
-        });
+  var addAll = function addAll(variants) {
+    var deferred = $q.defer();
+    var promises = variants.map(function (variant) {
+      return RestService.post(PRODUCTS_VARIANTS, variant);
+    });
+    $q.all(promises).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
     return deferred.promise;
   };
 
-  const deleteVariant = (id) => {
-    const deferred = $q.defer();
-    RestService.delete(`${PRODUCTS_VARIANTS}/${id}`)
-        .then((result) => {
-            deferred.resolve(result);
-        }, (error) => {
-            deferred.reject(error);
-        })
+  var deleteVariant = function deleteVariant(id) {
+    var deferred = $q.defer();
+    RestService.delete("".concat(PRODUCTS_VARIANTS, "/").concat(id)).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
     return deferred.promise;
   };
 
   return {
-    addAll,
-    deleteVariant
-  }
+    addAll: addAll,
+    deleteVariant: deleteVariant
+  };
 }]);
