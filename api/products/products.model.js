@@ -15,6 +15,7 @@ const Product = function(product) {
   this.manufacturer = product.manufacturer;
   this.weight = product.weight;
   this.imgCount = product.imgCount;
+  this.tags = product.tags;
 };
 
 Product.getProductVariants = (productId) => {

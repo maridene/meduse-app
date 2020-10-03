@@ -23,4 +23,5 @@ var Product = function Product(data) {
   this.manufacturerName = data.manufacturerName;
   this.weight = data.weight;
   this.images = data.images;
+  this.tags = data.tags;
 };
