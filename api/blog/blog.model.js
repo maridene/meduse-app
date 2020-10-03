@@ -1,5 +1,5 @@
 const sql = require("../model/db.js");
-const tableName= "blog";
+const tables = require('../config/db.tables.js');
 
 // constructor
 const Blog = function(blog) {
@@ -14,7 +14,7 @@ const Blog = function(blog) {
 Blog.create = (newBlog) => {
     return new Promise((resolve, reject) => {
         console.log(newBlog);
-        sql.query(`INSERT INTO ${tableName} SET ?`, newBlog, (err, res) => {
+        sql.query(`INSERT INTO ${tables.BLOG} SET ?`, newBlog, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -26,7 +26,7 @@ Blog.create = (newBlog) => {
 
 Blog.findById = (blogId) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM ${tableName} WHERE id = ${blogId}`, (err, res) => {
+        sql.query(`SELECT * FROM ${tables.BLOG} WHERE id = ${blogId}`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -43,7 +43,7 @@ Blog.findById = (blogId) => {
 
 Blog.getAll = () => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM ${tableName}`, (err, res) => {
+        sql.query(`SELECT * FROM ${tables.BLOG}`, (err, res) => {
             if (err) {
                 reject(err);
             } else {
@@ -56,7 +56,7 @@ Blog.getAll = () => {
 Blog.updateById = (id, blog) => {
     return new Promise((resolve, reject) => {
         sql.query(
-            `UPDATE ${tableName} SET ` +
+            `UPDATE ${tables.BLOG} SET ` +
             "title = ?, " +
             "description = ?, " +
             "date = ?, " +
@@ -91,7 +91,7 @@ Blog.updateById = (id, blog) => {
 
 Blog.remove = (id) => {
     return new Promise((resolve, reject) => {
-        sql.query(`DELETE FROM ${tableName} WHERE id = ?`, id, (err, res) => {
+        sql.query(`DELETE FROM ${tables.BLOG} WHERE id = ?`, id, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -111,7 +111,7 @@ Blog.remove = (id) => {
 };
 
 Blog.removeAll = result => {
-sql.query(`DELETE FROM ${tableName}`, (err, res) => {
+sql.query(`DELETE FROM ${tables.BLOG}`, (err, res) => {
     if (err) {
     console.log("error: ", err);
     result(null, err);

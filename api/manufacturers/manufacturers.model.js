@@ -1,6 +1,5 @@
 const sql = require("../model/db.js");
-
-const tableName = "manufacturers";
+const tables = require("../config/db.tables.js");
 
 // constructor
 const Manufacturer = function(manufacturer) {
@@ -12,7 +11,7 @@ const Manufacturer = function(manufacturer) {
 Manufacturer.create = (newManufacturer) => {
     return new Promise((resolve, reject) => {
         console.log(newManufacturer);
-        sql.query(`INSERT INTO ${tableName} SET ?`, newManufacturer, (err, res) => {
+        sql.query(`INSERT INTO ${tables.MANUFACTURERS} SET ?`, newManufacturer, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -24,7 +23,7 @@ Manufacturer.create = (newManufacturer) => {
 
 Manufacturer.findById = (id) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM ${tableName} WHERE id = ${id}`, (err, res) => {
+        sql.query(`SELECT * FROM ${tables.MANUFACTURERS} WHERE id = ${id}`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -41,7 +40,7 @@ Manufacturer.findById = (id) => {
 
 Manufacturer.getProductsCountForManufacturer = (id) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT count(*) as count FROM PRODUCTS WHERE manufacturerId = ${id}`, (err, res) => {
+        sql.query(`SELECT count(*) as count FROM ${tables.PRODUCTS} WHERE manufacturerId = ${id}`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -53,10 +52,10 @@ Manufacturer.getProductsCountForManufacturer = (id) => {
 }
 
 Manufacturer.getAll = () => {
-    const query = `SELECT ${tableName}.id, ${tableName}.name, ${tableName}.website,  COUNT(products.id) AS productscount 
-    FROM meduse.${tableName}
-    LEFT JOIN products ON ${tableName}.id = products.manufacturerid
-    GROUP BY ${tableName}.id;`
+    const query = `SELECT ${tables.MANUFACTURERS}.id, ${tables.MANUFACTURERS}.name, ${tables.MANUFACTURERS}.website,  COUNT(${tables.PRODUCTS}.id) AS productscount 
+    FROM meduse.${tables.MANUFACTURERS}
+    LEFT JOIN products ON ${tables.MANUFACTURERS}.id = ${tables.PRODUCTS}.manufacturerid
+    GROUP BY ${tables.MANUFACTURERS}.id;`
     return new Promise((resolve, reject) => {
         sql.query(query, (err, res) => {
             if (err) {
@@ -69,7 +68,7 @@ Manufacturer.getAll = () => {
 }
 
 Manufacturer.updateById = (id, manufacturer) => {
-    const query = `UPDATE ${tableName} SET 
+    const query = `UPDATE ${tables.MANUFACTURERS} SET 
     \`name\` = '${manufacturer.name}', 
     \`website\` = '${manufacturer.website}' 
     WHERE (\`id\` = '${id}')`;
@@ -94,7 +93,7 @@ Manufacturer.updateById = (id, manufacturer) => {
 
 Manufacturer.remove = (id) => {
     return new Promise((resolve, reject) => {
-        sql.query(`DELETE FROM ${tableName} WHERE id = ?`, id, (err, res) => {
+        sql.query(`DELETE FROM ${tables.MANUFACTURERS} WHERE id = ?`, id, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -114,7 +113,7 @@ Manufacturer.remove = (id) => {
 };
 
 Manufacturer.removeAll = result => {
-sql.query(`DELETE FROM ${tableName}`, (err, res) => {
+sql.query(`DELETE FROM ${tables.MANUFACTURERS}`, (err, res) => {
     if (err) {
     console.log("error: ", err);
     result(null, err);

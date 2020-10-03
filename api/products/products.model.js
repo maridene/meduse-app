@@ -1,4 +1,5 @@
 const sql = require("../model/db.js");
+const tables = require('../config/db.tables.js');
 
 // constructor
 const Product = function(product) {
@@ -16,11 +17,9 @@ const Product = function(product) {
   this.imgCount = product.imgCount;
 };
 
-const tableName = 'products';
-
 Product.getProductVariants = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM productvariant WHERE product_id = ${productId}`,
+    sql.query(`SELECT * FROM ${tables.PRODUCT_VARAINT} WHERE product_id = ${productId}`,
      (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -40,7 +39,7 @@ Product.getProductVariants = (productId) => {
 
 Product.findById = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tableName} WHERE id = ${productId}`, 
+    sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE id = ${productId}`, 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -75,7 +74,7 @@ Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
 
 Product.getAll = () => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tableName}`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.MANUFACTURERS}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -89,7 +88,7 @@ Product.getAll = () => {
 
 Product.findByRef =  (ref) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tableName} WHERE LABEL = '${ref}'`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.MANUFACTURERS} WHERE LABEL = '${ref}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject({error: err});
@@ -106,7 +105,7 @@ Product.findByRef =  (ref) => {
 
 Product.countItemsByCategory = (categoryId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT COUNT(*) FROM ${tableName} WHERE CATEGORY_ID = ${categoryId}`, (err, res) => {
+    sql.query(`SELECT COUNT(*) FROM ${tables.PRODUCTS} WHERE CATEGORY_ID = ${categoryId}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject({error: err});
@@ -125,7 +124,7 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
     {key: 'AZ', name:'label ASC'},
     {key: 'ZA', value:'label DESC'}
   ];
-  let productsQuery =`select PRODUCTS.*, MANUFACTURERS.name as manufacturerName from PRODUCTS LEFT JOIN MANUFACTURERS ON PRODUCTS.manufacturerId = MANUFACTURERS.id where category_id = ${categoryId}`; 
+  let productsQuery =`select products.*, manufacturers.name as manufacturerName from products LEFT JOIN manufacturers ON products.manufacturerId = manufacturers.id where category_id = ${categoryId}`; 
   const index = orderByValues.map((item) => item.key).indexOf(orderBy);
   if (index !== -1) {
     productsQuery +=  ` ORDER BY ${orderByValues[index].value}`;
@@ -139,7 +138,7 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
 Product.create = (product) => {
   return new Promise((resolve, reject) => {
     console.log(product);
-    sql.query(`INSERT INTO ${tableName} SET ?`, product, (err, res) => {
+    sql.query(`INSERT INTO ${tables.PRODUCTS} SET ?`, product, (err, res) => {
         if (err) {
             console.log("error: ", err);
             reject(err);
@@ -151,7 +150,7 @@ Product.create = (product) => {
 
 Product.deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    sql.query(`DELETE FROM ${tableName} WHERE id = ${id}`, (err, res) => {
+    sql.query(`DELETE FROM ${tables.PRODUCTS} WHERE id = ${id}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);

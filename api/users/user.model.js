@@ -1,4 +1,5 @@
 const sql = require("../model/db.js");
+const tables = require('../config/db.tables.js');
 
 // constructor
 const User = function(user) {
@@ -11,7 +12,7 @@ const User = function(user) {
 
 User.create = (newUser) => {
   return new Promise((resolve, reject) => {
-    sql.query("INSERT INTO users SET ?",  newUser, (err, res) => {
+    sql.query(`INSERT INTO ${tables.USERS} SET ?`,  newUser, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -25,7 +26,7 @@ User.create = (newUser) => {
 
 User.findById = (userId, result) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM users WHERE id = ${userId}`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.USERS} WHERE id = ${userId}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -43,7 +44,7 @@ User.findById = (userId, result) => {
 
 User.getAll = result => {
   return new Promise((resolve, reject) => {
-    sql.query("SELECT * FROM users", (err, res) => {
+    sql.query(`SELECT * FROM ${tables.USERS}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -56,7 +57,7 @@ User.getAll = result => {
 };
 
 User.updateById = (id, user, result) => {
-  const updateQuery = "UPDATE users SET " +
+  const updateQuery = `UPDATE ${tables.USERS}  SET ` +
   "name = ?, " +
   "email = ?, " +
   "phone = ?, " +
@@ -90,7 +91,7 @@ User.updateById = (id, user, result) => {
 
 User.remove = (id) => {
   return new Promise((resolve, reject) => {
-    sql.query("DELETE FROM users WHERE id = ?", id, (err, res) => {
+    sql.query(`DELETE FROM ${tables.USERS}  WHERE id = ?`, id, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -109,7 +110,7 @@ User.remove = (id) => {
 
 User.removeAll = result => {
   return new Promise((resolve, reject) => {
-    sql.query("DELETE FROM users", (err, res) => {
+    sql.query(`DELETE FROM ${tables.USERS} `, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -123,7 +124,7 @@ User.removeAll = result => {
 
 User.findByEmail =  (email) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM users WHERE email = '${email}'`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.USERS}  WHERE email = '${email}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject({error: err});

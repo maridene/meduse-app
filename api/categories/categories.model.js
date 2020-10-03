@@ -1,4 +1,5 @@
 const sql = require("../model/db.js");
+const tables = require('../config/db.tables.js');
 
 // constructor
 const Category = function(category) {
@@ -7,12 +8,10 @@ const Category = function(category) {
   this.description = category.description;
 };
 
-const tableName = "categories";
-
 Category.create = (newCategory) => {
     return new Promise((resolve, reject) => {
         console.log(newCategory);
-        sql.query(`INSERT INTO ${tableName} SET ?`, newCategory, (err, res) => {
+        sql.query(`INSERT INTO ${tables.CATEGORIES} SET ?`, newCategory, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -24,7 +23,7 @@ Category.create = (newCategory) => {
 
 Category.findById = (categoryId) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM ${tableName} WHERE id = ${categoryId}`, (err, res) => {
+        sql.query(`SELECT * FROM ${tables.CATEGORIES} WHERE id = ${categoryId}`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -40,10 +39,10 @@ Category.findById = (categoryId) => {
 }
 
 Category.getAll = () => {
-    const query = `SELECT ${tableName}.id, ${tableName}.label, ${tableName}.description,  COUNT(products.id) AS productscount 
-    FROM meduse.${tableName}
-    LEFT JOIN products ON ${tableName}.id = products.category_id
-    GROUP BY ${tableName}.id;`
+    const query = `SELECT ${tables.CATEGORIES}.id, ${tables.CATEGORIES}.label, ${tables.CATEGORIES}.description,  COUNT(products.id) AS productscount 
+    FROM meduse.${tables.CATEGORIES}
+    LEFT JOIN ${tables.PRODUCTS} ON ${tables.CATEGORIES}.id = ${tables.PRODUCTS}.category_id
+    GROUP BY ${tables.CATEGORIES}.id;`
     return new Promise((resolve, reject) => {
         sql.query(query, (err, res) => {
             if (err) {
@@ -56,7 +55,7 @@ Category.getAll = () => {
 }
 
 Category.updateById = (id, category) => {
-    const query = `UPDATE ${tableName} SET 
+    const query = `UPDATE ${tables.CATEGORIES} SET 
     \`label\` = '${category.label}', 
     \`description\` = '${category.description}' 
     WHERE (\`id\` = '${id}')`;
@@ -81,7 +80,7 @@ Category.updateById = (id, category) => {
 
 Category.remove = (id) => {
     return new Promise((resolve, reject) => {
-        sql.query(`DELETE FROM ${tableName} WHERE id = ?`, id, (err, res) => {
+        sql.query(`DELETE FROM ${tables.CATEGORIES} WHERE id = ?`, id, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -101,7 +100,7 @@ Category.remove = (id) => {
 };
 
 Category.removeAll = result => {
-sql.query(`DELETE FROM ${tableName}`, (err, res) => {
+sql.query(`DELETE FROM ${tables.CATEGORIES}`, (err, res) => {
     if (err) {
     console.log("error: ", err);
     result(null, err);

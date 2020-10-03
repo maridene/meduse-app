@@ -1,4 +1,5 @@
 const sql = require("../model/db.js");
+const tables = require("../config/db.tables.js");
 
 //constructor
 const Address = function(address) {
@@ -15,7 +16,7 @@ const Address = function(address) {
 
 Address.getByUserId = (userId) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM ADDRESSES WHERE userId = ${userId}`,
+        sql.query(`SELECT * FROM ${tables.ADDRESSES} WHERE userId = ${userId}`,
         (err, res) => {
             if(err) {
                 console.log("error retrieving user adresses: ", err);
@@ -35,7 +36,7 @@ Address.getByUserId = (userId) => {
 
 Address.getById = (addressId) => {
     return new Promise((resolve, reject) => {
-      sql.query(`SELECT * FROM ADDRESSES WHERE id = ${addressId}`, 
+      sql.query(`SELECT * FROM ${tables.ADDRESSES} WHERE id = ${addressId}`, 
       (err, res) => {
         if (err) {
           console.log("error: ", err);
@@ -55,7 +56,7 @@ Address.getById = (addressId) => {
 
 Address.add = (newAddress) => {
 return new Promise((resolve, reject) => {
-    sql.query("INSERT INTO ADDRESSES SET ?",  newAddress, (err, res) => {
+    sql.query(`INSERT INTO ${tables.ADDRESSES} SET ?`,  newAddress, (err, res) => {
         if (err) {
         console.log("error: ", err);
         reject(err);
@@ -69,7 +70,7 @@ return new Promise((resolve, reject) => {
 
 Address.remove = (adressId) => {
 return new Promise((resolve, reject) => {
-    sql.query("DELETE FROM ADDRESSES WHERE id = ?", adressId, (err, res) => {
+    sql.query(`DELETE FROM ${tables.ADDRESSES} WHERE id = ?`, adressId, (err, res) => {
         if (err) {
         console.log("error: ", err);
         reject(err);
@@ -87,42 +88,42 @@ return new Promise((resolve, reject) => {
 };
 
 Address.updateById = (id, address, result) => {
-const updateQuery = "UPDATE ADDRESSES SET " +
-"name = ?, " +
-"city = ?, " +
-"state = ?, " +
-"avenue = ?, " +
-"description = ?, " +
-"zipcode = ?, " +
-"phone = ?, " +
-"WHERE id = ?";
+    const updateQuery = `UPDATE ${tables.ADDRESSES} SET ` +
+    "name = ?, " +
+    "city = ?, " +
+    "state = ?, " +
+    "avenue = ?, " +
+    "description = ?, " +
+    "zipcode = ?, " +
+    "phone = ?, " +
+    "WHERE id = ?";
 
-return new Promise((resolve, reject) => {
-    sql.query(updateQuery,
-    [
-        address.name,
-        address.city,
-        address.state,
-        address.avenue,
-        address.description,
-        address.zipcode,
-        address.phone,
-        id
-    ],
-    (err, res) => {
-        if (err) {
-        console.log("error: ", err);
-        reject(err);
-        } else if (res.affectedRows == 0) {
-        // not found address with the id
-        reject({ kind: "not_found" });
-        } else {
-        console.log("updated address: ", { id: id, ...address });
-        resolve({ id: id, ...address });
+    return new Promise((resolve, reject) => {
+        sql.query(updateQuery,
+        [
+            address.name,
+            address.city,
+            address.state,
+            address.avenue,
+            address.description,
+            address.zipcode,
+            address.phone,
+            id
+        ],
+        (err, res) => {
+            if (err) {
+            console.log("error: ", err);
+            reject(err);
+            } else if (res.affectedRows == 0) {
+            // not found address with the id
+            reject({ kind: "not_found" });
+            } else {
+            console.log("updated address: ", { id: id, ...address });
+            resolve({ id: id, ...address });
+            }
         }
-    }
-    );
-});
+        );
+    });
 };
 
   module.exports = Address;

@@ -1,4 +1,5 @@
 const sql = require("../model/db.js");
+const tables = require("../config/db.tables.js");
 
 // constructor
 const ProductVariant = function(productVariant) {
@@ -11,11 +12,9 @@ const ProductVariant = function(productVariant) {
   this.image = productVariant.image;
 };
 
-const tableName = 'productvariant';
-
 ProductVariant.create = (productVariant) => {
     return new Promise((resolve, reject) => {
-        sql.query(`INSERT INTO ${tableName} SET ?`, productVariant, (err, res) => {
+        sql.query(`INSERT INTO ${tables.PRODUCT_VARAINT} SET ?`, productVariant, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -27,7 +26,7 @@ ProductVariant.create = (productVariant) => {
 
 ProductVariant.getById = (productVariantId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tableName} WHERE id = ${productVariantId}`, 
+    sql.query(`SELECT * FROM ${tables.PRODUCT_VARAINT} WHERE id = ${productVariantId}`, 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -48,7 +47,7 @@ ProductVariant.getById = (productVariantId) => {
 
 ProductVariant.getByProductId = (productId) => {
     return new Promise((resolve, reject) => {
-      sql.query(`SELECT * FROM ${tableName} WHERE product_id = ${productId}`,
+      sql.query(`SELECT * FROM ${tables.PRODUCT_VARAINT} WHERE product_id = ${productId}`,
        (err, res) => {
         if (err) {
           console.log("error: ", err);
@@ -68,7 +67,7 @@ ProductVariant.getByProductId = (productId) => {
 
 ProductVariant.findBySku =  (sku) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tableName} WHERE sku = '${sku}'`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.PRODUCT_VARAINT} WHERE sku = '${sku}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject({error: err});
@@ -85,7 +84,7 @@ ProductVariant.findBySku =  (sku) => {
 
 ProductVariant.deleteById = (id) => {
     return new Promise((resolve, reject) => {
-        sql.query(`DELETE FROM ${tableName} WHERE id = '${id}'`, (err, res) => {
+        sql.query(`DELETE FROM ${tables.PRODUCT_VARAINT} WHERE id = '${id}'`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -105,7 +104,7 @@ ProductVariant.deleteById = (id) => {
 
 ProductVariant.deleteBySku = (sku) => {
     return new Promise((resolve, reject) => {
-        sql.query(`DELETE FROM ${tableName} WHERE sku = '${sku}'`, (err, res) => {
+        sql.query(`DELETE FROM ${tables.PRODUCT_VARAINT} WHERE sku = '${sku}'`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -125,7 +124,7 @@ ProductVariant.deleteBySku = (sku) => {
 
 ProductVariant.deleteByProductId = (productId) => {
     return new Promise((resolve, reject) => {
-        sql.query(`DELETE FROM ${tableName} WHERE product_Id = '${productId}'`, (err, res) => {
+        sql.query(`DELETE FROM ${tables.PRODUCT_VARAINT} WHERE product_Id = '${productId}'`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);
@@ -147,7 +146,7 @@ ProductVariant.deleteByProductId = (productId) => {
 ProductVariant.updateById = (id, productVariant) => {
     return new Promise((resolve, reject) => {
         sql.query(
-            `UPDATE ${tableName} SET ` +
+            `UPDATE ${tables.PRODUCT_VARAINT} SET ` +
             "sku = ?, " +
             "color = ?, " +
             "size = ?, " +
