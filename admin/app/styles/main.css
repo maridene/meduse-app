@@ -135,3 +135,13 @@ background-color: #eee;
 .AddProductForm .variant-size-input, .AddProductForm .variant-color-input, .AddProductForm .variant-qty-input {
   max-width: 100px;
 }
+
+.AddProductForm .product-tags-container {
+  display: flex;
+  justify-content: start;
+}
+
+.AddProductForm .form-group .tag-item {
+  margin-right: 5px;
+  font-size: 14px;
+}

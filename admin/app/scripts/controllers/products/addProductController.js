@@ -12,6 +12,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
   $scope.manufacturers = manufacturers;
   $scope.form = {
     files: [],
+    tags: [],
     withVariants: 'none',
     variants: []
   };
@@ -43,9 +44,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
           type: 'colors',
           color: '',
           quantity: 0,
-          sku: $scope.form.sku,
-          imageFile: null,
-          image: "varImg-".concat(id)
+          sku: $scope.form.sku
         });
         break;
 
@@ -66,9 +65,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
           size: '',
           color: '',
           quantity: 0,
-          sku: $scope.form.sku,
-          imageFile: null,
-          image: "varImg-".concat(id)
+          sku: $scope.form.sku
         });
         break;
 
@@ -127,51 +124,49 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
       manufacturerId: $scope.form.selectedManufacturerId,
       weight: $scope.form.weight,
       images: '',
-      video_link: $scope.form.videolink
+      video_link: $scope.form.videolink,
+      tags: $scope.form.tags.toString()
     };
-    $q.all(uploadProductVariantsImages()).then(function () {
-      upload($scope.form.files).then(function (filenames) {
-        if (filenames && filenames.length) {
-          product.images = filenames.toString();
-          ProductService.add(product).then(function (result) {
-            if ($scope.form.variants.length) {
-              ProductVariantsService.addAll(getProductVariantsArray(result.data.id)).then(function () {
-                clear();
-                showModal('#successModal');
-              }, function () {
-                showModal("#errorModal");
-              });
-            } else {
+   
+    upload($scope.form.files).then(function (filenames) {
+      if (filenames && filenames.length) {
+        product.images = filenames.toString();
+        ProductService.add(product).then(function (result) {
+          if ($scope.form.variants.length) {
+            ProductVariantsService.addAll(getProductVariantsArray(result.data.id)).then(function () {
               clear();
               showModal('#successModal');
-            }
-          }, function () {
-            showModal("#errorModal");
-          });
-        } else {
-          ProductService.add(product).then(function (result) {
-            if ($scope.form.variants.length) {
-              ProductVariantsService.addAll(getProductVariantsArray(result.data.id)).then(function () {
-                clear();
-                showModal('#successModal');
-              }, function () {
-                showModal("#errorModal");
-              });
-            } else {
+            }, function () {
+              showModal("#errorModal");
+            });
+          } else {
+            clear();
+            showModal('#successModal');
+          }
+        }, function () {
+          showModal("#errorModal");
+        });
+      } else {
+        ProductService.add(product).then(function (result) {
+          if ($scope.form.variants.length) {
+            ProductVariantsService.addAll(getProductVariantsArray(result.data.id)).then(function () {
               clear();
               showModal('#successModal');
-            }
-          }, function () {
-            showModal("#errorModal");
-          });
-        }
-      }, function () {
-        showModal("#errorModal");
-      });
+            }, function () {
+              showModal("#errorModal");
+            });
+          } else {
+            clear();
+            showModal('#successModal');
+          }
+        }, function () {
+          showModal("#errorModal");
+        });
+      }
     }, function () {
       showModal("#errorModal");
     });
-  };
+  }
 
   var upload = function upload(files) {
     var deferred = $q.defer();
@@ -201,7 +196,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
 
     return deferred.promise;
   };
-
+  /*
   var uploadProductVariantsImages = function uploadProductVariantsImages() {
     if ($scope.form.variants.length && $scope.form.variants.some(function (item) {
       return item.imageFile;
@@ -210,39 +205,41 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
       $scope.form.variants = $scope.form.variants.map(function (variant) {
         if (variant.imageFile) {
           variant.image = variant.image + '.' + variant.imageFile.name.split('.').pop();
+        } else {
+          variant.image = null;
         }
-
         return variant;
       });
+
       var variantsWithImages = $scope.form.variants.filter(function (item) {
         return item.imageFile;
       });
-      return variantsWithImages.map(function (variant) {
-        var deferred = $q.defer();
-        Upload.upload({
-          url: 'http://localhost:3000/productvariantupload',
-          data: {
-            file: variant.imageFile
-          }
-        }).then(function (resp) {
-          //upload function returns a promise
-          if (resp.data.error_code === 0) {
-            //validate success
-            //$window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
-            deferred.resolve();
-          } else {
-            deferred.reject();
-          }
-        }, function (error) {
-          //catch error
-          deferred.reject(error);
-        });
-        return deferred.promise;
+
+      return variantsWithImages.map(function (variant, index) {
+        var eachDeferred = $q.defer();
+        var params = {url: 'http://localhost:3000/productvariantupload'};
+        params[`varImg-${index}`] = variant.imageFile;
+        Upload.upload(params)
+          .then(function (resp) {
+            //upload function returns a promise
+            if (resp.data.error_code === 0) {
+              //validate success
+              //$window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
+              eachDeferred.resolve();
+            } else {
+              eachDeferred.reject();
+            }
+          }, function (error) {
+            //catch error
+            eachDeferred.reject(error);
+          });
+        return eachDeferred.promise;
       });
-    } else {
+     } else {
       return [];
     }
   };
+  */
 
   var showModal = function showModal(id) {
     var dlgElem = angular.element(id);
@@ -255,6 +252,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
   var clear = function clear() {
     $scope.form = {
       files: [],
+      tags: [],
       withVariants: 'none',
       variants: []
     };
@@ -268,8 +266,22 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
         color: variant.color,
         size: variant.size,
         quantity: variant.quantity,
-        image: variant.image
+        image: null
       };
     });
   };
+
+  $scope.addTag = function () {
+    if (!isBlank($scope.tagItem) && $scope.form.tags.indexOf($scope.tagItem) === -1) {
+      $scope.form.tags.push($scope.tagItem);
+      $scope.tagItem = '';
+    }
+  };
+
+  $scope.removeTag = function (tagToRemove) {
+    $scope.form.tags = $scope.form.tags.filter(function(item) {
+      return item !== tagToRemove;
+    });
+  };
+
 }]);

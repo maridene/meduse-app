@@ -73,6 +73,20 @@
                             <input class="form-control" ng-model="form.videolink">
                         </div>
 
+                        <div class="form-group">
+                            <label>Tags (5 maximum)</label>
+                            <div class="form-inline">
+                                <input class="form-control" ng-model="tagItem">
+                                <button type="button" ng-disabled="form.tags.length === 5" class="btn btn-primary" ng-click="addTag()">Ajouter</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span ng-repeat="tag in form.tags" class="tag-item label label-pill label-default" ng-click="removeTag(tag)">
+                                {{tag}}
+                            </span>
+                        </div>
+
                         <div class="form-group product-images">
                             <label>
                                 Images du produit (20 maximum)
@@ -126,18 +140,6 @@
                                                         <input class="form-control" ng-model="item.sku" readonly>
                                                     </div>
                                                     <div class="form-group input-group">
-                                                        <input 
-                                                            type="file" 
-                                                            ngf-select 
-                                                            ng-model="item.imageFile" 
-                                                            ng-attr-id="{{'varImg-' + item.id}}" 
-                                                            ng-attr-name="{{'varImg-' + item.id}}"
-                                                            ngf-pattern="'image/*'" 
-                                                            accept="image/*" 
-                                                            ngf-max-size="20MB" 
-                                                            class="file form-control">
-                                                    </div>
-                                                    <div class="form-group input-group">
                                                         <button class="btn btn-danger" ng-click="deleteItem(item)">Supprimer</button>
                                                     </div>
                                                 </div>
@@ -173,18 +175,6 @@
                                                     </div>
                                                     <div class="form-group input-group">
                                                         <input class="form-control"  ng-model="item.sku" readonly>
-                                                    </div>
-                                                    <div class="form-group input-group">
-                                                        <input 
-                                                            type="file" 
-                                                            ngf-select 
-                                                            ng-model="item.imageFile" 
-                                                            ng-attr-id="{{'varImg-' + item.id}}" 
-                                                            ng-attr-name="{{'varImg-' + item.id}}"
-                                                            ngf-pattern="'image/*'" 
-                                                            accept="image/*" 
-                                                            ngf-max-size="20MB" 
-                                                            class="file form-control">
                                                     </div>
                                                     <div class="form-group input-group">
                                                         <button type="button" ng-click="deleteItem(item)" class="btn btn-danger">X</button>
