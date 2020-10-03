@@ -16,6 +16,8 @@ const Product = function(product) {
   this.weight = product.weight;
   this.imgCount = product.imgCount;
   this.tags = product.tags;
+  this.creationDate = product.creationDate;
+  this.modificationDate = product.modificationDate;
 };
 
 Product.getProductVariants = (productId) => {
@@ -139,6 +141,8 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
 Product.create = (product) => {
   return new Promise((resolve, reject) => {
     console.log(product);
+    const creationDate = new Date();
+    product.creationDate = creationDate;
     sql.query(`INSERT INTO ${tables.PRODUCTS} SET ?`, product, (err, res) => {
         if (err) {
             console.log("error: ", err);

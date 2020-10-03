@@ -24,4 +24,6 @@ var Product = function Product(data) {
   this.weight = data.weight;
   this.images = data.images;
   this.tags = data.tags;
+  this.creationDate = data.creationDate;
+  this.modificationDate = data.modificationDate;
 };
