@@ -86,24 +86,32 @@
                                 {{tag}}
                             </span>
                         </div>
-
-                        <div class="form-group product-images">
-                            <label>
-                                Images du produit (20 maximum)
-                            </label>
-                            <input 
-                                type="file" 
-                                ngf-select 
-                                ng-model="form.files" 
-                                id="productImages" 
-                                name="productImages" 
-                                ngf-pattern="'image/*'" 
-                                accept="image/*" 
-                                ngf-max-size="20MB" 
-                                class="file form-control" 
-                                multiple>
-                            Images: <img ng-repeat="file in form.files" style="width:100px;" ngf-thumbnail="file || '/thumb.jpg'"/>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Images du produit
+                                    </div>
+                                    <div class="product-images-container">
+                                        <div class="form-group product-images">
+                                            <input 
+                                                type="file" 
+                                                ngf-select 
+                                                ng-model="form.files" 
+                                                id="productImages" 
+                                                name="productImages" 
+                                                ngf-pattern="'image/*'" 
+                                                accept="image/*" 
+                                                ngf-max-size="20MB" 
+                                                class="file form-control" 
+                                                multiple>
+                                            Images: <img ng-repeat="file in form.files" style="width:100px;" ngf-thumbnail="file || '/thumb.jpg'"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        
     
                         <div class="row">
                             <div class="col-lg-12">

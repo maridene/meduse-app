@@ -97,6 +97,10 @@ background-color: #eee;
   justify-content: center;
 }
 
+/*
+  pub
+*/
+
 .pub-description .pub-description-preview {
   width: 100%;
   height: 140px;
@@ -106,7 +110,12 @@ background-color: #eee;
   overflow-y: scroll;
 }
 
-.AddProductForm .product-description-preview {
+/*
+  add product
+  edit product
+*/
+
+.AddProductForm .product-description-preview, .EditProductForm .product-description-preview {
   width: 100%;
   height: 140px;
   border: 1px solid #ccc;
@@ -115,33 +124,38 @@ background-color: #eee;
   overflow-y: scroll;
 }
 
-.AddProductForm .product-images input[type=file] {
+.AddProductForm .product-images input[type=file], .EditProductForm .product-images input[type=file] {
   margin-bottom: 20px;
 }
 
-.AddProductForm .productVariantItem {
+.AddProductForm .productVariantItem, .EditProductForm .productVariantItem {
   padding: 5px;
 }
 
-.AddProductForm .productVariantType {
+.AddProductForm .productVariantType, .EditProductForm .productVariantType {
   padding: 10px;
   margin-bottom: 0px;
 }
 
-.AddProductForm .addProductVariantBtn {
+.AddProductForm .addProductVariantBtn, .EditProductForm .addProductVariantBtn {
   padding: 10px;
 }
 
-.AddProductForm .variant-size-input, .AddProductForm .variant-color-input, .AddProductForm .variant-qty-input {
+.AddProductForm .variant-size-input, .AddProductForm .variant-color-input, .AddProductForm .variant-qty-input,
+.EditProductForm .variant-size-input, .EditProductForm .variant-color-input, .EditProductForm .variant-qty-input {
   max-width: 100px;
 }
 
-.AddProductForm .product-tags-container {
+.AddProductForm .product-tags-container, .EditProductForm .product-tags-container {
   display: flex;
   justify-content: start;
 }
 
-.AddProductForm .form-group .tag-item {
+.AddProductForm .form-group .tag-item, .EditProductForm .form-group .tag-item {
   margin-right: 5px;
   font-size: 14px;
+}
+
+.AddProductForm .product-images-container,  .EditProductForm .product-images-container {
+  padding: 5px 10px;
 }
