@@ -21,8 +21,7 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     RestService.get("".concat(PRODUCTS, "/").concat(id)).then(function (result) {
       deferred.resolve({
         product: ObjectBuilder.buildObject('product', result.data.product),
-        variants: ObjectBuilder.buildObject('product_variants', result.data.variants),
-        imagesUrl: getImagesUrls(result.data.product, result.data.variants)
+        variants: ObjectBuilder.buildObject('product_variants', result.data.variants)
       });
     }, function (error) {
       return deferred.reject(error);
