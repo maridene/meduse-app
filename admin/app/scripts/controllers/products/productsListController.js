@@ -20,7 +20,7 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', 'Pr
 
   $scope.getProducts = function () {
     if ($scope.selectedCategoryId) {
-      ProductService.getProductsByCategory($scope.selectedCategoryId, 0, 20).then(function (result) {
+      ProductService.getProductsByCategory($scope.selectedCategoryId, 0, 0).then(function (result) {
         $scope.products = result.items;
         $scope.updateState();
       });
