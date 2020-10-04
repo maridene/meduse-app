@@ -7,7 +7,8 @@ module.exports = {
     findByReference,
     getAll,
     create,
-    deleteById
+    deleteById,
+    updateById
 };
 
 function findById(id) {
@@ -94,4 +95,17 @@ function deleteById(id) {
                 reject(err);
             });
     });   
+}
+
+function updateById(id, product) {
+    return new Promise((resolve, reject) => {
+        const modificationDate = new Date();
+        product.modificationDate = modificationDate;
+        products.updateById(id, product)
+        .then((result) =>  {
+            resolve(result);
+        }, (error) => {
+            reject(error);
+        });   
+    });
 }

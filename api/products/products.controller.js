@@ -14,6 +14,7 @@ router.get('/reference/:ref', findByReference);
 //admin routes
 router.post('/', authorize(Role.Admin), create);
 router.delete('/:id', authorize(Role.Admin),deleteById);
+router.put('/:id', authorize(Role.Admin), updateById);
 // all authenticated users routes
 
 // user only routes
@@ -68,6 +69,16 @@ function create (req, res, next) {
 function deleteById(req, res, next) {
     const id = req.params.id;
     productService.deleteById(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+function updateById(req, res, next) {
+    const id = req.params.id;
+    const product = req.body;
+    productService.updateById(id, product)
         .then((result) => {
             res.json(result);
         })

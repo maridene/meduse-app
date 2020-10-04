@@ -7,10 +7,25 @@
  * Controller of the products list page
  */
 
-angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', 'ProductService', 'CategoryService', 'ManufacturerService', function ($scope, $q, ProductService, CategoryService, ManufacturerService) {
+angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$state', 'ProductService', 'CategoryService', 'ManufacturerService', function ($scope, $q, $state, ProductService, CategoryService, ManufacturerService) {
   $scope.selectedCategoryId = null;
   $scope.products = [];
-  $scope.deleteDisabled = true;
+  $scope.filteredProducts = [];
+  $scope.selectedFilter = 'all';
+  $scope.filterQuery = '';
+
+  $scope.updateState = function () {
+    var selectedItemsCount = $scope.filteredProducts.filter(function (item) {
+      return item.isSelected;
+    }).length;
+
+    $scope.deleteDisabled = selectedItemsCount === 0;
+    $scope.updateDisabled = selectedItemsCount !== 1;
+  };
+
+  $scope.updateState();
+  
+  //TODO: move to resolve
   CategoryService.getAllCategories().then(function (result) {
     $scope.categories = result;
   });
@@ -22,19 +37,14 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', 'Pr
     if ($scope.selectedCategoryId) {
       ProductService.getProductsByCategory($scope.selectedCategoryId, 0, 0).then(function (result) {
         $scope.products = result.items;
+        $scope.filteredProducts = result.items;
         $scope.updateState();
       });
     }
   };
 
-  $scope.updateState = function () {
-    $scope.deleteDisabled = $scope.products.filter(function (item) {
-      return item.isSelected;
-    }).length === 0;
-  };
-
   $scope.delete = function () {
-    var selectedProducts = $scope.products.filter(function (item) {
+    var selectedProducts = $scope.filteredProducts.filter(function (item) {
       return item.isSelected;
     });
     var ids = selectedProducts.map(function (item) {
@@ -61,4 +71,45 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', 'Pr
       });
     }
   };
+
+  $scope.update = function () {
+    var selectedProductId = $scope.products.filter(function (item) {
+      return item.isSelected;
+    })[0].id;
+    $state.go('dashboard.edit-product', {
+      productId: selectedProductId
+    });
+  };
+
+  $scope.$watch('[filterQuery, selectedFilter]', function() {
+    switch($scope.selectedFilter) {
+      case 'all':
+        $scope.filteredProducts = $scope.products;
+        break;
+      
+      case 'promo':
+        $scope.filteredProducts = $scope.products.filter(function(item) {
+          return item.promo_price; 
+        });
+        break; 
+      
+      case 'lowStock':
+        $scope.filteredProducts = $scope.products.filter(function(item) {
+          return item.quantity !== 0 &&  item.quantity <= item.lowStockThreshold; 
+        });
+        break;
+
+      case 'outOfStock':
+        $scope.filteredProducts = $scope.products.filter(function(item) {
+          return item.quantity === 0; 
+        });
+        break;
+    }
+    
+    $scope.filteredProducts = $scope.filteredProducts.filter(function(item) {
+      return item.label.includes($scope.filterQuery) || item.sku.includes($scope.filterQuery);
+    });
+
+    
+  }, true);
 }]);

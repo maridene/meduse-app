@@ -26,8 +26,28 @@ angular.module('sbAdminApp').service('ProductVariantsService', ['$q', 'RestServi
     return deferred.promise;
   };
 
+  var deleteVariants = function deleteVariants(ids) {
+    var deferred = $q.defer();
+    if (ids.length === 0 ) {
+      deferred.resolve();
+    } else if (ids.length === 1){
+      return deleteVariant(ids[0]);
+    } else {
+      $q.all(ids.map(function(id){
+        return deleteVariant(id);
+      }))
+      .then(function(result) {
+        deferred.resolve(result);
+      }, function(error) {
+        deferred.reject(error);
+      });
+    }
+    return deferred.promise;
+  };
+
   return {
     addAll: addAll,
-    deleteVariant: deleteVariant
+    deleteVariant: deleteVariant,
+    deleteVariants: deleteVariants
   };
 }]);

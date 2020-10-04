@@ -62,6 +62,16 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     });
     return deferred.promise;
   };
+   
+  var update = function update(id, product) {
+    var deferred = $q.defer();
+    RestService.put("".concat(PRODUCTS, "/").concat(id), product).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
 
   function getImagesUrls(product, variants) {
     if (product.imgCount || variants) {
@@ -95,6 +105,7 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     getProductById: getProductById,
     getProductsByCategory: getProductsByCategory,
     add: add,
-    remove: remove
+    remove: remove,
+    update: update
   };
 }]);

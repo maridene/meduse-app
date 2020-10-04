@@ -188,5 +188,64 @@ Product.deleteById = (id) => {
   });
 };
 
+Product.updateById = (id, product, result) => {
+  return new Promise((resolve, reject) => {
+    sql.query(
+      `UPDATE ${tables.PRODUCTS} SET ` +
+      "label = ?, " +
+      "description = ?, " +
+      "price = ?, " +
+      "quantity = ?, " +
+      "lowStockThreshold = ?, " +
+      "category_id = ?, " +
+      "long_description = ?, " +
+      "promo_price = ?, " +
+      "manufacturerId = ?, " +
+      "weight = ?, " +
+      "images = ?, " +
+      "video_link = ?, " +
+      "tags = ?, " +
+      "creationDate = ?, " +
+      "modificationDate = ? " +
+      "WHERE id = ?",
+      [
+        product.label,
+        product.description,
+        product.price,
+        product.quantity,
+        product.lowStockThreshold,
+        product.category_id,
+        product.long_description,
+        product.promo_price,
+        product.manufacturerId,
+        product.weight,
+        product.images,
+        product.video_link,
+        product.tags,
+        product.creationDate,
+        product.modificationDate,
+        id
+      ],
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          reject(err);
+          return;
+        }
+
+        if (res.affectedRows == 0) {
+          // not found product with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+
+        console.log("updated product: ", { id: id, ...product });
+        resolve({ id: id, ...product });
+      }
+    );
+  });
+  
+};
+
 
 module.exports = Product;

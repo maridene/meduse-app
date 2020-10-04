@@ -120,7 +120,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
       lowStockThreshold: $scope.form.lowStockThreshold,
       category_id: $scope.form.selectedCategoryId,
       long_description: $scope.form.presentation,
-      promo_price: null,
+      promo_price: $scope.form.promo_price,
       manufacturerId: $scope.form.selectedManufacturerId,
       weight: $scope.form.weight,
       images: '',
