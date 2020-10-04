@@ -42,7 +42,7 @@ Product.getProductVariants = (productId) => {
 
 Product.findById = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE id = ${productId}`, 
+    sql.query(findByIdQuery(productId), 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -127,7 +127,13 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
     {key: 'AZ', name:'label ASC'},
     {key: 'ZA', value:'label DESC'}
   ];
-  let productsQuery =`select products.*, manufacturers.name as manufacturerName from products LEFT JOIN manufacturers ON products.manufacturerId = manufacturers.id where category_id = ${categoryId}`; 
+  let productsQuery =`select products.*, M.name AS manufacturerName, C.label AS categoryLabel FROM ${tables.PRODUCTS}
+    LEFT JOIN ${tables.MANUFACTURERS} as M
+      ON M.id = ${tables.PRODUCTS}.manufacturerId
+    LEFT JOIN ${tables.CATEGORIES} as C
+      ON C.id = ${tables.PRODUCTS}.category_id
+    WHERE category_id = ${categoryId}`;
+
   const index = orderByValues.map((item) => item.key).indexOf(orderBy);
   if (index !== -1) {
     productsQuery +=  ` ORDER BY ${orderByValues[index].value}`;
@@ -136,6 +142,15 @@ function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
     productsQuery += ` LIMIT ${startAt}, ${maxResult}`;
   }
   return productsQuery;
+}
+
+function findByIdQuery(id) {
+  return `select products.*, M.name AS manufacturerName, C.label AS categoryLabel FROM ${tables.PRODUCTS}
+    LEFT JOIN ${tables.MANUFACTURERS} as M
+      ON M.id = ${tables.PRODUCTS}.manufacturerId
+    LEFT JOIN ${tables.CATEGORIES} as C
+      ON C.id = ${tables.PRODUCTS}.category_id
+    WHERE products.id = ${id}`;
 }
 
 Product.create = (product) => {
