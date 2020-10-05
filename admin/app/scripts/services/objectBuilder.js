@@ -101,7 +101,7 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
 
   function buildProductItem(data) {
     var productItem = new Product(data);
-    var imgUrl = getImageUrlFromProduct(`${SERVER_URL}/`, data);
+    var imgUrl = getImageUrlFromProduct("".concat(SERVER_URL, "/"), data);
     productItem.imgUrl = imgUrl;
     return productItem;
   }

@@ -175,7 +175,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
 
     if (files && files.length) {
       Upload.upload({
-        url: `${SERVER_URL}/productupload`,
+        url: "".concat(SERVER_URL, "/productupload"),
         data: {
           productImages: files
         }
