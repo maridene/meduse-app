@@ -175,7 +175,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
 
     if (files && files.length) {
       Upload.upload({
-        url: 'http://localhost:3000/productupload',
+        url: `${SERVER_URL}/productupload`,
         data: {
           productImages: files
         }

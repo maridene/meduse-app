@@ -25,7 +25,7 @@ angular.module('sbAdminApp').service('RestService', ['$http', function ($http) {
   }
 
   var getBaseUrl = function getBaseUrl() {
-    return 'http://localhost:3000/api/';
+    return `${SERVER_URL}/api/`;
   };
 
   return {

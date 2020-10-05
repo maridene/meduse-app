@@ -46,7 +46,7 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
       tags: data.product.tags && data.product.tags.length ? data.product.tags.split(',') : [],
       images: data.product.images,
       imagesThumbs: data.product.images && data.product.images.length ? 
-        data.product.images.split(',').map(function(image) {return 'http://localhost:3000/static/products/' + image}) : []
+        data.product.images.split(',').map(function(image) {return `${SERVER_URL}/static/products/${image}`}) : []
     },
     variants: data.variants.map(function(item) {
       item.type = $scope.withVariants;
@@ -238,7 +238,7 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
 
     if (files && files.length) {
       Upload.upload({
-        url: 'http://localhost:3000/productupload',
+        url: `${SERVER_URL}/productupload`,
         data: {
           productImages: files
         }

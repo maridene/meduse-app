@@ -48,7 +48,7 @@ angular.module('sbAdminApp').controller('AddPubCtrl', ['$scope', '$q', 'BlogServ
   var upload = function upload(file) {
     var deferred = $q.defer();
     Upload.upload({
-      url: 'http://localhost:3000/blogupload',
+      url: `${SERVER_URL}/blogupload`,
       //webAPI exposed to upload the file
       data: {
         file: file
