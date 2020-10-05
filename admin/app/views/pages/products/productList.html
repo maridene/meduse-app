@@ -14,7 +14,7 @@
                     <option ng-repeat="category in categories track by category.id" value="{{category.id}}">{{category.label}}</option>
                 </select>
             </div>
-            <div class="form-inline" ng-show="selectedCategoryId">
+            <div class="form-group form-inline" ng-show="selectedCategoryId">
                 <div class="form-group input-group">
                     <input type="text" class="form-control" ng-model="filterQuery" placeholder="Nom/Référence produit"/>
                 </div>
