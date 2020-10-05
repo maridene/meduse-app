@@ -57,7 +57,8 @@
                                     <td>{{product.label}}</td>
                                     <td>{{product.manufacturerName}}</td>
                                     <td>{{product.sku}}</td>
-                                    <td class="center">{{product.price}} D.T</td>
+                                    <td class="center" ng-if="!product.promo_price">{{product.price}} D.T</td>
+                                    <td class="center" ng-if="product.promo_price"><strike class="promo-price">{{product.price}} D.T</strike> {{product.promo_price}} D.T</td>
                                     <td class="center">{{product.quantity}}</td>
                                     <td class="center">
                                         <span ng-if="product.promo_price" class="label label-pill label-primary">en promo</span>

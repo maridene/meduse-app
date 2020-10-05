@@ -103,6 +103,10 @@ background-color: #eee;
   justify-content: center;
 }
 
+.promo-price {
+  font-size: 12px;
+}
+
 /*
   pub
 */
