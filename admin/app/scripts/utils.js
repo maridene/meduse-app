@@ -51,3 +51,11 @@ function skuFromProductLabel(value) {
     return part !== '';
   }).join('-');
 }
+
+function dashStr(str) {
+  return str.replace(/\s+/g, '-').toLowerCase();
+}
+
+function getProductSKU(category, marque, label) {
+  return "".concat(dashStr(category), "-").concat(dashStr(marque), "-").concat(skuFromProductLabel(label));
+}

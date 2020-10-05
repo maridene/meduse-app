@@ -24,7 +24,8 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
       var selectedManufName = $scope.manufacturers.filter(function (item) {
         return item.id == $scope.form.selectedManufacturerId;
       })[0].name;
-      $scope.form.sku = "".concat(selectedCategoryName, "-").concat(selectedManufName, "-").concat(skuFromProductLabel($scope.form.label));
+
+      $scope.form.sku = getProductSKU(selectedCategoryName, selectedManufName, $scope.form.label);
 
       if ($scope.form.variants.length) {
         $scope.form.variants.forEach(function (item) {
@@ -116,6 +117,7 @@ angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufa
       label: $scope.form.label,
       description: $scope.form.description,
       price: $scope.form.price,
+      tva: $scope.form.tva,
       quantity: productQuantity !== null ? productQuantity : $scope.form.quantity,
       lowStockThreshold: $scope.form.lowStockThreshold,
       category_id: $scope.form.selectedCategoryId,

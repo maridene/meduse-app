@@ -8,6 +8,7 @@ const Product = function(product) {
   this.label = product.label;
   this.description = product.description;
   this.price = product.price;
+  this.tva = product.tva;
   this.quantity = product.quantity;
   this.categoryId = product.categoryId;
   this.long_description = product.long_description;
@@ -195,6 +196,7 @@ Product.updateById = (id, product, result) => {
       "label = ?, " +
       "description = ?, " +
       "price = ?, " +
+      "tva = ?, " +
       "quantity = ?, " +
       "lowStockThreshold = ?, " +
       "category_id = ?, " +
@@ -212,6 +214,7 @@ Product.updateById = (id, product, result) => {
         product.label,
         product.description,
         product.price,
+        product.tva,
         product.quantity,
         product.lowStockThreshold,
         product.category_id,

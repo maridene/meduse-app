@@ -36,6 +36,7 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
       sku: data.product.sku,
       description: data.product.description,
       price: data.product.price,
+      tva: data.product.tva,
       promo_price: data.product.promo_price,
       quantity: data.product.quantity,
       lowStockThreshold: data.product.lowStockThreshold,
@@ -60,7 +61,7 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
     var selectedManufName = $scope.manufacturers.filter(function (item) {
       return item.id == $scope.form.product.selectedManufacturerId;
     })[0].name;
-    $scope.form.product.sku = "".concat(selectedCategoryName, "-").concat(selectedManufName, "-").concat(skuFromProductLabel($scope.form.product.label));
+    $scope.form.product.sku = $scope.form.sku = getProductSKU(selectedCategoryName, selectedManufName, $scope.form.product.label);
 
     if ($scope.form.variants.length) {
       $scope.form.variants.forEach(function (item) {
@@ -193,6 +194,7 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
       label: $scope.form.product.label,
       description: $scope.form.product.description,
       price: $scope.form.product.price,
+      tva: $scope.form.product.tva,
       quantity: productQuantity !== null ? productQuantity : $scope.form.product.quantity,
       lowStockThreshold: $scope.form.product.lowStockThreshold,
       category_id: $scope.form.product.selectedCategoryId,

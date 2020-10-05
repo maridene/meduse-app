@@ -13,6 +13,7 @@ var Product = function Product(data) {
   this.description = data.description;
   this.lowStockThreshold = data.lowStockThreshold;
   this.price = data.price;
+  this.tva = data.tva;
   this.quantity = data.quantity;
   this.video_link = data.video_link;
   this.category_id = data.category_id;
