@@ -445,6 +445,7 @@ angular
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
                 files:[
+                  'scripts/app-constants.js',
                   'scripts/models/user.js',
                   'scripts/services/restService.js',
                   'scripts/services/authenticationService.js',
