@@ -1,7 +1,8 @@
 <div class="ProductItem">
     <div class="ProductItem-img">
         <a href="#!/product/{{$ctrl.product.id}}">
-            <img ng-src="{{$ctrl.product.imgUrl}}">
+            <img ng-if="$ctrl.image" ng-src="{{$ctrl.image}}">
+            <img ng-if="!$ctrl.image" src="assets/img/no-image.jpg">
         </a>
         
         <div class="img-cap">

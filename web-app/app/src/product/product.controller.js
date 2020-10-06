@@ -6,7 +6,8 @@ class ProductCtrl {
     this.ProductService = ProductService;
     this.product = data.product;
     this.variants = data.variants;
-    this.imagesUrls = data.imagesUrl;
+    this.imagesUrls = this.product.images && this.product.images.length ? 
+      this.product.images.split(',').map((img) => `${AppConstants.productsStaticContentUrl}${img}`) : null;
     
     this.setVariants();
     this.selectedColor = null;
