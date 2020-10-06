@@ -1,12 +1,13 @@
 export default class RestService {
-  constructor($http, $rootScope) {
+  constructor($http, $rootScope, AppConstants) {
     'ngInject';
 
     this._$http = $http;
     this.$rootScope = $rootScope;
+    this.AppConstants = AppConstants;
   }
   getBaseUrl() {
-    return 'http://localhost:3000/';
+    return this.AppConstants.api + '/';
   }
 
   currentUser() {
