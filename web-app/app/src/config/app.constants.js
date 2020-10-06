@@ -1,7 +1,7 @@
 const AppConstants = {
   api: 'http://localhost:3000/api',
-  productsStaticContentUrl: 'http://meduse.tn/static/products/',
-  blogStaticContentUrl: 'http://meduse.tn/static/blogs/',
+  productsStaticContentUrl: 'http://localhost:3000/static/products/',
+  blogStaticContentUrl: 'http://localhost:3000/static/blogs/',
   jwtKey: 'jwtToken',
   appName: 'MEDUSE',
 };
