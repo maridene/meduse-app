@@ -8,10 +8,14 @@ const User = function(user) {
   this.email = user.email;
   this.phone = user.phone;
   this.role = user.role;
+  this.password = user.password;
+  this.creationDate = user.creationDate;
 };
 
 User.create = (newUser) => {
   return new Promise((resolve, reject) => {
+    const date = new Date();
+    newUser.creationDate = date;
     sql.query(`INSERT INTO ${tables.USERS} SET ?`,  newUser, (err, res) => {
       if (err) {
         console.log("error: ", err);

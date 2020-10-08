@@ -8,8 +8,9 @@ var Client = function Client(data) {
   _classCallCheck(this, Client);
 
   this.id = data.id;
+  this.prefix = data.prefix;
   this.name = data.name;
   this.email = data.email;
   this.phone = data.phone;
-  this.signupDate = data.signupDate;
+  this.signupDate = data.creationDate;
 };
