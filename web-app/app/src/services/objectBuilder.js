@@ -8,10 +8,11 @@ import { RESOURCE } from './../constants';
 import { getImageUrlFromProduct } from './../utils';
 
 export default class ObjectBuilder {
-  constructor(RestService) {
+  constructor(RestService, AppConstants) {
     'ngInject';
 
     this.RestService = RestService;
+    this.AppConstants = AppConstants;
   }
   buildCategory(data) {
     return new Category(data.id, data.label, data.description);
@@ -53,7 +54,7 @@ export default class ObjectBuilder {
     return data.map((item) => this.buildAddress(item));
   }
   buildBlogItem(data) {
-    const baseUrl = this.RestService.getBaseUrl();
+    const baseUrl = this.AppConstants.blogStaticContentUrl;
     return new BlogItem(data, baseUrl);
   }
   buildBlogItems(data) {
