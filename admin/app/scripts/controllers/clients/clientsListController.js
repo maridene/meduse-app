@@ -7,54 +7,71 @@
  * Controller of the clients list page
  */
 
-angular.module('sbAdminApp').controller('ClientsListCtrl', ['$scope', 'ClientsService', function ($scope, ClientsService) {
-  $scope.clients = [{
-    id: 1,
-    name: 'Mohamed Aziz Ridene',
-    phone: '58591411',
-    email: 'medaziz.ridene@gmail.com',
-    signupDate: '14/07/1019'
-  }, {
-    id: 2,
-    name: 'Mohamed Aziz Ridene',
-    phone: '58591411',
-    email: 'medaziz.ridene@gmail.com',
-    signupDate: '14/07/1019'
-  }];
-  $scope.deleteDisabled = true;
-  $scope.updateDisabled = true;
-  /*
-  ClientsService.getAll()
-    .then((result) => {
-      $scope.clients = result;
-    });
-    */
+angular.module('sbAdminApp').controller('ClientsListCtrl', ['$scope', '$q', 'UsersService', 
+function ($scope, $q, UsersService) {
+  
+  $scope.clients = [];
+  $scope.filteredClients = [];
+  $scope.filterQuery = '';
 
   $scope.updateState = function () {
-    $scope.deleteDisabled = $scope.clients.filter(function (item) {
+    var selectedItemsCount = $scope.filteredClients.filter(function (item) {
       return item.isSelected;
-    }).length === 0;
-    $scope.updateDisabled = $scope.clients.filter(function (item) {
-      return item.isSelected;
-    }).length !== 1;
+    }).length;
+
+    $scope.deleteDisabled = selectedItemsCount === 0;
+    $scope.updateDisabled = selectedItemsCount !== 1;
   };
-  /*
-  $scope.refreshClients = () => {
-    ClientsService.getAll()
-    .then((result) => {
+
+  $scope.updateState();
+
+  $scope.getClients = function () {
+    UsersService.getAllClients().then(function (result) {
       $scope.clients = result;
+      $scope.filteredClients = result;
+      $scope.updateState();
     });
   };
-   $scope.delete = () => {
-    const ids = $scope.clients.filter((item) => item.isSelected).map((item) => item.id);
-    if (ids.length) {
-      const promises = ids.map((id) => ClientsService.remove(id));
-      $q.all(promises)
-        .then(() => {
-          $scope.refreshClients();
-        }, () => {
-         });
+
+  $scope.getClients();
+
+  var filterClients = function() {
+    $scope.filteredClients = $scope.clients.filter(function(item) {
+      return item.name.includes($scope.filterQuery) || item.email.includes($scope.filterQuery);
+    });
+  };
+
+  $scope.$watch('filterQuery', filterClients);
+
+  $scope.delete = function() {
+    var selectedClients = $scope.filteredClients.filter(function(client) {
+      return client.isSelected;
+    });
+    if (selectedClients.length === 0) {
+      return;
+    } else {
+      var selectedClientsIds = selectedClients.map(function(item) {
+        return item.id;
+      });
+      var promises = selectedClientsIds.map(function(item){
+        return UsersService.remove(item);
+      });
+      $q.all(promises).then(function() {
+        $scope.getClients();
+        filterClients();
+        var dlgElem = angular.element("#deleteSuccessModal");
+
+        if (dlgElem) {
+          dlgElem.modal("show");
+        }
+      }, function(error) {
+        var dlgElem = angular.element("#errorModal");
+
+        if (dlgElem) {
+          dlgElem.modal("show");
+        }
+      });
     }
-  };*/
+  };
 
 }]);

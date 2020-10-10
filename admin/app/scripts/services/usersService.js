@@ -1,9 +1,13 @@
 'use strict';
 
-angular.module('sbAdminApp').service('ClientsService', ['$q', 'ObjectBuilder', 'RestService', function ($q, ObjectBuilder, RestService) {
-  var CLIENTS = 'clients';
+angular.module('sbAdminApp').service('UsersService', ['$q', 'ObjectBuilder', 'RestService', function ($q, ObjectBuilder, RestService) {
+  var CLIENTS = 'users/clients';
+  var ADMINS = 'users/admins';
+  var USERS = 'users';
+  var ADD_USER = 'users/register';
+  var ADD_ADMIN = 'users/register-admin';
   return {
-    getAll: function getAll() {
+    getAllClients: function getAll() {
       var deferred = $q.defer();
       RestService.get(CLIENTS).then(function (result) {
         return deferred.resolve(ObjectBuilder.buildObject('clients', result.data));
@@ -12,7 +16,7 @@ angular.module('sbAdminApp').service('ClientsService', ['$q', 'ObjectBuilder', '
       });
       return deferred.promise;
     },
-    getId: function getId(id) {
+    getById: function getById(id) {
       var deferred = $q.defer();
       RestService.get("".concat(CLIENTS, "/").concat(id)).then(function (result) {
         return deferred.resolve(ObjectBuilder.buildObject('client', result.data));
@@ -21,7 +25,16 @@ angular.module('sbAdminApp').service('ClientsService', ['$q', 'ObjectBuilder', '
       });
       return deferred.promise;
     },
-    add: function add(client) {
+    addClient: function addClient(client) {
+      var deferred = $q.defer();
+      RestService.post(ADD_USER, client).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    addAdmin: function add(client) {
       var deferred = $q.defer();
       RestService.post(CLIENTS, client).then(function (result) {
         deferred.resolve(result);
@@ -32,7 +45,7 @@ angular.module('sbAdminApp').service('ClientsService', ['$q', 'ObjectBuilder', '
     },
     remove: function remove(id) {
       var deferred = $q.defer();
-      RestService.delete("".concat(CLIENTS, "/").concat(id)).then(function (result) {
+      RestService.delete("".concat(USERS, "/").concat(id)).then(function (result) {
         deferred.resolve(result);
       }, function (error) {
         deferred.reject(error);

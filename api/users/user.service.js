@@ -6,6 +6,8 @@ const users = require('./user.model');
 module.exports = {
     authenticate,
     getAll,
+    getClients,
+    getAdmins,
     getById,
     create,
     deleteUser,
@@ -48,6 +50,40 @@ function getAll() {
     });
 }
 
+function getClients() {
+    return new Promise((resolve, reject) => {
+        users
+        .getAllUsers()
+        .then((all) => {
+            const usersWithoutPassword = all
+            .map((u) => {
+                const { password, ...userWithoutPassword } = u;
+                return userWithoutPassword;
+            });
+            resolve(usersWithoutPassword);
+        }, (err) => {
+            reject(err);
+        });
+    });
+}
+
+function getAdmins() {
+    return new Promise((resolve, reject) => {
+        users
+        .getAllAdmins()
+        .then((all) => {
+            const usersWithoutPassword = all
+            .map((u) => {
+                const { password, ...userWithoutPassword } = u;
+                return userWithoutPassword;
+            });
+            resolve(usersWithoutPassword);
+        }, (err) => {
+            reject(err);
+        });
+    });
+}
+
 function getById(id) {
     return new Promise((resolve, reject) => {
         const user = users.findById(id)
@@ -60,12 +96,12 @@ function getById(id) {
     });
 }
 
-function create({name, email, password, phone}) {
+function create({prefix, name, email, password, phone}, role) {
     return new Promise((resolve, reject) => {
         emailAvailable(email).then((result) => {
             console.log('emailAvailable:', result);
             if (result) {
-                users.create({name, email, phone, password, role: Role.User})
+                users.create({prefix, name, email, phone, password, role})
                     .then((result) => {
                         console.log('result create', result);
                         resolve(result);
@@ -82,7 +118,7 @@ function create({name, email, password, phone}) {
     });
 }
 
-function deleteUser() {
+function deleteUser(id) {
     return new Promise((resolve, reject) => {
         users.remove(id)
             .then((result) => {

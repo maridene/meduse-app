@@ -150,15 +150,15 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
 
   ;
 
-  function buildClient(data) {
+  function buildClients(data) {
     return data.map(function (item) {
-      return buidClient(item);
+      return buildClient(item);
     });
   }
 
   ;
 
-  function buildClients(data) {
+  function buildClient(data) {
     return new Client(data);
   }
 

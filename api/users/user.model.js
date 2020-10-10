@@ -28,7 +28,7 @@ User.create = (newUser) => {
   });
 };
 
-User.findById = (userId, result) => {
+User.findById = (userId) => {
   return new Promise((resolve, reject) => {
     sql.query(`SELECT * FROM ${tables.USERS} WHERE id = ${userId}`, (err, res) => {
       if (err) {
@@ -46,9 +46,9 @@ User.findById = (userId, result) => {
   
 };
 
-User.getAll = result => {
+User.getAllUsers = () => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tables.USERS}`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.USERS} WHERE role = 'User'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -60,21 +60,45 @@ User.getAll = result => {
   });
 };
 
-User.updateById = (id, user, result) => {
+User.getAllAdmins = () => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.USERS} WHERE role = 'Admin'`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        console.log("admins: ", res);
+        resolve(res);
+      }
+    });
+  });
+};
+
+User.getAll = () => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.USERS}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        console.log("admins: ", res);
+        resolve(res);
+      }
+    });
+  });
+};
+
+User.updateById = (id, user) => {
   const updateQuery = `UPDATE ${tables.USERS}  SET ` +
-  "name = ?, " +
-  "email = ?, " +
+  "name = ?, " + 
   "phone = ?, " +
-  "role = ?, " + 
   "WHERE id = ?";
 
   return new Promise((resolve, reject) => {
     sql.query(updateQuery,
       [
         user.name,
-        user.email,
         user.phone,
-        user.role,
         id
       ],
       (err, res) => {
@@ -122,6 +146,42 @@ User.removeAll = result => {
   
       console.log(`deleted ${res.affectedRows} users`);
       resolve(res);
+    });
+  });
+};
+
+User.findUserByEmail =  (email) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.USERS}  WHERE email = '${email}' AND role ='User'`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject({error: err});
+      }
+  
+      if (res.length) {
+        console.log("found user: ", res[0]);
+        resolve(res[0]);
+      }
+  
+      reject({error: {kind: "not_found"}});
+    });
+  });
+};
+
+User.findAdminByEmail =  (email) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.USERS}  WHERE email = '${email}' AND role = 'Admin'`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject({error: err});
+      }
+  
+      if (res.length) {
+        console.log("found admin: ", res[0]);
+        resolve(res[0]);
+      }
+  
+      reject({error: {kind: "not_found"}});
     });
   });
 };

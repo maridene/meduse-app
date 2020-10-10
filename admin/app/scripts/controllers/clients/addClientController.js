@@ -7,32 +7,43 @@
  * Controller of the add client page
  */
 
-angular.module('sbAdminApp').controller('AddClientCtrl', ['$scope', 'ClientsService', function ($scope, ClientsService) {
-  $scope.name = '';
-  $scope.description = '';
-
-  var clear = function clear() {
-    $scope.name = '';
-    $scope.description = '';
+angular.module('sbAdminApp').controller('AddClientCtrl', ['$scope', 'UsersService', function ($scope, UsersService) {
+  
+  $scope.initForm = function() {
+    $scope.password = '';
+    $scope.passwordConfirm = '';
+    $scope.addToNewsLetter = false;
+    $scope.form = {
+      prefix: 'M.',
+      name: '',
+      email: '',
+      phone: '',
+      password: ''
+    };
   };
+
+  $scope.initForm();
 
   $scope.submit = function () {
-    ClientsService.add({
-      label: $scope.name,
-      description: $scope.description
-    }).then(function () {
-      clear();
-      var dlgElem = angular.element("#successModal");
-
-      if (dlgElem) {
-        dlgElem.modal("show");
-      }
-    }, function (error) {
-      var dlgElem = angular.element("#errorModal");
-
-      if (dlgElem) {
-        dlgElem.modal("show");
-      }
-    });
+    if ($scope.password !== $scope.passwordConfirm) {
+      showModal("#pwdErrorModal");
+    } else {
+      $scope.form.password = sha3_256($scope.password);
+      UsersService.addClient($scope.form).then(function () {
+        $scope.initForm();
+        showModal("#successModal");
+      }, function (error) {
+        showModal("#errorModal");
+      });
+    }
   };
+
+  var showModal = function showModal(id) {
+    var dlgElem = angular.element(id);
+
+    if (dlgElem) {
+      dlgElem.modal("show");
+    }
+  };
+  
 }]);

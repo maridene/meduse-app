@@ -12,5 +12,5 @@ var Client = function Client(data) {
   this.name = data.name;
   this.email = data.email;
   this.phone = data.phone;
-  this.signupDate = data.creationDate;
+  this.signupDate = data.creationDate ? data.creationDate.split('T')[0] : '-';
 };

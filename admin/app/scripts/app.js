@@ -65,7 +65,7 @@ angular
                     'scripts/services/productService.js',
                     'scripts/services/productVariantsService.js',
                     'scripts/services/manufacturerService.js',
-                    'scripts/services/clientsService.js',
+                    'scripts/services/usersService.js',
                     'scripts/services/blogService.js',
                     'scripts/services/ordersService.js'
                     ]
