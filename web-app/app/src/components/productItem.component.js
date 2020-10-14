@@ -18,29 +18,120 @@ export default class ProductItemController {
     }
 
     openPreviewPopup(event) {
-        this.$mdDialog.show({
-            locals: {data: {product: this.product, image: this.image}},
-            templateUrl: 'components/product-preview.html',
-            parent: angular.element(document.body),
-            targetEvent: event,
-            clickOutsideToClose: true,
-            fullscreen: false,
-            controller: ['$scope', '$mdDialog', 'CartService', 'data', ($scope, $mdDialog, CartService, data) => {
-                $scope.product = data.product;
-                $scope.image = data.image;
+        this.ProductService.getProductById(this.product.id)
+            .then((result) => {
+                const product = result.product;
+                const variants = result.variants;
 
-                $scope.quantity = 0;
+                this.$mdDialog.show({
+                    locals: {data: {product, variants}},
+                    templateUrl: 'components/product-preview.html',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    fullscreen: false,
+                    controller: ['$scope', '$timeout', '$mdDialog', 'CartService', 'AppConstants', 'data', 
+                    ($scope, $timeout, $mdDialog, CartService, AppConstants, data) => {
+                        $scope.product = data.product;
+                        $scope.variants = data.variants;
+                        $scope.imagesUrls = data.product.images && data.product.images.length ? 
+                            data.product.images.split(',').map((img) => `${AppConstants.productsStaticContentUrl}${img}`) : null;
+        
+                        $scope.form = {
+                            quantity: 1,
+                            selectedSize: null,
+                            selectedColor: null
+                        };
 
-                $scope.addToCart = function() {
-                    if ($scope.quantity) {
-                        CartService.addItemToCart($scope.product, $scope.quantity);
-                    }
-                };
+                        //setVariants
+                        if ($scope.variants && $scope.variants.length) {
+                            $scope.hasSizes = $scope.variants.some((item) => item.size && item.size !== '');
+                            $scope.hasColors = $scope.variants.some((item) => item.color && item.color !== '');
+                            if ($scope.hasColors) {
+                                $scope.availableColors = $scope.hasColors ? $scope.variants.map((item) => ({color: item.color, sku: item.sku})) : [];
+                                $scope.form.selectedColor = $scope.availableColors[0];
+                            }
+                            if ($scope.hasSizes) {
+                                $scope.availableSizes = $scope.hasSizes ? $scope.variants.map((item) => ({size: item.size, sku: item.sku})) : [];
+                                $scope.form.selectedSize = $scope.availableSizes[0];
+                            }
+                        }
 
-                $scope.hide = function() {
-                    $mdDialog.hide();
-                };
-            }]
-        });
+                        $timeout(() => {
+                            initProductImagesViewer();
+                            initZoom();
+                            initThumbClick();
+                        });
+
+                        function initProductImagesViewer() {
+                            const slider = angular.element(document.querySelector('.ps-slider'));
+                            if (slider) {
+                              slider.owlCarousel({
+                                  loop: false,
+                                  margin: 10,
+                                  nav: true,
+                                  items: 3,
+                                  dots: false,
+                                  navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+                                  smartSpeed: 1200,
+                                  autoHeight: false,
+                                  autoplay: false,
+                                  responsive: {
+                                    0: {
+                                        items: 1,
+                                    },
+                                    576: {
+                                        items: 2,
+                                    },
+                                    992: {
+                                        items: 2,
+                                    },
+                                    1200: {
+                                        items: 3,
+                                    }
+                                }
+                              });
+                            }
+                        }
+                        
+                        function initZoom() {
+                            const prodPic = angular.element(document.querySelector('.product-pic-zoom'));
+                            if (prodPic) {
+                                prodPic.zoom();
+                            }
+                        }
+                        
+                        function initThumbClick() {
+                            angular.element(document.querySelectorAll('.product-thumbs-track .pt'))
+                                .on('click', (evt) => {
+                                    angular.element(document.querySelectorAll('.product-thumbs-track .pt')).removeClass('active');
+                                    angular.element(evt.currentTarget).addClass('active');
+                                    
+                                    const imgurl = angular.element(evt.currentTarget).attr('ng-data-imgbigurl');
+                                    const bigImg = angular.element(document.querySelector('.product-big-img')).attr('src');
+                                    if (imgurl !== bigImg) {
+                                        angular.element(document.querySelector('.product-big-img')).attr({src: imgurl});
+                                        angular.element(document.querySelector('.zoomImg')).attr({src: imgurl});
+                                    }
+                                });
+                        }
+        
+                        $scope.addToCart = function() {
+                            if ($scope.quantity) {
+                                CartService.addItemToCart($scope.product, $scope.quantity);
+                            }
+                        };
+        
+                        $scope.hide = function() {
+                            $mdDialog.hide();
+                        };
+
+                        $scope.selectSize = function (event){
+                            angular.element(document.querySelectorAll('.sc-item label')).removeClass('active');
+                            angular.element(event.target).addClass('active');
+                        }
+                    }]
+                });
+            });
     }
 }

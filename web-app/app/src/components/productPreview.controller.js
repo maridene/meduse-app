@@ -4,7 +4,9 @@ export default class ProductPreviewController {
 
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
-        console.log('yeeees');
+        this.$scope.form = {
+            quantity: 1
+        }
         
     }
 }

@@ -1,7 +1,9 @@
 class ProductCtrl {
-  constructor(AppConstants, data, ProductService) {
+  constructor(AppConstants, data, ProductService, $timeout, $sce) {
     'ngInject';
 
+    this.$timeout = $timeout;
+    this.$sce = $sce;
     this.appName = AppConstants.appName;
     this.ProductService = ProductService;
     this.product = data.product;
@@ -12,12 +14,15 @@ class ProductCtrl {
     this.setVariants();
     this.selectedColor = null;
     this.selectedSize = null;
+    this.quantity = 1;
+  }
 
-    this.productsThumbsHTML = this.setProductsThumbsHTML(this.imagesUrls);
-    
-    this.initProductImagesViewer();
-    this.initZoom();
-    this.initThumbClick();
+  $onInit() {
+    this.$timeout(() => {
+      this.initProductImagesViewer();
+      this.initZoom();
+      this.initThumbClick();
+    });
   }
 
   setVariants() {
@@ -53,6 +58,20 @@ class ProductCtrl {
           smartSpeed: 1200,
           autoHeight: false,
           autoplay: false,
+          responsive: {
+            0: {
+                items: 1,
+            },
+            576: {
+                items: 2,
+            },
+            992: {
+                items: 2,
+            },
+            1200: {
+                items: 3,
+            }
+        }
       });
     }
 
@@ -78,7 +97,7 @@ class ProductCtrl {
         angular.element(document.querySelectorAll('.product-thumbs-track .pt')).removeClass('active');
         angular.element(event.currentTarget).addClass('active');
       
-        const imgurl = angular.element(event.currentTarget).attr('src');
+        const imgurl = angular.element(event.currentTarget).attr('ng-data-imgbigurl');
         const bigImg = angular.element(document.querySelector('.product-big-img')).attr('src');
         if (imgurl !== bigImg) {
           angular.element(document.querySelector('.product-big-img')).attr({src: imgurl});
@@ -87,17 +106,9 @@ class ProductCtrl {
       });
   }
 
-  setProductsThumbsHTML(imgsUrls) {
-    let html = '';
-    imgsUrls.forEach(url => {
-      html = html + `<div class="pt" data-imgbigurl="${url}">
-                        <img src="${url}" alt="">
-                     </div>`;
-    });
-    console.log(html);     
-    return html;
+  trust(src) {
+    return this.$sce.trustAsResourceUrl(src);
   }
-
 }
 
 export default ProductCtrl;

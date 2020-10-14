@@ -12,8 +12,10 @@
                             </div>
                         </div>
                         <div class="product-thumbs">
-                            <div class="product-thumbs-track ps-slider owl-carousel" ng-bind-html="$ctrl.productsThumbsHTML">
-                                
+                            <div class="product-thumbs-track ps-slider owl-carousel">
+                                <div class="pt" ng-repeat="url in $ctrl.imagesUrls" ng-data-imgbigurl="{{url}}"><img
+                                    ng-src="{{url}}" alt="">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -52,9 +54,9 @@
                                     <input
                                         mdInput
                                         type="number"
-                                        id="myNumber"
-                                        min="0"
-                                        ng-model="quantity"
+                                        id="quantity"
+                                        min="1"
+                                        ng-model="$ctrl.quantity"
                                     />
                                 </md-input-container>
                                 <md-button class="md-raised md-primary col-4">Ajouter au panier</md-button>
@@ -63,12 +65,7 @@
                                 <div class="p-code">Référence : {{$ctrl.product.sku}}</div>
                             </div>
                             <div class="product-preview-details-row social-share row">
-                                <div class="social-share-label">Partager: </div>
-                                <div class="social-share-buttons">
-                                    <button class="btn facebook"><i class="fab fa-facebook-f"></i>Facebook</button>
-                                    <button class="btn instagram"><i class="fab fa-instagram-square"></i>Instagram</button>
-                                    <button class="btn linkedin"><i class="fab fa-linkedin-in"></i>LinkedIn</button>    
-                                </div>
+                                <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fmeduse.tn&layout=button_count&size=small&appId=167654800298473&width=113&height=20" width="113" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                             </div>
                         </div>
                     </div>
@@ -90,6 +87,15 @@
                                 <div class="product-content">
                                     <div class="row">
                                         <p ng-bind-html="$ctrl.product.long_description"></p>
+                                    </div>
+                                    <div class="row product-video" ng-if="$ctrl.product.videoLink && $ctrl.product.videoLink.length">
+                                        <iframe 
+                                        height="400"
+                                        width="600" 
+                                        ng-src={{$ctrl.trust($ctrl.product.videoLink)}} 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen></iframe>
                                     </div>
                                 </div>
                             </div>
