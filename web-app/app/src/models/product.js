@@ -8,7 +8,7 @@ class Product {
     this.description = data.description;
     this.price = data.price;
     this.quantity = data.quantity;
-    this.video_link = data.video_link;
+    this.videoLink = data.video_link;
     this.category_id = data.category_id;
     this.categoryLabel = data.categoryLabel;
     this.long_description = data.long_description;
@@ -20,6 +20,10 @@ class Product {
     this.tags = data.tags;
     this.tva = data.tva;
     this.creationDate = data.creationDate;
+    this.onSale = !!data.promo_price;
+    this.onsalePercentage = !!data.promo_price ? 
+      `-${Math.floor(((data.price - data.promo_price)/data.price) * 100)}%` : null;
+    this.pinned = data.pinned;
   }
 }
 

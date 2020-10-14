@@ -38,6 +38,7 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
       ProductService.getProductsByCategory($scope.selectedCategoryId, 0, 0).then(function (result) {
         $scope.products = result.items;
         $scope.filteredProducts = result.items;
+        filterProducts();
         $scope.updateState();
       });
     }
@@ -81,7 +82,7 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
     });
   };
 
-  $scope.$watch('[filterQuery, selectedFilter]', function() {
+  var filterProducts = function() {
     switch($scope.selectedFilter) {
       case 'all':
         $scope.filteredProducts = $scope.products;
@@ -104,12 +105,25 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
           return item.quantity === 0; 
         });
         break;
+      case 'pinned':
+        $scope.filteredProducts = $scope.products.filter(function(item) {
+          return item.pinned === 1; 
+        });
     }
     
     $scope.filteredProducts = $scope.filteredProducts.filter(function(item) {
       return item.label.includes($scope.filterQuery) || item.sku.includes($scope.filterQuery);
     });
+  };
 
-    
-  }, true);
+  $scope.$watch('[filterQuery, selectedFilter]', filterProducts, true);
+
+  $scope.pinProduct = function(id, value) {
+    ProductService.pin(id, value)
+      .then(function() {
+        $scope.getProducts();
+      }, function() {
+
+      });
+  };
 }]);

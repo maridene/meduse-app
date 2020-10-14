@@ -18,8 +18,7 @@ export default class ProductService {
             (result) => {
               deferred.resolve({
                 product: this.ObjectBuilder.buildObject(RESOURCE.PRODUCT, result.data.product),
-                variants: this.ObjectBuilder.buildObject(RESOURCE.PRODUCT_VARIANTS, result.data.variants),
-                imagesUrl: this.getImagesUrls(result.data.product, result.data.variants)
+                variants: this.ObjectBuilder.buildObject(RESOURCE.PRODUCT_VARIANTS, result.data.variants)
               })
             },
             (error) => deferred.reject(error));
@@ -37,13 +36,26 @@ export default class ProductService {
     return deferred.promise;
   }
 
-  addProduct(product) {
-    this._RestService.post(ApiConstants.PRODUCTS, product)
-        .then((result) => {
+  getLastNProduct(n) {
+    const deferred = this._$q.defer();
+    this._RestService.get(`${ApiConstants.PRODUCTS}/last/${n}`)
+        .then(
+            (result) => {
+              deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.PRODUCTS, result.data))
+            },
+            (error) => deferred.reject(error));
+    return deferred.promise;
+  }
 
-        }, (error) => {
-
-        });
+  getPinnedProducts() {
+    const deferred = this._$q.defer();
+    this._RestService.get(`${ApiConstants.PRODUCTS}/pin/pinned`)
+        .then(
+            (result) => {
+              deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.PRODUCTS, result.data))
+            },
+            (error) => deferred.reject(error));
+    return deferred.promise;
   }
 
   getImagesUrls(product, variants) {

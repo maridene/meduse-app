@@ -8,7 +8,10 @@ module.exports = {
     getAll,
     create,
     deleteById,
-    updateById
+    updateById,
+    lastNProducts,
+    updatePinState,
+    getPinnedProducts
 };
 
 function findById(id) {
@@ -107,5 +110,40 @@ function updateById(id, product) {
         }, (error) => {
             reject(error);
         });   
+    });
+}
+
+function lastNProducts(n) {
+    return new Promise((resolve, reject) => {
+        products
+        .lastNProducts(n)
+        .then((all) => {
+            resolve(all);
+        }, (err) => {
+            reject(err);
+        });
+    });
+}
+
+function updatePinState(id, state) {
+    state = state > 0 ? 1 : 0;
+    return new Promise((resolve, reject) => {
+        products.updatePinState(id, state)
+            .then((product) => {
+                resolve(product);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
+function getPinnedProducts() {
+    return new Promise((resolve, reject) => {
+        products.pinnedProducts()
+            .then((products) => {
+                resolve(products);
+            }, (err) => {
+                reject(err);
+            });
     });
 }

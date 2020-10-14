@@ -29,6 +29,16 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     return deferred.promise;
   };
 
+  var getAll = function getAll(id) {
+    var deferred = $q.defer();
+    RestService.get("".concat(PRODUCTS, "/")).then(function (result) {
+      deferred.resolve(ObjectBuilder.buildObject('products', result.data));
+    }, function (error) {
+      return deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
   var getProductsByCategory = function getProductsByCategory(categoryId, startAt, maxResult, orderBy) {
     var deferred = $q.defer();
     var url = PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId).replace('{1}', startAt).replace('{2}', maxResult).replace('{3}', orderBy);
@@ -73,6 +83,16 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     return deferred.promise;
   };
 
+  var pin = function pin(id, state) {
+    var deferred = $q.defer();
+    RestService.post("".concat(PRODUCTS, "/pin/").concat(id), {state}).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
   function getImagesUrls(product, variants) {
     if (product.imgCount || variants) {
       return [].concat(_toConsumableArray(getProductImagesUrls(product)), _toConsumableArray(getVariantsImagesUrls(variants)));
@@ -106,6 +126,8 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     getProductsByCategory: getProductsByCategory,
     add: add,
     remove: remove,
-    update: update
+    update: update,
+    getAll: getAll,
+    pin: pin
   };
 }]);

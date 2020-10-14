@@ -27,4 +27,5 @@ var Product = function Product(data) {
   this.tags = data.tags;
   this.creationDate = data.creationDate;
   this.modificationDate = data.modificationDate;
+  this.pinned = data.pinned;
 };

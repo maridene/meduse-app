@@ -169,3 +169,21 @@ background-color: #eee;
 .AddProductForm .product-images-container,  .EditProductForm .product-images-container {
   padding: 5px 10px;
 }
+
+/* products list */
+.star-unpinned {
+  color: #33c0ec;
+}
+
+.star-unpinned:hover {
+  color: #19346d;
+}
+
+.star-pinned {
+  color: #19346d;
+}
+
+.pin-star-container {
+  display: flex;
+  justify-content: center;
+}

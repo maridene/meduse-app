@@ -78,7 +78,7 @@ Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
 
 Product.getAll = () => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tables.MANUFACTURERS}`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.PRODUCTS}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -92,7 +92,7 @@ Product.getAll = () => {
 
 Product.findByRef =  (ref) => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tables.MANUFACTURERS} WHERE LABEL = '${ref}'`, (err, res) => {
+    sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE sku = '${ref}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject({error: err});
@@ -153,6 +153,10 @@ function findByIdQuery(id) {
       ON C.id = ${tables.PRODUCTS}.category_id
     WHERE products.id = ${id}`;
 }
+
+function findPinnedQuery() {
+  return `select * From ${tables.PRODUCTS} where pinned = '1'`;
+};
 
 Product.create = (product) => {
   return new Promise((resolve, reject) => {
@@ -248,6 +252,66 @@ Product.updateById = (id, product, result) => {
     );
   });
   
+};
+
+Product.lastNProducts = (n) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.PRODUCTS} ORDER BY creationDate DESC LIMIT ${n}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        console.log("last " + n +" products: ", res);
+        resolve(res);
+      }
+    });
+  });
+};
+
+Product.updatePinState = (id, state) => {
+  return new Promise((resolve, reject) => {
+    sql.query(
+      `UPDATE ${tables.PRODUCTS} SET ` +
+      "pinned = ? " +
+      "WHERE id = ? ", 
+      [
+        state, 
+        id
+      ], (err, res) => {
+        if (err) {
+          console.log("Error while updating product state, productId = ", id);
+          reject(err);
+          return;
+        }
+        if (res.affectedRows == 0) {
+          // not found product with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+        console.log("updated product: ", id);
+        resolve({ id: id, pinned: state });
+      });
+  });
+};
+
+Product.pinnedProducts = () => {
+  return new Promise((resolve, reject) => {
+    sql.query(findPinnedQuery(), 
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          console.log("found products: ", res);
+          resolve(res);
+        } else {
+          console.log('no products found');
+          resolve([]);
+        }
+      }
+    });
+  });
 };
 
 

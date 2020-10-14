@@ -9,12 +9,15 @@ router.get('/', getAll);
 router.get('/:id', findById);
 router.get('/category/:categoryId',  findByCategory);
 router.get('/reference/:ref', findByReference);
+router.get('/last/:n', lastNProducts);
+router.get('/pin/pinned', getPinnedProducts);
 
 
 //admin routes
 router.post('/', authorize(Role.Admin), create);
 router.delete('/:id', authorize(Role.Admin),deleteById);
 router.put('/:id', authorize(Role.Admin), updateById);
+router.post('/pin/:id', authorize(Role.Admin), updatePinState);
 // all authenticated users routes
 
 // user only routes
@@ -27,6 +30,19 @@ function getAll(req, res, next) {
             res.json(products);
         })
         .catch(err => next(err));
+}
+
+function lastNProducts(req, res, next) {
+    const n = parseInt(req.params.n);
+    if (n === NaN) {
+        next({message: 'Not a number'});
+    } else {
+        productService.lastNProducts(n)
+        .then((products) => {
+            res.json(products);
+        })
+        .catch(err => next(err));
+    }
 }
 
 function findById(req, res, next) {
@@ -84,3 +100,23 @@ function updateById(req, res, next) {
         })
         .catch(err => next(err));
 }
+
+function updatePinState(req, res, next) {
+    const id = req.params.id;
+    const newState = parseInt(req.body.state);
+    productService.updatePinState(id, newState)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+function getPinnedProducts(req, res, next) {
+    console.log("xxx");
+    productService.getPinnedProducts()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
