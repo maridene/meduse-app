@@ -394,3 +394,38 @@
 	display: flex;
 	justify-content: center;
 }
+
+.product-shop .search-form {
+	margin-bottom: 55px;
+}
+
+.product-shop .search-form h4 {
+	color: #252525;
+	font-weight: 700;
+	margin-bottom: 12px;
+}
+
+.product-shop .search-form form {
+	position: relative;
+}
+
+.product-shop .search-form form input {
+	height: 40px;
+	width: 100%;
+	border: 2px solid #ECECEC;
+	padding-left: 20px;
+	font-size: 18px;
+	color: #3d3d3d;
+}
+
+.product-shop .search-form form button {
+	position: absolute;
+	right: 0;
+	top: 0;
+	color: #ffffff;
+	background: #33c0ec;
+	border: 1px solid #33c0ec;
+	height: 40px;
+	padding: 0 15px;
+	cursor: pointer;
+}

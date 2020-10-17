@@ -30,7 +30,12 @@ export default class ProductService {
     const url = ApiConstants.PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId).replace('{1}', startAt).replace('{2}', maxResult).replace('{3}', orderBy);
     this._RestService.get(url)
       .then(
-          (result) => deferred.resolve({count: result.data.count, items: this.ObjectBuilder.buildObject(RESOURCE.PRODUCT_ITEMS, result.data.items)}),
+          (result) => deferred.resolve(
+            {
+              count: result.data.count, 
+              items: this.ObjectBuilder.buildObject(RESOURCE.PRODUCT_ITEMS, result.data.items),
+              manufacturers: result.data.manufacturers
+            }),
           (error) => deferred.reject(error)
       );
     return deferred.promise;

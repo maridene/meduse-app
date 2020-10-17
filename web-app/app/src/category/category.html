@@ -19,16 +19,16 @@
                     <h4 class="fw-title">Marque</h4>
                     <div class="fw-brand-check">
                         <div class="bc-item">
-                            <label for="dipotech">
-                                DispoTech
-                                <input type="checkbox" id="dipotech">
+                            <label for="all">
+                                Tous les marques
+                                <input name="manufacturer" type="radio" id="all" ng-model="$ctrl.selectedManufacturerId" value="all" ng-change="$ctrl.updateProducts()">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
-                        <div class="bc-item">
-                            <label for="Autre">
-                                Autre
-                                <input type="checkbox" id="Autre">
+                        <div class="bc-item" ng-repeat="manufacturer in $ctrl.manufacturers">
+                            <label ng-for="manufacturer.name">
+                                {{manufacturer.name}}
+                                <input name="manufacturer" type="radio" ng-model="$ctrl.selectedManufacturerId" ng-id="manufacturer.id" ng-value="manufacturer.id" ng-change="$ctrl.updateProducts()">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -36,30 +36,39 @@
                 </div>
             </div>
             <div class="col-lg-9 order-1 order-lg-2">
-                <div class="product-show-option">
+                <div class="product-show-option" ng-if="$ctrl.products.length">
                     <div class="row">
-                        <div class="col-lg-7 col-md-7">
+                        <div class="col-lg-5 col-md-5">
                             <div class="select-option">
-                                <select class="sorting" ng-model="$ctrl.orderBy">
-                                    <option value="default">Affichage par défaut</option>
-                                    <option value="priceUp">Le plus cher</option>
-                                    <option value="priceDown">Le moin cher</option>
+                                <select class="sorting" ng-model="$ctrl.orderBy" ng-change="$ctrl.updateProducts()">
+                                    <option value="priceUp">Prix croissant</option>
+                                    <option value="priceDown">Prix décroissant</option>
                                     <option value="AZ">De A à Z</option>
                                     <option value="ZA">De Z à A</option>
                                 </select>
                             </div>
                         </div>
+                        <div class="col-lg-7 col-md-7">
+                            <div class="search-form">
+                                <form>
+                                    <input type="text" placeholder="Rechecrcher..." ng-model="$ctrl.filterQuery" ng-change="$ctrl.updateProducts()">
+                                </form>
+                            </div>
+                        </div>
+                        <!--
                         <div class="col-lg-5 col-md-5 text-right">
                             <p> {{$ctrl.currentPage * $ctrl.itemsPerPage + 1}} - {{($ctrl.currentPage + 1) * $ctrl.itemsPerPage }} de {{$ctrl.count}} Produits</p>
                         </div>
+                        -->
                     </div>
                 </div>
                 <div ng-if="$ctrl.products.length" class="product-list">
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6" ng-repeat="product in $ctrl.products">
+                        <div class="col-lg-4 col-sm-6" ng-repeat="product in $ctrl.filteredProducts">
                             <product-item product="product"></product-item>
                         </div>
                     </div>
+                    <!--
                     <div class="product-list-pagination row">
                         <ul class="pagination">
                             <li class="page-item">
@@ -78,6 +87,7 @@
                             </li>
                           </ul>
                     </div>
+                    -->
                 </div>
                 <div ng-if="$ctrl.products.length === 0">
                     Auccun produits dans cette catégorie.
