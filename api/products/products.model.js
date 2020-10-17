@@ -314,5 +314,56 @@ Product.pinnedProducts = () => {
   });
 };
 
+Product.getProductsFromTags = (productId, tags) => {
+  return new Promise((resolve, reject) => {
+    sql.query(findByTagsQuery(productId, tags), (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          console.log("found products: ", res);
+          resolve(res);
+        } else {
+          console.log('No products found with given tags: ', tags);
+          resolve([]);
+        }
+      }
+    })
+  });
+};
+
+Product.getProductsInSameCategory = (categoryId, productId,  maxResult, ignoredIds) => {
+  return new Promise((resolve, reject) => {
+    sql.query(findInSameCategoryQuery(categoryId, productId,  maxResult, ignoredIds), (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          console.log("found products: ", res);
+          resolve(res);
+        } else {
+          console.log('No products found in category: ', categoryId);
+          resolve([]);
+        }
+      }
+    });
+  });
+};
+
+function findInSameCategoryQuery(categoryId, productId,  maxResult, ignoredIds) {
+  if (ignoredIds && ignoredIds.length) {
+    return `SELECT * FROM ${tables.PRODUCTS} WHERE id Not IN (${productId}, ${ignoredIds.join(', ')}) AND category_id = '${categoryId}' LIMIT ${maxResult};`; 
+  } else {
+    return `SELECT * FROM ${tables.PRODUCTS} WHERE id <> '${productId}' AND category_id = '${categoryId}' LIMIT ${maxResult};`; 
+  }
+}
+
+function findByTagsQuery(productId, tags) {
+  const tagsCondition = 'tags ' + tags.map((item) => `LIKE '%${item}%' `).join(' OR tags ');
+  return `SELECT * FROM ${tables.PRODUCTS} WHERE id <> ${productId} AND ( ${tagsCondition} )`; 
+}
+
 
 module.exports = Product;

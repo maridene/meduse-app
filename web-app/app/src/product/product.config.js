@@ -15,6 +15,11 @@ function ProductConfig($stateProvider) {
             }, (error) => {
               $state.go('app.home');
             });
+          },
+          relatedProducts: function(ProductService, $stateParams) {
+            return ProductService.getRelatedProducts($stateParams.slug).then((relatedProducts) => {
+              return relatedProducts;
+            })
           }
         }
       });

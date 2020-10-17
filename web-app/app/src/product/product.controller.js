@@ -1,5 +1,5 @@
 class ProductCtrl {
-  constructor(AppConstants, data, ProductService, $timeout, $sce) {
+  constructor(AppConstants, data, relatedProducts, ProductService, $timeout, $sce) {
     'ngInject';
 
     this.$timeout = $timeout;
@@ -8,6 +8,7 @@ class ProductCtrl {
     this.ProductService = ProductService;
     this.product = data.product;
     this.variants = data.variants;
+    this.relatedProducts = relatedProducts;
     this.imagesUrls = this.product.images && this.product.images.length ? 
       this.product.images.split(',').map((img) => `${AppConstants.productsStaticContentUrl}${img}`) : null;
     

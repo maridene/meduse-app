@@ -11,6 +11,7 @@ router.get('/category/:categoryId',  findByCategory);
 router.get('/reference/:ref', findByReference);
 router.get('/last/:n', lastNProducts);
 router.get('/pin/pinned', getPinnedProducts);
+router.get('/related/:id', getRelatedProducts);
 
 
 //admin routes
@@ -112,8 +113,16 @@ function updatePinState(req, res, next) {
 }
 
 function getPinnedProducts(req, res, next) {
-    console.log("xxx");
     productService.getPinnedProducts()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+function getRelatedProducts(req, res, next) {
+    const id = parseInt(req.params.id);
+    productService.getRelatedProducts(id)
         .then((result) => {
             res.json(result);
         })
