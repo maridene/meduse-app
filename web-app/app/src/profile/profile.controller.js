@@ -1,18 +1,20 @@
 export class ProfileCtrl {
-    constructor(AppConstants, AuthenticationService, $location, $timeout) {
+    constructor(AppConstants, AuthenticationService, $location, $timeout, $rootScope) {
       'ngInject';
   
       this.appName = AppConstants.appName;
       this.AuthenticationService = AuthenticationService;
       this.$location = $location;
       this.$timeout = $timeout;
+      this.$rootScope = $rootScope;
     }
 
     logout() {
       this.AuthenticationService.clearCredentials();
+      this.$rootScope.$broadcast('userLoggedOut');
       this.$timeout(() => {
         this.$location.path('/');
-      }, 100);
+      });
     }
 }
 

@@ -20,6 +20,16 @@ class AppHeaderCtrl {
     });
   }
 
+  $onInit() {
+    this.$rootScope.$on('userLoggedIn', () => {
+      this.currentUser = this.$rootScope.globals && this.$rootScope.globals.currentUser ? 
+        this.$rootScope.globals.currentUser.data : null;
+    });
+    this.$rootScope.$on('userLoggedOut', () => {
+      this.currentUser = null;
+    });
+  }
+
   initCategories() {
     this.categoryService.getAllCategories()
         .then((categories) => {

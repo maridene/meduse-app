@@ -1,34 +1,44 @@
 class LoginCtrl {
-    constructor(AppConstants, UserService, AuthenticationService, $state) {
+    constructor(AppConstants, UserService, AuthenticationService, $state, $timeout, $location, $rootScope) {
       'ngInject';
   
       this.appName = AppConstants.appName;
       this.UserService = UserService;
       this.AuthenticationService = AuthenticationService;
       this.$state = $state;
+      this.$timeout = $timeout;
+      this.$location = $location;
+      this.$rootScope = $rootScope;
       this.init();
       this.email = '';
       this.password = '';
+      this.showAlert = false;
     }
 
     init() {
       this.AuthenticationService.clearCredentials();
+      this.$rootScope.$broadcast('userLoggedOut');
     }
 
-    login(email, password) {
-      console.log(email);
-      console.log(password);
-      this.AuthenticationService.login(this.email, this.password)
+    submit() {
+      const hashedPassword = sha3_256(this.password);
+      this.AuthenticationService.login(this.email, hashedPassword)
         .then((response) => {
-          console.log(response);
           if (response.status === 200 && response.data && response.data.token ) {
             this.AuthenticationService.setCredentials(this.email, this.password, response.data);
-            this.$state.go('app.home');
+            this.$rootScope.$broadcast('userLoggedIn');
+            this.$timeout(() => this.$location.path('#!/'));
           } else {
-            console.log(response);
+            this.showAlert = true;
+            this.$timeout(() => {
+              this.showAlert = false;
+            }, 3000);
           }
         }, (err) => {
-          console.error(err);
+          this.showAlert = true;
+            this.$timeout(() => {
+              this.showAlert = false;
+            }, 3000);
         });
     }
 
