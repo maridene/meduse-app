@@ -10,7 +10,7 @@ function CategoryConfig($stateProvider) {
         title: 'Category',
         resolve: {
           data: function(ProductService, $state, $stateParams) {
-            return ProductService.getProductsByCategory($stateParams.slug, 0, 10, 'default').then(
+            return ProductService.getProductsByCategory($stateParams.slug, 0, 0, 'default').then(
                 (data) => {
                   data.categoryId = $stateParams.slug;
                   return data;
