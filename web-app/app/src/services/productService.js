@@ -41,6 +41,17 @@ export default class ProductService {
     return deferred.promise;
   }
 
+  getProductVariants(productId) {
+    const deferred = this._$q.defer();
+    const url = ApiConstants.PRODUCT_VARAINTS.replace('{0}', productId);
+    this._RestService.get(url)
+      .then(
+          (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.PRODUCT_VARIANTS, result.data)),
+          (error) => deferred.reject(error)
+      );
+    return deferred.promise;
+  }
+
   getLastNProduct(n) {
     const deferred = this._$q.defer();
     this._RestService.get(`${ApiConstants.PRODUCTS}/last/${n}`)

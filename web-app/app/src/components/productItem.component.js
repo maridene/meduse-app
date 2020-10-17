@@ -9,8 +9,15 @@ export default class ProductItemController {
         this.ProductService = ProductService;
 
         this.product = this.$scope.$parent.product;
+        this.variants = [];
         this.image = this.product.images && this.product.images.length ? 
             `${AppConstants.productsStaticContentUrl}${this.product.images.split(',')[0]}` : null;
+        
+    }
+
+    $onInit() {
+        this.ProductService.getProductVariants(this.product.id)
+            .then((variants) => this.variants = variants);
     }
 
     addToCart() {
