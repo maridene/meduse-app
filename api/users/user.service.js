@@ -25,11 +25,13 @@ function authenticate({ email, password }) {
                         ...userWithoutPassword,
                         token
                     });
+                } else {
+                    reject();
                 }
             } else {
                 reject({error: result.error});
             }
-        });
+        }, (err) => reject(err));
     });
 }
 
