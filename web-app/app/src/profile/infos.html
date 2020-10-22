@@ -23,7 +23,7 @@
     </div>
 
     <article class="card-body mx-auto" style="max-width: 400px;">    
-        <form>
+        <form role="form" ng-submit="$ctrl.save()">
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
@@ -49,16 +49,17 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Mot de passe (8 caractères minimum)" type="password" ng-model="$ctrl.user.password" required>
+                <input class="form-control" placeholder="Mot de passe (8 caractères minimum)" type="password" ng-model="$ctrl.user.password" name="password" required>
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Répétez le mot de passe" type="password" ng-model="$ctrl.user.passwordRepeat" required>
+                <input class="form-control" placeholder="Répétez le mot de passe" type="password" ng-model="$ctrl.user.passwordRepeat" name="passwordRepeat" 
+                oninput='passwordRepeat.setCustomValidity(passwordRepeat.value != password.value ? "Veuillez vérifier votre mot de passe." : "")' required> 
             </div> <!-- form-group// -->                                  
             <div class="form-group">
-                <button type="submit" ng-click="$ctrl.save()" class="btn btn-primary btn-block"> Sauvegarder </button>
+                <button type="submit" class="btn btn-primary btn-block"> Sauvegarder </button>
             </div> <!-- form-group// -->                                                               
         </form>
     </article>
