@@ -68,6 +68,7 @@ export default class ProductItemController {
                             initProductImagesViewer();
                             initZoom();
                             initThumbClick();
+                            initQuantityChooser();
                         });
 
                         function initProductImagesViewer() {
@@ -107,6 +108,27 @@ export default class ProductItemController {
                                 prodPic.zoom();
                             }
                         }
+
+                        function initQuantityChooser() {
+                            const proQty = angular.element(document.querySelector('.pro-qty'));
+                              proQty.prepend('<span class="dec qtybtn">-</span>');
+                              proQty.append('<span class="inc qtybtn">+</span>');
+                              proQty.on('click', '.qtybtn', function () {
+                                  var $button = $(this);
+                                  var oldValue = $button.parent().find('input').val();
+                                  if ($button.hasClass('inc')) {
+                                      var newVal = parseFloat(oldValue) + 1;
+                                  } else {
+                                      // Don't allow decrementing below 1
+                                      if (oldValue > 1) {
+                                        var newVal = parseFloat(oldValue) - 1;
+                                      } else {
+                                          newVal = 1;
+                                      }
+                                  }
+                                  $button.parent().find('input').val(newVal);
+                              });
+                          }
                         
                         function initThumbClick() {
                             angular.element(document.querySelectorAll('.product-thumbs-track .pt'))
