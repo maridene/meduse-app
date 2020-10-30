@@ -25,7 +25,7 @@ class LoginCtrl {
       this.AuthenticationService.login(this.email, hashedPassword)
         .then((response) => {
           if (response.status === 200 && response.data && response.data.token ) {
-            this.AuthenticationService.setCredentials(this.email, this.password, response.data);
+            this.AuthenticationService.setCredentials(response.data);
             this.$rootScope.$broadcast('userLoggedIn');
             this.$timeout(() => this.$location.path('#!/'));
           } else {

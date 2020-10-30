@@ -19,7 +19,8 @@ function AppRun(AppConstants, $rootScope, $location, $cookies, $http, CartServic
   // keep user logged in after page refresh
   $rootScope.globals = $cookies.getObject('globals') || {};
   if ($rootScope.globals.currentUser) {
-      $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
+      $http.defaults.headers.common['Authorization'] = 'Bearer ' + $rootScope.globals.currentUser.token;
+      $http.defaults.headers.common['userId'] = $rootScope.globals.currentUser.id;
   }
 
   $rootScope.$on('$locationChangeStart', function (event, next, current) {

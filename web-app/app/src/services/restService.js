@@ -10,17 +10,11 @@ export default class RestService {
     return this.AppConstants.api + '/';
   }
 
-  currentUser() {
-    return this.$rootScope.globals && this.$rootScope.globals.currentUser ? this.$rootScope.globals.currentUser.data : null; 
-  }
-
   getRequestConfig(config) {
     if (typeof config === 'undefined') {
-      const userId = this.currentUser() ? this.currentUser().id : null; 
       config = {headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'Access-Control-Allow-Credentials': 'true',
-        'userid': userId
+        'Access-Control-Allow-Credentials': 'true'
       }};
     } else {
       config.withCredentials = true;

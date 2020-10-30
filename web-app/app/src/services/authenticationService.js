@@ -96,18 +96,14 @@ export default class AuthenticationService {
         return this.RestService.post(ApiConstants.USERS_AUTHENTICATE, {email: email, password: password});
     }
 
-    setCredentials(email, password, user) {
-        const authdata = this.base64.encode(email + ':' + password);
-
+    setCredentials(user) {
         this.$rootScope.globals = {
-            currentUser: {
-                data: user,
-                authdata: authdata
-            }
+            currentUser: user
         };
 
         // set default auth header for http requests
-        this.$http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+        this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
+        this.$http.defaults.headers.common['userId'] = user.id;
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
         const cookieExp = new Date();
