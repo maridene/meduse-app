@@ -23,19 +23,9 @@ export default class UserService {
         return this.currentUser && this.currentUser.role === 'Admin';
     }
 
-    getAll() {
-        const deferred = this.$q.defer();
-        this.RestService.get(ApiConstants.USERS)
-        .then(
-            (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.USERS, result.data)),
-            (error) => deferred.reject(error)
-        );
-        return deferred.promise;
-    }
-
     getById(id) {
         const deferred = this.$q.defer();
-        this.RestService.get(`${ApiConstants.USERS}`/`${id}`)
+        this.RestService.get(`${ApiConstants.USERS}/${id}`)
         .then(
             (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.USER, result.data)),
             (error) => deferred.reject(error));
