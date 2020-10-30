@@ -37,10 +37,10 @@ export default class RestService {
     return this._$http.get(`${this.getBaseUrl() + url}`, this.getRequestConfig(config));
   }
   put(url, data, config) {
-    return this._$http.post(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
+    return this._$http.put(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
   }
   delete(url, data, config) {
-    return this._$http.post(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
+    return this._$http.delete(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
   }
   post(url, data, config) {
     return this._$http.post(`${this.getBaseUrl() + url}`, data, this.getRequestConfig(config));
