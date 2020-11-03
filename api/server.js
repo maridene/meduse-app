@@ -47,12 +47,12 @@ app.use('/api/orders', require('./orders/orders.controller'));
 app.use('/api/orderrows', require('./orderRows/orderRows.controller'));
 
 //Serves all the request which includes /images in the url from Images folder
-app.use('/static/blogs', express.static(__dirname + '/public/blog'));
-app.use('/static/products', express.static(__dirname + '/public/pimages'));
+app.use('/static/blogs', express.static('/var/www/meduse-static/blog'));
+app.use('/static/products', express.static('/var/www/meduse-static/pimages'));
 
 var blogStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, __dirname + '/public/blog')
+      cb(null, '/var/www/meduse-static/blog')
   },
   filename: function (req, file, cb) {
       var datetimestamp = Date.now();
@@ -62,7 +62,7 @@ var blogStorage = multer.diskStorage({ //multers disk storage settings
 
 var productsStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, __dirname + '/public/pimages')
+      cb(null, '/var/www/meduse-static/pimages')
   },
   filename: function (req, file, cb) {
       cb(null, 'pImage-' + uuidv4() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
