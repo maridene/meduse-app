@@ -1,10 +1,15 @@
 'use strict';
 
 class CartRow {
-  constructor(product, quantity, subTotal) {
+  constructor(product, variant, quantity) {
     this.product = product;
+    this.variant = variant;
     this.quantity = quantity;
-    this.subTotal = subTotal;
+  }
+
+  getSubTotal() {
+    return this.product.promo_price ? parseFloat(this.product.promo_price) * this.quantity
+      : parseFloat(this.product.price) * this.quantity;
   }
 }
 

@@ -19,12 +19,22 @@ export default class AddressesService {
         return deferred.promise;
     }
 
-    addAddress() {
-
+    addAddress(data) {
+        const deferred = this.$q.defer();
+        this.RestService.post(`${ApiConstants.ADDRESSES}`, data)
+            .then((result) => {
+                deferred.resolve(result);
+            }, (error) => deferred.reject(error));
+        return deferred.promise; 
     }
 
-    removeAddress() {
-
+    removeAddress(id) {
+        const deferred = this.$q.defer();
+        this.RestService.delete(`${ApiConstants.ADDRESSES}${id}`)
+            .then((result) => {
+                deferred.resolve(result);
+            }, (error) => deferred.reject(error));
+        return deferred.promise; 
     }
 
     updateAddress() {

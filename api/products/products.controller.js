@@ -12,6 +12,7 @@ router.get('/reference/:ref', findByReference);
 router.get('/last/:n', lastNProducts);
 router.get('/pin/pinned', getPinnedProducts);
 router.get('/related/:id', getRelatedProducts);
+router.get('/all/search', search);
 
 
 //admin routes
@@ -27,6 +28,15 @@ module.exports = router;
 
 function getAll(req, res, next) {
     productService.getAll()
+        .then((products) => {
+            res.json(products);
+        })
+        .catch(err => next(err));
+}
+
+function search(req, res, next) {
+    const query = req.query.query;
+    productService.search(query)
         .then((products) => {
             res.json(products);
         })

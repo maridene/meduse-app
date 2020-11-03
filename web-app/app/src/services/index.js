@@ -9,6 +9,8 @@ import CartService from './cartService';
 import ToastService from './toastService';
 import AddressesService from './addressesService';
 import BlogService from './blogService';
+import OrdersService from './ordersService';
+import CouponsService from './couponsService';
 
 // Create the module where our functionality can attach to
 let servicesModule = angular.module('app.services', []);
@@ -23,5 +25,7 @@ servicesModule.service('CartService', CartService);
 servicesModule.service('ToastService', ToastService);
 servicesModule.service('AddressesService', AddressesService);
 servicesModule.service('BlogService', BlogService);
+servicesModule.service('OrdersService', OrdersService);
+servicesModule.service('CouponsService', CouponsService);
 
 export default servicesModule;

@@ -85,6 +85,17 @@ export default class ProductService {
     return deferred.promise;
   }
 
+  search(query) {
+    const deferred = this._$q.defer();
+    this._RestService.get(`${ApiConstants.PRODUCTS}/all/search?query=${query}`)
+        .then(
+            (result) => {
+              deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.PRODUCTS, result.data))
+            },
+            (error) => deferred.reject(error));
+    return deferred.promise;
+  }
+
   getImagesUrls(product, variants) {
     if (product.imgCount || variants) {
       return [...this.getProductImagesUrls(product), ...this.getVariantsImagesUrls(variants)];

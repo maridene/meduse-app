@@ -44,7 +44,33 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfilePointsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/points.html',
-          title: 'Profile'
+          title: 'Profile',
+          resolve: {
+            data: function(UserService, $state, $rootScope) {
+              if ($rootScope.globals && $rootScope.globals.currentUser) {
+                return UserService.getById($rootScope.globals.currentUser.id)
+                  .then((data) => {
+                    return data;
+                  }, (error) => {
+                    $state.go('app.home');
+                  })
+              } else {
+                $state.go('app.home');
+              }
+            },
+            coupons : function(CouponsService, $state, $rootScope) {
+              if ($rootScope.globals && $rootScope.globals.currentUser) {
+                return CouponsService.getMyCoupons($rootScope.globals.currentUser.id)
+                  .then((data) => {
+                    return data;
+                  }, (error) => {
+                    $state.go('app.home');
+                  })
+              } else {
+                $state.go('app.home');
+              }
+            }
+          }
         })
         .state('app.addressFrom', {
           url: '/profile/addressForm',

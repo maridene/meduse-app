@@ -26,7 +26,7 @@
 
 
 .PremiumSection .PremiumSection-details {
-	padding: 120px 0;
+	padding: 60px 0;
 }
 
 .PremiumSection .PremiumSection-details-header {
@@ -41,4 +41,17 @@
 
 .PremiumSection .PremiumSection-details-description {
 	text-align: center;
+}
+
+.PremiumSection .PremiumSection-myPoints {
+	text-align: end;
+}
+
+.PremiumSection .PremiumSection-myPoints a {
+	color: #33c0ec;
+	font-size: 18px;
+}
+
+.PremiumSection .PremiumSection-myPoints a:hover, .PremiumSection .PremiumSection-myPoints a:active  {
+	color: #19346d;
 }

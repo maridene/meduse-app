@@ -7,5 +7,6 @@ module.exports = {
     USERS: "users",
     ADDRESSES: "addresses",
     ORDERS: "orders",
-    ORDER_LINE: "orderlines"
+    ORDER_ROWS: "order_row",
+    COUPONS: "coupons"
   };

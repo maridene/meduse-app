@@ -22,23 +22,30 @@
         <div class="AdressesSection-text-separator"></div>
     </div>
 
+    <div ng-if="!$ctrl.addresses.length" class="AdressesSection-adresses">
+        <div class="no-address">
+            <div class="alert alert-warning col-lg-8" role="alert">
+                Aucune adresse disponible.
+            </div>
+        </div>
+    </div>
     <div class="AdressesSection-adresses">
         <div class="AdressesSection-adresses-item row" ng-repeat="address in $ctrl.addresses">
             <h5 class="AdressesSection-adresses-item-adressLine">{{address.name}}</h5>
             <div class="AdressesSection-adresses-item-adressSeparator"></div>
-            <div class="AdressesSection-adresses-item-adressLine">{{address.avenue}}</div>
+            <div class="AdressesSection-adresses-item-adressLine">{{address.address}}</div>
             <div class="AdressesSection-adresses-item-adressLine">{{address.description}}</div>
             <div class="AdressesSection-adresses-item-adressLine">{{address.zipcode}} {{address.city}}, {{address.state}}</div>
             <div class="AdressesSection-adresses-item-adressLine">{{address.phone}}</div>
             <div class="AdressesSection-adresses-item-adressActions">
-                <button type="submit" ng-click="$ctrl.delete(address)"class="btn btn-info btn-block"> Mettre à jour </button>
-                <button type="submit" ng-click="$ctrl.update(address)"class="btn btn-danger btn-block"> Supprimer </button>
+                <button type="button" ng-click="$ctrl.update(address)"class="btn btn-info btn-block"> Mettre à jour </button>
+                <button type="button" ng-click="$ctrl.delete(address)"class="btn btn-danger btn-block"> Supprimer </button>
             </div>
         </div>
     </div>
 
     <div class="AdressesSection-addAdress">
-        <button type="submit" class="btn btn-success btn-block"> Ajouter une nouvelle adresse </button>
+        <div class="site-btn" ng-click="$ctrl.addAddress()">Ajouter une nouvelle adresse</div>
     </div>
 
 

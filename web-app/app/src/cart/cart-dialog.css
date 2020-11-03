@@ -1,0 +1,13 @@
+.cart-dialog .cart-dialog-form md-toolbar:not(.md-menu-toolbar) {
+    background-color: #33c0ec;
+    font-size: 22px;
+}
+
+.cart-dialog .cart-dialog-form img {
+    height: 140px;
+    width: 140px;
+}
+
+.cart-dialog .md-icon-button {
+    cursor: pointer;
+}

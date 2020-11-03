@@ -1,0 +1,221 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Commande {{order.order_ref}}</h1>
+    </div>  
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table>
+                    <tr>
+                        <td><b>Date de la commande:</b></td>
+                        <td>{{order.date}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Etat de la commande:</b</td>
+                        <td>{{order.status}}</td>
+                    </tr>
+                    <tr ng-if="order.canceledDate">
+                        <td><b>Date d'annulation:</b</td>
+                        <td>{{order.canceledDate}}</td>
+                    </tr>
+
+                    <tr ng-if="order.shippedDate">
+                        <td><b>Date de livraison:</b</td>
+                        <td>{{order.shippedDate}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Type de paiement:</b</td>
+                        <td>{{order.paymentType}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Etat de paiement:</b</td>
+                        <td>{{order.paymentStatus}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>  
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Actions sur la commande
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form role="form" ng-submit="apply()">
+                    <div class="form-group">
+                        <label>Etat de la commande </label>
+                        <select class="form-control" ng-model="form.selectedOrderStatus" required>
+                            <option ng-repeat="status in possibleStatuses" value="{{status.key}}">{{status.label}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Etat de payement </label>
+                        <select class="form-control" ng-model="form.selectedPaymentStatus" required>
+                            <option value="0">Non payée</option>
+                            <option value="1">Payée</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Commentaire:</label>
+                        <textarea class="form-control" rows="3" ng-model="form.message" spellcheck="false"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" ng-disabled="disableApply" class="btn btn-success">Appliquer</button>
+                    </div>        
+                </form>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Facture et bon de livraison
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="form-group">
+                    <labe>Facture</labe>
+                    <div class="form-inline">
+                        <label>Date:</label>
+                        <div class="form-group input-group">
+                            <input type="date">
+                        </div>
+                        <div class="form-group input-group">
+                            <input type="text" placeholder="Matricule fiscale">
+                        </div>
+                        <div class="form-group input-group">
+                            <button type="button" class="btn btn-primary">Télécharger</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <labe>Bon de livraison</labe>
+                    <div class="form-inline">
+                        <label>Date:</label>
+                        <div class="form-group input-group">
+                            <input type="date">
+                        </div>
+                        <div class="form-group input-group">
+                            <input type="text" placeholder="Matricule fiscale">
+                        </div>
+                        <div class="form-group input-group">
+                            <button type="button" class="btn btn-primary">Télécharger</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Détails commande
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Disponibilité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in rows">
+                            <td class="center">{{item.label}}</td>
+                            <td class="center">{{item.quantity}}</td>
+                            <td class="center" ng-if="item.promo_price"><b>{{item.promo_price}} D.T </b><del>{{item.price}}D.T</del> </td>
+                            <td class="center" ng-if="!item.promo_price"><b>{{item.price}} D.T</b></td>
+                            <td class="center" ng-if="item.availability" style="color: green">Disponible</td>
+                            <td class="center" ng-if="!item.availability"style="color: red">Non Disponible</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Informations client
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table>
+                    <tr>
+                        <td><b>Nom et prénom:</b></td>
+                        <td>{{client.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>E-mail:</b</td>
+                        <td>{{client.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Téléphone:</b></td>
+                        <td>{{client.phone}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Premium:</b></td>
+                        <td>{{client.premium ? 'Oui' : 'Non'}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Solde points:</b></td>
+                        <td>{{client.points}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Message client
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <p>{{order.client_message}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Livraison et facturation
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <h4>Adresse de livraison</h4>
+                <p>{{order.delivery_address}}</p>
+                <p>{{order.delivery_zipcode}} {{order.delivery_city}}, {{order.delivery_state}}</p>
+                <p>{{order.delivery_phone}}</p>
+                <hr/>
+                <h4>Adresse de facturation</h4>
+                <p>{{order.billing_address}}</p>
+                <p>{{order.billing_zipcode}} {{order.billing_city}}, {{order.billing_state}}</p>
+                <p>{{order.billing_phone}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+            

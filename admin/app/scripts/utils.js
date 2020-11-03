@@ -59,3 +59,95 @@ function dashStr(str) {
 function getProductSKU(category, marque, label) {
   return "".concat(dashStr(category), "-").concat(dashStr(marque), "-").concat(skuFromProductLabel(label));
 }
+
+function formatDate (input) {
+  var datePart = input.match(/\d+/g),
+  year = datePart[0], // get only two digits
+  month = datePart[1], day = datePart[2];
+
+  return day+'/'+month+'/'+year;
+}
+
+function formatDateTime(input) {
+  const date = formatDate(input.split('T')[0]);
+  const time = input.split('T')[1].split('.')[0];
+  return "".concat(date, ' - ').concat(time);
+}
+
+function getDateFromDatetime(input) {
+  return formatDateTime(input).split('-')[0];
+}
+
+function orderStatusMapper(status) {
+  switch (status) {
+    case 'new':
+      return 'Nouvelle commande';
+    case 'in_progress':
+      return 'En cours de traitement';
+    case 'confirmed':
+      return 'Commande confirmée';
+    case 'shipping':
+      return 'En cours de livraison';
+    case 'canceled':
+      return 'Commande annulée';
+    case 'shipped':
+      return 'Commande livrée';
+  }
+}
+
+function paymentStatusMapper(status) {
+  if (status === 0) {
+    return 'Non Payée';
+  } else {
+    return 'Payée'
+  }
+}
+
+function ptypeMapper(type) {
+  if (type === 'c') {
+    return 'Chèque';
+  } else {
+    return 'Espéces';
+  }
+}
+
+var newOrder = {key:'new', label:'Nouvelle commande'};
+var confirmedOrder = {key:'confirmed', label:'Commande confirmée'};
+var canceledOrder = {key:'canceled', label:'Commande annulée'};
+var inProgressOrder = {key:'in_progress', label:'Commande En cours de traitement'};
+var shippingOrder = {key:'shipping', label:'En cours de livraison'};
+var shippedOrder = {key:'shipped', label:'Commande livrée'};
+
+function getPossibleNextStatuses(status) {
+  switch (status) {
+    case 'new':
+      return [newOrder, confirmedOrder, canceledOrder];
+    case 'in_progress':
+      return [inProgressOrder, shippingOrder, canceledOrder];
+    case 'confirmed':
+      return [confirmedOrder, inProgressOrder, canceledOrder];
+    case 'shipping':
+      return [shippedOrder, shippedOrder, canceledOrder];
+    case 'canceled':
+      return [canceledOrder, confirmedOrder];
+    case 'shipped':
+      return [shippedOrder, confirmedOrder, canceledOrder];
+  }
+}
+
+function getStatusObjectFromKey(key) {
+  switch (key) {
+    case 'new':
+      return newOrder;
+    case 'in_progress':
+      return inProgressOrder;
+    case 'confirmed':
+      return confirmedOrder;
+    case 'shipping':
+      return shippingOrder;
+    case 'canceled':
+      return canceledOrder;
+    case 'shipped':
+      return shippedOrder;
+  }
+}

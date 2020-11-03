@@ -42,6 +42,9 @@ app.use('/api/addresses', require('./addresses/addresses.controller'));
 app.use('/api/categories', require('./categories/categories.controller'));
 app.use('/api/blogs', require('./blog/blog.controller'));
 app.use('/api/manufacturers', require('./manufacturers/manufacturers.controller'));
+app.use('/api/coupons', require('./coupons/coupons.controller'));
+app.use('/api/orders', require('./orders/orders.controller'));
+app.use('/api/orderrows', require('./orderRows/orderRows.controller'));
 
 //Serves all the request which includes /images in the url from Images folder
 app.use('/static/blogs', express.static(__dirname + '/public/blog'));

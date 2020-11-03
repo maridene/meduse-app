@@ -1,4 +1,5 @@
 const addresses = require('./addresses.model');
+const Address = require('./addresses.model');
 
 module.exports = {
     getById,
@@ -30,9 +31,9 @@ function getByUserId(userId) {
     });
 }
 
-function add({ userId, name, city, state, avenue, description, zipcode, phone }) {
+function add({ userId, name, city, state, address, description, zipcode, phone }) {
     return new Promise((resolve, reject) => {
-        addresses.add({ userId, name, city, state, avenue, description, zipcode, phone })
+        addresses.add({ userId, name, city, state, address, description, zipcode, phone })
             .then((result) => {
                 resolve(result);
             }, (error) => {
@@ -47,13 +48,24 @@ function updateById() {
     });
 }
 
-function remove(id) {
+function remove(userId, addressId) {
     return new Promise((resolve, reject) => {
-        addresses.remove(id)
-            .then((result) => {
-                resolve(result);
-            }, (error) => {
-                reject(error);
-            });
+        getById(addressId).then((address) => {
+            console.log(address.userId);
+            console.log(userId);
+            if (address.userId === userId) {
+                addresses.remove(addressId)
+                    .then((result) => {
+                        resolve(result);
+                    }, (err) => {
+                        reject(error);
+                    })
+            } else {
+                console.error('Authenticated user has no right to delete this address.');
+                reject();
+            }
+        }, (error) => {
+            reject(error);
+        })
     });
 }

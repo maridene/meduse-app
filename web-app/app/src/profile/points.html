@@ -18,7 +18,7 @@
 
 <div class="PointsSection container">
     <div class="tittle wow fadeInUp"> 
-        <h2>Mes points de fiélité</h2>
+        <h2>Mes points de fidélité</h2>
         <h4></h4>
     </div>
 
@@ -26,50 +26,49 @@
         <div class="PointsSection-panel-points col-lg-5">
             <div class="PointsSection-panel-points-container">
                 <div class="PointsSection-panel-points-container-total">
-                    <div class="PointsSection-panel-points-container-total-value">
-                        4400 <br/>points
+                    <div class="PointsSection-panel-points-container-total-value" ng-class="$ctrl.premium ? 'premium-background' : ''">
+                        {{$ctrl.points}} <br/>points
                     </div>
                 </div>
                 <div class="PointsSection-panel-points-container-remaining">
-                    <div class="PointsSection-panel-points-container-remaining-text">
-                        Points restants pour devenir membre Premium: <b>5600</b>
+                    <div ng-if="!$ctrl.premium" class="PointsSection-panel-points-container-remaining-text">
+                        Points restants pour devenir membre Premium: <b>{{$ctrl.remainingPoints}}</b>
                     </div>
+                    <div ng-if="$ctrl.premium" class="PointsSection-panel-points-container-remaining-text">
+                        Félicitation! Vous êtes un utilisateur <b class="premium-color">MEDUSE PREMIUM</b>.
+                    </div>
+                    <div ng-if="$ctrl.premium && $ctrl.canGetCoupon" class="PointsSection-panel-points-container-getCoupon">
+                        <button class="btn btn-primary" ng-click="$ctrl.getCoupon()">Obtenir un coupon de réduction</button>
+                    </div> 
                 </div>
             </div>
         </div>
         <div class="PointsSection-panel-details col-lg-7">
-            <div class="PointsSection-panel-details-title ">Mon historique de points</div>
+            <div class="PointsSection-panel-details-title ">Mes coupons de réduction</div>
             <div class="PointsSection-panel-details-history row">
-                <table class="table table-hover">
+                <table class="table table-hover" ng-if="$ctrl.coupons.length">
                     <thead>
                       <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Commande</th>
-                        <th scope="col">Prix total</th>
-                        <th scope="col">Points</th>
+                        <th scope="col">Date d'acquisition</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Réduction</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">01/05/2020</th>
-                        <td>CO-0074</td>
-                        <td>24,500 TND</td>
-                        <td><span class="badge badge-info">2000</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">22/09/2020</th>
-                        <td>CO-0080</td>
-                        <td>100,500 TND</td>
-                        <td><span class="badge badge-info">1200</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">01/05/2020</th>
-                        <td>CO-0170</td>
-                        <td>80,000 TND</td>
-                        <td><span class="badge badge-info">1200</span></td>
+                      <tr ng-repeat="coupon in $ctrl.coupons">
+                        <th scope="row">{{coupon.creation_date}}</th>
+                        <td>{{coupon.code}}</td>
+                        <td>{{coupon.value}}</td>
                       </tr>
                     </tbody>
-                  </table>
+                </table>
+                <div ng-if="!$ctrl.coupons.length && !$ctrl.premium">
+                    Vous ne possèdez pas de coupons actuellement. 
+                    Veuillez effectuer plus de commandes pour passer en utilisateur <b>MEDUSE PREMIUM</b> pour pouvoir transformer vos points en des coupons de réduction.
+                </div>
+                <div ng-if="!$ctrl.coupons.length && $ctrl.premium">
+                    Vous ne possèdez pas de coupons actuellement. Vous pouvez en obtenir si votre solde de points dépasse les 3000 points.
+                </div>
             </div>
         </div>
     </div>

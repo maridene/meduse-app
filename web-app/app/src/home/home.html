@@ -1,3 +1,24 @@
+<section class="home-search">
+    <div class="col-lg-5 col-md-5">
+        <div class="advanced-search">
+            <div class="input-group">
+                <input type="text" name="search" ng-model="$ctrl.searchQuery" ng-change="$ctrl.search()" placeholder="Rechercher...">
+                <button type="button"><i class="ti-search"></i></button>
+            </div>
+        </div>
+        <div id="searchContainer" class="search-results">
+            <li class="row" ng-repeat="prod in $ctrl.foundProducts" ng-click="$ctrl.goToProduct(prod)">
+                <div class="col-lg-2">
+                    <img ng-src="{{prod.image}}">
+                </div>
+                <div class="col-lg-10 item-details">
+                    <div class="item-label">{{prod.label}}</div>
+                    <div class="item-price">{{prod.price}} D.T</div>
+                </div>
+            </li>
+        </div>
+    </div>
+</section>
 <section class="slideshow">
     <div id="demo" class="carousel slide" data-ride="carousel">
         <ul class="carousel-indicators">
@@ -72,7 +93,7 @@
 <section class="newProducts-section">
     <div class="container">
         <div class="tittle wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-            <h2>Nouveau Produits</h2>
+            <h2>Nouveaux Produits</h2>
             <h4></h4>
         </div>
         <div class="newProducts-section-row row">

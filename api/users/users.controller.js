@@ -12,6 +12,7 @@ router.post('/register',  register);
 //admin routes
 router.get('/', authorize(Role.Admin), getAll);
 router.get('/clients', authorize(Role.Admin), getClients);
+router.get('/clients/:id', authorize(Role.Admin), getClientById);
 router.get('/admins', authorize(Role.Admin), getAdmins);
 router.delete('/:id', authorize(Role.Admin), deleteUser);
 router.post('/register-admin', authorize(Role.Admin), addAdmin);
@@ -40,6 +41,13 @@ function getAll(req, res, next) {
 function getClients(req, res, next) {
     userService.getClients()
         .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+function getClientById(req, res, next) {
+    const id = parseInt(req.params.id);
+    userService.getClientById(id)
+        .then(user => res.json(user))
         .catch(err => next(err));
 }
 

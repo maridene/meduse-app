@@ -31,31 +31,41 @@
                     {{product.description}}
                 </div>
                 <div class="form-group" ng-if="hasColors">
-                    <label>Couleur</label>
-                    <select class="form-control col-md-4" ng-model="form.selectedColor.color" required>
-                        <option ng-repeat="item in availableColors">{{item.color}}</option>
+                    <label>Couleur:</label>
+                    <select class="form-control col-md-4" ng-model="form.selectedColor" ng-change="colorSelected()" required>
+                        <option ng-repeat="item in availableColors" ng-value="item">{{item.color}}</option>
                     </select>
                 </div>
                 <div class="form-group" ng-if="availableSizes.length">
-                    <label>Tailles</label>
+                    <label>Taille: </label>
                     <div class="sc-item" ng-repeat="availableSize in availableSizes">
-                        <input type="radio" id="{{availableSize.size}} - size">
+                        <input type="radio" name="size" ng-value="availableSize" ng-model="form.selectedSize">
                         <label for="{{availableSize.size}} - size" ng-click="selectSize($event, availableSize)">{{availableSize.size}}</label>
                     </div>
                 </div>
                 <hr/>
-                <div class="form-group">
+                <div class="form-group" ng-show="!outOfStock && selectedVariantAvailable">
                     <label>Qunatité</label>
                     <div class="quantity">
                         <div class="pro-qty">
-                            <input type="text" value="1">
+                            <input type="text" ng-model="form.quantity">
                         </div>
-                        <a href="#" class="primary-btn pd-cart" ng-click="addToCart()">Ajouter au panier</a>
+                        <div class="primary-btn pd-cart noselect" ng-click="addToCart()">Ajouter au panier</div>
+                    </div>
+                </div>
+                <div class="form-group out-of-stock" ng-show="outOfStock">
+                    <div class="alert alert-danger" role="alert">
+                        Actuellement indisponible.
+                    </div>
+                </div>
+                <div class="form-group out-of-stock" ng-show="!outOfStock && !selectedVariantAvailable">
+                    <div class="alert alert-danger" role="alert">
+                        Produit non disponible avec les caractéristiques choisies.
                     </div>
                 </div>
                 <hr/>
                 <div class="form-group">
-                    <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fmeduse.tn&layout=button_count&size=small&appId=167654800298473&width=113&height=20" width="113" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                    <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fmeduse.tn&layout=button_count&size=large&appId=167654800298473&width=113&height=32" width="113" height="32" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                 </div>
             </form>
         </div>

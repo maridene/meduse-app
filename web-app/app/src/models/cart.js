@@ -1,11 +1,16 @@
 'use strict';
 
+import CartRow from "./cartRow";
+import { curry } from "angular-ui-router";
+
 class Cart {
-  constructor(items, total, lastModification, username) {
-    this.items = items;
-    this.total = total;
+  constructor(items, lastModification) {
+    this.items = items.map((item) => new CartRow(item.product, item.variant, item.quantity));
     this.lastModification = lastModification;
-    this.username = username;
+  }
+
+  getTotal() {
+    return this.items.reduce((acc, cur) => acc + parseFloat(cur.getSubTotal()), 0);
   }
 }
 

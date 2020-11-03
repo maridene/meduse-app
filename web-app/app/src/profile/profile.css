@@ -59,6 +59,15 @@
 	width: 150px;
 }
 
+.AdressesSection .no-address {
+    display: flex;
+    justify-content: center;
+}
+
+.AdressesSection .no-address .alert {
+    text-align: center;
+}
+
 .AdressesSection .AdressesSection-adresses-item {
     border: 1px solid lightgrey;
     display: flex;
@@ -102,6 +111,13 @@
     width: 260px;
 }
 
+/* address form*/
+
+.AdressesSection .formContainer {
+    display: flex;
+    justify-content: center;
+}
+
 
 /* orders section */
 
@@ -143,6 +159,12 @@
     text-align: center;
 }
 
+.PointsSection-panel-points-container-getCoupon {
+    display: flex;
+    padding-top: 15px;
+    justify-content: center;
+}
+
 .PointsSection-panel-details-title {
     text-align: center;
     font-size: 20px;
@@ -151,4 +173,12 @@
 
 .PointsSection-panel-details-history {
     padding: 0 15px;
+}
+
+.premium-background {
+    background-color: #eed813
+}
+
+.premium-color {
+    color: #eed813;
 }

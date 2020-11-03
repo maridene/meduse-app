@@ -15,6 +15,7 @@
     "angular-route": "^1.8.0",
     "angular-sanitize": "^1.8.0",
     "angular-ui-router": "^1.0.26",
+    "crypto-js": "^4.0.0",
     "html5-boilerplate": "0.0.1"
   },
   "devDependencies": {

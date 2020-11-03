@@ -1,5 +1,5 @@
 import ProfileConfig from './profile.config';
-import { ProfileCtrl, ProfileDetailsCtrl, ProfileAdressesCtrl, ProfileOrdersCtrl, ProfilePointsCtrl } from './profile.controller';
+import { ProfileCtrl, ProfileDetailsCtrl, ProfileAdressesCtrl, ProfileOrdersCtrl, ProfilePointsCtrl, AddressFormCtrl } from './profile.controller';
 
 // Create the module where our functionality can attach to
 let profileModule = angular.module('app.profile', []);
@@ -13,5 +13,6 @@ profileModule.controller('ProfileDetailsCtrl', ProfileDetailsCtrl);
 profileModule.controller('ProfileAdressesCtrl', ProfileAdressesCtrl);
 profileModule.controller('ProfileOrdersCtrl', ProfileOrdersCtrl);
 profileModule.controller('ProfilePointsCtrl', ProfilePointsCtrl);
+profileModule.controller('AddressFormCtrl', AddressFormCtrl);
 
 export default profileModule;

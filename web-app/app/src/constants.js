@@ -14,5 +14,9 @@ export const RESOURCE = {
   ADDRESS: 'address',
   ADDRESSES: 'addresses',
   BLOG_ITEM: 'blog',
-  BLOG_ITEMS: 'blogs'
+  BLOG_ITEMS: 'blogs',
+  ORDER: 'order',
+  ORDERS: 'orders',
+  COUPON: 'coupon',
+  COUPONS: 'coupons'
 };

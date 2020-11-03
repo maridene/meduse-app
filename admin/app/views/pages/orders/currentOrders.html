@@ -1,15 +1,32 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Liste des commandes en cours</h1>
+        <h1 class="page-header">Liste des nouvelles commandes</h1>
     </div>  
     <!-- /.col-lg-12 -->
 </div>
 
-<div class="row" ng-controller="CurrentOrdersCtrl">
+<div class="row">
+    <div class="col-lg-8">
+        <div class="form-group form-inline">
+            <div class="form-group input-group col-lg-6">
+                <input type="text" class="form-control" ng-model="filterQuery" placeholder="Nom client/Référence commande"/>
+            </div>
+            <div class="form-group input-group col-lg-4">
+                <select class="form-control" ng-model="selectedPaymentFilter">
+                    <option value="all">Tous</option>
+                    <option value="Espèces">Paiement en espèces</option>
+                    <option value="Chèque">Paiement par chèque</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Commandes en cours
+                Nouvelles commandes
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -20,17 +37,15 @@
                                 <th>Référence</th>
                                 <th>Date</th>
                                 <th>Client</th>
-                                <th>Prix total (D.T)</th>
-                                <th>Ètat</th>
+                                <th>Type paiement</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="order in orders track by order.id" class="odd gradeX">
-                                <td><a href="#/dashboard/order-details">{{order.id}}</a></td>
+                            <tr ng-repeat="order in filteredOrders track by order.id" class="odd gradeX">
+                                <td><a ng-href="#/dashboard/order-details/{{order.id}}">{{order.ref}}</a></td>
                                 <td>{{order.date}}</td>
                                 <td>{{order.client}}</td>
-                                <td>{{order.total}}</td>
-                                <td>{{order.state}}</td>
+                                <td>{{order.ptype}}</td>
                             </tr>
                         </tbody>
                     </table>

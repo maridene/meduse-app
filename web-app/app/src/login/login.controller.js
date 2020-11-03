@@ -20,6 +20,20 @@ class LoginCtrl {
       this.$rootScope.$broadcast('userLoggedOut');
     }
 
+    $onInit() {
+      const nextObj = this.$location.search();
+      if (nextObj && nextObj.next) {
+        this.next = `/${nextObj.next}`;
+        switch (this.next) {
+          case '/checkout':
+            this.message = 'Vous devez être connecté à votre compte pour pouvoir passer une commande';
+            break;
+          default:
+            this.message = null;
+        }
+      } 
+    }
+
     submit() {
       const hashedPassword = sha3_256(this.password);
       this.AuthenticationService.login(this.email, hashedPassword)
@@ -27,7 +41,14 @@ class LoginCtrl {
           if (response.status === 200 && response.data && response.data.token ) {
             this.AuthenticationService.setCredentials(response.data);
             this.$rootScope.$broadcast('userLoggedIn');
-            this.$timeout(() => this.$location.path('#!/'));
+            this.$timeout(() => {
+              if (this.next) {
+                this.$location.search({});
+                this.$location.path(this.next);
+              } else {
+                this.$location.path('#!/');
+              }
+            });
           } else {
             this.showAlert = true;
             this.$timeout(() => {

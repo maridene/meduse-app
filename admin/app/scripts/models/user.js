@@ -12,6 +12,8 @@ var User = function User(data) {
   this.email = data.email;
   this.phone = data.phone;
   this.token = data.token;
-  this.creationDate = data.creationDate;
+  this.creationDate = data.creationDate ? formatDateTime(data.creationDate).split('-')[0] : '';
   this.role = data.role;
+  this.premium = data.premium;
+  this.points = data.points;
 };

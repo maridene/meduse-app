@@ -3,7 +3,7 @@ function LoginConfig($stateProvider) {
   
     $stateProvider
         .state('app.login', {
-          url: '/login',
+          url: '/login:next?',
           controller: 'LoginCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'login/login.html',

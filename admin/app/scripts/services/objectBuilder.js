@@ -20,7 +20,9 @@ var RESOURCE = {
   CLIENTS: 'clients',
   CLIENT: 'client',
   ORDERS: 'orders',
-  ORDER: 'order'
+  ORDER: 'order',
+  ORDER_ROW: 'orderRow',
+  ORDER_ROWS: 'orderRows'
 };
 angular.module('sbAdminApp').service('ObjectBuilder', [function () {
   function getImageUrlFromProduct(baseUrl, product) {
@@ -159,24 +161,29 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
   ;
 
   function buildClient(data) {
-    return new Client(data);
+    return new User(data);
   }
-
-  ;
 
   function buildOrders(data) {
     return data.map(function (item) {
-      return buidOrder(item);
+      return buildOrder(item);
     });
   }
-
-  ;
 
   function buildOrder(data) {
     return new Order(data);
   }
 
-  ;
+  function buildOrderRows(data) {
+    return data.map(function (item) {
+      return buildOrderRow(item);
+    });
+  }
+
+  function buildOrderRow(data) {
+    return new OrderRow(data);
+  }
+
   return {
     buildObject: function buildObject(key, response) {
       switch (key) {
@@ -234,11 +241,17 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
         case RESOURCE.CLIENT:
           return buildClient(response);
 
-        case RESOURCE.Orders:
+        case RESOURCE.ORDERS:
           return buildOrders(response);
 
-        case RESOURCE.Order:
+        case RESOURCE.ORDER:
           return buildOrder(response);
+        
+        case RESOURCE.ORDER_ROWS:
+          return buildOrderRows(response);
+
+        case RESOURCE.ORDER_ROW:
+          return buildOrderRow(response);
       }
 
       return response;

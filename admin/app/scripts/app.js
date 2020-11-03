@@ -57,6 +57,7 @@ angular
                     'scripts/models/blog.js',
                     'scripts/models/client.js',
                     'scripts/models/order.js',
+                    'scripts/models/orderRow.js',
                     'scripts/utils.js',
                     'scripts/services/objectBuilder.js',
                     'scripts/services/restService.js',
@@ -67,7 +68,8 @@ angular
                     'scripts/services/manufacturerService.js',
                     'scripts/services/usersService.js',
                     'scripts/services/blogService.js',
-                    'scripts/services/ordersService.js'
+                    'scripts/services/ordersService.js',
+                    'scripts/services/orderRowsService.js'
                     ]
                 }));
                   promises.push($ocLazyLoad.load(
@@ -363,7 +365,7 @@ angular
         }
     })
       .state('dashboard.order-details', {
-        url:'/order-details',
+        url:'/order-details/:id',
         controller: 'OrderDetailsCtrl',
         templateUrl: 'views/pages/orders/orderDetails.html',
         resolve: {

@@ -11,7 +11,7 @@ const Role = require('helpers/role');
 //all authenticated users routes
 
 //user only routes
-router.get('/myaddresses', getByUserId);
+router.get('/myaddresses', authorize(Role.User), getByUserId);
 router.put('/:id', authorize(Role.User), update);
 router.delete('/:id', authorize(Role.User), remove);
 router.post('/', authorize(Role.User), create);
@@ -20,7 +20,8 @@ router.post('/', authorize(Role.User), create);
 module.exports = router;
 
 function getByUserId(req, res, next) {
-    const userId = req.header('userid');
+    const userId = req.header('userId');
+    console.log(userId);
     addressService.getByUserId(userId)
         .then((result) => res.json(result))
         .catch(err => next(err));
@@ -31,11 +32,17 @@ function update(req, res, next) {
 }
 
 function remove(req, res, next) {
-
+    const userId = parseInt(req.header('userId'));
+    const addressId = parseInt(req.params.id);
+    addressService.remove(userId, addressId)
+        .then(address => address ? res.json(address) : res.status(400).json({message: 'error occured while adding address'}))
+        .catch(err => next(err));
 }
 
 function create(req, res, next) {
-    addressService.add(req.body)
+    const userId = parseInt(req.header('userId'));
+    const address = Object.assign({}, req.body, {userId});
+    addressService.add(address)
         .then(address => address ? res.json(address) : res.status(400).json({message: 'error occured while adding address'}))
         .catch(err => next(err));
-    }
+}

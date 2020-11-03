@@ -24,56 +24,6 @@
     font-size: 28px;
 }
 
-.row-price {
-    font-weight: 700;
-    font-size: 25px;
-}
-
-.purchase-row * {
-    height: 40px;
-    vertical-align: middle;
-}
-
-.purchase-row .qty-col {
-    padding-left: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;;
-}
-
-.purchase-row md-input-container {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.social-share {
-    padding-top: 30px;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.social-share .social-share-label {
-    padding-right: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;;
-}
-
-.social-share .social-share-buttons button i {
-    padding: 5px;
-}
-
-.social-share .social-share-buttons .facebook {
-    color: white;
-    background-color: #4267B2;
-}
-
-.social-share .social-share-buttons .instagram {
-    color: white;
-    background-color: #8a3ab9;
-}
-
-.social-share .social-share-buttons .linkedin {
-    color: white;
-    background-color: #0072b1;
+.product-preview .primary-btn.pd-cart {
+    cursor: pointer;
 }

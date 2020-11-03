@@ -4,6 +4,7 @@ import User from './../models/user';
 import Address from './../models/address'; 
 import ProductVariant from './../models/productVariant';
 import BlogItem from './../models/BlogItem';
+import Coupon from './../models/coupon';
 import { RESOURCE } from './../constants';
 import { getImageUrlFromProduct } from './../utils';
 
@@ -27,7 +28,7 @@ export default class ObjectBuilder {
     return new Product(data);
   }
   buildUser(data) {
-    return new User(data.id, data.name, data.email, data.phone);
+    return new User(data);
   }
   buildUsers(data) {
     return data.map((item) => this.buildUser(item));
@@ -60,6 +61,12 @@ export default class ObjectBuilder {
   buildBlogItems(data) {
     return data && data.length ? data.map((item) => this.buildBlogItem(item)) : [];
   }
+  buildCoupons(data) {
+    return data && data.length ? data.map((item) => this.buildCoupon(item)) : [];
+  }
+  buildCoupon(data) {
+    return new Coupon(data);
+  }
 
   buildObject(key, response) {
     switch(key){
@@ -91,6 +98,10 @@ export default class ObjectBuilder {
         return this.buildBlogItem(response);
       case RESOURCE.BLOG_ITEMS:
         return this.buildBlogItems(response);
+      case RESOURCE.COUPON:
+        return this.buildCoupon(response);
+      case RESOURCE.COUPONS:
+        return this.buildCoupons(response);
     }
     return response;
   }

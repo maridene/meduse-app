@@ -13,54 +13,82 @@
 </div>
 <!-- Breadcrumb Section End -->
 
-<div class="CartSection container">
-    <div class="tittle wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-        <h2>Récapitulatif de ma commande</h2>
-        <h4></h4>
-    </div>
+<!-- Shopping Cart Section Begin -->
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 empty-cart" ng-if="!$ctrl.cartItems.length">
+                <div class="empty">
+                    Il n'y auccun produit dans votre panier.
+                </div>
+                <div class="empty-link">
+                    <a href="#"><b>&larr;</b> Continuer mes achats</a>
+                </div>
+            </div>
+            <div class="col-lg-12" ng-if="$ctrl.cartItems.length">
+                <div class="cart-table row">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="p-name">Produit</th>
+                                <th>Prix</th>
+                                <th>Quantité</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in $ctrl.cartItems">
+                                <td class="cart-pic"><a ng-href="#!/product/{{item.product.id}}"><img ng-src="{{item.image}}" alt=""></a></td>
+                                <td class="cart-title">
+                                    <h5>{{item.product.label}}</h5>
+                                    <p style="font-size: 14px; color: gray;" ng-if="item.variant && item.variant.size && cartItem.variant.color">
+                                        Couleur: {{item.variant.color}} - Taille: {{item.variant.size}}
+                                    </p>
+                                    <p style="font-size: 14px; color: gray;" ng-if="item.variant && item.variant.color">
+                                        Couleur: {{item.variant.color}}
+                                    </p>
+                                    <p style="font-size: 14px; color: gray;" ng-if="item.variant && item.variant.size">
+                                        Taille: {{item.variant.size}}
+                                    </p>
+                                </td>
+                                <td class="p-price" ng-if="!item.product.promo_price"> {{item.product.price}} D.T TTC</td>
+                                <td class="p-price" ng-if="item.product.promo_price"> {{item.product.promo_price}} D.T TTC</td>
 
-    <div class="CartSection-content">
-        <table class="CartSection-content-table table">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Produit</th>
-                <th scope="col">Description</th>
-                <th scope="col">Disponibilité</th>
-                <th scope="col">Prix unitaire</th>
-                <th scope="col">Quantité</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="item in $ctrl.cartItems"class="CartSection-content-table-item">
-                <th scope="row" class="CartSection-content-table-item-img"><img ng-src="{{item.product.image}}"></th>
-                <td class="CartSection-content-table-item-text">{{item.product.label}}</td>
-                <td class="CartSection-content-table-item-text">Disponible</td>
-                <td class="CartSection-content-table-item-text">{{item.product.price}} TND</td>
-                <td class="CartSection-content-table-item-quantity">
-                    <input min="0" type="number" id="quantity" name="quantity" step="1" ng-model="item.quantity" ng-change="$ctrl.update()">
-                </td>
-                <td class="CartSection-content-table-item-text">{{item.quantity * item.product.price}} TND</td>
-              </tr>
-            </tbody>
-        </table>
-        <div class="CartSection-content-total">
-            <div class="CartSection-content-total-container">
-                <div class="CartSection-content-total-line">
-                    <div class="CartSection-content-total-line-label">Total produits TTC:</div>
-                    <div class="CartSection-content-total-line-value">{{$ctrl.total}} DT</div>
+                                <td class="qua-col">
+                                    <div class="quantity">
+                                        <div class="pro-qty">
+                                            <input type="number" step="1" min="1" pattern="\d*" ng-model="item.quantity" ng-change="$ctrl.updateCartRowQuantity(item)">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="total-price">{{item.getSubTotal()}} D.T TTC</td>
+                                <td class="close-td"><i ng-click="$ctrl.removeItem(item)" class="ti-close"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="CartSection-content-total-line">
-                    <div class="CartSection-content-total-line-label">Frais de Livraison</div>
-                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total < 50"> 7 TND</div>
-                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total > 50"> Gratuite</div>
-                </div>
-                <div class="CartSection-content-total-line">
-                    <div class="CartSection-content-total-line-label">Total TTC</div>
-                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total < 50"> {{$ctrl.total + 7}} TND</div>
-                    <div class="CartSection-content-total-line-value" ng-if="$ctrl.total > 50"> {{$ctrl.total}}</div>
+                <div class="row">
+                    <div class="col-lg-6 points">
+                        <h5>Points de fidélité:</h5>
+                        <p>
+                            Après avoir passé cette commande, vous gagnerez <b>{{$ctrl.points}}</b> points que vous pourrez dépenser pour obtenir des récompenses!</div>
+                        </p>
+                    <div class="col-lg-4 offset-lg-2">
+                        <div class="proceed-checkout">
+                            <ul>
+                                <li class="subtotal">Sous-total <span>{{$ctrl.cart.getTotal()}} D.T TTC</span></li>
+                                <li ng-if="$ctrl.shippingFee" class="subtotal">Frais de livraison <span>{{$ctrl.shippingFee}} D.T</span></li>
+                                <li ng-if="!$ctrl.shippingFee" class="subtotal"> Frais de livraison <span>Gratuit</span></li>
+                                <li class="cart-total">Total <span>{{$ctrl.cart.getTotal() + $ctrl.shippingFee}} D.T TTC</span></li>
+                            </ul>
+                            <div class="proceed-btn site-btn" ng-click="$ctrl.goToCheckout()">Passer une commande</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+<!-- Shopping Cart Section End -->

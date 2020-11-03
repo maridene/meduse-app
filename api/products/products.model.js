@@ -90,6 +90,20 @@ Product.getAll = () => {
   });
 };
 
+Product.search = (query) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE label LIKE '%${query}%'`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        console.log("search result: ", res);
+        resolve(res);
+      }
+    });
+  });
+};
+
 Product.findByRef =  (ref) => {
   return new Promise((resolve, reject) => {
     sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE sku = '${ref}'`, (err, res) => {

@@ -204,4 +204,49 @@ User.findByEmail =  (email) => {
   });
 };
 
+User.updateClientPoints = (id, points) => {
+  return new Promise((resolve, reject) => {
+    const updateQuery = `UPDATE ${tables.USERS}  SET ` +
+      "points = ? WHERE id = ?";
+    sql.query(updateQuery,
+      [
+        points,
+        id
+      ],
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          reject(err);
+        } else if (res.affectedRows == 0) {
+          // not found user with the id
+          reject({ kind: "not_found" });
+        } else {
+          console.log("updated user points: ", { id, points });
+          resolve({ id, points });
+        }
+      }
+    );
+  });
+}
+
+User.upgradeClientToPremium = (id) => {
+  return new Promise((resolve, reject) => {
+    const updateQuery = `UPDATE ${tables.USERS} SET premium = 1 WHERE id = ${id}`;
+    sql.query(updateQuery,
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          reject(err);
+        } else if (res.affectedRows == 0) {
+          // not found user with the id
+          reject({ kind: "not_found" });
+        } else {
+          console.log("updated user with id = : ",id, "to premium user.");
+          resolve();
+        }
+      }
+    );
+  });
+}
+
 module.exports = User;

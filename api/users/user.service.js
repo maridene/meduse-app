@@ -9,9 +9,12 @@ module.exports = {
     getClients,
     getAdmins,
     getById,
+    getClientById,
     create,
     deleteUser,
-    update
+    update,
+    upgradeClientToPremium,
+    updateClientPoints
 };
 
 function authenticate({ email, password }) {
@@ -98,6 +101,18 @@ function getById(id) {
     });
 }
 
+function getClientById(id) {
+    return new Promise((resolve, reject) => {
+        const user = users.findById(id)
+        .then((user) => {
+            const { password, ...userWithoutPassword } = user;
+            resolve(userWithoutPassword);
+        }, (error) => {
+            reject(error);
+        });
+    });
+}
+
 function create({prefix, name, email, password, phone}, role) {
     return new Promise((resolve, reject) => {
         emailAvailable(email).then((result) => {
@@ -131,13 +146,36 @@ function deleteUser(id) {
     });
 }
 
-function update() {
+function update(id) {
     return new Promise((resolve, reject) => {
         users.updateById(id)
             .then((user) => {
                 resolve(user);
             }, (err) => {
                 reject(err);
+            })
+    });
+}
+
+function updateClientPoints(clientId, points) {
+    return new Promise((resolve, reject) => {
+        users.updateClientPoints(clientId, points)
+            .then((result) => {
+                resolve(result);
+            }, (err) => {
+                reject(err);
+            })
+    });
+}
+
+function upgradeClientToPremium(id) {
+    return new Promise((resolve, reject) => {
+        users.upgradeClientToPremium(id)
+            .then(() => {
+                resolve();
+            }, (error) => {
+                console.error('error while upgrading user to premium.');
+                reject(error);
             })
     });
 }

@@ -45,3 +45,74 @@ export function getImagesUrlsFromProduct(baseUrl, product) {
         return [`${baseUrl}images/no-image.jpg`];
     }
 }
+
+function formatDateTime(input) {
+    const date = formatDate(input.split('T')[0]);
+    const time = input.split('T')[1].split('.')[0];
+    return "".concat(date, ' - ').concat(time);
+}
+
+function getDateFromDatetime(input) {
+    return formatDateTime(input).split('-')[0];
+}
+
+function formatDate (input) {
+    var datePart = input.match(/\d+/g),
+    year = datePart[0], // get only two digits
+    month = datePart[1], day = datePart[2];
+  
+    return day+'/'+month+'/'+year;
+}
+
+export function EnrichOrder(order) {
+    order.paymentType = order.ptype === 'e' ? 'Espèces' : 'Chéque';
+    order.status = orderStatusMapper(order.order_status);
+    order.paymentStatus = order.payment_status === 0 ? 'Payée' : 'Non payée';
+    order.date = formatDateTime(order.order_date);
+    return order;
+}
+
+function orderStatusMapper(status) {
+    switch (status) {
+        case 'new':
+        return 'Nouvelle commande';
+        case 'in_progress':
+        return 'En cours de traitement';
+        case 'confirmed':
+        return 'Commande confirmée';
+        case 'shipping':
+        return 'En cours de livraison';
+        case 'canceled':
+        return 'Commande annulée';
+        case 'shipped':
+        return 'Commande livrée';
+    }
+}
+
+export function orderSorterByDateDESC(o1, o2) {
+    if (o1 < o2) {
+        return -1;
+    } else if (o1 > o2) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+export function orderSorterByStatusASC(o1, o2) {
+    const statusIndex = [
+        'new',
+        'confirmed',
+        'in_progress',
+        'shipping',
+        'shipped',
+        'canceled'
+    ];
+    if (statusIndex.indexOf(o1.order_status) > statusIndex.indexOf(o2.order_status)) {
+        return 1;
+    } else if (statusIndex.indexOf(o1.order_status) < statusIndex.indexOf(o2.order_status)) {
+        return -1;
+    } else {
+        return 0;
+    }
+}

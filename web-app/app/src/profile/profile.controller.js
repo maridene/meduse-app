@@ -1,3 +1,5 @@
+import { EnrichOrder, orderSorterByStatusASC } from "../utils";
+
 export class ProfileCtrl {
     constructor(AppConstants, AuthenticationService, $location, $timeout, $rootScope) {
       'ngInject';
@@ -80,40 +82,110 @@ export class ProfileDetailsCtrl {
 }
 
 export class ProfileAdressesCtrl {
-  constructor(AppConstants, data) {
+  constructor(AppConstants, $location, data, AddressesService) {
     'ngInject';
 
     this.appName = AppConstants.appName;
     this.addresses = data;
-    console.log(this.addresses);
+    this.$location = $location;
+    this.AddressesService = AddressesService;
+  }
 
+  addAddress() {
+    this.$location.path('/profile/addressForm');
+  }
+
+  delete(address) {
+    this.AddressesService.removeAddress(address.id)
+      .then((result) => {
+        this.reloadAddresses();
+      });
+  }
+
+  reloadAddresses() {
+    this.AddressesService.getMyAddresses()
+      .then((result) => {
+        this.addresses = result;
+      })
   }
 }
 
 export class ProfileOrdersCtrl {
-  constructor(AppConstants) {
+  constructor(AppConstants, OrdersService) {
     'ngInject';
 
     this.appName = AppConstants.appName;
-
+    this.OrdersService = OrdersService;
   }
 
-
+  $onInit() {
+    this.OrdersService.getMyOrders()
+      .then((orders) => {
+        this.orders = orders.map((order) => EnrichOrder(order))
+          .sort(orderSorterByStatusASC);
+      }, () => {
+        this.orders = [];
+      });
+  }
 }
 
 export class ProfilePointsCtrl {
-  constructor(AppConstants) {
+  constructor(AppConstants, data, coupons, CouponsService, $window) {
     'ngInject';
 
     this.appName = AppConstants.appName;
+    this.coupons = coupons;
+    this.CouponsService = CouponsService;
+    this.$window = $window;
+    
+    this.defaultPremium = 3000;
+    this.points = parseInt(data.points);
+    this.premium = data.premium;
+    this.remainingPoints = 3000 - this.points;
+    this.canGetCoupon = this.points >= 3000;
+  }
+
+  getCoupon() {
+    if (this.points > this.defaultPremium) {
+      this.CouponsService.getCoupon()
+        .then(() => {
+          this.$window.location.reload(true);
+        });
+    }
   }
 }
 
 export class AddressFormCtrl {
-  constructor(AppConstants) {
+  constructor(AppConstants, $location, AddressesService) {
     'ngInject';
-
     this.appName = AppConstants.appName;
-    this.addresses = data;
+    this.$location = $location;
+    this.AddressesService = AddressesService;
+
+    const nextObj = this.$location.search();
+    if (nextObj && nextObj.next) {
+      this.next = `/${nextObj.next}`;
+    }
+
+    this.states = [
+      'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine', 'Kébili', 'Le Kef',
+      'Mahdia', 'La Manouba', 'Mèdenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi Bouzid', 'Siliana', 'Sousse', 'Tataouine', 
+      'Touzeur', 'Tunis', 'Zaghouan'];
+
+    this.form = {};
+  }
+
+  add() {
+    this.form.phone = `+216${this.form.phone}`; 
+    this.AddressesService.addAddress(this.form)
+      .then((result) => {
+        if (result) {
+          if (this.next) {
+            this.$location.path(this.next);
+          } else {
+            this.$location.path('/profile/adresses');
+          }
+        }
+      });
   }
 }

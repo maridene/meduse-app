@@ -19,37 +19,29 @@
 <div class="OrdersSection container">
     <div class="tittle wow fadeInUp"> 
         <h2>Mes commandes</h2>
-        <h4>Bienvenue sur votre compte. Vous pouvez y gérer vos informations personnelles ainsi que vos commandes</h4>
+        <h4></h4>
     </div>
-
     <div class="OrdersSection-container">
-        <table class="table table-hover">
+        <div ng-if="$ctrl.orders.length === 0" style="text-align: center;">
+          Vous n'avez pas encore passé des commandes.
+        </div>
+        <table ng-if="$ctrl.orders.length" class="table table-hover">
             <thead>
               <tr>
                 <th scope="col">Référence</th>
                 <th scope="col">Date</th>
-                <th scope="col">Prix total</th>
+                <th scope="col">Type de paiement</th>
                 <th scope="col">Etat</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">CO-1002</th>
-                <td>20/09/2019</td>
-                <td>24,500 TND</td>
-                <td><span class="badge badge-primary">Livrée</span></td>
-              </tr>
-              <tr>
-                <th scope="row">CO-1003</th>
-                <td>01/05/2020</td>
-                <td>100,500 TND</td>
-                <td><span class="badge badge-success">En cours</span></td>
-              </tr>
-              <tr>
-                <th scope="row">CO-1014</th>
-                <td>22/09/2020</td>
-                <td>80,000 TND</td>
-                <td><span class="badge badge-danger">Annulée</span></td>
+              <tr ng-repeat="order in $ctrl.orders">
+                <th scope="row">{{order.order_ref}}</th>
+                <td>{{order.date}}</td>
+                <td>{{order.paymentType}}</td>
+                <td ng-if="['new', 'in_progress'].indexOf(order.order_status) !== -1"><span class="badge badge-primary">{{order.status}}</span></td>
+                <td ng-if="order.order_status === 'canceled'"><span class="badge badge-danger">{{order.status}}</span></td>
+                <td ng-if="['shipping', 'shipped'].indexOf(order.order_status) !== -1"><span class="badge badge-success">{{order.status}}</span></td>
               </tr>
             </tbody>
           </table>

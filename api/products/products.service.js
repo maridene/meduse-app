@@ -7,6 +7,7 @@ module.exports = {
     findByCategory,
     findByReference,
     getAll,
+    search,
     create,
     deleteById,
     updateById,
@@ -31,10 +32,10 @@ function findById(id) {
                 console.log(`no product found with id = ${id}`);
                 resolve();
             } 
-        }), (err) => {
+        }, (err) => {
                 reject(err);
-            }
         });
+    });
 }
 
 function findByIdWithoutVariants(id) {
@@ -56,6 +57,18 @@ function getAll() {
     return new Promise((resolve, reject) => {
         products
         .getAll()
+        .then((all) => {
+            resolve(all);
+        }, (err) => {
+            reject(err);
+        });
+    });
+}
+
+function search(query) {
+    return new Promise((resolve, reject) => {
+        products
+        .search(query)
         .then((all) => {
             resolve(all);
         }, (err) => {

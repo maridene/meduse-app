@@ -1,8 +1,9 @@
 <div class="LoginSection">
     <div class="container">
         <div class="LoginSection-text"> 
-            <h3>Connectez vous à votre compte</h2>
+            <h3>Connectez vous à votre compte</h3>
             <div class="LoginSection-text-separator"></div>
+            <p class="LoginSection-message">{{$ctrl.message}}</p>
         </div>
         <form role="form" ng-submit="$ctrl.submit()" class="LoginSection-container">
             <div ng-style="$ctrl.showAlert ? {opacity: 1} : {opacity: 0}" class="form-group alert alert-danger" role="alert">

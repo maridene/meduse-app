@@ -118,7 +118,7 @@ export default class AuthenticationService {
     }
 
     isAuthenticated () {
-        return this.$rootScope.globals && this.$rootScope.globals.currentUser && this.$rootScope.globals.currentUser.data;
+        return this.$rootScope.globals && this.$rootScope.globals.currentUser;
     }
     
 }

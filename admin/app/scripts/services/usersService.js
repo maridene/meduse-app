@@ -51,6 +51,15 @@ angular.module('sbAdminApp').service('UsersService', ['$q', 'ObjectBuilder', 'Re
         deferred.reject(error);
       });
       return deferred.promise;
-    }
+    },
+    getClientById: function getClientById(id) {
+      var deferred = $q.defer();
+      RestService.get("".concat(CLIENTS, "/").concat(id)).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('client', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
+    },
   };
 }]);

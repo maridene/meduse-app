@@ -27,6 +27,7 @@ import './blog';
 import './profile';
 import './components';
 import './cart';
+import './checkout';
 
 
 // Create and bootstrap application
@@ -50,7 +51,8 @@ const requires = [
   'app.premium',
   'app.blog',
   'app.profile',
-  'app.cart'
+  'app.cart',
+  'app.checkout'
 ];
 
 // Mount on window for testing
