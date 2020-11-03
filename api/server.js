@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:9000', 'http://localhost:4000'];
+  const allowedOrigins = ['http://localhost:9000', 'http://localhost:4000', 'http://www.meduse.tn'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
        res.setHeader('Access-Control-Allow-Origin', origin);
