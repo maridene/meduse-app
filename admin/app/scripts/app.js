@@ -448,6 +448,7 @@ angular
                 name:'sbAdminApp',
                 files:[
                   'scripts/app-constants.js',
+                  'scripts/utils.js',
                   'scripts/models/user.js',
                   'scripts/services/restService.js',
                   'scripts/services/authenticationService.js',
