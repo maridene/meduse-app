@@ -8,7 +8,7 @@
  */
 angular.module('sbAdminApp')
   .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 
-  function ($scope, $stateParams, OrdersService, OrderRowsService, UsersService, ProductService) {
+  function ($scope, $stateParams, $window, OrdersService, OrderRowsService, UsersService, ProductService) {
     $scope.order = {};
     $scope.rows = [];
     $scope.form = {
