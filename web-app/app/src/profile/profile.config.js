@@ -78,6 +78,23 @@ function ProfileConfig($stateProvider) {
           controllerAs: '$ctrl',
           templateUrl: 'profile/addressForm.html',
           title: 'Profile'
+        })
+        .state('app.editAddress', {
+          url: '/profile/adresses/edit/:id',
+          controller: 'EditAddressCtrl',
+          controllerAs: '$ctrl',
+          templateUrl: 'profile/editAddressForm.html',
+          title: 'Profile',
+          resolve: {
+            data: function(AddressesService, $state, $stateParams) {
+              return AddressesService.getById($stateParams.id).then(
+                  (data) => {
+                    return data;
+                  },
+                  (err) => $state.go('app.home')
+              )
+            }
+          }
         });
   };
   

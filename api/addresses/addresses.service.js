@@ -3,6 +3,7 @@ const Address = require('./addresses.model');
 
 module.exports = {
     getById,
+    getByIdAndUserId,
     getByUserId,
     add,
     updateById,
@@ -12,6 +13,17 @@ module.exports = {
 function getById(id) {
     return new Promise((resolve, reject) => {
         addresses.getById(id)
+            .then((address) => {
+                resolve(address);
+            }, (error) => {
+                reject(err);
+            })
+    });
+}
+
+function getByIdAndUserId(userId, id) {
+    return new Promise((resolve, reject) => {
+        addresses.getByIdAndUserId(userId, id)
             .then((address) => {
                 resolve(address);
             }, (error) => {
@@ -42,9 +54,14 @@ function add({ userId, name, city, state, address, description, zipcode, phone }
     });
 }
 
-function updateById() {
+function updateById(id, address) {
     return new Promise((resolve, reject) => {
-        
+        addresses.updateById(id , address)
+            .then((result) => {
+                resolve(result);
+            }, (err) => {
+                reject(err);
+            })
     });
 }
 

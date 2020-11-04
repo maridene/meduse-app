@@ -189,3 +189,36 @@ export class AddressFormCtrl {
       });
   }
 }
+
+export class EditAddressCtrl {
+  constructor(AppConstants, $location, AddressesService, data) {
+    'ngInject';
+    this.appName = AppConstants.appName;
+    this.$location = $location;
+    this.AddressesService = AddressesService;
+
+    this.states = [
+      'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine', 'Kébili', 'Le Kef',
+      'Mahdia', 'La Manouba', 'Mèdenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi Bouzid', 'Siliana', 'Sousse', 'Tataouine', 
+      'Touzeur', 'Tunis', 'Zaghouan'];
+
+    this.form = {
+      address: data.address,
+      zipcode: data.zipcode,
+      city: data.city,
+      state: data.state,
+      phone: data.phone && data.phone.indexOf('+216') !== -1 ? data.phone.replace('+216', '') : data.phone,
+      description: data.description,
+      name: data.name
+    };
+
+    this.id = data.id;
+  }
+
+  update() {
+    this.AddressesService.updateById(this.id, this.form)
+      .then(() => {
+        this.$location.path('/profile/adresses');
+      })
+  }
+}

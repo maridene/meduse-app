@@ -19,9 +19,27 @@ export default class AddressesService {
         return deferred.promise;
     }
 
+    getById(id) {
+        const deferred = this.$q.defer();
+        this.RestService.get(`${ApiConstants.ADDRESSES}${id}`)
+            .then((result) => {
+                deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.ADDRESS, result.data));
+            }, (error) => deferred.reject(error));
+        return deferred.promise;
+    }
+
     addAddress(data) {
         const deferred = this.$q.defer();
         this.RestService.post(`${ApiConstants.ADDRESSES}`, data)
+            .then((result) => {
+                deferred.resolve(result);
+            }, (error) => deferred.reject(error));
+        return deferred.promise; 
+    }
+
+    updateById(id, data) {
+        const deferred = this.$q.defer();
+        this.RestService.put(`${ApiConstants.ADDRESSES}${id}`, data)
             .then((result) => {
                 deferred.resolve(result);
             }, (error) => deferred.reject(error));

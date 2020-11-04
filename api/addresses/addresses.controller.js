@@ -12,6 +12,7 @@ const Role = require('helpers/role');
 
 //user only routes
 router.get('/myaddresses', authorize(Role.User), getByUserId);
+router.get('/:id', authorize(Role.User), getByIdAndUserId);
 router.put('/:id', authorize(Role.User), update);
 router.delete('/:id', authorize(Role.User), remove);
 router.post('/', authorize(Role.User), create);
@@ -19,16 +20,28 @@ router.post('/', authorize(Role.User), create);
 
 module.exports = router;
 
+function getByIdAndUserId(req, res, next) {
+    const userId = parseInt(req.header('userId'));
+    const id = parseInt(req.params.id);
+
+    addressService.getByIdAndUserId(userId, id)
+        .then((result) => res.json(result))
+        .catch(err => next(err));
+}
+
 function getByUserId(req, res, next) {
     const userId = req.header('userId');
-    console.log(userId);
     addressService.getByUserId(userId)
         .then((result) => res.json(result))
         .catch(err => next(err));
 }
 
 function update(req, res, next) {
-
+    const id = parseInt(req.params.id);
+    const address = req.body;
+    addressService.updateById(id, address)
+        .then((result) => res.json(result))
+        .catch(err => next(err));
 }
 
 function remove(req, res, next) {

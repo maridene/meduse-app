@@ -18,7 +18,7 @@
 
 <div class="AdressesSection container">
     <div class="AdressesSection-text"> 
-        <h3>VOS ADRESSES DE LIVRAISON / Facturation</h2>
+        <h3>VOS ADRESSES DE LIVRAISON / FACTURATION</h2>
         <div class="AdressesSection-text-separator"></div>
     </div>
 
@@ -29,8 +29,8 @@
             </div>
         </div>
     </div>
-    <div class="AdressesSection-adresses">
-        <div class="AdressesSection-adresses-item row" ng-repeat="address in $ctrl.addresses">
+    <div class="row">
+        <div class="AdressesSection-adresses-item col-lg-5 col-md-5 col-sm-11 offset-1 offset-sm-1 mt-3" ng-repeat="address in $ctrl.addresses">
             <h5 class="AdressesSection-adresses-item-adressLine">{{address.name}}</h5>
             <div class="AdressesSection-adresses-item-adressSeparator"></div>
             <div class="AdressesSection-adresses-item-adressLine">{{address.address}}</div>
@@ -38,8 +38,8 @@
             <div class="AdressesSection-adresses-item-adressLine">{{address.zipcode}} {{address.city}}, {{address.state}}</div>
             <div class="AdressesSection-adresses-item-adressLine">{{address.phone}}</div>
             <div class="AdressesSection-adresses-item-adressActions">
-                <button type="button" ng-click="$ctrl.update(address)"class="btn btn-info btn-block"> Mettre à jour </button>
-                <button type="button" ng-click="$ctrl.delete(address)"class="btn btn-danger btn-block"> Supprimer </button>
+                <a ng-href="#!/profile/adresses/edit/{{address.id}}" class="btn btn-info btn-block col-4" > Mettre à jour </a>
+                <button type="button" ng-click="$ctrl.delete(address)"class="btn btn-danger btn-block col-4"> Supprimer </button>
             </div>
         </div>
     </div>

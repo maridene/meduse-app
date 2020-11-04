@@ -54,6 +54,26 @@ Address.getById = (addressId) => {
     });
   };
 
+Address.getByIdAndUserId = (userId, id) => {
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT * FROM ${tables.ADDRESSES} WHERE id = ${id} AND userid = ${userId}`, 
+        (err, res) => {
+          if (err) {
+            console.log("error: ", err);
+            reject(err);
+          } else {
+            if (res.length) {
+              console.log("found address: ", res);
+              resolve(res[0]);
+            } else {
+              console.log(`no addess found with id = ${id} for user with id = ${userId}`);
+              resolve();
+            }
+          }
+        });
+      });
+};
+
 Address.add = (newAddress) => {
 return new Promise((resolve, reject) => {
     sql.query(`INSERT INTO ${tables.ADDRESSES} SET ?`,  newAddress, (err, res) => {
@@ -87,15 +107,15 @@ return new Promise((resolve, reject) => {
     });
 };
 
-Address.updateById = (id, address, result) => {
+Address.updateById = (id, address) => {
     const updateQuery = `UPDATE ${tables.ADDRESSES} SET ` +
     "name = ?, " +
     "city = ?, " +
     "state = ?, " +
-    "avenue = ?, " +
+    "address = ?, " +
     "description = ?, " +
     "zipcode = ?, " +
-    "phone = ?, " +
+    "phone = ? " +
     "WHERE id = ?";
 
     return new Promise((resolve, reject) => {
@@ -104,7 +124,7 @@ Address.updateById = (id, address, result) => {
             address.name,
             address.city,
             address.state,
-            address.avenue,
+            address.address,
             address.description,
             address.zipcode,
             address.phone,
