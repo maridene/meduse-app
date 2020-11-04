@@ -48,7 +48,6 @@ class AppHeaderCtrl {
     this.categoryService.getAllCategories()
         .then((categories) => {
           this.categories = categories;
-          console.log(this.categories);
         });
   }
 }
