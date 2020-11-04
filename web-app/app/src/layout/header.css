@@ -61,11 +61,11 @@
 	padding-left: 20px;
 }
 
-.header-top .ht-right .fa {
+.header-top .ht-right .fa, .header-top .ht-right .fab {
 	color: #19346d;
 }
 
-.header-top .ht-right .fa:hover {
+.header-top .ht-right .fa:hover, .header-top .ht-right .fab:hover {
 	color: #33c0ec;
 }
 
