@@ -10,6 +10,7 @@ class User {
     this.prefix = data.prefix;
     this.premium = data.premium;
     this.creationDate = data.creationDate;
+    this.mf = data.mf;
   }
 }
 

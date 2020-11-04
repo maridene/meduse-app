@@ -30,3 +30,10 @@
 .RegisterSection .card-body .text-center a:hover {
 	color: #19346d;
 }
+
+.RegisterSection .ErrorMessage {
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+	color: #721c24;
+	text-align: center;
+}

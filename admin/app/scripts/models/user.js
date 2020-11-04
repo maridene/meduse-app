@@ -16,4 +16,5 @@ var User = function User(data) {
   this.role = data.role;
   this.premium = data.premium;
   this.points = data.points;
+  this.mf = data.mf;
 };

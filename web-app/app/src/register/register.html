@@ -5,19 +5,40 @@
     </div>
 
     <article class="card-body mx-auto" style="max-width: 400px;">    
-        <form>
+        <form role="form" ng-submit="$ctrl.register()"
+        oninput='up2.setCustomValidity(up2.value != up.value ? "Veuillez vérifier votre mot de passe." : "")'>
+            <div ng-if="$ctrl.errorMessage" class="form-group">
+                <div class="ErrorMessage">
+                    {{$ctrl.errorMessage}}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" ng-model="$ctrl.user.prefix" type="radio" name="title" id="title1" value="M.">
+                    <label class="form-check-label" for="inlineRadio1">M.</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" ng-model="$ctrl.user.prefix" type="radio" name="title" id="title2" value="Mme">
+                    <label class="form-check-label" for="inlineRadio2">Mme</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" ng-model="$ctrl.user.prefix" type="radio" name="title" id="title3" value="Melle" >
+                    <label class="form-check-label" for="inlineRadio3">Melle</label>
+                  </div>
+            </div>
+        
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="Nom et prénom" type="text" ng-model="$ctrl.user.name" required>
-            </div> <!-- form-group// -->
+                <input name="" class="form-control" placeholder="Nom et prénom" type="text" ng-model="$ctrl.user.name" minLength="8" required>
+            </div>
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
                 <input name="" class="form-control" placeholder="Adresse E-mail" type="email" ng-model="$ctrl.user.email" required>
-            </div> <!-- form-group// -->
+            </div>
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
@@ -26,22 +47,28 @@
                     <option selected="true">+216</option>
                 </select>
                 <input name="" type="text" class="form-control" id="phoneValidation" placeholder="Numéro de téléphone" pattern="[0-9]{8}" ng-model="$ctrl.user.phone" required>
-            </div> <!-- form-group// -->
+            </div> 
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fas fa-barcode"></i> </span>
+                </div>
+                <input name="" class="form-control" ng-model="$ctrl.user.mf" placeholder="Matricule fiscale (1234567X/Y/Z/123)" type="text" ng-model="$ctrl.user.email" pattern="[0-9]{7}[A-Z]{1}[/]{1}[A-Z]{1}[/]{1}[A-Z]{1}[/]{1}[0-9]{3}">
+            </div>
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Mot de passe (8 caractères minimum)" type="password" ng-model="$ctrl.user.password" required>
-            </div> <!-- form-group// -->
+                <input name="up" class="form-control" placeholder="Mot de passe (8 caractères minimum)" type="password" ng-model="$ctrl.user.password" pattern=".{8,32}" required>
+            </div>
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Répétez le mot de passe" type="password" ng-model="$ctrl.user.passwordRepeat" required>
-            </div> <!-- form-group// -->                                  
+                <input name="up2" class="form-control" placeholder="Répétez le mot de passe" type="password" ng-model="$ctrl.user.passwordRepeat" required>
+            </div>                              
             <div class="form-group">
-                <button type="submit" ng-click="$ctrl.register()" class="btn btn-primary btn-block"> Créez votre compte </button>
-            </div> <!-- form-group// -->      
+                <button type="submit" class="btn btn-primary btn-block"> Créez votre compte </button>
+            </div>   
             <p class="text-center">Déja enregistré? <a href="#!/login">Connexion</a> </p>                                                                 
         </form>
     </article>

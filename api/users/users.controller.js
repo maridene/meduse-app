@@ -76,7 +76,8 @@ function register(req, res, next) {
         res.status(400).json({message : 'form not valid'});
     } else {
         userService.create(req.body, Role.User)
-        .then(user => user ? res.json(user) : res.status(400).json({message : 'error occured while creating user'}))
+        .then(user => user ? res.json(user) : res.status(400).json({message : 'error occured while creating user'}),
+        error => res.status(400).json(error))
         .catch(err => next(err));
     }
 }
