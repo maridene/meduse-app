@@ -25,7 +25,7 @@ function AppRun(AppConstants, $rootScope, $location, $cookies, $http, $window, C
 
   $rootScope.$on('$locationChangeStart', function (event, next, current) {
       // redirect to login page if not logged in and trying to access a restricted page
-      const restrictedPages = ['/profile',  '/checkout'];
+      const restrictedPages = ['/profile/details', '/profile/adresses', '/profile/orders', '/profile/points', '/checkout'];
       const isInRestrictedPage = restrictedPages.includes($location.path());
       const loggedIn = $rootScope.globals.currentUser;
       if (isInRestrictedPage && !loggedIn) {
