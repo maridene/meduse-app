@@ -118,3 +118,6 @@ web-app/app/src/config/app.templates.js
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 web-app/build/Release
+
+#static files
+api/public/*
