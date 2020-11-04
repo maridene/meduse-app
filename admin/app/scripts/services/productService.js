@@ -85,7 +85,7 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
 
   var pin = function pin(id, state) {
     var deferred = $q.defer();
-    RestService.post("".concat(PRODUCTS, "/pin/").concat(id), {state}).then(function (result) {
+    RestService.post("".concat(PRODUCTS, "/pin/").concat(id), {state: state}).then(function (result) {
       deferred.resolve(result);
     }, function (error) {
       deferred.reject(error);

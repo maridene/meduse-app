@@ -41,7 +41,7 @@ angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'R
     },
     search: function search(status, payment, ptype) {
       var deferred = $q.defer();
-      let url = ORDERS + '/search?status={0}&payment={1}&ptype={2}';
+      var url = ORDERS + '/search?status={0}&payment={1}&ptype={2}';
       url = url.replace('{0}', status)
                 .replace('{1}', payment)
                 .replace('{2}', ptype);
@@ -55,7 +55,7 @@ angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'R
     },
     updateById: function updateById(id, data) {
       var deferred = $q.defer();
-      let url = ORDERS + '/' + id;
+      var url = ORDERS + '/' + id;
       RestService.put(url, data)
         .then(function(result) {
           return deferred.resolve();

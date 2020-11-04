@@ -30,10 +30,10 @@ angular.module('sbAdminApp')
               orderRows.forEach(function(row) {
                 ProductService.getProductById(row.productId)
                   .then(function(result) {
-                    const selectedVariant = row.variantId ? result.variants.filter(function(item) {
+                    var selectedVariant = row.variantId ? result.variants.filter(function(item) {
                       return item.id === row.variantId;
                     })[0] : null;
-                    const orderRow = {
+                    var orderRow = {
                       label: getProductLabel(result.product, selectedVariant),
                       quantity : row.quantity,
                       price: result.product.price,
@@ -81,7 +81,7 @@ angular.module('sbAdminApp')
     };
 
     function getProductLabel(product, selectedVariant) {
-      let label = product.label;
+      var label = product.label;
       if (selectedVariant) {
         if (selectedVariant.color && selectedVariant.size) {
           label = label + ' - ' + selectedVariant.color + ' - ' + selectedVariant.size;

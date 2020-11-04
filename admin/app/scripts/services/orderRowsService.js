@@ -32,7 +32,7 @@ angular.module('sbAdminApp').service('OrderRowsService', ['$q', 'ObjectBuilder',
     },
     search: function search(status, payment, ptype) {
       var deferred = $q.defer();
-      let url = ORDER_ROWS + '/search?status={0}&payment={1}&ptype={2}';
+      var url = ORDER_ROWS + '/search?status={0}&payment={1}&ptype={2}';
       url = url.replace('{0}', status)
                 .replace('{1}', payment)
                 .replace('{2}', ptype);
