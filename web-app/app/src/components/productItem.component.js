@@ -34,8 +34,7 @@ export default class ProductItemController {
     addToCart() {
         if (!this.outOfStock) {
             if (this.variants && this.variants.length) {
-                const toAddVariant = this.variants.filter((variant) => variant.quantity > 0)[0];
-                this.CartService.addItemToCart(this.product, 1, toAddVariant);
+                this.openPreviewPopup(null);
             } else {
                 this.CartService.addItemToCart(this.product, 1, null);
             }
