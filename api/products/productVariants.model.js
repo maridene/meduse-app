@@ -33,7 +33,7 @@ ProductVariant.getById = (productVariantId) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log("found product variant: ", res);
+          console.log("[ProductVariant.getById]: found product variant: ", res[0].id);
           resolve(res[0]);
         } else {
           console.log(`no product variant found with id = ${productId}`);
@@ -54,10 +54,10 @@ ProductVariant.getByProductId = (productId) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("found product varaiants: ", res);
+            console.log(`[ProductVariant.getByProductId]: found product varaiants for product with id ${productId} :${res.length}`);
             resolve(res);
           } else {
-            console.log(`no product variants found for product with id = ${productId}`);
+            console.log(`[ProductVariant.getByProductId]: no product variants found for product with id = ${productId}`);
             resolve([]);
           }
         }

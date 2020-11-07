@@ -30,7 +30,7 @@ Product.getProductVariants = (productId) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log("found product varaiants: ", res);
+          console.log("found product varaiants: ", res.length);
           resolve(res);
         } else {
           console.log(`no product variants found for product with id = ${productId}`);
@@ -50,7 +50,6 @@ Product.findById = (productId) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log("found products: ", res);
           resolve(res[0]);
         } else {
           console.log(`no products found with id = ${productId}`);
@@ -69,7 +68,7 @@ Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
                 console.log(err);
                 reject(err);
             } else if (res) {
-                console.log("found products", res);
+                console.log("found products in category:", res.length);
                 resolve(res);
             }
         });
@@ -83,7 +82,7 @@ Product.getAll = () => {
         console.log("error: ", err);
         reject(err);
       } else {
-        console.log("products: ", res);
+        console.log("all products: ", res.length);
         resolve(res);
       }
     });
@@ -97,7 +96,7 @@ Product.search = (query) => {
         console.log("error: ", err);
         reject(err);
       } else {
-        console.log("search result: ", res);
+        console.log("search result: ", res.length);
         resolve(res);
       }
     });
@@ -111,7 +110,7 @@ Product.findByRef =  (ref) => {
         console.log("error: ", err);
         reject({error: err});
       } else if (res.length) {
-        console.log("found product: ", res[0]);
+        console.log("[findByRef]: found product id: ", res[0].id);
         resolve(res[0]);
       } else {
         console.log(`no product found with reference = ${ref}`);
@@ -128,7 +127,6 @@ Product.countItemsByCategory = (categoryId) => {
         console.log("error: ", err);
         reject({error: err});
       } else {
-        console.log('count: ', res);
         resolve(res);
       }
     });
@@ -174,7 +172,6 @@ function findPinnedQuery() {
 
 Product.create = (product) => {
   return new Promise((resolve, reject) => {
-    console.log(product);
     const creationDate = new Date();
     product.creationDate = creationDate;
     sql.query(`INSERT INTO ${tables.PRODUCTS} SET ?`, product, (err, res) => {
@@ -260,7 +257,7 @@ Product.updateById = (id, product, result) => {
           return;
         }
 
-        console.log("updated product: ", { id: id, ...product });
+        console.log("updated product: ", { id: id});
         resolve({ id: id, ...product });
       }
     );
@@ -275,7 +272,6 @@ Product.lastNProducts = (n) => {
         console.log("error: ", err);
         reject(err);
       } else {
-        console.log("last " + n +" products: ", res);
         resolve(res);
       }
     });
@@ -317,10 +313,10 @@ Product.pinnedProducts = () => {
         reject(err);
       } else {
         if (res.length) {
-          console.log("found products: ", res);
+          console.log("[pinnedProducts]: found products: ", res.length);
           resolve(res);
         } else {
-          console.log('no products found');
+          console.log('[pinnedProducts]: no products found');
           resolve([]);
         }
       }
@@ -336,10 +332,10 @@ Product.getProductsFromTags = (productId, tags) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log("found products: ", res);
+          console.log("[getProductsFromTags]: found products: ", res.length);
           resolve(res);
         } else {
-          console.log('No products found with given tags: ', tags);
+          console.log('[getProductsFromTags]: No products found with given tags: ', tags);
           resolve([]);
         }
       }
@@ -355,7 +351,7 @@ Product.getProductsInSameCategory = (categoryId, productId,  maxResult, ignoredI
         reject(err);
       } else {
         if (res.length) {
-          console.log("found products: ", res);
+          console.log("[getProductsInSameCategory]: found products: ", res.length);
           resolve(res);
         } else {
           console.log('No products found in category: ', categoryId);
