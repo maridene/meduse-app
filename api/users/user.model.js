@@ -9,7 +9,10 @@ const User = function(user) {
   this.phone = user.phone;
   this.role = user.role;
   this.password = user.password;
-  this.creationDate = user.creationDate;
+  this.creationDate = user.creationDate
+  this.premium = user.premium;
+  this.points = user.points;
+  this.mf = user.mf;
 };
 
 User.create = (newUser) => {
@@ -89,18 +92,13 @@ User.getAll = () => {
 };
 
 User.updateById = (id, user) => {
-  const updateQuery = `UPDATE ${tables.USERS}  SET ` +
-  "name = ?, " + 
-  "phone = ?, " +
-  "WHERE id = ?";
-
+  const entries = getUpdateUserEntries(user);
+  const values = getUpdateUserValues(user);
+  const queryStr = `UPDATE ${tables.USERS} SET ${entries} WHERE id = ${id}`;
+  console.log(queryStr);
+  console.log(values);
   return new Promise((resolve, reject) => {
-    sql.query(updateQuery,
-      [
-        user.name,
-        user.phone,
-        id
-      ],
+    sql.query(queryStr, values,
       (err, res) => {
         if (err) {
           console.log("error: ", err);
@@ -110,6 +108,9 @@ User.updateById = (id, user) => {
           reject({ kind: "not_found" });
         } else {
           console.log("updated user: ", { id: id, ...user });
+          if (user.hasOwnProperty('password')){
+            delete user.password;
+          }
           resolve({ id: id, ...user });
         }
       }
@@ -247,6 +248,14 @@ User.upgradeClientToPremium = (id) => {
       }
     );
   });
+}
+
+function getUpdateUserEntries(user){
+  return Object.keys(user).map((e) => `${e} = ?`).join(', ');
+}
+
+function getUpdateUserValues(user) {
+  return Object.values(user);
 }
 
 module.exports = User;

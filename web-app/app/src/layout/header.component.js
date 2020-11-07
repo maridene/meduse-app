@@ -42,6 +42,11 @@ class AppHeaderCtrl {
     this.$rootScope.$on('userLoggedOut', () => {
       this.currentUser = null;
     });
+
+    this.$rootScope.$on('userInfoUpdated', () => {
+      this.currentUser = this.$rootScope.globals && this.$rootScope.globals.currentUser ? 
+        this.$rootScope.globals.currentUser : null;
+    });
   }
 
   initCategories() {

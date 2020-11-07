@@ -117,6 +117,16 @@ export default class AuthenticationService {
         this.$http.defaults.headers.common.Authorization = 'Basic';
     }
 
+    updateUserInfo(user) {
+        this.$rootScope.globals.currentUser = Object
+            .assign({}, this.$rootScope.globals.currentUser, user);
+        this.$cookies.remove('globals');
+        const cookieExp = new Date();
+        cookieExp.setDate(cookieExp.getDate() + 7);
+        this.$cookies.putObject('globals', this.$rootScope.globals, { expires: cookieExp });
+        this.$rootScope.$broadcast('userInfoUpdated');
+    }
+
     isAuthenticated () {
         return this.$rootScope.globals && this.$rootScope.globals.currentUser;
     }

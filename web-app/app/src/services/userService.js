@@ -23,9 +23,9 @@ export default class UserService {
         return this.currentUser && this.currentUser.role === 'Admin';
     }
 
-    getById(id) {
+    mySelf() {
         const deferred = this.$q.defer();
-        this.RestService.get(`${ApiConstants.USERS}/${id}`)
+        this.RestService.get(`${ApiConstants.USERS}/get/myself`)
         .then(
             (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.USER, result.data)),
             (error) => deferred.reject(error));
@@ -54,8 +54,8 @@ export default class UserService {
 
     update(user) {
         const deferred = this.$q.defer();
-        console.log(`${ApiConstants.USERS_UPDATE}${user.id}`);
-        this.RestService.put(`${ApiConstants.USERS_UPDATE}${user.id}`, user)
+        console.log(`${ApiConstants.USERS_UPDATE}`);
+        this.RestService.put(`${ApiConstants.USERS_UPDATE}`, user)
             .then((user) => {
                 deferred.resolve(user);
             }, (error) => {

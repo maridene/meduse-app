@@ -1,3 +1,5 @@
+import { $q } from "angular-ui-router";
+
 function ProfileConfig($stateProvider) {
     'ngInject';
   
@@ -14,7 +16,14 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfileDetailsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/infos.html',
-          title: 'Profile'
+          title: 'Profile',
+          resolve: {
+            user: function(UserService, $state) {              
+              return UserService.mySelf()
+              .then((user) => user,
+                () => $state.go('app.home'));
+            }
+          }
         })
         .state('app.profileadresses', {
           url: '/profile/adresses',

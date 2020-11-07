@@ -23,41 +23,57 @@
     </div>
 
     <article class="card-body mx-auto" style="max-width: 400px;">    
-        <form role="form" ng-submit="$ctrl.save()">
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                </div>
-                <input name="" class="form-control" placeholder="Nom et prénom" type="text" ng-model="$ctrl.user.name" required>
-            </div> <!-- form-group// -->
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-                </div>
-                <input name="" class="form-control" placeholder="Adresse E-mail" type="email" ng-model="$ctrl.user.email" required>
-            </div> <!-- form-group// -->
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-                </div>
-                <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
-                    <option selected="true">+216</option>
-                </select>
-                <input name="" type="text" class="form-control" id="phoneValidation" placeholder="Numéro de téléphone" pattern="[0-9]{8}" ng-model="$ctrl.user.phone" required>
-            </div> <!-- form-group// -->
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                </div>
-                <input class="form-control" placeholder="Mot de passe (8 caractères minimum)" type="password" ng-model="$ctrl.user.password" name="password" required>
-            </div> <!-- form-group// -->
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                </div>
-                <input class="form-control" placeholder="Répétez le mot de passe" type="password" ng-model="$ctrl.user.passwordRepeat" name="passwordRepeat" 
-                oninput='passwordRepeat.setCustomValidity(passwordRepeat.value != password.value ? "Veuillez vérifier votre mot de passe." : "")' required> 
-            </div> <!-- form-group// -->                                  
+        <form role="form" ng-submit="$ctrl.save()"
+        oninput='up2.setCustomValidity(up2.value != up.value ? "Veuillez vérifier votre mot de passe." : "")'>
+        <div ng-if="$ctrl.errorMessage" class="form-group">
+            <div class="ErrorMessage">
+                {{$ctrl.errorMessage}}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" ng-model="$ctrl.form.prefix" type="radio" name="title" id="title1" value="M.">
+                <label class="form-check-label" for="inlineRadio1">M.</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" ng-model="$ctrl.form.prefix" type="radio" name="title" id="title2" value="Mme">
+                <label class="form-check-label" for="inlineRadio2">Mme</label>
+              </div>
+        </div>
+    
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input name="" class="form-control" placeholder="Nom et prénom" type="text" ng-model="$ctrl.form.name" minLength="8" required>
+        </div>
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+            </div>
+            <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
+                <option selected="true">+216</option>
+            </select>
+            <input name="" type="text" class="form-control" id="phoneValidation" placeholder="Numéro de téléphone" pattern="[0-9]{8}" ng-model="$ctrl.form.phone" required>
+        </div> 
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fas fa-barcode"></i> </span>
+            </div>
+            <input name="" class="form-control" ng-model="$ctrl.form.mf" placeholder="Matricule fiscale (1234567X/Y/Z/123)" type="text" pattern="[0-9]{7}[A-Z]{1}[/]{1}[A-Z]{1}[/]{1}[A-Z]{1}[/]{1}[0-9]{3}">
+        </div>
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input name="up" class="form-control" placeholder="Mot de passe (8 caractères minimum)" type="password" ng-model="$ctrl.form.password" pattern=".{8,32}" required>
+        </div>
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input name="up2" class="form-control" placeholder="Répétez le mot de passe" type="password" ng-model="$ctrl.passwordRepeat" required>
+        </div>                                   
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block"> Sauvegarder </button>
             </div> <!-- form-group// -->                                                               

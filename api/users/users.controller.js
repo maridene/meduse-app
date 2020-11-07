@@ -17,6 +17,10 @@ router.get('/admins', authorize(Role.Admin), getAdmins);
 router.delete('/:id', authorize(Role.Admin), deleteUser);
 router.post('/register-admin', authorize(Role.Admin), addAdmin);
 
+//user routes
+router.get('/get/myself', authorize(Role.User), mySelf);
+router.put('/update/myself', authorize(Role.User), updateMySelf);
+
 // all authenticated users routes
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), update);
@@ -35,6 +39,23 @@ function authenticate(req, res, next) {
 function getAll(req, res, next) {
     userService.getAll()
         .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+function mySelf(req, res, next) {
+    const userId = parseInt(req.header('userId'));
+    userService.getById(userId)
+        .then(user => res.json(user))
+        .catch(err => next(err));
+}
+
+function updateMySelf(req, res, next) {
+    console.log('-----------------------------------------------------------------------myself');
+    const userId = parseInt(req.header('userId'));
+    const userData = req.body;
+    console.log(userData);
+    userService.update(userId, userData)
+        .then(user => res.json(user))
         .catch(err => next(err));
 }
 

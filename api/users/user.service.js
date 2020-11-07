@@ -146,9 +146,9 @@ function deleteUser(id) {
     });
 }
 
-function update(id) {
+function update(id, userData) {
     return new Promise((resolve, reject) => {
-        users.updateById(id)
+        users.updateById(id, userData)
             .then((user) => {
                 resolve(user);
             }, (err) => {
