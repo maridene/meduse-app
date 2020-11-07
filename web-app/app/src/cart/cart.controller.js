@@ -37,22 +37,26 @@ class CartCtrl {
         
         itemQty.prepend('<span class="dec qtybtn">-</span>');
         itemQty.append('<span class="inc qtybtn">+</span>');
-        
+        itemQty.off('click');
         itemQty.on('click', '.qtybtn', function () {
           var $button = $(this);
           var oldValue = $button.parent().find('input').val();
           if ($button.hasClass('inc')) {
             var newVal = parseFloat(oldValue) + 1;
+            that.cartItems[index].quantity = newVal;
+            that.updateCartRowQuantity(that.cartItems[index]);
           } else {
             // Don't allow decrementing below 1
             if (oldValue > 1) {
               var newVal = parseFloat(oldValue) - 1;
+              that.cartItems[index].quantity = newVal;
+              that.updateCartRowQuantity(that.cartItems[index]);
             } else {
               newVal = 1;
             }
           }
-          that.cartItems[index].quantity = newVal;
-          that.updateCartRowQuantity(that.cartItems[index]);
+          
+
 
           $button.parent().find('input').val(newVal);
         });
@@ -60,7 +64,6 @@ class CartCtrl {
     }
 
     updateCartRowQuantity(item) {
-      console.log(item);
       if (item.quantity && item.quantity % 1 === 0) {
         this.CartService.updateCartRowQuantity(item);
       }
