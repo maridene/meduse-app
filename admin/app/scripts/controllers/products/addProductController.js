@@ -7,9 +7,23 @@
  * Controller of the add product page
  */
 
-angular.module('sbAdminApp').controller('AddProductCtrl', ['categories', 'manufacturers', '$scope', '$q', 'uuid', 'Upload', 'ProductService', 'ProductVariantsService', function (categories, manufacturers, $scope, $q, uuid, Upload, ProductService, ProductVariantsService) {
-  $scope.categories = categories;
-  $scope.manufacturers = manufacturers;
+angular.module('sbAdminApp').controller('AddProductCtrl', ['$scope', '$q', 'uuid', 'Upload', 'ProductService', 'ProductVariantsService', 'CategoryService', 'ManufacturerService', 
+function ($scope, $q, uuid, Upload, ProductService, ProductVariantsService, CategoryService, ManufacturerService) {
+  $scope.categories = [];
+  $scope.manufacturers = [];
+  CategoryService.getAllCategories().then(function(categories) {
+    $scope.categories =  categories;
+    }, function (err) {
+      $state.go('dashboard.home')
+    });
+
+  ManufacturerService.getAll().then(
+    function(manufacturers) {
+      $scope.manufacturers = manufacturers;
+    }, function(err) {
+      $state.go('dashboard.home')
+    });
+  
   $scope.form = {
     files: [],
     tags: [],
