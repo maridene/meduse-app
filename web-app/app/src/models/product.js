@@ -24,6 +24,8 @@ class Product {
     this.onsalePercentage = !!data.promo_price ? 
       `-${Math.floor(((data.price - data.promo_price)/data.price) * 100)}%` : null;
     this.pinned = data.pinned;
+    this.isNew = data.isNew === 1 ? true : false;
+    this.isExclusif = data.isExclusif === 1 ? true : false;
   }
 }
 

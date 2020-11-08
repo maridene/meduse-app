@@ -87,19 +87,16 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
       case 'all':
         $scope.filteredProducts = $scope.products;
         break;
-      
       case 'promo':
         $scope.filteredProducts = $scope.products.filter(function(item) {
           return item.promo_price; 
         });
         break; 
-      
       case 'lowStock':
         $scope.filteredProducts = $scope.products.filter(function(item) {
           return item.quantity !== 0 &&  item.quantity <= item.lowStockThreshold; 
         });
         break;
-
       case 'outOfStock':
         $scope.filteredProducts = $scope.products.filter(function(item) {
           return item.quantity === 0; 
@@ -107,8 +104,19 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
         break;
       case 'pinned':
         $scope.filteredProducts = $scope.products.filter(function(item) {
-          return item.pinned === 1; 
+          return item.pinned; 
         });
+        break;
+      case 'new':
+        $scope.filteredProducts = $scope.products.filter(function(item) {
+          return item.isNew; 
+        });
+        break;
+      case 'exclusif':
+        $scope.filteredProducts = $scope.products.filter(function(item) {
+          return item.isExclusif; 
+        });
+        break;
     }
     
     $scope.filteredProducts = $scope.filteredProducts.filter(function(item) {
@@ -118,8 +126,29 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
 
   $scope.$watch('[filterQuery, selectedFilter]', filterProducts, true);
 
-  $scope.pinProduct = function(id, value) {
-    ProductService.pin(id, value)
+  $scope.updateIsPinned = function(product) {
+    var newValue = product.pinned ? 1 : 0;
+    ProductService.pin(product.id, newValue)
+      .then(function() {
+        $scope.getProducts();
+      }, function() {
+
+      });
+  };
+
+  $scope.updateIsNew = function(product) {
+    var newValue = product.isNew ? 1 : 0;
+    ProductService.updateIsNew(product.id, newValue)
+      .then(function() {
+        $scope.getProducts();
+      }, function() {
+
+      });
+  };
+
+  $scope.updateIsExclusif = function(product) {
+    var newValue = product.isExclusif ? 1 : 0;
+    ProductService.updateIsExclusif(product.id, newValue)
       .then(function() {
         $scope.getProducts();
       }, function() {

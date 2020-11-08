@@ -166,10 +166,6 @@ function findByIdQuery(id) {
     WHERE products.id = ${id}`;
 }
 
-function findPinnedQuery() {
-  return `select * From ${tables.PRODUCTS} where pinned = '1'`;
-};
-
 Product.create = (product) => {
   return new Promise((resolve, reject) => {
     const creationDate = new Date();
@@ -304,6 +300,58 @@ Product.updatePinState = (id, state) => {
   });
 };
 
+Product.updateIsNew = (id, value) => {
+  return new Promise((resolve, reject) => {
+    sql.query(
+      `UPDATE ${tables.PRODUCTS} SET ` +
+      "isNew = ? " +
+      "WHERE id = ? ", 
+      [
+        value, 
+        id
+      ], (err, res) => {
+        if (err) {
+          console.log("Error while updating product isNew, productId = ", id);
+          reject(err);
+          return;
+        }
+        if (res.affectedRows == 0) {
+          // not found product with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+        console.log("updated product: ", id);
+        resolve({ id: id, isNew: value });
+      });
+  });
+};
+
+Product.updateIsExclusif = (id, value) => {
+  return new Promise((resolve, reject) => {
+    sql.query(
+      `UPDATE ${tables.PRODUCTS} SET ` +
+      "isExclusif = ? " +
+      "WHERE id = ? ", 
+      [
+        value, 
+        id
+      ], (err, res) => {
+        if (err) {
+          console.log("Error while updating product isExclusif, productId = ", id);
+          reject(err);
+          return;
+        }
+        if (res.affectedRows == 0) {
+          // not found product with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+        console.log("updated product: ", id);
+        resolve({ id: id, isExclusif: value });
+      });
+  });
+};
+
 Product.pinnedProducts = () => {
   return new Promise((resolve, reject) => {
     sql.query(findPinnedQuery(), 
@@ -317,6 +365,46 @@ Product.pinnedProducts = () => {
           resolve(res);
         } else {
           console.log('[pinnedProducts]: no products found');
+          resolve([]);
+        }
+      }
+    });
+  });
+};
+
+Product.getNewProducts = () => {
+  return new Promise((resolve, reject) => {
+    sql.query(findNewQuery(), 
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          console.log("[NewProducts]: found products: ", res.length);
+          resolve(res);
+        } else {
+          console.log('[NewProducts]: no products found');
+          resolve([]);
+        }
+      }
+    });
+  });
+};
+
+Product.getPromoProducts = () => {
+  return new Promise((resolve, reject) => {
+    sql.query(getPromoQuery(), 
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          console.log("[getPromoProducts]: found products: ", res.length);
+          resolve(res);
+        } else {
+          console.log('[getPromoProducts]: no products found');
           resolve([]);
         }
       }
@@ -375,5 +463,16 @@ function findByTagsQuery(productId, tags) {
   return `SELECT * FROM ${tables.PRODUCTS} WHERE id <> ${productId} AND ( ${tagsCondition} )`; 
 }
 
+function findPinnedQuery() {
+  return `select * From ${tables.PRODUCTS} where pinned = '1' AND isExclusif = 0`;
+};
+
+function findNewQuery() {
+  return `select * From ${tables.PRODUCTS} where isNew = '1' AND isExclusif = 0`;
+};
+
+function getPromoQuery() {
+  return `select * From ${tables.PRODUCTS} where promo_price IS NOT NULL AND promo_price <> 0 AND promo_price < price AND isExclusif = 0`;
+};
 
 module.exports = Product;

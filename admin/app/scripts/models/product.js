@@ -27,5 +27,7 @@ var Product = function Product(data) {
   this.tags = data.tags;
   this.creationDate = data.creationDate;
   this.modificationDate = data.modificationDate;
-  this.pinned = data.pinned;
+  this.pinned = data.pinned === 1? true : false;
+  this.isNew = data.isNew === 1 ? true : false;
+  this.isExclusif = data.isExclusif === 1 ? true : false;
 };

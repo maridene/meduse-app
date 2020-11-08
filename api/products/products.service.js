@@ -13,8 +13,12 @@ module.exports = {
     updateById,
     lastNProducts,
     updatePinState,
+    updateIsNew,
+    updateIsExclusif,
     getPinnedProducts,
-    getRelatedProducts
+    getRelatedProducts,
+    getNewProducts,
+    getPromoProducts
 };
 
 function findById(id) {
@@ -172,9 +176,55 @@ function updatePinState(id, state) {
     });
 }
 
+function updateIsNew(id, value) {
+    value = value > 0 ? 1 : 0;
+    return new Promise((resolve, reject) => {
+        products.updateIsNew(id, value)
+            .then((product) => {
+                resolve(product);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
+function updateIsExclusif(id, value) {
+    value = value > 0 ? 1 : 0;
+    return new Promise((resolve, reject) => {
+        products.updateIsExclusif(id, value)
+            .then((product) => {
+                resolve(product);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
 function getPinnedProducts() {
     return new Promise((resolve, reject) => {
         products.pinnedProducts()
+            .then((products) => {
+                resolve(products);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
+function getNewProducts() {
+    return new Promise((resolve, reject) => {
+        products.getNewProducts()
+            .then((products) => {
+                resolve(products);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
+function getPromoProducts() {
+    return new Promise((resolve, reject) => {
+        products.getPromoProducts()
             .then((products) => {
                 resolve(products);
             }, (err) => {

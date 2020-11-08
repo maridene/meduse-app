@@ -11,15 +11,19 @@ router.get('/category/:categoryId',  findByCategory);
 router.get('/reference/:ref', findByReference);
 router.get('/last/:n', lastNProducts);
 router.get('/pin/pinned', getPinnedProducts);
+router.get('/new/isnew', getNewProducts);
+router.get('/promo/all', getPromoProducts);
 router.get('/related/:id', getRelatedProducts);
 router.get('/all/search', search);
-
 
 //admin routes
 router.post('/', authorize(Role.Admin), create);
 router.delete('/:id', authorize(Role.Admin),deleteById);
 router.put('/:id', authorize(Role.Admin), updateById);
 router.post('/pin/:id', authorize(Role.Admin), updatePinState);
+router.post('/new/:id', authorize(Role.Admin), updateIsNew);
+router.post('/exclusif/:id', authorize(Role.Admin), updateIsExclusif);
+
 // all authenticated users routes
 
 // user only routes
@@ -122,8 +126,44 @@ function updatePinState(req, res, next) {
         .catch(err => next(err));
 }
 
+function updateIsNew(req, res, next) {
+    const id = req.params.id;
+    const value = parseInt(req.body.value);
+    productService.updateIsNew(id, value)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+function updateIsExclusif(req, res, next) {
+    const id = req.params.id;
+    const value = parseInt(req.body.value);
+    productService.updateIsExclusif(id, value)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
 function getPinnedProducts(req, res, next) {
     productService.getPinnedProducts()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+function getNewProducts(req, res, next) {
+    productService.getNewProducts()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+function getPromoProducts(req, res, next) {
+    productService.getPromoProducts()
         .then((result) => {
             res.json(result);
         })

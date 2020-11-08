@@ -74,6 +74,28 @@ export default class ProductService {
     return deferred.promise;
   }
 
+  getPromoProducts() {
+    const deferred = this._$q.defer();
+    this._RestService.get(`${ApiConstants.PRODUCTS}/promo/all`)
+        .then(
+            (result) => {
+              deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.PRODUCTS, result.data))
+            },
+            (error) => deferred.reject(error));
+    return deferred.promise;
+  }
+
+  getNewProducts() {
+    const deferred = this._$q.defer();
+    this._RestService.get(`${ApiConstants.PRODUCTS}/new/isnew`)
+        .then(
+            (result) => {
+              deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.PRODUCTS, result.data))
+            },
+            (error) => deferred.reject(error));
+    return deferred.promise;
+  }
+
   getRelatedProducts(id) {
     const deferred = this._$q.defer();
     this._RestService.get(`${ApiConstants.PRODUCTS}/related/${id}`)

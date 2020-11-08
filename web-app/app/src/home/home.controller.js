@@ -14,17 +14,26 @@ class HomeCtrl {
     this.searchQuery = '';
     this.foundProducts = [];
     this.newProducts = [];
+    this.promoProducts = [];
     this.selectedCategorySearch = 'all';
-
-    this.ProductService.getLastNProduct(newProductsCount)
-      .then((products) => {
-        this.newProducts = products;
-      });
 
     this.ProductService.getPinnedProducts()
     .then((products) => {
-      this.pinnedProducts = products;
+      const count = products.length - (products.length % 4);
+      this.pinnedProducts = products.slice(0, count);
     });
+
+    this.ProductService.getPromoProducts()
+      .then((products) => {
+        const count = products.length - (products.length % 4);
+        this.promoProducts = products.slice(0, count);
+      });
+
+    this.ProductService.getNewProducts()
+      .then((products) => {
+        const count = products.length - (products.length % 4);
+        this.newProducts = products.slice(0, count);
+      });
   }
 
   $onInit() {

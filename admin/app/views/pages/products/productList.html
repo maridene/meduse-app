@@ -24,7 +24,9 @@
                         <option value="promo">En promo</option>
                         <option value="lowStock">Faible stock</option>
                         <option value="outOfStock">Hors stock</option>
-                        <option value="pinned">Epinglé</option>
+                        <option value="pinned">Populaire</option>
+                        <option value="new">Nouveau</option>
+                        <option value="exclusif">Accès Exclusif</option>
                     </select>
                 </div>
             </div>
@@ -44,7 +46,9 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th></th>
+                                    <th>Populaire</th>
+                                    <th>Nouveau</th>
+                                    <th>Exclusif</th>
                                     <th>Nom du produit</th>
                                     <th>Marque</th>
                                     <th>Référence</th>
@@ -56,10 +60,9 @@
                             <tbody>
                                 <tr ng-repeat="product in filteredProducts track by product.id" class="odd gradeX">
                                     <td><input type="checkbox" ng-model="product.isSelected" ng-change="updateState()"></td>
-                                    <td class="pin-star-container">
-                                        <i ng-if="product.pinned" class="fa fa-star star-pinned" ng-click="pinProduct(product.id, 0)"></i>
-                                        <i ng-if="!product.pinned" class="fa fa-star-o star-unpinned" ng-click="pinProduct(product.id, 1)"></i>
-                                    </td>
+                                    <td><input type="checkbox" ng-model="product.pinned" ng-change="updateIsPinned(product)"></td>
+                                    <td><input type="checkbox" ng-model="product.isNew" ng-change="updateIsNew(product)"></td>
+                                    <td><input type="checkbox" ng-model="product.isExclusif" ng-change="updateIsExclusif(product)"></td>
                                     <td>{{product.label}}</td>
                                     <td>{{product.manufacturerName}}</td>
                                     <td>{{product.sku}}</td>

@@ -93,6 +93,26 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     return deferred.promise;
   };
 
+  var updateIsNew = function pin(id, value) {
+    var deferred = $q.defer();
+    RestService.post("".concat(PRODUCTS, "/new/").concat(id), {value: value}).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
+  var updateIsExclusif = function pin(id, value) {
+    var deferred = $q.defer();
+    RestService.post("".concat(PRODUCTS, "/exclusif/").concat(id), {value: value}).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
   function getImagesUrls(product, variants) {
     if (product.imgCount || variants) {
       return [].concat(_toConsumableArray(getProductImagesUrls(product)), _toConsumableArray(getVariantsImagesUrls(variants)));
@@ -128,6 +148,8 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     remove: remove,
     update: update,
     getAll: getAll,
-    pin: pin
+    pin: pin,
+    updateIsExclusif: updateIsExclusif,
+    updateIsNew: updateIsNew
   };
 }]);
