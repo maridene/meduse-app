@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="primary-btn pd-cart noselect" ng-click="$ctrl.addToCart()">Ajouter au panier</div>
                             </div>
-                            <div class="form-group out-of-stock" ng-show="outOfStock">
+                            <div class="form-group out-of-stock" ng-show="$ctrl.outOfStock">
                                 <div class="alert alert-danger" role="alert">
                                     Actuellement indisponible.
                                 </div>
@@ -111,7 +111,8 @@
                                         <tr>
                                             <td class="p-catagory">Disponibilité</td>
                                             <td>
-                                                <div class="p-stock">{{$ctrl.product.quantity}} unité(s)</div>
+                                                <div ng-if="$ctrl.outOfStock" class="p-stock">Hors stock</div>
+                                                <div ng-if="!$ctrl.outOfStock" class="p-stock">Disponible</div>
                                             </td>
                                         </tr>
                                         <tr>
