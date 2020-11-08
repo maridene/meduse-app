@@ -113,9 +113,15 @@
                                                 ngf-pattern="'image/*'" 
                                                 accept="image/*" 
                                                 ngf-max-size="20MB" 
-                                                class="file form-control" 
+                                                class="file form-control"
+                                                ng-change="filesChanged()"
                                                 multiple>
-                                            Images: <img ng-repeat="file in form.files" style="width:100px;" ngf-thumbnail="file || '/thumb.jpg'"/>
+                                            <div class="thumbs-container">
+                                                <div class="thumb-item" ng-repeat="thumb in imagesThumbs">
+                                                    <i class="fa fa-times" ng-click="deleteThumb(thumb)"></i>
+                                                    <img style="width:100px;" ngf-thumbnail="thumb.file || '/thumb.jpg'"/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

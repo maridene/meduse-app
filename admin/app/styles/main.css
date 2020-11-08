@@ -170,6 +170,27 @@ background-color: #eee;
   padding: 5px 10px;
 }
 
+.AddProductForm .thumbs-container {
+  display: flex;
+  align-items: center;
+}
+
+.AddProductForm .thumbs-container .thumb-item {
+  border: 1px solid #e5e5e5;
+  margin-right: 5px;
+}
+
+.AddProductForm .thumbs-container .thumb-item .fa {
+  position: absolute;
+  cursor: pointer;
+  color: #9b9b9b;
+  display: none;
+}
+
+.AddProductForm .thumbs-container .thumb-item:hover .fa {
+  display: block;
+}
+
 /* products list */
 .star-unpinned {
   color: #33c0ec;

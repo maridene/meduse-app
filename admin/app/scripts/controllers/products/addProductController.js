@@ -7,20 +7,22 @@
  * Controller of the add product page
  */
 
-angular.module('sbAdminApp').controller('AddProductCtrl', ['$scope', '$q', 'uuid', 'Upload', 'ProductService', 'ProductVariantsService', 'CategoryService', 'ManufacturerService', 
-function ($scope, $q, uuid, Upload, ProductService, ProductVariantsService, CategoryService, ManufacturerService) {
+angular.module('sbAdminApp').controller('AddProductCtrl', ['$scope', '$q', '$state', 'uuid', 'Upload', 'ProductService', 'ProductVariantsService', 'CategoryService', 'ManufacturerService', 
+function ($scope, $q, $state, uuid, Upload, ProductService, ProductVariantsService, CategoryService, ManufacturerService) {
   $scope.categories = [];
   $scope.manufacturers = [];
+  $scope.imagesThumbs = [];
+
   CategoryService.getAllCategories().then(function(categories) {
     $scope.categories =  categories;
-    }, function (err) {
+    }, function () {
       $state.go('dashboard.home')
     });
 
   ManufacturerService.getAll().then(
     function(manufacturers) {
       $scope.manufacturers = manufacturers;
-    }, function(err) {
+    }, function() {
       $state.go('dashboard.home')
     });
   
@@ -30,6 +32,7 @@ function ($scope, $q, uuid, Upload, ProductService, ProductVariantsService, Cate
     withVariants: 'none',
     variants: []
   };
+
   $scope.$watch('form', function () {
     if (typeof $scope.form.selectedManufacturerId !== 'undefined' && typeof $scope.form.selectedCategoryId !== 'undefined' && $scope.form.label) {
       var selectedCategoryName = $scope.categories.filter(function (item) {
@@ -109,6 +112,27 @@ function ($scope, $q, uuid, Upload, ProductService, ProductVariantsService, Cate
     }
   };
 
+  $scope.filesChanged = function() {
+    $scope.imagesThumbs = $scope.form.files.map(function(file, index){
+      return {
+        index: index,
+        file: file
+      }
+    })
+  }
+
+  $scope.deleteThumb = function(thumb) {
+    $scope.imagesThumbs = $scope.imagesThumbs.filter(function(item) {
+      return item.index !== thumb.index;
+    });
+    $scope.form.files = $scope.form.files.filter(function(file) {
+      return file.name !== thumb.file.name;
+    })
+    $scope.imagesThumbs.forEach(function(each, index) {
+      each.index = index;
+    });
+  }
+
   var propertyAbbrev = function propertyAbbrev(value) {
     if (value.length <= 3) {
       return value;
@@ -143,8 +167,10 @@ function ($scope, $q, uuid, Upload, ProductService, ProductVariantsService, Cate
       video_link: $scope.form.videolink,
       tags: $scope.form.tags.toString()
     };
-   
-    upload($scope.form.files).then(function (filenames) {
+    var files = $scope.imagesThumbs.map(function(item) {
+      return item.file;
+    });
+    upload(files).then(function (filenames) {
       if (filenames && filenames.length) {
         product.images = filenames.toString();
         ProductService.add(product).then(function (result) {
