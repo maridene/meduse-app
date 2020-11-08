@@ -14,7 +14,7 @@ class CheckoutCtrl {
         cash: true,
         check: false
       };
-      this.canApplyCoupon = false;
+      this.canApplyCoupon = true;
     }
 
     $onInit() {
@@ -32,7 +32,7 @@ class CheckoutCtrl {
 
     reloadCart() {
       this.cart = this.CartService.getCart();
-      this.canApplyCoupon = this.cart.getTotal() >= 1000;
+      this.canApplyCoupon = this.cart.getTotal() <= 1000;
       this.cartItems = this.cart.items.map((cartItem) => {
         let label = cartItem.product.label;
         if (cartItem.variant) {
