@@ -1,5 +1,5 @@
 class CheckoutCtrl {
-    constructor($scope, $location, AppConstants, CartService, AddressesService, CouponsService, OrdersService) {
+    constructor($scope, $location, AppConstants, CartService, AddressesService, CouponsService, OrdersService, AuthenticationService) {
       'ngInject';
   
       this.$scope = $scope;
@@ -9,6 +9,7 @@ class CheckoutCtrl {
       this.AddressesService = AddressesService;
       this.CouponsService = CouponsService;
       this.OrdersService = OrdersService;
+      this.AuthenticationService = AuthenticationService;
       this.form = {
         useSameAddress: false,
         cash: true,
@@ -124,7 +125,11 @@ class CheckoutCtrl {
     setTotal() {
       const cartTotal = this.coupon && this.coupon.value ? this.CartService.getCartTotalWithReduction(this.cart, this.coupon.value) 
       : this.cart.getTotal();
-      this.shippingFee = cartTotal >= 50 ? 0 : 7;
+      if (this.AuthenticationService.isPremium()) {
+        this.shippingFee = 0;
+      } else {
+        this.shippingFee = cartTotal >= 50 ? 0 : 7;
+      }
       this.total = cartTotal + this.shippingFee;
     }
 
