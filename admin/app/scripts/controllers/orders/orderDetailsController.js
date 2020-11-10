@@ -7,13 +7,20 @@
  * Controller of the order details page
  */
 angular.module('sbAdminApp')
-  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 
-  function ($scope, $stateParams, $window, OrdersService, OrderRowsService, UsersService, ProductService) {
+  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', 'RestService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 
+  function ($scope, $stateParams, $window, RestService, OrdersService, OrderRowsService, UsersService, ProductService) {
     $scope.order = {};
     $scope.rows = [];
     $scope.form = {
       message: ''
     };
+
+    $scope.invoiceForm = {
+      invoiceDate: new Date(),
+      clientMF: '',
+      deliveryInvoiceDate: new Date()
+    };
+
     OrdersService.getById($stateParams.id).then(
         function(order) {
           
@@ -49,6 +56,7 @@ angular.module('sbAdminApp')
           UsersService.getById(order.client_id).then(
             function (client) {
               $scope.client = client;
+              $scope.invoiceForm.clientMF = client.mf;
           });
 
         }, function() {
@@ -111,4 +119,31 @@ angular.module('sbAdminApp')
       order.shippedDate = order.shipped_date ? formatDateTime(order.shipped_date) : null;
       return order;
     }
+
+
+    $scope.getInvoice = function () {
+      var data = {
+        mf: $scope.invoiceForm.clientMF,
+        date: $scope.invoiceForm.toLocaleString()
+      };
+      console.log(data);
+      RestService.post('orders/' + $scope.order.id + '/invoice', data)
+        .then(function(response) {
+          var fileUrl = SERVER_URL + '/static/invoices/' + response.data.filename;
+          $window.open(fileUrl, '_blank');
+        });
+    };
+
+    $scope.getDeliveryInvoice = function () {
+      var data = {
+        mf: $scope.invoiceForm.clientMF,
+        date: $scope.invoiceForm.toLocaleString()
+      };
+      console.log(data);
+      RestService.post('orders/' + $scope.order.id + '/deliveryInvoice', data)
+        .then(function(response) {
+          var fileUrl = SERVER_URL + '/static/invoices/' + response.data.filename;
+          $window.open(fileUrl, '_blank');
+        });
+    };
 }]);

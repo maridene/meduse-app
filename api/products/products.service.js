@@ -3,6 +3,7 @@ const manufacturers = require('./../manufacturers/manufacturers.model');
 const productVariantsService = require('./productVariants.service');
 
 module.exports = {
+    getById,
     findById,
     findByCategory,
     findByReference,
@@ -38,6 +39,16 @@ function findById(id) {
             } 
         }, (err) => {
                 reject(err);
+        });
+    });
+}
+
+function getById(id) {
+    return new Promise((resolve, reject) => {
+        products.findById(id).then((product) => {
+            resolve(product);
+        }, (err) => {
+            reject(err);
         });
     });
 }

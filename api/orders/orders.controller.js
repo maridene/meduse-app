@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require("path");
 const router = express.Router();
 const ordersService = require('./orders.service');
 const authorize = require('helpers/authorize')
@@ -25,6 +26,8 @@ router.get('/:id', authorize(Role.Admin), getById);
 router.post('/', authorize(Role.Admin), createOrder);
 router.put('/:id', authorize(Role.Admin), updateById);
 router.put('/status/:id', authorize(Role.Admin), updateOrderStatus);
+router.post('/:id/invoice', authorize(Role.Admin), generateInvoice);
+router.post('/:id/deliveryInvoice', authorize(Role.Admin), generateDeleveryInvoice);
 
 // all authenticated users routes
 router.post('/submit', authorize(Role.User), submitOrder);
@@ -107,5 +110,27 @@ function getMyOrders(req, res, next) {
 
     ordersService.findByClientId(headerUserId, paramUserId)
         .then(orders => res.json(orders))
+        .catch(err => next(err));
+}
+
+function generateInvoice(req, res, next) {
+    const orderId = parseInt(req.params.id);
+    const date = req.body.date;
+    const mf = req.body.mf;
+    ordersService.generateInvoice(orderId, date, mf)
+        .then(filename => {
+            res.json({filename: filename});
+        })
+        .catch(err => next(err));
+}
+
+function generateDeleveryInvoice(req, res, next) {
+    const orderId = parseInt(req.params.id);
+    const date = req.body.date;
+    const mf = req.body.mf;
+    ordersService.generateInvoice(orderId, date, mf)
+        .then(filename => {
+            res.json({filename: filename});
+        })
         .catch(err => next(err));
 }

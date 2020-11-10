@@ -56,11 +56,11 @@ Orders.getById = (id) => {
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found order: \n", res);
+                    console.log("[getById]: found order with id :", id);
                     resolve(res[0]);
                 } else {
                     console.log(`no order found with id = ${id}`);
-                    resolve([]);
+                    resolve();
                 }
             }
         })

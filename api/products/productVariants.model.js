@@ -36,7 +36,7 @@ ProductVariant.getById = (productVariantId) => {
           console.log("[ProductVariant.getById]: found product variant: ", res[0].id);
           resolve(res[0]);
         } else {
-          console.log(`no product variant found with id = ${productId}`);
+          console.log(`no product variant found with id = ${productVariantId}`);
           resolve([]);
         }
         

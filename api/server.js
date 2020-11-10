@@ -19,6 +19,8 @@ app.use((req, res, next) => {
   if (allowedOrigins.includes(origin)) {
        res.setHeader('Access-Control-Allow-Origin', origin);
   }
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  res.append('Access-Control-Allow-Headers', 'Content-Name');
   //res.header('Access-Control-Allow-Origin', 'http://localhost:4000');
   next();
 });
@@ -49,6 +51,7 @@ app.use('/api/orderrows', require('./orderRows/orderRows.controller'));
 //Serves all the request which includes /images in the url from Images folder
 app.use('/static/blogs', express.static(__dirname + '/public/blog'));
 app.use('/static/products', express.static(__dirname + '/public/pimages'));
+app.use('/static/invoices', express.static(__dirname + '/public/invoices'));
 
 var blogStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {

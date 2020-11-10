@@ -1,5 +1,20 @@
+const fs = require("fs");
+const path = require("path");
+const puppeteer = require('puppeteer');
+const handlebars = require("handlebars");
+
+handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
+
 const orders = require('./orders.model');
 const orderRowsService = require('./../orderRows/orderRows.service');
+const usersService = require('./../users/user.service');
+const productsService = require('./../products/products.service');
+const productVariants = require('./../products/productVariants.service');
+const productVariantsService = require("./../products/productVariants.service");
+const utils = require('../utils');
+
 module.exports = {
     getAll,
     getById,
@@ -15,7 +30,9 @@ module.exports = {
     submitOrder,
     createOrder,
     remove,
-    updateById
+    updateById,
+    generateInvoice,
+    generateDeliveryInvoice
 };
 
 function getAll() {
@@ -207,4 +224,145 @@ function doCreateOrder(order, orderRows) {
             },
             (err) => reject(err));
     });
+}
+
+async function generateInvoice(orderId, date, mf) {
+
+    const rowsDetails = [];
+    const order = await getById(orderId);
+    const deliveryAddress = {
+        address: order.delivery_address,
+        zipcode: order.delivery_zipcode,
+        city: order.delivery_city,
+        state: order.delivery_state,
+        phone: order.delivery_phone
+    };
+    const billingAddress = {
+        address: order.billing_address,
+        zipcode: order.billing_zipcode,
+        city: order.billing_city,
+        state: order.billing_state,
+        phone: order.billing_phone
+    };
+
+    const client = await usersService.getById(order.client_id);
+    const rows = await orderRowsService.getByOrderId(orderId);
+    for(const row of rows) {
+        const product = await productsService.getById(row.product_id);
+        const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
+        rowsDetails.push({
+            product,
+            variant,
+            quantity: row.quantity
+        });
+    }
+
+    const lines = rowsDetails.map((item) => ({
+        name: item.variant ? (`${item.product.label}${item.variant.color ? ' - ' + item.variant.color: ''}${item.variant.size ? ' - ' + item.variant.size: ''}`)
+            : item.product.label,
+        quantity: item.quantity,
+        price: item.product.promo_price ? `${item.product.promo_price} D.T` : `${item.product.price} D.T`
+    }));
+    console.log(lines);
+    const totalInfos = getOrderTotalInfos(rowsDetails);
+    const data = {
+        invoiceNumber: getInvoiceNumber(),
+        creationDate: new Date().toLocaleString(),
+        order,
+        lines,
+        deliveryAddress,
+        billingAddress,
+        client,
+        totalInfos,
+        totalText: utils.NumberToLetter(totalInfos.total, 'dinars', 'millimes'),
+        points: Math.floor(totalInfos.totalTTC),
+        mf
+    };
+
+    const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/invoice.html'), 'utf8');
+    const template = handlebars.compile(templateHtml);
+    const html = template(data);
+    
+    var milis = new Date();
+    milis = milis.getTime();
+
+    var filename = `Facture-${order.order_ref}-${milis}.pdf`;
+    var pdfPath = path.join('public/invoices', filename);
+
+    var options = {
+        width: '1230px',
+        headerTemplate: "<p></p>",
+        footerTemplate: "<div style=\"font-size: 9px;color: #999; text-align: center; margin-left: 30px\">" +
+        "<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn <br>" + 
+        "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / N / M / 000 | RIB BH : 14093093101700105713</p>" + 
+        "</div>",
+        displayHeaderFooter: true,
+        margin: {
+            top: "5px",
+            bottom: "10px"
+        },
+        printBackground: true,
+        path: pdfPath,
+        format: 'A4',
+        margin: { 
+            top: "40px", 
+            bottom: "60px"
+        }
+    };
+
+    const browser = await puppeteer.launch({
+            args: ['--no-sandbox'],
+            headless: true,
+            executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
+        });
+    const page = await browser.newPage();
+    await page.goto(`data:text/html;charset=UTF-8,${html}`, {
+		waitUntil: 'networkidle0'
+	});
+
+	await page.pdf(options);
+    await browser.close();
+    
+    return filename;
+}
+
+function generateDeliveryInvoice(orderId, date, mf) {
+}
+
+//orderDetails = [{product, variant, quantity}]
+function getOrderTotalInfos(orderRowsDetails) {
+    const totalTTC = orderRowsDetails.reduce((acc, cur) => {
+        const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
+        const subTotal = price * cur.quantity;
+        return acc + subTotal;
+    }, 0);
+
+    const totalTVA = orderRowsDetails.reduce((acc, cur) => {
+        const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
+        const tva = (price / 100) * cur.product.tva;
+        return acc + tva * cur.quantity;
+    }, 0);
+
+    const totalHT = orderRowsDetails.reduce((acc, cur) => {
+        const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
+        const tva = (price / 100) * cur.product.tva;
+        return acc + (price - tva) * cur.quantity;
+    }, 0);
+
+    const shipping = totalTTC < 100 ? 7 : 0;
+    
+    const total = totalTTC + shipping;
+    return {
+        totalHT,
+        totalTVA,
+        totalTTC,
+        shipping,
+        shippingText: shipping === 0 ? 'Livraison gratuite': `${shipping} D.T`,
+        total
+    }
+}
+
+function getInvoiceNumber() {
+    const d = new Date();
+    return `${d.getUTCMonth()}${d.getUTCFullYear() % 100}${d.getUTCHours()}${d.getUTCMinutes()}${d.getUTCSeconds()}${d.getUTCMilliseconds()}`;
 }

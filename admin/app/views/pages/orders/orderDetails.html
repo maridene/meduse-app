@@ -91,13 +91,13 @@
                     <div class="form-inline">
                         <label>Date:</label>
                         <div class="form-group input-group">
-                            <input type="date">
+                            <input type="date" id="invoiceDate" name="invoiceDateInput" ng-model="invoiceForm.invoiceDate">
                         </div>
                         <div class="form-group input-group">
-                            <input type="text" placeholder="Matricule fiscale">
+                            <input type="text" placeholder="Matricule fiscale" ng-model="invoiceForm.clientMF">
                         </div>
                         <div class="form-group input-group">
-                            <button type="button" class="btn btn-primary">Télécharger</button>
+                            <button type="button" class="btn btn-primary" ng-click="getInvoice()">Télécharger</button>
                         </div>
                     </div>
                 </div>
@@ -107,13 +107,13 @@
                     <div class="form-inline">
                         <label>Date:</label>
                         <div class="form-group input-group">
-                            <input type="date">
+                            <input type="date" ng-model="invoiceForm.deliveryInvoiceDate">
                         </div>
                         <div class="form-group input-group">
-                            <input type="text" placeholder="Matricule fiscale">
+                            <input type="text" placeholder="Matricule fiscale" ng-model="invoiceForm.clientMF">
                         </div>
                         <div class="form-group input-group">
-                            <button type="button" class="btn btn-primary">Télécharger</button>
+                            <button type="button" class="btn btn-primary" ng-click="getDeliveryInvoice()">Télécharger</button>
                         </div>
                     </div>
                 </div>
@@ -175,6 +175,10 @@
                     <tr>
                         <td><b>Téléphone:</b></td>
                         <td>{{client.phone}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Matricule fiscale:</b</td>
+                        <td>{{client.mf}}</td>
                     </tr>
                     <tr>
                         <td><b>Premium:</b></td>
