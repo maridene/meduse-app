@@ -36,7 +36,7 @@ Orders.getAll = () => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("found orders: ", res);
+            console.log("[Orders.getAll]: found orders: ", res.length);
             resolve(res);
           } else {
             console.log('no order found.');
@@ -76,7 +76,7 @@ Orders.findByClientId = (userId) => {
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found orders: \n", res);
+                    console.log("[Orders.findByClientId]: found orders: \n", res.length);
                     resolve(res);
                 } else {
                     console.log(`no order found for client with id = ${userId}`);
@@ -136,7 +136,7 @@ Orders.findByStatus = (status) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("found order: ", res[0]);
+            console.log(`[Orders.findByStatus]: found order with status '${status}': ${res[0]}`);
             resolve(res[0]);
           } else {
             console.log(`no order found with status = ${status}`);
@@ -156,10 +156,10 @@ Orders.findByCreator = (creatorId) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("found order: ", res[0]);
-            resolve(res[0]);
+            console.log("[Orders.findByCreator]: found order: ", res[0]);
+            resolve(res);
           } else {
-            console.log(`no order found with status = ${creatorId}`);
+            console.log(`no order found with creator = ${creatorId}`);
             resolve();
           }
         }
@@ -197,11 +197,11 @@ Orders.search = (status, payment, ptype) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log("found orders: ", res);
+          console.log(`[Orders.search]: found orders (${status}, ${payment}, ${ptype}): ${res.length}`);
           resolve(res);
         } else {
           console.log(`no order found with query = ${status}, ${payment}, ${ptype}`);
-          resolve();
+          resolve([]);
         }
       }
     });
