@@ -57,7 +57,7 @@ function ProfileConfig($stateProvider) {
           resolve: {
             data: function(UserService, $state, $rootScope) {
               if ($rootScope.globals && $rootScope.globals.currentUser) {
-                return UserService.getById($rootScope.globals.currentUser.id)
+                return UserService.mySelf()
                   .then((data) => {
                     return data;
                   }, (error) => {
