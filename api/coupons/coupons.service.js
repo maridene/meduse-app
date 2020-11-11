@@ -4,11 +4,24 @@ const userService = require('./../users/user.service');
 const DEFAULT_POINTS = 3000;
 
 module.exports = {
+    getById,
     getMyCoupons,
     checkCoupon,
     getAcoupon,
-    deleteCoupon
+    deleteCoupon,
+    updateCouponStatus
 };
+
+function getById(id) {
+    return new Promise((resolve, reject) => {
+        coupons.findById(id)
+            .then((result) => {
+                resolve(result);
+            }, (error) => {
+                reject(error);
+            })
+    });
+}
 
 function getMyCoupons(userId) {
     return new Promise((resolve, reject) => {
@@ -116,3 +129,14 @@ function makePart(length) {
             })
     });
  }
+
+function updateCouponStatus(id, newStatus) {
+    return new Promise((resolve, reject) => {
+        coupons.updateStatus(id, newStatus)
+            .then((result) => {
+                resolve(result);
+            }, (error) => {
+                reject(error);
+            })
+    });
+} 

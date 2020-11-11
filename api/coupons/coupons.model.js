@@ -59,11 +59,11 @@ Coupon.findById = (id) => {
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found coupon: \n", res);
+                    console.log("[Coupon.findById]: found coupon: ", res[0].code);
                     resolve(res[0]);
                 } else {
                     console.log(`no coupon found with id = ${id}`);
-                    resolve([]);
+                    resolve();
                 }
             }
         })
@@ -139,6 +139,23 @@ Coupon.remove = (id) => {
         
             console.log("deleted coupon with id: ", id);
             resolve(res);
+        });
+    });
+};
+
+Coupon.updateStatus = (id, status) => {
+    return new Promise((resolve, reject) => {
+        sql.query(`UPDATE ${tables.COUPONS} SET status = ${status} where id = ${id}`, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                reject(err);
+              } else if (res.affectedRows == 0) {
+                // not found coupon with the id
+                reject({ kind: "not_found" });
+              } else {
+                console.log(`[Coupon.updateStatus]: updated coupon with id ${id} status to ${status}`);
+                resolve({ id, status });
+              }
         });
     });
 };

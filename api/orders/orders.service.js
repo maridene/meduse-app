@@ -11,8 +11,9 @@ const orders = require('./orders.model');
 const orderRowsService = require('./../orderRows/orderRows.service');
 const usersService = require('./../users/user.service');
 const productsService = require('./../products/products.service');
-const productVariants = require('./../products/productVariants.service');
 const productVariantsService = require("./../products/productVariants.service");
+const couponsService = require('./../coupons/coupons.service');
+
 const utils = require('../utils');
 
 module.exports = {
@@ -153,7 +154,7 @@ function updateById(id, newOrder) {
     });
 }
 
-function submitOrder(userId, orderDetails) {
+async function submitOrder(userId, orderDetails) {
     const order = {
         client_Id: userId,
         order_date: new Date(),
@@ -172,7 +173,16 @@ function submitOrder(userId, orderDetails) {
         ptype: orderDetails.ptype,
         creator_id: userId
     };
-    return doCreateOrder(order, orderDetails.orderRows);
+    //check coupon
+    if (order.coupon_id !== undefined && order.coupon_id !== null) {
+        const coupon = await couponsService.getById(order.coupon_id);
+        if (coupon) {
+            await couponsService.updateCouponStatus(order.coupon_id, 1);
+        } else {
+            order.coupon_id = null;
+        }
+    }
+    return doCreateOrder(order, orderDetails.orderRows);  
 }
 
 function createOrder(orderDetails) {
