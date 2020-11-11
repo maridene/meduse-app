@@ -277,7 +277,7 @@ async function generateInvoice(orderId, date, mf) {
     const totalInfos = getOrderTotalInfos(rowsDetails);
     const data = {
         invoiceNumber: getInvoiceNumber(),
-        creationDate: new Date().toLocaleString(),
+        creationDate: date ? new Date(date).toLocaleString() : new Date().toLocaleString(),
         order,
         lines,
         deliveryAddress,
