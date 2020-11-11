@@ -127,7 +127,7 @@ function getPossibleNextStatuses(status) {
     case 'confirmed':
       return [confirmedOrder, inProgressOrder, canceledOrder];
     case 'shipping':
-      return [shippedOrder, shippedOrder, canceledOrder];
+      return [shippedOrder, canceledOrder];
     case 'canceled':
       return [canceledOrder, confirmedOrder];
     case 'shipped':
