@@ -12,7 +12,7 @@ module.exports = {
 
 function getMyCoupons(userId) {
     return new Promise((resolve, reject) => {
-        coupons.findByUserId(userId)
+        coupons.findByUserIdAvailable(userId)
             .then((result) => {
                 console.log('found ' + result.length + ' coupons for user with id = ' + userId);
                 resolve(result);
@@ -25,7 +25,7 @@ function getMyCoupons(userId) {
 
 function checkCoupon(couponCode) {
     return new Promise((resolve, reject) => {
-        coupons.findByCode(couponCode)
+        coupons.findByCodeAvailable(couponCode)
             .then((coupon) => {
                 if (coupon) {
                     resolve(coupon);

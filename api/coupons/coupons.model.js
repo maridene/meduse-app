@@ -10,6 +10,26 @@ const Coupon = function(coupon) {
     this.creation_date = coupon.creation_date;
 }
 
+Coupon.findByUserIdAvailable = (userId) => {
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT * FROM ${tables.COUPONS} WHERE client_id = ${userId} AND status = 0`,
+        (err, res) => {
+            if(err) {
+                console.log("error retrieving coupons: ", err);
+                reject(err);
+            } else {
+                if (res.length) {
+                    console.log("[Coupon.findByUserIdAvailable]: found available coupons: \n", res.length);
+                    resolve(res);
+                } else {
+                    console.log(`no available coupon found for user with id = ${userId}`);
+                    resolve([]);
+                }
+            }
+        })
+    });
+}
+
 Coupon.findByUserId = (userId) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.COUPONS} WHERE client_id = ${userId}`,
@@ -19,7 +39,7 @@ Coupon.findByUserId = (userId) => {
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found coupon: \n", res);
+                    console.log(`[Coupon.findByUserId]: found coupons for userId ${userId} ${res.length}`);
                     resolve(res);
                 } else {
                     console.log(`no coupon found for user with id = ${userId}`);
@@ -58,17 +78,37 @@ Coupon.findByCode = (code) => {
           console.error("error: ", err);
           reject(err);
         } else {
-          if (res.length) {
-            console.log("found coupon: ", res);
-            resolve(res[0]);
-          } else {
-            console.log(`no coupon found with code = ${code}`);
-            resolve();
-          }
+            if (res.length) {
+                console.log("found coupon: ", res);
+                resolve(res[0]);
+            } else {
+                console.log(`no coupon found with code = ${code}`);
+                resolve();
+            }
         }
       });
     });
-  };
+};
+
+Coupon.findByCodeAvailable = (code) => {
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT * FROM ${tables.COUPONS} WHERE code = '${code}' AND status = 0`, 
+        (err, res) => {
+            if (err) {
+                console.error("error: ", err);
+                reject(err);
+            } else {
+                if (res.length) {
+                    console.log("found coupon: ", res);
+                    resolve(res[0]);
+                } else {
+                    console.log(`no coupon found with code = ${code}`);
+                    resolve();
+                }
+            }
+        });
+    });
+};
 
 Coupon.create = (newCoupon) => {
     return new Promise((resolve, reject) => {
