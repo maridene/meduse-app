@@ -147,9 +147,20 @@ function updateOrderStatus(id, status) {
 }
 
 function updateById(id, newOrder) {
+    if(newOrder.order_status === 'shipped') {
+        newOrder.shipped_date = new Date();
+    } else if (newOrder.order_status === 'canceled') {
+        newOrder.canceled_date = new Date(); 
+    }
+    
     return new Promise((resolve, reject) => {
         orders.updateById(id, newOrder)
-            .then((result) => resolve(result),
+            .then(async (result) => {
+                if(newOrder.payment_status === '1') {
+                    await grantPoints(id);
+                } 
+                resolve(result);
+            },
             (err) => reject(err));
     });
 }
@@ -158,7 +169,7 @@ async function submitOrder(userId, orderDetails) {
     const order = {
         client_Id: userId,
         order_date: new Date(),
-        client_message: orderDetails.client_message,
+        client_message: orderDetails.message,
         coupon_id : orderDetails.coupon_id,
         delivery_address: orderDetails.delivery_address,
         delivery_zipcode: orderDetails.delivery_zipcode,
@@ -273,8 +284,8 @@ async function generateInvoice(orderId, date, mf) {
         quantity: item.quantity,
         price: item.product.promo_price ? `${item.product.promo_price} D.T` : `${item.product.price} D.T`
     }));
-    console.log(lines);
-    const totalInfos = getOrderTotalInfos(rowsDetails);
+
+    const totalInfos = getOrderTotalInfos(rowsDetails, client.premium);
     const data = {
         invoiceNumber: getInvoiceNumber(),
         creationDate: date ? new Date(date).toLocaleString() : new Date().toLocaleString(),
@@ -340,7 +351,7 @@ function generateDeliveryInvoice(orderId, date, mf) {
 }
 
 //orderDetails = [{product, variant, quantity}]
-function getOrderTotalInfos(orderRowsDetails) {
+function getOrderTotalInfos(orderRowsDetails, premium = 0) {
     const totalTTC = orderRowsDetails.reduce((acc, cur) => {
         const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
         const subTotal = price * cur.quantity;
@@ -359,7 +370,7 @@ function getOrderTotalInfos(orderRowsDetails) {
         return acc + (price - tva) * cur.quantity;
     }, 0);
 
-    const shipping = totalTTC < 100 ? 7 : 0;
+    const shipping = premium === 1 ? 0 : (totalTTC < 100 ? 7 : 0);
     
     const total = totalTTC + shipping;
     return {
@@ -372,7 +383,43 @@ function getOrderTotalInfos(orderRowsDetails) {
     }
 }
 
+function getOrderTotalInfosAfterReduction(orderRowsDetails, premium, reductionValue) {
+    const orderTotalInfos = getOrderTotalInfos(orderRowsDetails, premium);
+    orderTotalInfos.reduction = reductionValue;
+    const newTotal = ((100 - parseInt(reductionValue))/100) * orderTotalInfos.totalTTC;
+    orderTotalInfos.totalTTC = newTotal;
+    orderTotalInfos.total = orderTotalInfos.totalTTC + orderTotalInfos.shipping;
+    return orderTotalInfos;
+}
+
 function getInvoiceNumber() {
     const d = new Date();
     return `${d.getUTCMonth()}${d.getUTCFullYear() % 100}${d.getUTCHours()}${d.getUTCMinutes()}${d.getUTCSeconds()}${d.getUTCMilliseconds()}`;
+}
+
+async function grantPoints(orderId) {
+    const order = await getById(orderId);
+    const clientId = order.client_id;
+    const client = await usersService.getById(clientId);
+
+    const rowsDetails = [];
+    const rows = await orderRowsService.getByOrderId(orderId);
+    for(const row of rows) {
+        const product = await productsService.getById(row.product_id);
+        const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
+        rowsDetails.push({
+            product,
+            variant,
+            quantity: row.quantity
+        });
+    }
+    let totalInfo = null;
+    if (order.coupon_id !== null && order.coupon_id !== undefined) {
+        const coupon = await couponsService.getById(order.coupon_id);
+        totalInfo = getOrderTotalInfosAfterReduction(rowsDetails, client.premium, coupon.value);
+    } else {
+        totalInfo = getOrderTotalInfos(rowsDetails, client.premium);
+    }
+    const newPoints = +client.points + +Math.floor(totalInfo.totalTTC);
+    return usersService.updateClientPoints(clientId, newPoints);
 }
