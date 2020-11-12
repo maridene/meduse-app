@@ -25,25 +25,25 @@ angular.module('sbAdminApp').service('AuthenticationService', ['$q', '$http', '$
       return deferred.promise;
     },
     setCredentials: function setCredentials(user) {
-      $rootScope.globals = {
+      $rootScope.adminGlobals = {
         currentUser: user
       }; // set default auth header for http requests
 
-      $http.defaults.headers.common['Authorization'] = 'Bearer ' + user.token; // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
+      $http.defaults.headers.common['Authorization'] = 'Bearer ' + user.token; // store user details in adminGlobals cookie that keeps user logged in for 1 week (or until they logout)
 
       var cookieExp = new Date();
       cookieExp.setDate(cookieExp.getDate() + 7);
-      $cookieStore.put('globals', $rootScope.globals, {
+      $cookieStore.put('adminGlobals', $rootScope.adminGlobals, {
         expires: cookieExp
       });
     },
     clearCredentials: function clearCredentials() {
-      $rootScope.globals = {};
-      $cookieStore.remove('globals');
+      $rootScope.adminGlobals = {};
+      $cookieStore.remove('adminGlobals');
       $http.defaults.headers.common.Authorization = 'Bearer';
     },
     isAuthenticated: function isAuthenticated() {
-      return $rootScope.globals && $rootScope.globals.currentUser && $rootScope.globals.currentUser.token;
+      return $rootScope.adminGlobals && $rootScope.adminGlobals.currentUser && $rootScope.adminGlobals.currentUser.token;
     }
   };
 }]);
