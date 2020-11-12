@@ -39,9 +39,10 @@
                 <th scope="row">{{order.order_ref}}</th>
                 <td>{{order.date}}</td>
                 <td>{{order.paymentType}}</td>
-                <td ng-if="['new', 'in_progress'].indexOf(order.order_status) !== -1"><span class="badge badge-primary">{{order.status}}</span></td>
+                <td ng-if="['new', 'confirmed'].indexOf(order.order_status) !== -1"><span class="badge badge-info">{{order.status}}</span></td>
                 <td ng-if="order.order_status === 'canceled'"><span class="badge badge-danger">{{order.status}}</span></td>
                 <td ng-if="['shipping', 'shipped'].indexOf(order.order_status) !== -1"><span class="badge badge-success">{{order.status}}</span></td>
+                <td ng-if="['in_progress'].indexOf(order.order_status) !== -1"><span class="badge badge-success">{{order.status}}</span></td>
               </tr>
             </tbody>
           </table>
