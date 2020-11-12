@@ -63,6 +63,17 @@ angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'R
           return deferred.reject(error);
         });
       return deferred.promise;
+    },
+    totalInfo: function totalInfo(orderId) {
+      var deferred = $q.defer();
+      var url = ORDERS + '/' + orderId + '/total';
+      RestService.get(url)
+        .then(function(result) {
+          return deferred.resolve(result.data);
+        }, function(error) {
+          return deferred.reject(error);
+        });
+      return deferred.promise;
     }
   };
 }]);

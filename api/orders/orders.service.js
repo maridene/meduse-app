@@ -33,7 +33,8 @@ module.exports = {
     remove,
     updateById,
     generateInvoice,
-    generateDeliveryInvoice
+    generateDeliveryInvoice,
+    getOrderTotal
 };
 
 function getAll() {
@@ -397,7 +398,7 @@ function getInvoiceNumber() {
     return `${d.getUTCMonth()}${d.getUTCFullYear() % 100}${d.getUTCHours()}${d.getUTCMinutes()}${d.getUTCSeconds()}${d.getUTCMilliseconds()}`;
 }
 
-async function grantPoints(orderId) {
+async function getOrderTotal(orderId) {
     const order = await getById(orderId);
     const clientId = order.client_id;
     const client = await usersService.getById(clientId);
@@ -420,6 +421,11 @@ async function grantPoints(orderId) {
     } else {
         totalInfo = getOrderTotalInfos(rowsDetails, client.premium);
     }
+    return totalInfo;
+}
+
+async function grantPoints(orderId) {
+    const totalInfo = await getOrderTotal(orderId);
     const newPoints = +client.points + +Math.floor(totalInfo.totalTTC);
     return usersService.updateClientPoints(clientId, newPoints);
 }

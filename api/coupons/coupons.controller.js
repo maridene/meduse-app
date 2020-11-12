@@ -4,6 +4,9 @@ const couponsService = require('./coupons.service');
 const authorize = require('helpers/authorize')
 const Role = require('helpers/role');
 
+//Admin routes
+router.get('/:id', authorize(Role.Admin), getById);
+
 //user routes
 router.get('/mycoupons', authorize(Role.User), getMyCoupons);
 router.post('/check', authorize(Role.User), checkCoupon);
@@ -28,6 +31,13 @@ function checkCoupon(req, res, next) {
 function getAcoupon(req, res, next) {
     const userId = parseInt(req.header('userId'));
     couponsService.getAcoupon(userId)
+        .then(coupon => res.json(coupon))
+        .catch(err => next(err));
+}
+
+function getById(req, res, next) {
+    const id = parseInt(req.params.id);
+    couponsService.getById(id)
         .then(coupon => res.json(coupon))
         .catch(err => next(err));
 }

@@ -150,6 +150,36 @@
                         </tr>
                     </tbody>
                 </table>
+                <table class="table">
+                    <tr ng-if="coupon.value">
+                        <td>Coupon de réduction</td>
+                        <td>{{coupon.code}}</td>
+                        <td>50%</td>
+                    </tr>
+                </table>
+                <hr/>
+                <table>
+                    <tr>
+                        <td><b>Total HT:</b></td>
+                        <td>{{totalInfo.totalHT}} D.T</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total TVA:</b</td>
+                        <td>{{totalInfo.totalTVA}} D.T</td>
+                    </tr>
+                    <tr>
+                        <td ng-if="totalInfo.reduction"><b>Réduction:</b</td>
+                        <td>{{totalInfo.reduction}} D.T</td>
+                    </tr>
+                    <tr>
+                        <td><b>Frais de livraison:</b</td>
+                        <td>{{totalInfo.shippingText}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total TTC:</b</td>
+                        <td>{{totalInfo.totalTTC}} D.T</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

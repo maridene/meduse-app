@@ -28,6 +28,7 @@ router.put('/:id', authorize(Role.Admin), updateById);
 router.put('/status/:id', authorize(Role.Admin), updateOrderStatus);
 router.post('/:id/invoice', authorize(Role.Admin), generateInvoice);
 router.post('/:id/deliveryInvoice', authorize(Role.Admin), generateDeleveryInvoice);
+router.get('/:id/total', authorize(Role.Admin), getOrderTotal);
 
 // all authenticated users routes
 router.post('/submit', authorize(Role.User), submitOrder);
@@ -131,6 +132,15 @@ function generateDeleveryInvoice(req, res, next) {
     ordersService.generateInvoice(orderId, date, mf)
         .then(filename => {
             res.json({filename: filename});
+        })
+        .catch(err => next(err));
+}
+
+function getOrderTotal(req, res, next) {
+    const orderId = parseInt(req.params.id);
+    ordersService.getOrderTotal(orderId)
+        .then(data => {
+            res.json(data);
         })
         .catch(err => next(err));
 }

@@ -7,9 +7,11 @@
  * Controller of the order details page
  */
 angular.module('sbAdminApp')
-  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', 'RestService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 
-  function ($scope, $stateParams, $window, RestService, OrdersService, OrderRowsService, UsersService, ProductService) {
+  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', 'RestService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 'CouponsService', 
+  function ($scope, $stateParams, $window, RestService, OrdersService, OrderRowsService, UsersService, ProductService, CouponsService) {
     $scope.order = {};
+    $scope.coupon = {};
+    $scope.totalInfo = {};
     $scope.rows = [];
     $scope.form = {
       message: ''
@@ -29,6 +31,16 @@ angular.module('sbAdminApp')
           $scope.form.selectedOrderStatus = $scope.possibleStatuses[0].key;
           $scope.form.selectedPaymentStatus = $scope.order.payment_status;
           $scope.disableApply = true;
+
+          if ($scope.order.coupon_id !== null && $scope.order.coupon_id !== null)  {
+            CouponsService.getById(order.coupon_id).then(function (result) {
+              $scope.coupon = result;
+            });
+          }
+
+          OrdersService.totalInfo(order.id).then(function (result) {
+            $scope.totalInfo = result;
+          });
 
           console.log($scope.order);
           OrderRowsService.getByOrderId(order.id).then(
