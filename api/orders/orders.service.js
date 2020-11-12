@@ -309,7 +309,7 @@ async function generateInvoice(orderId, date, mf) {
     milis = milis.getTime();
 
     var filename = `Facture-${order.order_ref}-${milis}.pdf`;
-    var pdfPath = path.join('public/invoices', filename);
+    var pdfPath = path.join('/var/www/meduse-static', filename);
 
     var options = {
         width: '1230px',
