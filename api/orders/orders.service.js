@@ -333,7 +333,7 @@ async function generateInvoice(orderId, date, mf) {
     };
 
     const browser = await puppeteer.launch({
-            args: ['--no-sandbox'],
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
             headless: true,
             executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
         });
