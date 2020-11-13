@@ -25,6 +25,7 @@ router.get('/product/:id', authorize(Role.Admin), getByProductId);
 router.post('/', authorize(Role.Admin), createOrderRow);
 router.put('/:id', authorize(Role.Admin), updateById);
 router.delete('/:id', authorize(Role.Admin), removeById);
+router.put('/:id/quantity', authorize(Role.Admin), updateQuantityById);
 
 // all authenticated users routes
 
@@ -69,6 +70,14 @@ function updateById(req, res, next) {
 function removeById(req, res, next) {
     const id = parseInt(req.params.id);
     orderRowsService.removeById(id)
+        .then(result => res.json(result))
+        .catch(err => next(err));
+}
+
+function updateQuantityById(req, res, next) {
+    const id = parseInt(req.params.id);
+    const newQty = req.body.newQty;
+    orderRowsService.updateQuantityById(id, newQty)
         .then(result => res.json(result))
         .catch(err => next(err));
 }

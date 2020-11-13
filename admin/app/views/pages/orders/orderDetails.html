@@ -136,28 +136,38 @@
                             <th>Produit</th>
                             <th>Quantité</th>
                             <th>Prix unitaire</th>
-                            <th>Disponibilité</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in rows">
+                        <tr ng-repeat="item in rows"> 
                             <td class="center">{{item.label}}</td>
-                            <td class="center">{{item.quantity}}</td>
+                            <td class="center">
+                                <input style="width: 60px" type="number" min="1" step="1" ng-model="item.newQuantity" ng-change="rowQuantityChange()">
+                            </td>
                             <td class="center" ng-if="item.promo_price"><b>{{item.promo_price}} D.T </b><del>{{item.price}}D.T</del> </td>
                             <td class="center" ng-if="!item.promo_price"><b>{{item.price}} D.T</b></td>
-                            <td class="center" ng-if="item.availability" style="color: green">Disponible</td>
-                            <td class="center" ng-if="!item.availability"style="color: red">Non Disponible</td>
+                            <td class="center">
+                                <button type="button" class="btn btn-danger" ng-click="removeRow(item)">Retirer</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <table class="table">
-                    <tr ng-if="coupon.value">
+                <div>
+                    <button type="button" class="btn btn-success" ng-click="update()" ng-disabled="!rowQuantityChanged">Mettre à jour</button>
+                </div>
+
+
+                <table ng-if="coupon.value" class="table">
+                    <tr>
                         <td>Coupon de réduction</td>
                         <td>{{coupon.code}}</td>
                         <td>50%</td>
                     </tr>
                 </table>
+
                 <hr/>
+
                 <table>
                     <tr>
                         <td><b>Total HT:</b></td>
@@ -169,7 +179,7 @@
                     </tr>
                     <tr>
                         <td ng-if="totalInfo.reduction"><b>Réduction:</b</td>
-                        <td>{{totalInfo.reduction}} D.T</td>
+                        <td ng-if="totalInfo.reduction">{{totalInfo.reduction}}</td>
                     </tr>
                     <tr>
                         <td><b>Frais de livraison:</b</td>

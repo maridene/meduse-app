@@ -30,18 +30,13 @@ angular.module('sbAdminApp').service('OrderRowsService', ['$q', 'ObjectBuilder',
       });
       return deferred.promise;
     },
-    search: function search(status, payment, ptype) {
+    updateRowQuantity: function updateRowQuantity(id, newQuantity) {
       var deferred = $q.defer();
-      var url = ORDER_ROWS + '/search?status={0}&payment={1}&ptype={2}';
-      url = url.replace('{0}', status)
-                .replace('{1}', payment)
-                .replace('{2}', ptype);
-      RestService.get(url)
-        .then(function(result) {
-          return deferred.resolve(ObjectBuilder.buildObject('orders', result.data));
-        }, function(error) {
-          return deferred.reject(error);
-        });
+      RestService.put("".concat(ORDER_ROWS, "/").concat(id).concat("/quantity"), {newQty: newQuantity}).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
       return deferred.promise;
     }
   };

@@ -149,6 +149,29 @@ OrderRow.updateById = (id, newRow) => {
     });
 };
 
+OrderRow.updateQuantityById = (id, qty) => {
+    return new Promise((resolve, reject) => {
+        const queryStr = `UPDATE ${tables.ORDER_ROWS} SET \`quantity\` = '${qty}' WHERE (\`id\` = '${id}')`;
+        console.log(queryStr);
+        sql.query(queryStr, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                reject(err);
+                return;
+              }
+      
+              if (res.affectedRows == 0) {
+                // not found order row with the id
+                reject({ kind: "not_found" });
+                return;
+              }
+      
+              console.log("updated order row quantity: ", { id, qty });
+              resolve({id, qty});
+        });
+    });
+};
+
 function getUpdateOrderRowEntries(row){
     return Object.keys(row).map((e) => `${e} = ?`).join(', ');
 }

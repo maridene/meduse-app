@@ -8,7 +8,8 @@ module.exports = {
     addAll,
     removeById,
     removeByProductId,
-    updateById
+    updateById,
+    updateQuantityById
 }
 
 function getById(id) {
@@ -91,6 +92,17 @@ function removeByProductId(id) {
 function updateById(id, newRow) {
     return new Promise((resolve, reject) => {
         orderRows.updateById(id, newRow)
+            .then((result) => {
+                resolve(result);
+            }, (error) => {
+                reject(error);
+            });
+    });
+}
+
+function updateQuantityById(id, qty) {
+    return new Promise((resolve, reject) => {
+        orderRows.updateQuantityById(id, qty)
             .then((result) => {
                 resolve(result);
             }, (error) => {

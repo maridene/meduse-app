@@ -7,8 +7,8 @@
  * Controller of the order details page
  */
 angular.module('sbAdminApp')
-  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', 'RestService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 'CouponsService', 
-  function ($scope, $stateParams, $window, RestService, OrdersService, OrderRowsService, UsersService, ProductService, CouponsService) {
+  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', '$q', 'RestService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 'CouponsService', 
+  function ($scope, $stateParams, $window, $q, RestService, OrdersService, OrderRowsService, UsersService, ProductService, CouponsService) {
     $scope.order = {};
     $scope.coupon = {};
     $scope.totalInfo = {};
@@ -16,6 +16,8 @@ angular.module('sbAdminApp')
     $scope.form = {
       message: ''
     };
+
+    $scope.rowQuantityChanged = false;
 
     $scope.invoiceForm = {
       invoiceDate: new Date(),
@@ -53,8 +55,10 @@ angular.module('sbAdminApp')
                       return item.id === row.variantId;
                     })[0] : null;
                     var orderRow = {
+                      id: row.id,
                       label: getProductLabel(result.product, selectedVariant),
                       quantity : row.quantity,
+                      newQuantity: row.quantity,
                       price: result.product.price,
                       promo_price: result.product.promo_price,
                       availability: getAvailability(result.product, selectedVariant, row.quantity),
@@ -158,4 +162,40 @@ angular.module('sbAdminApp')
           $window.open(fileUrl, '_blank');
         });
     };
+
+    $scope.rowQuantityChange = function () {
+      var changed = false;
+      $scope.rows.forEach(function(row) {
+        if (row.quantity !== row.newQuantity) {
+          changed = true;
+        }
+      });
+      $scope.rowQuantityChanged = changed;
+    };
+
+    $scope.update = function () {
+      var changedRows = $scope.rows.filter(function(row) {
+        return row.quantity !== row.newQuantity; 
+      });
+      if (changedRows.length) {
+        var promises = changedRows.map(function (row) {
+          return OrderRowsService.updateRowQuantity(row.id, row.newQuantity);
+        });
+        $q.all(promises).then(function () {
+          $window.location.reload();
+        }, function (error) {
+
+        });
+      }
+    };
+
+    $scope.removeRow = function(row) {
+      OrderRowsService.remove(row.id)
+        .then(function () {
+          $window.location.reload();
+        }, function (error) {
+
+        });
+    };
+
 }]);
