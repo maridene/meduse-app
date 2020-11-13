@@ -279,6 +279,8 @@ async function generateInvoice(orderId, date, mf) {
         });
     }
 
+    const reductionValue = (order.coupon_id !== null && order.coupon_id !== undefined) ? await couponsService.getById(order.coupon_id).value : null;
+
     const lines = rowsDetails.map((item) => ({
         name: item.variant ? (`${item.product.label}${item.variant.color ? ' - ' + item.variant.color: ''}${item.variant.size ? ' - ' + item.variant.size: ''}`)
             : item.product.label,
@@ -286,7 +288,8 @@ async function generateInvoice(orderId, date, mf) {
         price: item.product.promo_price ? `${item.product.promo_price} D.T` : `${item.product.price} D.T`
     }));
 
-    const totalInfos = getOrderTotalInfos(rowsDetails, client.premium);
+    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, reductionValue)
+        : getOrderTotalInfos(rowsDetails, client.premium);
     const data = {
         invoiceNumber: getInvoiceNumber(),
         creationDate: date ? new Date(date).toLocaleString() : new Date().toLocaleString(),
@@ -375,12 +378,12 @@ function getOrderTotalInfos(orderRowsDetails, premium = 0) {
     
     const total = totalTTC + shipping;
     return {
-        totalHT,
-        totalTVA,
-        totalTTC,
+        totalHT: totalHT.toFixed(3),
+        totalTVA: totalTVA.toFixed(3),
+        totalTTC: totalTTC.toFixed(3),
         shipping,
         shippingText: shipping === 0 ? 'Livraison gratuite': `${shipping} D.T`,
-        total
+        total: total.toFixed(3)
     }
 }
 
@@ -390,6 +393,9 @@ function getOrderTotalInfosAfterReduction(orderRowsDetails, premium, reductionVa
     const newTotal = ((100 - parseInt(reductionValue))/100) * orderTotalInfos.totalTTC;
     orderTotalInfos.totalTTC = newTotal;
     orderTotalInfos.total = orderTotalInfos.totalTTC + orderTotalInfos.shipping;
+    
+    orderTotalInfos.totalTTC = orderTotalInfos.totalTTC.toFixed(3);
+    orderTotalInfos.total = orderTotalInfos.total.toFixed(3);
     return orderTotalInfos;
 }
 
