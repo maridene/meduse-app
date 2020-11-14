@@ -319,7 +319,7 @@ async function generateInvoice(orderId, date, mf) {
         headerTemplate: "<p></p>",
         footerTemplate: "<div style=\"font-size: 9px;color: #999; text-align: center; margin-left: 30px\">" +
         "<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn <br>" + 
-        "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / N / M / 000 | RIB BH : 14093093101700105713</p>" + 
+        "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713</p>" + 
         "</div>",
         displayHeaderFooter: true,
         margin: {
