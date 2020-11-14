@@ -4,14 +4,11 @@ const couponsService = require('./coupons.service');
 const authorize = require('helpers/authorize')
 const Role = require('helpers/role');
 
-//Admin routes
-router.get('/:id', authorize(Role.Admin), getById);
 
-//user routes
 router.get('/mycoupons', authorize(Role.User), getMyCoupons);
 router.post('/check', authorize(Role.User), checkCoupon);
 router.get('/getacoupon', authorize(Role.User), getAcoupon)
-
+router.get('/:id', authorize(Role.Admin), getById);
 module.exports = router;
 
 function getMyCoupons(req, res, next) {
