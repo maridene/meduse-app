@@ -45,9 +45,21 @@ angular.module('sbAdminApp').service('ProductVariantsService', ['$q', 'RestServi
     return deferred.promise;
   };
 
+  var getByProductId = function getByProductId(id) {
+    var deferred = $q.defer();
+  
+    RestService.get("".concat(PRODUCTS_VARIANTS, "/product/").concat(id)).then(function (result) {
+      deferred.resolve(result.data);
+    }, function (error) {
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
   return {
     addAll: addAll,
     deleteVariant: deleteVariant,
-    deleteVariants: deleteVariants
+    deleteVariants: deleteVariants,
+    getByProductId : getByProductId
   };
 }]);

@@ -153,9 +153,30 @@
                         </tr>
                     </tbody>
                 </table>
+
                 <div>
                     <button type="button" class="btn btn-success" ng-click="update()" ng-disabled="!rowQuantityChanged">Mettre à jour</button>
                 </div>
+
+                <hr/>
+                <div>
+                    <div class="form-group form-inline" ng-if="addInProgress">
+                        <select class="form-control col-lg-3" ng-model="addProductForm.selectedCategoryId" required>
+                            <option ng-repeat="category in categories" value="{{category.id}}">{{category.label}}</option>
+                        </select>
+                        <select class="form-control col-lg-4" ng-model="addProductForm.selectedProduct" required>
+                            <option ng-repeat="product in addProductForm.productsForCategory" value="{{product.id}}">{{product.label}}</option>
+                        </select>
+                        <select class="form-control" ng-if="addProductForm.variantsForProduct.length" ng-model="addProductForm.selectedVariantIdForProduct" required>
+                            <option ng-repeat="variant in addProductForm.variantsForProduct" value="{{variant.id}}">
+                                {{variant.size ? 'Taille: ' + variant.size : ''}} {{variant.color && variant.size ? ' - ' : ''}} {{variant.color ? 'Couleur: ' + variant.color : ''}}</option>
+                        </select>
+                        <button type="button" class="btn btn-success" ng-if="addInProgress" ng-click="submitRow()">Valider</button>
+                    </div>
+                    <button type="button" class="btn btn-primary" ng-if="!addInProgress" ng-click="addRow()">Ajouter un produit</button>
+                    <button type="button" class="btn btn-danger" ng-if="addInProgress" ng-click="cancelAddRow()">Annuler</button>
+                </div>
+                
 
 
                 <table ng-if="coupon.value" class="table">

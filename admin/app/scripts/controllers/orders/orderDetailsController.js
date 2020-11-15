@@ -7,8 +7,8 @@
  * Controller of the order details page
  */
 angular.module('sbAdminApp')
-  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', '$q', 'RestService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 'CouponsService', 
-  function ($scope, $stateParams, $window, $q, RestService, OrdersService, OrderRowsService, UsersService, ProductService, CouponsService) {
+  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', '$q', 'RestService', 'CategoryService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 'ProductVariantsService', 'CouponsService', 
+  function ($scope, $stateParams, $window, $q, RestService, CategoryService, OrdersService, OrderRowsService, UsersService, ProductService, ProductVariantsService, CouponsService) {
     $scope.order = {};
     $scope.coupon = {};
     $scope.totalInfo = {};
@@ -17,12 +17,113 @@ angular.module('sbAdminApp')
       message: ''
     };
 
+    //Edit rows Form
+    $scope.addInProgress = false;
     $scope.rowQuantityChanged = false;
+    $scope.categories = [];
+    $scope.addProductForm = {
+      selectedCategoryId: null,
+      productsForCategory : [],
+      selectedProduct: null,
+      variantsForProduct : [],
+      selectedVariantIdForProduct: null
+    };
 
     $scope.invoiceForm = {
       invoiceDate: new Date(),
       clientMF: '',
       deliveryInvoiceDate: new Date()
+    };
+
+    CategoryService.getAllCategories().then(function(result) {
+      if (result.length) {
+        $scope.categories = result;
+        $scope.addProductForm.selectedCategoryId = result.length ? result[0].id : null;
+        ProductService.getProductsByCategory(result[0].id)
+          .then(function(productsForCategory) {
+            if (productsForCategory.items.length) {
+              $scope.addProductForm.productsForCategory = productsForCategory.items;
+              $scope.addProductForm.selectedProduct = productsForCategory.items[0].id;
+              ProductVariantsService.getByProductId(productsForCategory.items[0].id)
+                .then(function(variants) {
+                  if (variants && variants.length) {
+                    $scope.addProductForm.variantsForProduct = variants;
+                    $scope.addProductForm.selectedVariantIdForProduct = variants[0].id;
+                  } else {
+                    $scope.addProductForm.variantsForProduct = [];
+                    $scope.addProductForm.selectedVariantIdForProduct = null;
+                  }
+                  
+                })
+            } else {
+              $scope.addProductForm.productsForCategory = [];
+              $scope.addProductForm.selectedProduct = null;
+            }
+            
+          });
+      }
+      
+    });
+
+    $scope.$watch('addProductForm.selectedCategoryId', function() {
+      $scope.addProductForm.productsForCategory = [];
+      $scope.addProductForm.selectedProduct = null;
+      $scope.addProductForm.variantsForProduct = [];
+      $scope.addProductForm.selectedVariantIdForProduct = null;
+
+      ProductService.getProductsByCategory($scope.addProductForm.selectedCategoryId)
+        .then(function(productsForCategory) {
+          if (productsForCategory.items.length) {
+            $scope.addProductForm.productsForCategory = productsForCategory.items;
+            $scope.addProductForm.selectedProduct = productsForCategory.items[0].id;
+            ProductVariantsService.getByProductId(productsForCategory.items[0].id)
+                .then(function(variants) {
+                  if (variants && variants.length) {
+                    $scope.addProductForm.variantsForProduct = variants;
+                    $scope.addProductForm.selectedVariantIdForProduct = variants[0].id;
+                  } else {
+                    $scope.addProductForm.variantsForProduct = [];
+                    $scope.addProductForm.selectedVariantIdForProduct = null;
+                  }
+                  
+                });
+          } else {
+            $scope.addProductForm.productsForCategory = [];
+            $scope.addProductForm.selectedProduct = null;
+          }
+        });
+    });
+
+    $scope.$watch('addProductForm.selectedProduct', function() {
+      if ($scope.addProductForm.selectedProduct) {
+        ProductVariantsService.getByProductId($scope.addProductForm.selectedProduct)
+        .then(function(variants) {
+          if (variants && variants.length) {
+            $scope.addProductForm.variantsForProduct = variants;
+            $scope.addProductForm.selectedVariantIdForProduct = variants[0].id;
+          } else {
+            $scope.addProductForm.variantsForProduct = [];
+            $scope.addProductForm.selectedVariantIdForProduct = null;
+          }
+        });
+      }
+    });
+
+    $scope.submitRow = function() {
+      if ($scope.checkSubmitRow()) {
+
+      } else {
+        var data = {
+          product_id: $scope.addProductForm.selectedProduct,
+          variant_id: $scope.addProductForm.selectedVariantIdForProduct,
+          quantity: 1,
+          order_id: $scope.order.id
+        };
+        OrderRowsService.add(data)
+          .then(function() {
+            $window.location.reload();
+          });
+      }
     };
 
     OrdersService.getById($stateParams.id).then(
@@ -79,6 +180,13 @@ angular.module('sbAdminApp')
           $state.go('dashboard.current-orders');
         }
     );
+
+    $scope.checkSubmitRow = function() {
+      var found = $scope.orderRows.filter(function(row) {
+        return row.productId === $scope.addProductForm.selectedProduct && row.variantId === $scope.addProductForm.selectedVariantIdForProduct;
+      })
+      return found.length > 0;
+    };
 
     $scope.$watch('[form.selectedOrderStatus, form.selectedPaymentStatus]', function() {
       if ($scope.form.selectedOrderStatus === $scope.order.order_status 
@@ -196,6 +304,14 @@ angular.module('sbAdminApp')
         }, function (error) {
 
         });
+    };
+
+    $scope.addRow = function() {
+      $scope.addInProgress = true;
+    };
+
+    $scope.cancelAddRow = function() {
+      $scope.addInProgress = false;
     };
 
 }]);

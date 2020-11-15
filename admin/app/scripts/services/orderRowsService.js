@@ -12,9 +12,9 @@ angular.module('sbAdminApp').service('OrderRowsService', ['$q', 'ObjectBuilder',
       });
       return deferred.promise;
     },
-    add: function add(order) {
+    add: function add(row) {
       var deferred = $q.defer();
-      RestService.post(ORDER_ROWS, order).then(function (result) {
+      RestService.post(ORDER_ROWS, row).then(function (result) {
         deferred.resolve(result);
       }, function (error) {
         deferred.reject(error);
