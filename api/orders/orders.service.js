@@ -292,7 +292,7 @@ async function generateInvoice(orderId, date, mf) {
         : getOrderTotalInfos(rowsDetails, client.premium);
     const data = {
         invoiceNumber: getInvoiceNumber(),
-        creationDate: date ? new Date(date).toLocaleString() : new Date().toLocaleString(),
+        creationDate: date ? new Date(date).toLocaleDateString() : new Date().toLocaleDateString(),
         order,
         lines,
         deliveryAddress,
@@ -322,15 +322,11 @@ async function generateInvoice(orderId, date, mf) {
         "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713</p>" + 
         "</div>",
         displayHeaderFooter: true,
-        margin: {
-            top: "5px",
-            bottom: "10px"
-        },
         printBackground: true,
         path: pdfPath,
         format: 'A4',
         margin: { 
-            top: "40px", 
+            top: "10px", 
             bottom: "60px"
         }
     };
@@ -375,14 +371,15 @@ function getOrderTotalInfos(orderRowsDetails, premium = 0) {
     }, 0);
 
     const shipping = premium === 1 ? 0 : (totalTTC < 100 ? 7 : 0);
-    
-    const total = totalTTC + shipping;
+    const timbreFiscale = 0.6;
+    const total = totalTTC + shipping + timbreFiscale;
     return {
         totalHT: totalHT.toFixed(3),
         totalTVA: totalTVA.toFixed(3),
         totalTTC: totalTTC.toFixed(3),
         shipping,
         shippingText: shipping === 0 ? 'Livraison gratuite': `${shipping} D.T`,
+        timbreFiscale : timbreFiscale.toFixed(3),
         total: total.toFixed(3)
     }
 }

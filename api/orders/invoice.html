@@ -41,7 +41,7 @@
     }
     
     .invoice-box table tr.information table td {
-        padding-bottom: 40px;
+        padding-bottom: 30px;
     }
     
     .invoice-box table tr.heading td {
@@ -78,10 +78,11 @@
 
     .invoice-box .points {
         padding-top: 24px;
+        font-size: 12px;
     }
 
     .invoice-box .thanks {
-        padding-top: 15px;
+        font-size: 12px;
     }
     
     @media only screen and (max-width: 600px) {
@@ -237,7 +238,15 @@
                     Livraison: {{totalInfos.shippingText}}
                 </td>
             </tr>
-            
+
+            <tr class="total">
+                <td></td>
+                <td></td>
+                <td>
+                   <b>Timbre fiscale: {{totalInfos.timbreFiscale}} D.T</b>
+                </td>
+            </tr>
+
             <tr class="total">
                 <td></td>
                 <td></td>
