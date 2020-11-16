@@ -4,6 +4,7 @@
             <img ng-if="$ctrl.image" ng-src="{{$ctrl.image}}">
             <img ng-if="!$ctrl.image" src="assets/img/no-image.jpg">
             <div class="sales-tag" ng-if="$ctrl.product.onSale">{{$ctrl.product.onsalePercentage}}</div>
+            <div class="exclusif-tag" ng-if="$ctrl.product.isExclusif">Accès exclusif</div>
         </a>
         
         <div class="img-cap">

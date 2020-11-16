@@ -83,3 +83,22 @@
     border-radius: 2px;
     display: inline-flex;
 }
+
+.ProductItem .exclusif-tag{
+    position: absolute;
+    top: 8px;
+    right: 136px;
+    padding-left: 3px;
+    padding-right: 3px;
+    height: 24px;
+    min-width: 40px;
+    color: #eed813;
+    background-color: #fdf9d7;
+    line-height: 1.2;
+    font-weight: bold;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    display: inline-flex;
+}
