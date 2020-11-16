@@ -43,8 +43,13 @@
                 </select>
             </div>
             <div class="form-group required">
-                <label class="control-label">Téléphone (+216)</label>
-                <input class="form-control" ng-model="$ctrl.form.phone" pattern="[0-9]{8}" required>
+                <label class="control-label">Téléphone</label>
+                <div class="form-group input-group">
+                    <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
+                        <option selected="true">+216</option>
+                    </select>
+                    <input class="form-control" ng-model="$ctrl.form.phone" pattern="[0-9]{8}" required>
+                </div>
             </div>
             <div class="form-group">
                 <label class="control-label">Informations supplémentaires</label>
