@@ -7,9 +7,18 @@ function CartConfig($stateProvider) {
           controller: 'CartCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'cart/cart.html',
-          title: 'Cart'
-        });
-  
+          title: 'Cart',
+          resolve: {
+            shippingSettings: function(SettingsService, $state) {
+              return SettingsService.getShippingSettings()
+                .then((data) => {
+                    return data;
+              }, () => {
+                $state.go();
+              });
+            }
+          }
+        })
   };
   
   export default CartConfig;

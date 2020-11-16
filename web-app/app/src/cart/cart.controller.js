@@ -1,5 +1,5 @@
 class CartCtrl {
-    constructor(AppConstants, CartService, AuthenticationService, $timeout, $scope, $location) {
+    constructor(AppConstants, CartService, AuthenticationService, shippingSettings, $timeout, $scope, $location) {
       'ngInject';
   
       this.AppConstants = AppConstants;
@@ -8,7 +8,7 @@ class CartCtrl {
       this.$timeout = $timeout;
       this.$scope = $scope;
       this.$location = $location;
-
+      this.shippingSettings = shippingSettings;
       this.reloadCart();
       this.update();
     }
@@ -84,7 +84,12 @@ class CartCtrl {
         item.subTotal = item.getSubTotal();
         return item;
       });
-      this.shippingFee = this.cart.getTotal() >= 50 ? 0 : 7;
+      this.shippingFee = null;
+      if (this.shippingSettings.free === "1" || this.AuthenticationService.isPremium()) {
+        this.shippingFee = 0;
+      } else {
+        this.shippingFee = this.cart.getTotal() >= parseFloat(this.shippingSettings.freeFrom) ? 0 : parseFloat(this.shippingSettings.shippingFee);
+      }
       this.$timeout(() => {
         this.initQuantityChooser();
       });

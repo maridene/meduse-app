@@ -70,7 +70,8 @@ angular
                     'scripts/services/blogService.js',
                     'scripts/services/ordersService.js',
                     'scripts/services/orderRowsService.js',
-                    'scripts/services/couponsService.js'
+                    'scripts/services/couponsService.js',
+                    'scripts/services/settingsService.js'
                     ]
                 }));
                   promises.push($ocLazyLoad.load(
@@ -409,6 +410,19 @@ angular
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
                 files:['scripts/controllers/clients/clientsListController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.settings', {
+        url:'/settings',
+        controller: 'SettingsCtrl',
+        templateUrl: 'views/pages/settings/settings.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/settings/settingsController.js']
             })
           }
         }

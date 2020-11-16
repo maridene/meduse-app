@@ -203,12 +203,20 @@
                         <td ng-if="totalInfo.reduction">{{totalInfo.reduction}}</td>
                     </tr>
                     <tr>
+                        <td><b>Total TTC:</b</td>
+                        <td>{{totalInfo.totalTTC}} D.T</td>
+                    </tr>
+                    <tr>
                         <td><b>Frais de livraison:</b</td>
                         <td>{{totalInfo.shippingText}}</td>
                     </tr>
                     <tr>
-                        <td><b>Total TTC:</b</td>
-                        <td>{{totalInfo.totalTTC}} D.T</td>
+                        <td><b>Timbre fiscale:</b</td>
+                        <td>0.600 D.T</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total à payer:</b</td>
+                        <td>{{totalInfo.total}} D.T TTC</td>
                     </tr>
                 </table>
             </div>

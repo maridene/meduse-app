@@ -13,6 +13,7 @@ const usersService = require('./../users/user.service');
 const productsService = require('./../products/products.service');
 const productVariantsService = require("./../products/productVariants.service");
 const couponsService = require('./../coupons/coupons.service');
+const settingsService = require("../settings/settings.service");
 
 const utils = require('../utils');
 
@@ -288,8 +289,12 @@ async function generateInvoice(orderId, date, mf) {
         price: item.product.promo_price ? `${item.product.promo_price} D.T` : `${item.product.price} D.T`
     }));
 
-    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, reductionValue)
-        : getOrderTotalInfos(rowsDetails, client.premium);
+    const shippingSettings = await settingsService.getByType('shipping');
+    const shippingData = {};
+    shippingSettings.forEach((i) => shippingData[i.label] = i.value);
+
+    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
+        : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
     const data = {
         invoiceNumber: getInvoiceNumber(),
         creationDate: date ? new Date(date).toLocaleDateString() : new Date().toLocaleDateString(),
@@ -351,7 +356,7 @@ function generateDeliveryInvoice(orderId, date, mf) {
 }
 
 //orderDetails = [{product, variant, quantity}]
-function getOrderTotalInfos(orderRowsDetails, premium = 0) {
+function getOrderTotalInfos(orderRowsDetails, premium = 0, shippingSettings) {
     const totalTTC = orderRowsDetails.reduce((acc, cur) => {
         const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
         const subTotal = price * cur.quantity;
@@ -360,17 +365,17 @@ function getOrderTotalInfos(orderRowsDetails, premium = 0) {
 
     const totalTVA = orderRowsDetails.reduce((acc, cur) => {
         const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
-        const tva = (price / 100) * cur.product.tva;
+        const tva = (price / (+100 + cur.product.tva)) * cur.product.tva;
         return acc + tva * cur.quantity;
     }, 0);
 
     const totalHT = orderRowsDetails.reduce((acc, cur) => {
         const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
-        const tva = (price / 100) * cur.product.tva;
+        const tva = (price / (+100 + cur.product.tva)) * cur.product.tva;
         return acc + (price - tva) * cur.quantity;
     }, 0);
 
-    const shipping = premium === 1 ? 0 : (totalTTC < 100 ? 7 : 0);
+    const shipping = premium === 1 || shippingSettings.free === '1' || totalTTC >= parseFloat(shippingSettings.freeFrom) ? 0 : parseFloat(shippingSettings.shippingFee);
     const timbreFiscale = 0.6;
     const total = totalTTC + shipping + timbreFiscale;
     return {
@@ -384,8 +389,8 @@ function getOrderTotalInfos(orderRowsDetails, premium = 0) {
     }
 }
 
-function getOrderTotalInfosAfterReduction(orderRowsDetails, premium, reductionValue) {
-    const orderTotalInfos = getOrderTotalInfos(orderRowsDetails, premium);
+function getOrderTotalInfosAfterReduction(orderRowsDetails, premium, shippingSettings, reductionValue) {
+    const orderTotalInfos = getOrderTotalInfos(orderRowsDetails, premium, shippingSettings);
     orderTotalInfos.reduction = reductionValue;
     const newTotal = ((100 - parseInt(reductionValue))/100) * orderTotalInfos.totalTTC;
     orderTotalInfos.totalTTC = newTotal;
@@ -418,11 +423,15 @@ async function getOrderTotal(orderId) {
         });
     }
     let totalInfo = null;
+    const shippingSettings = await settingsService.getByType('shipping');
+    const shippingData = {};
+    shippingSettings.forEach((i) => shippingData[i.label] = i.value);
+
     if (order.coupon_id !== null && order.coupon_id !== undefined) {
         const coupon = await couponsService.getById(order.coupon_id);
-        totalInfo = getOrderTotalInfosAfterReduction(rowsDetails, client.premium, coupon.value);
+        totalInfo = getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, coupon.value);
     } else {
-        totalInfo = getOrderTotalInfos(rowsDetails, client.premium);
+        totalInfo = getOrderTotalInfos(rowsDetails, client.premium, shippingData);
     }
     return totalInfo;
 }

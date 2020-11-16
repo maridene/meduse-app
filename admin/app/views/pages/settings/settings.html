@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Paramètres</h1>
+    </div>  
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Livraison
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form role="form" ng-submit="updateShippingSettings()">
+                    <div class="form-group">
+                        <label> Coût de la livraison (D.T)</label>
+                        <input type="number" min="0" step="0.1" class="form-control" style="width: 120px;" 
+                        ng-model="shippingForm.shippingFee" ng-change="shippingDataChanged()" ng-disabled="shippingForm.freeFromDisabled" required> 
+                    </div>
+                    <div class="form-group">
+                        <label> Gratuite à partir de</label>
+                        <input type="number" min="0" step="0.1" class="form-control" style="width: 120px;"
+                        ng-model="shippingForm.freeFrom" ng-disabled="shippingForm.freeFromDisabled" ng-change="shippingDataChanged()" required>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label>Gratuite</label>
+                        <input type="checkbox" ng-model="shippingForm.free" name="freeShipping" id="freeShipping" ng-change="shippingDataChanged()">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" ng-disabled="!shippingForm.canApply">Appliquer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

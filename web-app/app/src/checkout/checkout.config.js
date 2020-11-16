@@ -7,7 +7,17 @@ function CheckoutConfig($stateProvider) {
           controller: 'CheckoutCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'checkout/checkout.html',
-          title: 'Checkout'
+          title: 'Checkout',
+          resolve: {
+            shippingSettings: function(SettingsService, $state) {
+              return SettingsService.getShippingSettings()
+                .then((data) => {
+                    return data;
+              }, () => {
+                $state.go();
+              });
+            }
+          }
         });
   
   };

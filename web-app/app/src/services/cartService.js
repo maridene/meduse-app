@@ -2,11 +2,12 @@ import Cart from '../models/cart';
 import CartRow from '../models/cartRow';
 
 export default class CartService {
-  constructor($rootScope, $mdDialog) {
+  constructor($rootScope, $mdDialog, SettingsService) {
     'ngInject';
 
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
+    this.SettingsService = SettingsService;
     this.secret = 'Meduse secret for cart crypto';
   }
 
@@ -126,35 +127,45 @@ export default class CartService {
 
   showDialog(product, count, variant) {
     const cart = this.getCart();
-    this.$mdDialog.show({
-      locals: {data: {product, count, variant, cart}},
-      templateUrl: 'cart/cart-dialog.html',
-      parent: angular.element(document.body),
-      targetEvent: event,
-      clickOutsideToClose: true,
-      fullscreen: false,
-      controller: ['AppConstants', 'CartService', '$scope', '$mdDialog', '$location', 'data', 
-      (AppConstants, CartService, $scope, $mdDialog, $location, data) => {
-
-        $scope.close = function () {
-          $mdDialog.hide();
-        };
-
-        $scope.goToCart = function() {
-          $mdDialog.hide();
-          $location.path('/cart');
-        };
-
-        $scope.product = data.product;
-        $scope.image = $scope.product.images && $scope.product.images.length ? 
-        `${AppConstants.productsStaticContentUrl}${$scope.product.images.split(',')[0]}` : null;
-        $scope.count = data.count;
-        $scope.cart = CartService.getCart();
-        $scope.productsInCart = cart.items.length;
-        $scope.shipment = 'Livraison gratuite !';
-        $scope.cartTotal = cart.getTotal();
-        $scope.total = cart.getTotal();
-      }]
-    });
+    this.SettingsService.getShippingSettings()
+      .then((shippingData) => {
+        this.$mdDialog.show({
+          locals: {data: {product, count, variant, cart, shippingData}},
+          templateUrl: 'cart/cart-dialog.html',
+          parent: angular.element(document.body),
+          targetEvent: event,
+          clickOutsideToClose: true,
+          fullscreen: false,
+          controller: ['AppConstants', 'CartService', 'AuthenticationService', '$scope', '$mdDialog', '$location', 'data', 
+          (AppConstants, CartService, AuthenticationService, $scope, $mdDialog, $location, data) => {
+    
+            $scope.close = function () {
+              $mdDialog.hide();
+            };
+    
+            $scope.goToCart = function() {
+              $mdDialog.hide();
+              $location.path('/cart');
+            };
+    
+            $scope.product = data.product;
+            $scope.image = $scope.product.images && $scope.product.images.length ? 
+            `${AppConstants.productsStaticContentUrl}${$scope.product.images.split(',')[0]}` : null;
+            $scope.count = data.count;
+            $scope.cart = CartService.getCart();
+            $scope.productsInCart = cart.items.length;
+            let shippingFee ;
+            if (data.shippingData.free === "1" || AuthenticationService.isPremium() || cart.getTotal() >= parseFloat(data.shippingData.freeFrom)) {
+              shippingFee = 0;
+              $scope.shipment = 'Livraison gratuite !';
+            } else {
+              shippingFee = parseFloat(data.shippingData.shippingFee);      
+              $scope.shipment = `${shippingFee} D.T`;
+            }
+            $scope.cartTotal = cart.getTotal();
+            $scope.total = cart.getTotal() + shippingFee;
+          }]
+        });
+      })
   }
 }

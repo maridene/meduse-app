@@ -20,7 +20,8 @@ export const ApiConstants = {
   BLOGS: 'blogs/',
   ORDERS: 'orders',
   MY_ORDERS: 'orders/myorders/{0}',
-  COUPONS: 'coupons'
+  COUPONS: 'coupons',
+  SETTINGS: 'settings'
 };
 
 export default AppConstants;
