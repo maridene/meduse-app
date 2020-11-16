@@ -54,9 +54,4 @@ export default class AddressesService {
             }, (error) => deferred.reject(error));
         return deferred.promise; 
     }
-
-    updateAddress() {
-
-    }
-
 }
