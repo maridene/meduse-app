@@ -143,10 +143,10 @@
                         <tr>
                             <td>
                                 <b>Adresse de Facturation</b><br>
-                                {{client.name}}<br>
-                                {{client.email}}<br>
-                                {{order.billing_address}}<br>
-                                {{order.billing_zipcode}} {{order.billing_city}}, {{order.billing_state}}<br>
+                                {{{client.name}}}<br>
+                                {{{client.email}}}<br>
+                                {{{order.billing_address}}}<br>
+                                {{order.billing_zipcode}} {{{order.billing_city}}}, {{{order.billing_state}}}<br>
                                 Téléphone: {{order.billing_phone}}<br>
                                 Matricule Fiscale: {{mf}}
                             </td>
@@ -155,10 +155,10 @@
                             
                             <td style="text-align: end">
                                 <b>Adresse de Livraison</b><br>
-                                {{client.name}}<br>
-                                {{client.email}}<br>
-                                {{order.delivery_address}}<br>
-                                {{order.delivery_zipcode}} {{order.delivery_city}}, {{order.delivery_state}}<br>
+                                {{{client.name}}}<br>
+                                {{{client.email}}}<br>
+                                {{{order.delivery_address}}}<br>
+                                {{order.delivery_zipcode}} {{{order.delivery_city}}}, {{{order.delivery_state}}}<br>
                                 Téléphone: {{order.delivery_phone}}
                             </td>
                         </tr>
