@@ -9,9 +9,6 @@
 
 angular.module('sbAdminApp').controller('EditProductCtrl', ['$scope', '$q', 'uuid', 'ProductService', 'ProductVariantsService', 'Upload', 'data', 'categories', 'manufacturers', 
 function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data, categories, manufacturers) {
-  console.log(categories);
-  console.log(manufacturers);
-  console.log(data);
   
   //set variants
   $scope.withVariants = null;
