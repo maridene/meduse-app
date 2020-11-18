@@ -20,7 +20,6 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
     }).length;
 
     $scope.deleteDisabled = selectedItemsCount === 0;
-    $scope.updateDisabled = selectedItemsCount !== 1;
   };
 
   $scope.updateState();
