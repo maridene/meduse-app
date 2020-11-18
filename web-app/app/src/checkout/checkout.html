@@ -34,7 +34,7 @@
                                 <p>{{$ctrl.form.selectedDeliveryAddress.zipcode}} {{$ctrl.form.selectedDeliveryAddress.city}}, {{$ctrl.form.selectedDeliveryAddress.state}}</p>
                                 <p>{{$ctrl.form.selectedDeliveryAddress.description}}</p>
                                 <p>{{$ctrl.form.selectedDeliveryAddress.phone}}</p>
-                                <button type="button" class="btn btn-success" ng-click="$ctrl.updateAddress(address)"> Mettre à jour </button>
+                                <a class="btn btn-success"  ng-href="#!/profile/adresses/edit/{{$ctrl.form.selectedDeliveryAddress.id}}?next=checkout"> Mettre à jour </a>
                             </div>
                         </div>
                         <div ng-if="$ctrl.myAddresses.length" class="form-group form-check">
@@ -56,7 +56,7 @@
                                 <p>{{$ctrl.form.selectedBillingAddress.zipcode}} {{$ctrl.form.selectedBillingAddress.city}}, {{$ctrl.form.selectedBillingAddress.state}}</p>
                                 <p>{{$ctrl.form.selectedBillingAddress.description}}</p>
                                 <p>{{$ctrl.form.selectedBillingAddress.phone}}</p>
-                                <button type="button" class="btn btn-success"  ng-click="$ctrl.updateAddress(address)"> Mettre à jour </button>
+                                <a class="btn btn-success"  ng-href="#!/profile/adresses/edit/{{$ctrl.form.selectedBillingAddress.id}}?next=checkout"> Mettre à jour </a>
                             </div>
                         </div>
 

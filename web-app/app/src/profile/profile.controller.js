@@ -190,12 +190,21 @@ export class EditAddressCtrl {
     };
 
     this.id = data.id;
+
+    const nextObj = this.$location.search();
+    if (nextObj && nextObj.next) {
+      this.next = `/${nextObj.next}`;
+    }
   }
 
   update() {
     this.AddressesService.updateById(this.id, this.form)
       .then(() => {
-        this.$location.path('/profile/adresses');
+        if (this.next) {
+          this.$location.path(this.next);
+        } else {
+          this.$location.path('/profile/adresses');
+        }
       })
   }
 }
