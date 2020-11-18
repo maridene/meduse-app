@@ -1,9 +1,10 @@
 class CheckoutCtrl {
-    constructor($scope, $location, AppConstants, CartService, AddressesService, CouponsService, OrdersService, AuthenticationService, shippingSettings) {
+    constructor($scope, $location, $timeout, AppConstants, CartService, AddressesService, CouponsService, OrdersService, AuthenticationService, shippingSettings) {
       'ngInject';
   
       this.$scope = $scope;
       this.$location = $location;
+      this.$timeout = $timeout;
       this.appName = AppConstants.appName;
       this.CartService = CartService;
       this.AddressesService = AddressesService;
@@ -106,6 +107,12 @@ class CheckoutCtrl {
             this.CartService.clearCart();
             this.$location.path('#');
           });
+      } else {
+        window.scrollTo(0, 0);
+        this.showAddressNeededMessage = true;
+        this.$timeout(() => {
+          this.showAddressNeededMessage = false;
+        }, 3000);
       }
     }
 

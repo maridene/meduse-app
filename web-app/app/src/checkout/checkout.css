@@ -56,6 +56,15 @@
 	padding: 13px 25px 10px 35px;
 }
 
+.checkout-section .checkout-form .alert {
+	position: absolute;
+	top: 0px;
+	left: 260px;
+	line-height: 21px;
+	font-size: 14px;
+	padding: 8px;
+}
+
 .checkout-form h4 {
 	color: #252525;
 	font-weight: 700;
