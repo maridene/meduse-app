@@ -1,25 +1,42 @@
 /*---------------------
   Header
 -----------------------*/
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+.sticky + .content {
+    padding-top: 102px;
+}
 
 .header-top {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
-	border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    height: 45px;
+}
+
+.header-top .container {
+    height: 100%;
+    align-items: center;
 }
 
 .header-top .ht-left {
-	float: left;
+    float: left;
+    height: 100%;
 }
 
 .header-top .ht-left .mail-service {
+    height: 100%;
 	font-size: 16px;
 	float: left;
 	border-right: 1px solid #E5E5E5;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	padding-right: 20px;
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .header-top .ht-left .mail-service i {
@@ -56,9 +73,10 @@
 	font-size: 14px;
 	color: #252525;
 	line-height: 27px;
-	padding-top: 15px;
-	padding-bottom: 12px;
-	padding-left: 20px;
+    padding-left: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .header-top .ht-right .fa, .header-top .ht-right .fab {
@@ -74,16 +92,20 @@
 }
 
 .header-top .ht-right {
-	float: right;
+    float: right;
+    height: 100%;
 }
 
 .header-top .ht-right .login-panel {
 	float: right;
 	font-size: 14px;
 	color: #19346d;
-	display: inline-block;
-	padding: 18px 20px 15px;
-	border-left: 1px solid #e5e5e5;
+    padding-left: 18px;
+    padding-right: 18px;
+    border-left: 1px solid #e5e5e5;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .header-top .ht-right .login-panel i {
@@ -93,22 +115,25 @@
 .header-top .ht-right .top-social {
 	float: right;
 	padding-right: 20px;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	border-right: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 
 .header-top .ht-right .top-social a {
 	font-size: 14px;
 	display: inline-block;
-	margin-left: 15px;
+    margin-left: 15px;
 }
 
 /*nav*/
 .navbar {
     height: 100px;
     padding: 0 120px;
-    background-color: #f5f5f5;
+    background-color: #19346d;
+    z-index: 5;
+    box-shadow: 1px 2px 15px 1px #ddd;
 }
 @media (min-width: 768px) {
     .navbar-brand.abs {
@@ -135,7 +160,7 @@
 
 .navbar .category-item a {
     padding: 0 15px;
-    color: #19346d;
+    color: #e5e5e5;
     font: 400 16px oswald,sans-serif;
     text-transform: uppercase;
 }
@@ -143,7 +168,7 @@
     color: #33c0ec;
 }
 .navbar .search .fa-search, .navbar .cart .fa-shopping-cart {
-    color: #19346d;
+    color: #e5e5e5;
     padding: 0 20px;
 }
 .navbar .search:hover .fa-search, .navbar .cart:hover .fa-shopping-cart {
