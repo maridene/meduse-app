@@ -154,9 +154,12 @@
 /*---------------------
   Slideshow section
 -----------------------*/
+.slideshow {
+    height: 380px;
+}
+
 .slideshow .carousel-inner img {
 	width: 100%;
-	height: 450px;
 }
 
 /*------------------------
