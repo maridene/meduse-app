@@ -170,25 +170,47 @@ background-color: #eee;
   padding: 5px 10px;
 }
 
-.AddProductForm .thumbs-container {
+.EditProductForm .thumbs-container, .AddProductForm .thumbs-container {
   display: flex;
   align-items: center;
 }
 
-.AddProductForm .thumbs-container .thumb-item {
-  border: 1px solid #e5e5e5;
-  margin-right: 5px;
+.AddProductForm .thumbs-container{
+  list-style: none;
 }
 
-.AddProductForm .thumbs-container .thumb-item .fa {
+.EditProductForm .thumbs-container .thumb-item, .AddProductForm .thumbs-container .thumb-item {
+  border: 1px solid #e5e5e5;
+  margin-right: 10px;
+  height: 100px;
+  width: 100px;
+}
+
+.EditProductForm .thumbs-container .thumb-item img, .AddProductForm .thumbs-container .thumb-item img {
+  width: 100px;
+  height: 100px;
+}
+
+.EditProductForm .thumbs-container .thumb-item .fa, .AddProductForm .thumbs-container .thumb-item .fa {
   position: absolute;
   cursor: pointer;
   color: #9b9b9b;
   display: none;
 }
 
-.AddProductForm .thumbs-container .thumb-item:hover .fa {
+.EditProductForm .thumbs-container .thumb-item:hover .fa, .AddProductForm .thumbs-container .thumb-item:hover .fa {
   display: block;
+}
+
+.EditProductForm .thumbs-container .dndDraggingSource {
+  display: none;
+}
+
+.EditProductForm .thumbs-container .dndPlaceholder {
+  background-color: #ddd;
+  display: block;
+  height: 100px;
+  width: 100px;
 }
 
 /* products list */

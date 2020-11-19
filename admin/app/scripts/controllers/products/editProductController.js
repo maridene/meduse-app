@@ -43,13 +43,21 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
       tags: data.product.tags && data.product.tags.length ? data.product.tags.split(',') : [],
       images: data.product.images,
       imagesThumbs: data.product.images && data.product.images.length ? 
-        data.product.images.split(',').map(function(image) {SERVER_URL+'/static/products/' +image}) : []
+        data.product.images.split(',').map(function(image) { 
+          return {
+            filename: image,
+            url: SERVER_URL+'/static/products/' +image,
+            id: uuid.v4()
+          }
+        }) : []
     },
     variants: data.variants.map(function(item) {
       item.type = $scope.withVariants;
       return item;
     })
   };
+
+  $scope.form.imagesList = $scope.form.product.imagesThumbs;
 
   $scope.$watch('form', function () {
     var selectedCategoryName = $scope.categories.filter(function (item) {
@@ -132,11 +140,6 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
     });
   };
 
-  $scope.resetImages = function () {
-    $scope.form.product.images = '';
-    $scope.form.product.imagesThumbs = [];
-  };
-
   $scope.variantPropertyChanged = function (item) {
     if (item.type === 'colors') {
       item.sku = "".concat($scope.form.product.sku, "-").concat(propertyAbbrev(item.color));
@@ -199,7 +202,9 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
       promo_price: $scope.form.product.promo_price,
       manufacturerId: $scope.form.product.selectedManufacturerId,
       weight: $scope.form.product.weight,
-      images: $scope.form.product.images,
+      images: $scope.form.imagesList.map(function(each) {
+        return each.filename;
+      }).join(','),
       video_link: $scope.form.product.video_link,
       tags: $scope.form.product.tags.toString()
     };
@@ -213,7 +218,7 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
    
     uploadPromise.then(function (filenames) {
       if (filenames && filenames.length) {
-        product.images = filenames.toString();
+        product.images = product.images.length ?  product.images + ',' + filenames.toString() : filenames.toString();
       }
       ProductService.update(data.product.id, product).then(function (result) {
         updateVariants(result.data.id)
@@ -264,7 +269,7 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
     var toDeleteVariantsIds = [];
     var toAddVariants = getProductVariantsArray(productId);
     //no more variants
-    if (variantsChanged) {
+    if (variantsChanged()) {
       toDeleteVariantsIds = data.variants.map(function(item) {
         return item.id;
       });
@@ -317,6 +322,16 @@ function ($scope, $q, uuid, ProductService, ProductVariantsService, Upload, data
       });
       return changed;
     }
+  };
+
+  $scope.deleteThumb = function (thumb) {
+    $scope.form.imagesList = $scope.form.imagesList.filter(function (each) {
+      return each.id !== thumb.id;
+    });
+  };
+
+  $scope.dragEnd = function() {
+    console.log($scope.form.imagesList);
   };
 
 }]);

@@ -102,17 +102,24 @@
                                     <div class="panel-heading">
                                         Images du produit
                                     </div>
-                                    <div class="product-images-container">
-                                        <div class="form-group" ng-if="form.product.imagesThumbs.length > 0">
-                                            <div class="form-inline">
-                                                <img ng-repeat="image in form.product.imagesThumbs" style="width:100px;" ng-src="{{image}}"/>
+                                    <div class="panel-body">
+                                        <div class="thumbs-container form-group" dnd-list="form.imagesList">
+                                            <div class="thumb-item" ng-repeat="thumb in form.imagesList track by $index"
+                                                dnd-draggable="thumb" dnd-moved="form.imagesList.splice($index, 1)" dnd-effect-allowed="move"
+                                                dnd-dragend="dragEnd()">
+                                                <i class="fa fa-times" ng-click="deleteThumb(thumb)"></i>
+                                                <img ngf-thumbnail="thumb.url"/>
                                             </div>
-                                            <button type="button" class="btn btn-warning" ng-click="resetImages()">Remplacer</button>
+                                            <div class="thumb-item" ng-repeat="file in form.files track by $index"
+                                            dnd-draggable="file" dnd-moved="form.files.splice($index, 1)" dnd-effect-allowed="move"
+                                            dnd-dragend="dragEnd()">
+                                                <i class="fa fa-times" ng-click="deleteThumb(file)"></i>
+                                                <img ngf-thumbnail="file"/>
+                                            </div>
                                         </div>
-                                        <div class="form-group product-images" ng-if="form.product.imagesThumbs.length === 0">
-                                            <label>
-                                                Images du produit (20 maximum)
-                                            </label>
+
+                                        <div class="form-group">
+                                            <label>Ajouter des images</label>
                                             <input 
                                                 type="file" 
                                                 ngf-select 
@@ -124,7 +131,6 @@
                                                 ngf-max-size="20MB" 
                                                 class="file form-control" 
                                                 multiple>
-                                            Images: <img ng-repeat="file in form.files" style="width:100px;" ngf-thumbnail="file || '/thumb.jpg'"/>
                                         </div>
                                     </div>
                                 </div>

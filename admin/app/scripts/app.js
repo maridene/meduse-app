@@ -16,7 +16,8 @@ angular
     'ui.bootstrap',
     'angular-loading-bar',
     'ngSanitize',
-    'angular-uuid'
+    'angular-uuid',
+    'dndLists'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
     
