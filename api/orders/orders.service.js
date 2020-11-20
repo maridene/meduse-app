@@ -322,7 +322,7 @@ async function generateInvoice(orderId, date, mf) {
     var options = {
         width: '1230px',
         headerTemplate: "<p></p>",
-        footerTemplate: "<div style=\"font-size: 9px;color: #999; text-align: center; margin-left: 30px\">" +
+        footerTemplate: "<div style=\"font-size: 8px;color: #999; text-align: center;\">" +
         "<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn <br>" + 
         "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713</p>" + 
         "</div>",
@@ -332,7 +332,7 @@ async function generateInvoice(orderId, date, mf) {
         format: 'A4',
         margin: { 
             top: "10px", 
-            bottom: "60px"
+            bottom: "40px"
         }
     };
 
@@ -352,7 +352,106 @@ async function generateInvoice(orderId, date, mf) {
     return filename;
 }
 
-function generateDeliveryInvoice(orderId, date, mf) {
+async function generateDeliveryInvoice(orderId, date, mf) {
+    const rowsDetails = [];
+    const order = await getById(orderId);
+    const deliveryAddress = {
+        address: order.delivery_address,
+        zipcode: order.delivery_zipcode,
+        city: order.delivery_city,
+        state: order.delivery_state,
+        phone: order.delivery_phone
+    };
+    const billingAddress = {
+        address: order.billing_address,
+        zipcode: order.billing_zipcode,
+        city: order.billing_city,
+        state: order.billing_state,
+        phone: order.billing_phone
+    };
+
+    const client = await usersService.getById(order.client_id);
+    const rows = await orderRowsService.getByOrderId(orderId);
+    for(const row of rows) {
+        const product = await productsService.getById(row.product_id);
+        const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
+        rowsDetails.push({
+            product,
+            variant,
+            quantity: row.quantity
+        });
+    }
+
+    const reductionValue = (order.coupon_id !== null && order.coupon_id !== undefined) ? await couponsService.getById(order.coupon_id).value : null;
+
+    const lines = rowsDetails.map((item) => ({
+        name: item.variant ? (`${item.product.label}${item.variant.color ? ' - ' + item.variant.color: ''}${item.variant.size ? ' - ' + item.variant.size: ''}`)
+            : item.product.label,
+        quantity: item.quantity,
+        price: item.product.promo_price ? `${item.product.promo_price} D.T` : `${item.product.price} D.T`
+    }));
+
+    const shippingSettings = await settingsService.getByType('shipping');
+    const shippingData = {};
+    shippingSettings.forEach((i) => shippingData[i.label] = i.value);
+
+    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
+        : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+    const data = {
+        invoiceNumber: getInvoiceNumber(),
+        creationDate: date ? new Date(date).toLocaleDateString() : new Date().toLocaleDateString(),
+        order,
+        lines,
+        deliveryAddress,
+        billingAddress,
+        client,
+        totalInfos,
+        totalText: utils.NumberToLetter(totalInfos.total, 'dinars', 'millimes'),
+        points: Math.floor(totalInfos.totalTTC),
+        mf
+    };
+
+    const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/delivery-invoice.html'), 'utf8');
+    const template = handlebars.compile(templateHtml);
+    const html = template(data);
+    
+    var milis = new Date();
+    milis = milis.getTime();
+
+    var filename = `BonDeCommande-${order.order_ref}-${milis}.pdf`;
+    var pdfPath = path.join('public/invoices', filename);
+
+    var options = {
+        width: '1230px',
+        headerTemplate: "<p></p>",
+        footerTemplate: "<div style=\"font-size: 8px;color: #999; text-align: center;\">" +
+        "<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn <br>" + 
+        "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713</p>" + 
+        "</div>",
+        displayHeaderFooter: true,
+        printBackground: true,
+        path: pdfPath,
+        format: 'A4',
+        margin: { 
+            top: "10px", 
+            bottom: "40px"
+        }
+    };
+
+    const browser = await puppeteer.launch({
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            headless: true,
+            executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
+        });
+    const page = await browser.newPage();
+    await page.goto(`data:text/html;charset=UTF-8,${html}`, {
+		waitUntil: 'networkidle0'
+	});
+
+	await page.pdf(options);
+    await browser.close();
+    
+    return filename;
 }
 
 //orderDetails = [{product, variant, quantity}]

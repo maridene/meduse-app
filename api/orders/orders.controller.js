@@ -129,7 +129,7 @@ function generateDeleveryInvoice(req, res, next) {
     const orderId = parseInt(req.params.id);
     const date = req.body.date;
     const mf = req.body.mf;
-    ordersService.generateInvoice(orderId, date, mf)
+    ordersService.generateDeliveryInvoice(orderId, date, mf)
         .then(filename => {
             res.json({filename: filename});
         })
