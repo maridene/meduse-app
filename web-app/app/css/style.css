@@ -1,6 +1,23 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+.back-to-top {
+	display: none;
+	position: fixed;
+    bottom: 20px;
+    right: 20px;
+	z-index: 99;
+	background-color: #33c0ec;
+	color: white;
+	cursor: pointer;
+	padding: 15px;
+	border-radius: 4px;
+}
+  
+.back-to-top:hover {
+	background-color: #dae0e5;
+	border: #dae0e5;
+}
 
 html,
 body {

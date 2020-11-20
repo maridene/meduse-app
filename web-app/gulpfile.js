@@ -76,6 +76,11 @@ gulp.task('copy-assets', function() {
       .pipe(gulp.dest('./build/assets'));
 });
 
+gulp.task('copy-mainjs', function() {
+  return gulp.src('./app/main.js')
+      .pipe(gulp.dest('./build'));
+});
+
 gulp.task('copy-libs', function() {
   return gulp.src('./app/lib/**/*')
       .pipe(gulp.dest('./build/lib'));
@@ -92,7 +97,7 @@ gulp.task('concatCss', function () {
     .pipe(gulp.dest('build/'));
 });
 
-gulp.task('copy-resources', ['copy-libs', 'copy-assets', 'copy-css']);
+gulp.task('copy-resources', ['copy-libs', 'copy-assets', 'copy-css', 'copy-mainjs']);
 
 gulp.task('default', ['html', 'copy-resources', 'concatCss', 'browserify'], function() {
 
