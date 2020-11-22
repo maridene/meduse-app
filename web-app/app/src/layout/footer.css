@@ -4,7 +4,7 @@
 
 .footer-section {
 	background: #19346d;
-	padding-top: 75px;
+	padding-top: 20px;
 }
 
 .footer-section .footer-delivery {
@@ -31,18 +31,23 @@
 
 .footer-section .footer-delivery ul li a {
 	color: #666666;
-    padding: 15px 10px;
+    padding: 5px 10px;
     display: inline-block;
     font-size: 13px;
     text-transform: capitalize;
 }
 
+.footer-section a {
+	color: #ffffff;
+}
+
 .footer-left {
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 }
 
 .footer-left .footer-logo img {
-	margin-left: -32px;
+	width: 200px;
+    height: 100px;
 }
 
 .footer-left .footer-logo a {
@@ -51,13 +56,13 @@
 
 .footer-left ul li {
 	list-style: none;
-	color: #b2b2b2;
+	color: #ffffff;
 	font-size: 16px;
 	line-height: 30px;
 }
 
 .footer-left .footer-social {
-	padding-top: 25px;
+	padding-top: 8px;
 }
 
 .footer-left .footer-social a {
@@ -100,7 +105,7 @@
 }
 
 .footer-widget h5 {
-	color: #ffffff;
+	color: #33c0ec;
 	font-weight: 700;
 	margin-bottom: 26px;
 }
@@ -112,17 +117,21 @@
 .footer-widget ul li a {
 	line-height: 36px;
 	font-size: 16px;
-	color: #b2b2b2;
+	color: #ffffff;
+}
+
+.footer-widget ul li a:hover {
+	color: #33c0ec;
 }
 
 .newslatter-item h5 {
-	color: #ffffff;
+	color: #33c0ec;
 	font-weight: 700;
 	margin-bottom: 30px;
 }
 
 .newslatter-item p {
-	color: #b2b2b2;
+	color: #ffffff;
 	line-height: 26px;
 }
 
@@ -131,7 +140,7 @@
 }
 
 .newslatter-item .subscribe-form input {
-	color: #b2b2b2;
+	color: #ffffff;
 	background: #303030;
 	width: 100%;
 	height: 46px;

@@ -27,23 +27,20 @@
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-md" id="header">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="header">
+        <a class="navbar-brand logo" href="#!/">
+            <img src="assets/img/logo-big-white.png">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse" id="collapsingNavbar">
-            <ul class="navbar-nav">
-                <li class="logo">
-                    <a href="#!/">
-                        <img src="assets/img/logo-footer.png">
-                    </a>
-                </li>
-            </ul>           
+        <div class="collapse navbar-collapse" id="collapsingNavbar">           
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item category-item" ng-repeat="category in $ctrl.categories" data-toggle="collapse"><a href="#!/category/{{category.id}}">{{category.label}}</a></li>
+                <li class="nav-item category-item" ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}">{{category.label}}</a></li>
                 <li class="nav-item category-item" data-toggle="collapse"><a href="#!/blog">Blog</a></li>
                 <li class="nav-item category-item" data-toggle="collapse"><a href="#!/premium">Premium</a></li>
                 <li class="nav-item category-item" data-toggle="collapse"><a href="#!/contact">a propos</a></li>
+                <li class="nav-item category-item cart-collapsed" data-toggle="collapse"><a href="#!/contact">mon panier ({{$ctrl.cart.items.length}})</a></li>
                 <li class="cart">
                     <a href="#!/cart">
                         <i class="fas fa-shopping-cart"></i>
