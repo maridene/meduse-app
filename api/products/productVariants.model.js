@@ -150,15 +150,13 @@ ProductVariant.updateById = (id, productVariant) => {
             "sku = ?, " +
             "color = ?, " +
             "size = ?, " +
-            "quantity = ?, " + 
-            "image = ? " + 
+            "quantity = ? " + 
             "WHERE id = ?",
             [
                 productVariant.sku,
                 productVariant.color,
                 productVariant.size,
                 productVariant.quantity,
-                productVariant.image,
                 id
             ],
             (err, res) => {

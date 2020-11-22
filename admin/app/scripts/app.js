@@ -176,31 +176,7 @@ angular
                 name:'sbAdminApp',
                 files:['scripts/controllers/products/editProductController.js']
             })
-          },
-          data: function(ProductService, $state, $stateParams) {
-            return ProductService.getProductById($stateParams.productId).then(function(result) {
-              return result
-            }, function (err) {
-              $state.go('dashboard.home')
-            })
-          },
-          categories: function(CategoryService, $state) {
-            return CategoryService.getAllCategories().then(function(categories) {
-              return categories
-            }, function (err) {
-              $state.go('dashboard.home')
-            })
-          },
-          manufacturers: function(ManufacturerService, $state) {
-            return ManufacturerService.getAll().then(
-              function(manufacturers) {
-                return manufacturers
-              }, function(err) {
-                $state.go('dashboard.home')
-              }
-            )
           }
-
         }
     })
       .state('dashboard.add-manufacturer', {
