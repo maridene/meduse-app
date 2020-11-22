@@ -385,5 +385,11 @@ angular.module('sbAdminApp')
       return toUpdate;
     };
 
+    $scope.deleteFile = function(item) {
+      $scope.form.files = $scope.form.files.filter(function(file) {
+        return file.name !== item.name;
+      });
+    };
+
   }
 ]);

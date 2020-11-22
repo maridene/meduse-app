@@ -110,10 +110,12 @@
                                                 <i class="fa fa-times" ng-click="deleteThumb(thumb)"></i>
                                                 <img ngf-thumbnail="thumb.url"/>
                                             </div>
-                                            <div class="thumb-item" ng-repeat="file in form.files track by $index"
-                                            dnd-draggable="file" dnd-moved="form.files.splice($index, 1)" dnd-effect-allowed="move"
-                                            dnd-dragend="dragEnd()">
-                                                <i class="fa fa-times" ng-click="deleteThumb(file)"></i>
+                                        </div>
+
+                                        <div class="thumbs-container form-group" ng-if="form.files && form.files.length">
+                                            <label>Nouveaux images: &nbsp;&nbsp;</label>
+                                            <div class="thumb-item" ng-repeat="file in form.files track by $index">
+                                                <i class="fa fa-times" ng-click="deleteFile(file)"></i>
                                                 <img ngf-thumbnail="file"/>
                                             </div>
                                         </div>
