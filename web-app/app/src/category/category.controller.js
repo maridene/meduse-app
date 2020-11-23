@@ -10,6 +10,7 @@ class CategoryCtrl {
     this.count = data.count;
     this.manufacturers = data.manufacturers;
     this.categoryId = data.categoryId;
+    this.categoryName = data.categoryName;
     
     //pagination
     //this.itemsPerPage = 10;

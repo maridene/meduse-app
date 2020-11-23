@@ -10,9 +10,12 @@ function CategoryConfig($stateProvider) {
         title: 'Category',
         resolve: {
           data: function(ProductService, $state, $stateParams) {
-            return ProductService.getProductsByCategory($stateParams.slug, 0, 0, 'default').then(
+            const id = $stateParams.slug.split('-')[0];
+            const categoryName = $stateParams.slug.split('-')[1];
+            return ProductService.getProductsByCategory(id, 0, 0, 'default').then(
                 (data) => {
-                  data.categoryId = $stateParams.slug;
+                  data.categoryId = id;
+                  data.categoryName = categoryName;
                   return data;
                 },
                 (err) => $state.go('app.home')
