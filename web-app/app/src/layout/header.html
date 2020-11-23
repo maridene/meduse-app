@@ -36,7 +36,15 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsingNavbar">           
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item category-item" ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}">{{category.label}}</a></li>
+
+                <li ng-if="$ctrl.categories.length <= 4" class="nav-item category-item" ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
+                <li ng-if="$ctrl.categories.length > 4" class="dropdown nav-item category-dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Nos produits
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item category-item" ng-repeat="category in $ctrl.categories" href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a>
+                  </li>
                 <li class="nav-item category-item" data-toggle="collapse"><a href="#!/blog">Blog</a></li>
                 <li class="nav-item category-item" data-toggle="collapse"><a href="#!/premium">Premium</a></li>
                 <li class="nav-item category-item" data-toggle="collapse"><a href="#!/contact">a propos</a></li>
