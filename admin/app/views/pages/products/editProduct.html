@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="thumbs-container form-group" dnd-list="form.imagesList">
-                                            <div class="thumb-item" ng-repeat="thumb in form.imagesList track by $index"
+                                            <div class="thumb-item" ng-repeat="thumb in form.imagesList"
                                                 dnd-draggable="thumb" dnd-moved="form.imagesList.splice($index, 1)" dnd-effect-allowed="move"
                                                 dnd-dragend="dragEnd()">
                                                 <i class="fa fa-times" ng-click="deleteThumb(thumb)"></i>
