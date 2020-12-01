@@ -1,6 +1,130 @@
 <header class="header-section">
     <div class="header-top">
         <div class="container">
+            <div class="row">
+                <div class="col-lg-6 header-top-left">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <a href="mailto:contact@meduse.tn"><i class=" fa fa-envelope"></i><span>contact@meduse.tn</span></a>
+                        </div>
+                        <div class="col-lg-4">
+                            <i class="fa fa-phone"></i>
+                            +216 50 55 93 88
+                        </div>
+                        <div class="col-lg-4 header-top-social">
+                            <a target=”_blank” href="https://www.facebook.com/Medusetunisie"><i class="fab fa-facebook-square"></i></i></a>
+                            <a target=”_blank” href="https://www.instagram.com/meduse_tn"><i class="fa fa-instagram"></i></a>
+                            <a target=”_blank” href="https://www.linkedin.com/company/meduse-tn/"><i class="fa fa-linkedin-square"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-3" header-top-right">
+                    <div ng-if="!$ctrl.currentUser" class="row">
+                        <div class="col-lg-6">
+                            <a href="#!/register" class="login-panel"><i class="fa fa-user-plus"></i>Inscription</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <a href="#!/login" class="login-panel"><i class="fa fa-sign-in"></i>Connexion</a>
+                        </div>
+                    </div>
+                    <div ng-if="!!$ctrl.currentUser" class="row">
+                        <div class="col-lg-12">
+                            <a  href="#!/profile" class="login-panel"><i class="fa fa-user"></i>{{$ctrl.currentUser.name}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="header">
+        <div class="container">
+            <a class="navbar-brand logo" href="#!/">
+                <img src="assets/img/logo-small-blue.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsingNavbar">           
+                <ul class="navbar-nav ml-auto">
+    
+                    <li class="nav-item category-item" ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/blog">Blog</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/premium">Premium</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/contact">a propos</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/profile">Mon Compte</a></li>
+                    <li class="nav-item category-item cart-collapsed" data-toggle="collapse"><a href="#!/cart">mon panier ({{$ctrl.cart.items.length}})</a></li>
+                    <li class="cart">
+                        <a href="#!/cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>{{$ctrl.cart.items.length}}</span>
+                        </a>
+                        <div class="cart-hover" ng-if="$ctrl.cart.items.length">
+                            <div class="select-items">
+                                <table>
+                                    <tbody>
+                                        <tr ng-repeat="cartItem in $ctrl.cart.items">
+                                            <td class="si-pic"><img ng-src="{{cartItem.image}}" alt=""></td>
+                                            <td class="si-text">
+                                                <div class="product-selected">
+                                                    <p ng-if="!cartItem.product.promo_price">{{cartItem.product.price}} DT x {{cartItem.quantity}}</p>
+                                                    <p ng-if="cartItem.product.promo_price">{{cartItem.product.promo_price}} DT x {{cartItem.quantity}}</p>
+                                                    <h6>{{cartItem.product.label}}</h6>
+                                                    <p style="font-size: 14px; color: gray;" ng-if="cartItem.variant && cartItem.variant.size && cartItem.variant.color">
+                                                        Couleur: {{cartItem.variant.color}} - Taille: {{cartItem.variant.size}}
+                                                    </p>
+                                                    <p style="font-size: 14px; color: gray;" ng-if="cartItem.variant && cartItem.variant.color && !cartItem.variant.size">
+                                                        Couleur: {{cartItem.variant.color}}
+                                                    </p>
+                                                    <p style="font-size: 14px; color: gray;" ng-if="cartItem.variant && cartItem.variant.size && !cartItem.variant.color">
+                                                        Taille: {{cartItem.variant.size}}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="si-close">
+                                                <i class="ti-close" ng-click="$ctrl.removeItem(cartItem)"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="select-total">
+                                <span>total:</span>
+                                <h5>{{$ctrl.cart.getTotal()}} D.T TTC</h5>
+                            </div>
+                            <div class="select-button">
+                                <a href="#!/cart" class="primary-btn checkout-btn">Voir panier</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </nav>
+    <div class="sticky-header fadeInDown" id="stickyHeader">
+        <div class="container">
+            <div class="row">
+                <div class="logo-small col-md-2">
+                    <a href="#!/">
+                        <img src="assets/img/logo-favicon-blue.png">
+                    </a>
+                </div>
+                <ul class="col-md-10">
+                    <li ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
+                    <li><a href="#!/cart">mon panier ({{$ctrl.cart.items.length}})</a></li>
+                </ul>
+                
+            </div>    
+        </div>
+    </div>
+</header>
+
+
+
+<!--
+
+    <div class="header-top">
+        <div class="container">
             <div class="ht-left">
                 <div class="mail-service">
                     <i class=" fa fa-envelope"></i>
@@ -20,79 +144,10 @@
                     <a target=”_blank” href="https://www.facebook.com/Medusetunisie"><i class="fab fa-facebook-square"></i></i></a>
                     <a target=”_blank” href="https://www.instagram.com/meduse_tn"><i class="fa fa-instagram"></i></a>
                     <a target=”_blank” href="https://www.linkedin.com/company/meduse-tn/"><i class="fa fa-linkedin-square"></i></a>
-                    <!--
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                    -->
+                
                 </div>
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="header">
-        <a class="navbar-brand logo" href="#!/">
-            <img src="assets/img/logo-big-white.png">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsingNavbar">           
-            <ul class="navbar-nav ml-auto">
 
-                <li ng-if="$ctrl.categories.length <= 4" class="nav-item category-item" ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
-                <li ng-if="$ctrl.categories.length > 4" class="dropdown nav-item category-dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Nos produits
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item category-item" ng-repeat="category in $ctrl.categories" href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a>
-                  </li>
-                <li class="nav-item category-item" data-toggle="collapse"><a href="#!/blog">Blog</a></li>
-                <li class="nav-item category-item" data-toggle="collapse"><a href="#!/premium">Premium</a></li>
-                <li class="nav-item category-item" data-toggle="collapse"><a href="#!/contact">a propos</a></li>
-                <li class="nav-item category-item cart-collapsed" data-toggle="collapse"><a href="#!/contact">mon panier ({{$ctrl.cart.items.length}})</a></li>
-                <li class="cart">
-                    <a href="#!/cart">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>{{$ctrl.cart.items.length}}</span>
-                    </a>
-                    <div class="cart-hover" ng-if="$ctrl.cart.items.length">
-                        <div class="select-items">
-                            <table>
-                                <tbody>
-                                    <tr ng-repeat="cartItem in $ctrl.cart.items">
-                                        <td class="si-pic"><img ng-src="{{cartItem.image}}" alt=""></td>
-                                        <td class="si-text">
-                                            <div class="product-selected">
-                                                <p ng-if="!cartItem.product.promo_price">{{cartItem.product.price}} DT x {{cartItem.quantity}}</p>
-                                                <p ng-if="cartItem.product.promo_price">{{cartItem.product.promo_price}} DT x {{cartItem.quantity}}</p>
-                                                <h6>{{cartItem.product.label}}</h6>
-                                                <p style="font-size: 14px; color: gray;" ng-if="cartItem.variant && cartItem.variant.size && cartItem.variant.color">
-                                                    Couleur: {{cartItem.variant.color}} - Taille: {{cartItem.variant.size}}
-                                                </p>
-                                                <p style="font-size: 14px; color: gray;" ng-if="cartItem.variant && cartItem.variant.color && !cartItem.variant.size">
-                                                    Couleur: {{cartItem.variant.color}}
-                                                </p>
-                                                <p style="font-size: 14px; color: gray;" ng-if="cartItem.variant && cartItem.variant.size && !cartItem.variant.color">
-                                                    Taille: {{cartItem.variant.size}}
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="si-close">
-                                            <i class="ti-close" ng-click="$ctrl.removeItem(cartItem)"></i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="select-total">
-                            <span>total:</span>
-                            <h5>{{$ctrl.cart.getTotal()}} D.T TTC</h5>
-                        </div>
-                        <div class="select-button">
-                            <a href="#!/cart" class="primary-btn checkout-btn">Voir panier</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+-->

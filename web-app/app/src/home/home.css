@@ -32,6 +32,8 @@
 ---------------------*/
 
 .shipping-section {
+    border-top: 20px solid #19346d;
+    border-bottom: 20px solid #19346d;
     padding-top: 40px;
     padding-bottom: 24px;
 }
@@ -45,6 +47,7 @@
 
 .shipping-section .shipping-section-item-description {
     padding-top: 25px;
+    font-weight: bold;
 }
 
 
@@ -151,7 +154,7 @@
   Slideshow section
 -----------------------*/
 .slideshow {
-    height: 380px;
+    height: 400px;
 }
 
 .slideshow .carousel-inner img {
