@@ -18,6 +18,7 @@ export const ApiConstants = {
   USERS_UPDATE: 'users/update/myself',
   ADDRESSES: 'addresses/',
   BLOGS: 'blogs/',
+  BLOGS_TAGS: 'blogs/tags',
   ORDERS: 'orders',
   MY_ORDERS: 'orders/myorders/{0}',
   COUPONS: 'coupons',
