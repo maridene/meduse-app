@@ -6,6 +6,10 @@ function AppRun(AppConstants, $rootScope, $location, $cookies, $http, $window, C
     //$rootScope.setPageTitle(toState.title);
   });
 
+  $rootScope.$on('$locationChangeSuccess', function () {
+    window.scrollTo(0, 0);
+  });
+
   // Helper method for setting the page's title
   $rootScope.setPageTitle = (title) => {
     $rootScope.pageTitle = '';
