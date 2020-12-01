@@ -13,24 +13,39 @@
 </div>
 <!-- Breadcrumb Section End -->
 
-
-<section class="BlogSection">
+<section class="blog-section spad">
     <div class="container">
-        <div ng-repeat="blogItem in $ctrl.blogItems" class="BlogSection-blogItem cw-item card row">
-            <div class="BlogSection-blogItem-header row">
-                <h3 class="BlogSection-blogItem-header-title col-8">
-                    {{blogItem.title}}
-                </h3>
-                <h5 class="BlogSection-blogItem-header-date col-4">
-                    {{blogItem.date}}
-                </h5>
-            </div>
-            <div class="BlogSection-blogItem-content row">
-                <div class="BlogSection-blogItem-content-media col-md-6">
-                    <iframe ng-if="blogItem.videolink" height="400" ng-src={{$ctrl.trust(blogItem.videolink)}} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <img ng-if="blogItem.imagelink" height="400" ng-src={{blogItem.imagelink}}>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1">
+                <div class="blog-sidebar">
+                    <div class="search-form">
+                        <input type="search" ng-model="$ctrl.filterText" placeholder="Rechercher . . .  " ng-change="$ctrl.updateFiltered()">
+                    </div>
+                    <div class="blog-tags">
+                        <h4>Tags</h4>
+                        <div class="tag-item">
+                            <div ng-repeat="tag in $ctrl.tags" 
+                            ng-click="$ctrl.selectTag(tag)"
+                            ng-class="{tagSelected: tag.isSelected}">{{tag.label}}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="BlogSection-blogItem-content-description col-md-6" ng-bind-html="blogItem.description">
+            </div>
+            <div class="col-lg-9 order-1 order-lg-2">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6" ng-repeat="blogItem in $ctrl.filteredBlogItems">
+                        <div class="blog-item">
+                            <div class="bi-pic">
+                                <img ng-src={{blogItem.coverlink}} alt="">
+                            </div>
+                            <div class="bi-text">
+                                <a ng-href="#!/blog/{{blogItem.id}}-{{blogItem.title}}">
+                                    <h4>{{blogItem.title}}</h4>
+                                </a>
+                                <p><span>{{blogItem.date}}</span></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

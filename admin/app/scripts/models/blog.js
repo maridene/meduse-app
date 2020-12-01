@@ -12,5 +12,7 @@ var Blog = function Blog(data) {
   this.description = data.description;
   this.date = data.date;
   this.videolink = data.videolink;
-  this.imagelink = data.imagelink;
+  this.imagefilename = data.imagefilename;
+  this.coverfilename = data.coverfilename;
+  this.tags = data.tags && data.tags.length ? data.tags.split(',') : [];
 };

@@ -7,8 +7,10 @@ const Blog = function(blog) {
   this.title = blog.title;
   this.date = blog.date;
   this.description = blog.description;
-  this.videokink = blog.videolink;
-  this.imagelink = blog.imagelink
+  this.videolink = blog.videolink;
+  this.imagefilename = blog.imagefilename;
+  this.coverfilename = blog.coverfilename;
+  this.tags = blog.tags;
 };
 
 Blog.create = (newBlog) => {
@@ -53,22 +55,50 @@ Blog.getAll = () => {
     });
 }
 
+Blog.getTags = () => {
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT tags FROM ${tables.BLOG}`, (err, res) => {
+            if (err) {
+                reject(err);
+            } else {
+                if (res && res.length) {
+                    const tags = [];
+                res.forEach(element => {
+                    element.tags.split(',').forEach((tag) => {
+                        if (tags.indexOf(tag) === -1) {
+                            tags.push(tag);
+                        }
+                    })
+                });
+                console.log(res);
+                console.log(tags);
+                resolve(tags);
+                } else {
+                    resolve([]);
+                }
+            }
+        });
+    });
+}
+
 Blog.updateById = (id, blog) => {
     return new Promise((resolve, reject) => {
         sql.query(
             `UPDATE ${tables.BLOG} SET ` +
             "title = ?, " +
             "description = ?, " +
-            "date = ?, " +
             "videolink = ?, " + 
-            "imagelink = ?, " + 
+            "imagefilename = ?, " + 
+            "coverfilename = ?, " +
+            "tags = ? " +
             "WHERE id = ?",
             [
                 blog.title,
                 blog.description,
-                blog.date,
                 blog.videolink,
-                blog.imagelink,
+                blog.imagefilename,
+                blog.coverfilename,
+                blog.tags,
                 id
             ],
             (err, res) => {

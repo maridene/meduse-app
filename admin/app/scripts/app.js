@@ -352,6 +352,21 @@ angular
           }
         }
     })
+      .state('dashboard.edit-pub/:id', {
+        url:'/edit-pub/:id',
+        controller: 'EditPubCtrl',
+        templateUrl: 'views/pages/blog/editPub.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                  'scripts/controllers/pub/editPubController.js'
+                ]
+            })
+          }
+        }
+    })
       .state('dashboard.pubs-list', {
         url:'/pubs-list',
         controller: 'PubsListCtrl',

@@ -7,7 +7,7 @@
  * Controller of the publications list page
  */
 
-angular.module('sbAdminApp').controller('PubsListCtrl', ['$scope', 'BlogService', function ($scope, BlogService) {
+angular.module('sbAdminApp').controller('PubsListCtrl', ['$scope', '$q', 'BlogService', function ($scope, $q, BlogService) {
   $scope.pubs = [];
   $scope.deleteDisabled = true;
   $scope.updateDisabled = true;

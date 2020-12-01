@@ -12,5 +12,7 @@ index.config(BlogConfig);
 import BlogCtrl from './blog.controller';
 index.controller('BlogCtrl', BlogCtrl);
 
+import BlogDetailsCtrl from './blogDetails.controller';
+index.controller('BlogDetailsCtrl', BlogDetailsCtrl);
 
 export default index;

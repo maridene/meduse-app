@@ -9,6 +9,7 @@
 
 angular.module('sbAdminApp').controller('AddPubCtrl', ['$scope', '$q', 'BlogService', 'Upload', function ($scope, $q, BlogService, Upload) {
   $scope.mediaType = 'video';
+  $scope.tags = [];
 
   $scope.addPub = function () {
     var date = new Date().toISOString().split('T')[0];
@@ -17,25 +18,36 @@ angular.module('sbAdminApp').controller('AddPubCtrl', ['$scope', '$q', 'BlogServ
       description: $scope.description,
       date: date,
       videolink: null,
-      imagefilename: null
+      imagefilename: null,
+      coverfilename: null,
+      tags: $scope.tags.toString(),
     };
+    var uploadCoverPromise = $scope.coverFile ? upload($scope.coverFile) : $q.when();
     var preAddPromise = $scope.mediaType === 'video' ? $q.when() : upload($scope.file);
-    preAddPromise.then(function (filename) {
-      if (filename) {
-        blog.imagefilename = filename;
-      } else {
-        blog.videolink = $scope.videolink;
+    uploadCoverPromise.then(function (coverFilename) {
+      if(coverFilename) {
+        blog.coverfilename = coverFilename;
       }
-
-      BlogService.add(blog).then(function () {
-        clear();
-        showModal("#successModal");
+      preAddPromise.then(function (filename) {
+        if (filename) {
+          blog.imagefilename = filename;
+        } else {
+          blog.videolink = $scope.videolink;
+        }
+  
+        BlogService.add(blog).then(function () {
+          clear();
+          showModal("#successModal");
+        }, function () {
+          showModal("#errorModal");
+        });
       }, function () {
-        showModal("#errorModal");
+        return showModal("#errorModal");
       });
-    }, function () {
+    }, function(error) {
       return showModal("#errorModal");
     });
+    
   };
 
   var clear = function clear() {
@@ -43,6 +55,9 @@ angular.module('sbAdminApp').controller('AddPubCtrl', ['$scope', '$q', 'BlogServ
     $scope.description = '';
     $scope.mediaType = 'video';
     $scope.videolink = '';
+    $scope.file = null;
+    $scope.coverFile = null;
+    $scope.tags = [];
   };
 
   var upload = function upload(file) {
@@ -73,6 +88,18 @@ angular.module('sbAdminApp').controller('AddPubCtrl', ['$scope', '$q', 'BlogServ
       $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress*/
     });
     return deferred.promise;
+  };
+
+  $scope.addTag = function () {
+    if (!isBlank($scope.tagItem) && $scope.tags.indexOf($scope.tagItem) === -1) {
+      $scope.tags.push($scope.tagItem);
+      $scope.tagItem = '';
+    }
+  };
+  $scope.removeTag = function (tagToRemove) {
+    $scope.tags = $scope.tags.filter(function(item) {
+      return item !== tagToRemove;
+    });
   };
 
   var showModal = function showModal(id) {

@@ -6,7 +6,8 @@ module.exports = {
     updateById,
     getAll,
     remove,
-    removeAll
+    removeAll,
+    getTags
 };
 
 function getAll() {
@@ -69,6 +70,17 @@ function remove(id) {
 function removeAll() {
     return new Promise((resolve, reject) => {
         blogs.removeAll(id)
+            .then((result) => {
+                resolve(result);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
+function getTags() {
+    return new Promise((resolve, reject) => {
+        blogs.getTags()
             .then((result) => {
                 resolve(result);
             }, (err) => {

@@ -18,12 +18,43 @@
                         <label>Titre</label>
                         <input class="form-control" ng-model="title" required>
                     </div>
+
+                    <div class="form-group">
+                        <label>Tags (5 maximum)</label>
+                        <div class="form-inline">
+                            <input class="form-control" ng-model="tagItem">
+                            <button type="button" ng-disabled="tags.length === 5" class="btn btn-primary" ng-click="addTag()">Ajouter</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span ng-repeat="tag in tags" class="tag-item label label-pill label-default" ng-click="removeTag(tag)">
+                            {{tag}}
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Photo de couverture (400 x 280)</label>
+                        <input 
+                        type="file"
+                        ngf-select
+                        ng-model="coverFile"
+                        name="coverFile"
+                        ngf-pattern="'image/*'"
+                        accept="image/*"
+                        ngf-max-size="20MB">
+                        <i ng-show="file.$error.required">*required</i><br>
+                        <i ng-show="file.$error.maxSize">File too large
+                        {{up.file.size / 1000000|number:1}}MB: max 20M</i>
+                    </div>
+                    <div class="form-group" ng-if="coverFile">
+                        <img style="width:200px; height: 140px;" ngf-thumbnail="coverFile"/>
+                    </div>
                     <div class="form-group">
                         <label>Contenu</label>
                         <textarea class="form-control" rows="3" ng-model="description" required></textarea>
                     </div>
                     <div class="pub-description">
-                        <label>preview</label>
+                        <label>Preview</label>
                         <div class="pub-description-preview" ng-bind-html="description"></div>
                     </div>
                     <div class="form-group">
@@ -54,10 +85,13 @@
                             ngf-pattern="'image/*'"
                             accept="image/*"
                             ngf-max-size="20MB">
-                            Image thumbnail: <img style="width:100px;" ngf-thumbnail="file || '/thumb.jpg'"/>
                             <i ng-show="file.$error.required">*required</i><br>
                             <i ng-show="file.$error.maxSize">File too large
                             {{up.file.size / 1000000|number:1}}MB: max 20M</i>
+                    </div>
+
+                    <div class="form-group" ng-if="file && mediaType === 'image'">
+                        <img style="width:200px; height: 140px;" ngf-thumbnail="file"/>
                     </div>
 
                     <button type="submit" class="btn btn-success">Ajouter</button>

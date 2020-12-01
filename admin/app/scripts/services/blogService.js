@@ -12,7 +12,7 @@ angular.module('sbAdminApp').service('BlogService', ['$q', 'ObjectBuilder', 'Res
       });
       return deferred.promise;
     },
-    getId: function getId(id) {
+    getById: function getId(id) {
       var deferred = $q.defer();
       RestService.get("".concat(BLOGS, "/").concat(id)).then(function (result) {
         return deferred.resolve(ObjectBuilder.buildObject('blog', result.data));
@@ -24,6 +24,15 @@ angular.module('sbAdminApp').service('BlogService', ['$q', 'ObjectBuilder', 'Res
     add: function add(blog) {
       var deferred = $q.defer();
       RestService.post(BLOGS, blog).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    update: function update(id, blog) {
+      var deferred = $q.defer();
+      RestService.put("".concat(BLOGS, "/").concat(id), blog).then(function (result) {
         deferred.resolve(result);
       }, function (error) {
         deferred.reject(error);

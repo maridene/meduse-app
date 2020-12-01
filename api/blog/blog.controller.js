@@ -6,6 +6,7 @@ const Role = require('helpers/role');
 
 // public routes
 router.get('/', getAll);
+router.get('/tags', getTags);
 router.get('/:id', findById);
 
 
@@ -58,6 +59,14 @@ function remove(req, res, next) {
 function updateById(req, res, next) {
     const id = parseInt(req.params.id);
     blogService.updateById(id, req.body)
+        .then((response) => {
+            res.json(response);
+        })
+        .catch(err => next(err));
+}
+
+function getTags(req, res, next) {
+    blogService.getTags()
         .then((response) => {
             res.json(response);
         })

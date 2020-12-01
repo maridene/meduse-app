@@ -17,20 +17,19 @@
                                 <th></th>
                                 <th>Titre de la publication</th>
                                 <th>Date de publication</th>
-                                <th>Actions</th>
+                                <th>Tags</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="pub in pubs">
                                 <td><input type="checkbox" ng-model="pub.isSelected" ng-change="updateState()"></td>
-                                <td>{{pub.title}}</td>
+                                <td><a ng-href="#/dashboard/edit-pub/{{pub.id}}">{{pub.title}}</a></td>
                                 <td>{{pub.date}}</td>
-                                <td></td>
+                                <td>{{pub.tags.join(', ')}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button type="button" ng-disabled="updateDisabled" ng-click="update()" class="btn btn-success">Modifier</button>
                 <button type="button" ng-disabled="deleteDisabled" ng-click="delete()" class="btn btn-danger">Supprimer</button>
             </div>
     </div>
