@@ -21,10 +21,19 @@ export default class BlogService {
   }
   getById(id) {
     const deferred = this._$q.defer();
-    this._RestService.get(`${ApiConstants.BLOGS}`/`${id}`)
+    this._RestService.get(`${ApiConstants.BLOGS}/${id}`)
         .then(
             (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.BLOG_ITEM, result.data)),
             (error) => deferred.reject(error));
+    return deferred.promise;
+  }
+  getTags() {
+    const deferred = this._$q.defer();
+    this._RestService.get(ApiConstants.BLOGS_TAGS)
+        .then(
+            (result) => deferred.resolve(result.data),
+            (error) => deferred.reject(error)
+        );
     return deferred.promise;
   }
 }
