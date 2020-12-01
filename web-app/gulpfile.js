@@ -15,6 +15,8 @@ let concatCss     = require('gulp-concat-css');
 let jsFiles   = "app/src/**/*.js";
 let viewFiles = "app/src/**/*.html";
 let styleFiles = "app/src/**/*.css";
+let mainJsFile = "app/main.js";
+let mainCssFile = "app/css/style.css"
 
 let interceptErrors = function(error) {
   let args = Array.prototype.slice.call(arguments);
@@ -114,4 +116,6 @@ gulp.task('default', ['html', 'copy-resources', 'concatCss', 'browserify'], func
   gulp.watch(viewFiles, ['views']);
   gulp.watch(jsFiles, ['browserify']);
   gulp.watch(styleFiles, ['concatCss']);
+  gulp.watch(mainJsFile, ['browserify', 'copy-mainjs']);
+  gulp.watch(mainCssFile, ['copy-css']);
 });
