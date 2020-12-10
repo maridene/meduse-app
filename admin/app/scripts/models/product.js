@@ -30,4 +30,7 @@ var Product = function Product(data) {
   this.pinned = data.pinned === 1? true : false;
   this.isNew = data.isNew === 1 ? true : false;
   this.isExclusif = data.isExclusif === 1 ? true : false;
+  this.isHidden = data.isHidden === 1 ? true : false;
+  this.orderIndex = data.orderIndex;
+  this.extendCategories = data.extendCategories;
 };

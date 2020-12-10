@@ -15,6 +15,9 @@
                         <a ui-sref="dashboard.add-product">Ajouter un produit</a>
                     </li>
                     <li ui-sref-active="active">
+                        <a ui-sref="dashboard.reorder-products">Ordre des produits</a>
+                    </li>
+                    <li ui-sref-active="active">
                         <a ui-sref="dashboard.add-manufacturer">Ajouter une marque</a>
                     </li>
                     <li ui-sref-active="active">
@@ -82,9 +85,22 @@
                 <!-- /.nav-second-level -->
             </li>
             <li ng-class="{active: collapseVar==6}">{{dropDown}}
-                <a href="" ng-click="check(6)"><i class="fa fa-wrench fa-fw"></i> Configuration<span
+                <a href="" ng-click="check(6)"><i class="fa fa-envelope-o fa-fw"></i> Newsletter<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=6">
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.subscribers">Liste des abonnés</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.send-mail">Envoyer un mail</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li ng-class="{active: collapseVar==7}">{{dropDown}}
+                <a href="" ng-click="check(7)"><i class="fa fa-wrench fa-fw"></i> Configuration<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=7">
                     <li ui-sref-active="active">
                         <a ui-sref="dashboard.settings">Informations générales</a>
                     </li>
@@ -109,10 +125,10 @@
             <li ui-sref-active="active">
                 <a ui-sref="dashboard.form"><i class="fa fa-edit fa-fw"></i> Forms</a>
             </li>
-            <li ng-class="{active: collapseVar==7}">{{dropDown}}
-                <a href="" ng-click="check(7)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span
+            <li ng-class="{active: collapseVar==8}">{{dropDown}}
+                <a href="" ng-click="check(8)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span
                         class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=7">
+                <ul class="nav nav-second-level" collapse="collapseVar!=8">
                     <li ui-sref-active="active">
                         <a ui-sref="dashboard.panels-wells">Panels and Wells</a>
                     </li>
@@ -134,10 +150,10 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
-            <li ng-class="{active: collapseVar==8}">
-                <a href="" ng-click="check(8)"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span
+            <li ng-class="{active: collapseVar==9}">
+                <a href="" ng-click="check(9)"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span
                         class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=8">
+                <ul class="nav nav-second-level" collapse="collapseVar!=9">
                     <li>
                         <a href="">Second Level Item</a>
                     </li>
@@ -166,10 +182,10 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
-            <li ng-class="{active:collapseVar==9}">
-                <a href="" ng-click="check(9)"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span
+            <li ng-class="{active:collapseVar==10}">
+                <a href="" ng-click="check(10)"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span
                         class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=9">
+                <ul class="nav nav-second-level" collapse="collapseVar!=10">
                     <li ng-class="{active: selectedMenu=='blank'}">
                         <a ui-sref="dashboard.blank" ng-click="selectedMenu='blank'">Blank Page</a>
                     </li>

@@ -12,6 +12,7 @@ class CheckoutCtrl {
       this.OrdersService = OrdersService;
       this.AuthenticationService = AuthenticationService;
       this.shippingSettings = shippingSettings;
+      this.checkoutDone = false;
 
       this.form = {
         useSameAddress: false,
@@ -24,14 +25,18 @@ class CheckoutCtrl {
     $onInit() {
       //this.initaddressChooser();
       this.reloadCart();
-      this.$scope.$on('cartUpdated', () => {
-        this.reloadCart();
-      });
-      this.getMyAddresses();
-      this.$scope.$watch(() => this.form.code, () => {
-        this.form.couponUnvalid = false;
-        this.form.couponValid = false;
-      }, true);
+      if (this.cartItems.length) {
+        this.$scope.$on('cartUpdated', () => {
+          this.reloadCart();
+        });
+        this.getMyAddresses();
+        this.$scope.$watch(() => this.form.code, () => {
+          this.form.couponUnvalid = false;
+          this.form.couponValid = false;
+        }, true);
+      } else {
+        this.$location.path('#');
+      }
     }
 
     reloadCart() {
@@ -105,7 +110,8 @@ class CheckoutCtrl {
         this.OrdersService.submitOrder(orderDetails)
           .then(() => {
             this.CartService.clearCart();
-            this.$location.path('#');
+            window.scrollTo(0, 0);
+            this.checkoutDone = true;
           });
       } else {
         window.scrollTo(0, 0);

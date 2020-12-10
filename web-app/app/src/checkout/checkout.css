@@ -248,3 +248,38 @@
 .checkout-section .place-order .fa-check-circle {
 	color: #32a852
 }
+
+.checkout-success  {
+
+}
+
+.checkout-success .checkout-success-message {
+	text-align: center;
+}
+
+.checkout-success .checkout-success-message h5 {
+	width: 100%;
+	line-height: 36px;
+}
+
+.checkout-success .checkout-success-buttons .row {
+	justify-content: center;
+	padding-top: 15px;
+}
+
+.checkout-success .checkout-success-buttons a {
+	width: 280px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.checkout-success .checkout-success-image {
+	justify-content: center;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+.checkout-success .checkout-success-image i {
+	color: #5cb85c;
+}
+

@@ -4,9 +4,11 @@ const productVariantsService = require('./productVariants.service');
 
 module.exports = {
     getById,
+    getByIdWithVariants,
     findById,
     findByCategory,
-    findByReference,
+    getByCategory,
+    getByReference,
     getAll,
     search,
     create,
@@ -16,15 +18,20 @@ module.exports = {
     updatePinState,
     updateIsNew,
     updateIsExclusif,
+    updateIsHidden,
+    updateOrders,
+    updateOrderIndex,
     getPinnedProducts,
     getRelatedProducts,
     getNewProducts,
     getPromoProducts
 };
 
-function findById(id) {
+
+//admin 
+function getById(id) {
     return new Promise((resolve, reject) => {
-        products.findById(id).then((product) => {
+        products.getById(id).then((product) => {
             if (product) {
                 products.getProductVariants(id).then((variants) => {
                     resolve ({product, variants});
@@ -34,7 +41,6 @@ function findById(id) {
                 });
                    
             } else {
-                console.log(`no product found with id = ${id}`);
                 resolve();
             } 
         }, (err) => {
@@ -43,28 +49,22 @@ function findById(id) {
     });
 }
 
-function getById(id) {
-    return new Promise((resolve, reject) => {
-        products.findById(id).then((product) => {
-            resolve(product);
-        }, (err) => {
+function getByIdWithVariants(id) {
+    products.getById(id).then((product) => {
+        if (product) {
+            products.getProductVariants(id).then((variants) => {
+                resolve ({product, variants});
+            }, (err) => {
+                console.log(err);
+                resolve({product});
+            });
+               
+        } else {
+            console.log(`no product found with id = ${id}`);
+            resolve();
+        } 
+    }, (err) => {
             reject(err);
-        });
-    });
-}
-
-function findByIdWithoutVariants(id) {
-    return new Promise((resolve, reject) => {
-        products.findById(id).then((product) => {
-            if (product) {
-                resolve(product);
-            } else {
-                console.log(`no product found with id = ${id}`);
-                resolve();
-            } 
-        }, (err) => {
-                reject(err);
-        });
     });
 }
 
@@ -80,41 +80,25 @@ function getAll() {
     });
 }
 
-function search(query) {
+function getByCategory(categoryId) {
     return new Promise((resolve, reject) => {
-        products
-        .search(query)
-        .then((all) => {
-            resolve(all);
+        products.getByCategory(categoryId)
+        .then((res) => {
+            manufacturers.getAll().then((manus) => {
+                resolve({items: res, manufacturers: manus});
+            }, (err) => {
+                console.log(err);
+                resolve({items: res, manufacturers: []});
+            })
         }, (err) => {
             reject(err);
         });
     });
 }
 
-function findByCategory(categoryId, startAt, maxResult, orderBy) {
+function getByReference(ref) {
     return new Promise((resolve, reject) => {
-        products.countItemsByCategory(categoryId).then((count) => {
-            products.findByCategory(categoryId, startAt, maxResult, orderBy)
-            .then((res) => {
-                manufacturers.getAll().then((manus) => {
-                    resolve({count: Object.values(count[0])[0], items: res, manufacturers: manus});
-                }, (err) => {
-                    console.log(err);
-                    resolve({count: Object.values(count[0])[0], items: res, manufacturers: []});
-                })
-            }, (err) => {
-                reject(err);
-            })
-        }, (err) => {
-            reject(err);
-        }) 
-    });
-}
-
-function findByReference(ref) {
-    return new Promise((resolve, reject) => {
-        products.findByRef(ref)
+        products.getByRef(ref)
             .then((res) => {
                 resolve(res);
             }, (err) => {
@@ -163,18 +147,6 @@ function updateById(id, product) {
     });
 }
 
-function lastNProducts(n) {
-    return new Promise((resolve, reject) => {
-        products
-        .lastNProducts(n)
-        .then((all) => {
-            resolve(all);
-        }, (err) => {
-            reject(err);
-        });
-    });
-}
-
 function updatePinState(id, state) {
     state = state > 0 ? 1 : 0;
     return new Promise((resolve, reject) => {
@@ -211,9 +183,116 @@ function updateIsExclusif(id, value) {
     });
 }
 
-function getPinnedProducts() {
+function updateIsHidden(id, value) {
+    value = value > 0 ? 1 : 0;
     return new Promise((resolve, reject) => {
-        products.pinnedProducts()
+        products.updateIsHidden(id, value)
+            .then((product) => {
+                resolve(product);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
+
+async function updateOrders(data) {
+    for(const item of data) {
+        await updateOrderIndex(item.id, item.orderIndex);
+    }
+}
+
+function updateOrderIndex(id, orderIndex) {
+    return new Promise((resolve, reject) => {
+        products.updateOrderIndex(id, orderIndex)
+            .then((result) => resolve(result),
+            (error) => reject(error));
+    });
+}
+
+//user
+
+function findById(id, params) {
+    return new Promise((resolve, reject) => {
+        products.findById(id, params).then((product) => {
+            if (product) {
+                products.getProductVariants(id).then((variants) => {
+                    resolve ({product, variants});
+                }, (err) => {
+                    console.log(err);
+                    resolve({product});
+                });
+                   
+            } else {
+                resolve();
+            } 
+        }, (err) => {
+                reject(err);
+        });
+    });
+}
+
+function findByIdWithoutVariants(id, params) {
+    return new Promise((resolve, reject) => {
+        products.findById(id, params).then((product) => {
+            if (product) {
+                resolve(product);
+            } else {
+                console.log(`no product found with id = ${id}`);
+                resolve();
+            } 
+        }, (err) => {
+                reject(err);
+        });
+    });
+}
+
+function search(query, params) {
+    return new Promise((resolve, reject) => {
+        products
+        .search(query, params)
+        .then((all) => {
+            resolve(all);
+        }, (err) => {
+            reject(err);
+        });
+    });
+}
+
+function findByCategory(categoryId, params) {
+    return new Promise((resolve, reject) => {
+        products.countItemsByCategory(categoryId, params).then((count) => {
+            products.findByCategory(categoryId, params)
+            .then((res) => {
+                manufacturers.getAll().then((manus) => {
+                    resolve({count: Object.values(count[0])[0], items: res, manufacturers: manus});
+                }, (err) => {
+                    console.log(err);
+                    resolve({count: Object.values(count[0])[0], items: res, manufacturers: []});
+                })
+            }, (err) => {
+                reject(err);
+            })
+        }, (err) => {
+            reject(err);
+        }) 
+    });
+}
+
+function lastNProducts(n, params) {
+    return new Promise((resolve, reject) => {
+        products
+        .lastNProducts(n, params)
+        .then((all) => {
+            resolve(all);
+        }, (err) => {
+            reject(err);
+        });
+    });
+}
+
+function getPinnedProducts(params) {
+    return new Promise((resolve, reject) => {
+        products.pinnedProducts(params)
             .then((products) => {
                 resolve(products);
             }, (err) => {
@@ -222,9 +301,9 @@ function getPinnedProducts() {
     });
 }
 
-function getNewProducts() {
+function getNewProducts(params) {
     return new Promise((resolve, reject) => {
-        products.getNewProducts()
+        products.getNewProducts(params)
             .then((products) => {
                 resolve(products);
             }, (err) => {
@@ -233,9 +312,9 @@ function getNewProducts() {
     });
 }
 
-function getPromoProducts() {
+function getPromoProducts(params) {
     return new Promise((resolve, reject) => {
-        products.getPromoProducts()
+        products.getPromoProducts(params)
             .then((products) => {
                 resolve(products);
             }, (err) => {
@@ -244,9 +323,9 @@ function getPromoProducts() {
     });
 }
 
-function getProductsFromTags(productId, tags) {
+function getProductsFromTags(productId, tags, params) {
     return new Promise((resolve, reject) => {
-        products.getProductsFromTags(productId, tags)
+        products.getProductsFromTags(productId, tags, params)
             .then((products) => {
                 resolve(products);
             }, (err) => {
@@ -255,9 +334,9 @@ function getProductsFromTags(productId, tags) {
     });
 }
 
-function getProductsInSameCategory(categoryId, productId, maxResult, ignoredIds) {
+function getProductsInSameCategory(categoryId, productId, maxResult, ignoredIds, params) {
     return new Promise((resolve, reject) => {
-        products.getProductsInSameCategory(categoryId, productId, maxResult, ignoredIds)
+        products.getProductsInSameCategory(categoryId, productId, maxResult, ignoredIds, params)
             .then((products) => {
                 resolve(products);
             }, (err) => {
@@ -266,22 +345,22 @@ function getProductsInSameCategory(categoryId, productId, maxResult, ignoredIds)
     });
 }
 
-function getRelatedProducts(id) {
+function getRelatedProducts(id, params) {
     const relatedCount = 4;
     return new Promise((resolve, reject) => {
-        findByIdWithoutVariants(id).then((product) => {
+        findByIdWithoutVariants(id, params).then((product) => {
             if (product) {
                 const tags = product.tags && product.tags.length ? product.tags.split(',') : null;
                 const categoryId = product.category_id;
                 if (tags) {
-                    getProductsFromTags(id, tags).then((foundProducts) => {
+                    getProductsFromTags(id, tags, params).then((foundProducts) => {
                         if (foundProducts && foundProducts.length) {
                             if (foundProducts.length >= relatedCount) {
                                 resolve(foundProducts.slice(0, relatedCount));
                             } else {
                                 const remaining = relatedCount - foundProducts.length;
                                 const ignoredIds = foundProducts.map((p) => p.id);
-                                getProductsInSameCategory(categoryId, id, remaining, ignoredIds)
+                                getProductsInSameCategory(categoryId, id, remaining, ignoredIds, params)
                                     .then((result) =>{
                                         resolve([...foundProducts, ...result]);
                                     }, (err) => {
@@ -291,7 +370,7 @@ function getRelatedProducts(id) {
                                     })
                             }
                         } else {
-                            getProductsInSameCategory(categoryId, id,  relatedCount)
+                            getProductsInSameCategory(categoryId, id,  relatedCount, [], params)
                                 .then((result) => resolve(result),
                                 (err) => reject(err));
                         }
@@ -299,12 +378,12 @@ function getRelatedProducts(id) {
                     }, (error) => {
                         console.log('Error while trying to retrieve related products by tag for product with id : ' + id);
                         console.log(error);
-                        getProductsInSameCategory(categoryId, id, relatedCount)
+                        getProductsInSameCategory(categoryId, id, relatedCount, [], params)
                         .then((result) => resolve(result),
                             (err) => reject(err));
                     });
                 } else {
-                    getProductsInSameCategory(categoryId, id, relatedCount)
+                    getProductsInSameCategory(categoryId, id, relatedCount, [], params)
                         .then((result) => resolve(result),
                         (err) => reject(err));
                 }

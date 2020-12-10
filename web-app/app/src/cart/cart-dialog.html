@@ -21,7 +21,8 @@
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <p><b>{{product.label}}</b></p>
-                                <p><b>{{product.price}} D.T</b></p>
+                                <p ng-if="product.promo_price"><b>{{product.promo_price}} D.T</b></p>
+                                <p ng-if="!product.promo_price"><b>{{product.price}} D.T</b></p>
                                 <p><b>Quantité: {{count}}</b></p>
                             </div>
                         </div>
@@ -32,12 +33,12 @@
                         <p>Frais de transport: <b>{{shipment}}</b></p>
                         <p>Total TTC: <b>{{total}} D.T</b></p>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <md-button class="md-raised" ng-click="close()">
                                     Continuer mes achats
                                 </md-button>
                             </div>
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <md-button class="md-raised md-primary" ng-click="goToCart()" md-autofocus>
                                     Passer la commande
                                 </md-button>

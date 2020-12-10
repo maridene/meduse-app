@@ -43,7 +43,7 @@
                                     <label for="{{availableSize.size}} - size" ng-click="$ctrl.selectSize($event, availableSize)">{{availableSize.size}}</label>
                                 </div>
                             </div>
-                            <div class="quantity" ng-show="!$ctrl.outOfStock && $ctrl.selectedVariantAvailable">
+                            <div class="quantity row" ng-show="!$ctrl.outOfStock && $ctrl.selectedVariantAvailable">
                                 <div class="pro-qty">
                                     <input type="text" ng-model="$ctrl.form.quantity">
                                 </div>

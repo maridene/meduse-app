@@ -166,6 +166,19 @@ angular
           }
         }
     })
+      .state('dashboard.reorder-products', {
+        url:'/reorder-products',
+        controller: 'ReorderProductsCtrl',
+        templateUrl: 'views/pages/products/reorderProducts.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/products/reorderProductsController.js']
+            })
+          }
+        }
+    })
       .state('dashboard.edit-product', {
         url:'/edit-product/:productId',
         controller: 'EditProductCtrl',
@@ -415,6 +428,32 @@ angular
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
                 files:['scripts/controllers/settings/settingsController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.subscribers', {
+        url:'/subscribers',
+        controller: 'SubscribersCtrl',
+        templateUrl: 'views/pages/newsletter/subscribers.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/newsletter/subscribersController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.send-mail', {
+        url:'/send-mail',
+        controller: 'SendMailCtrl',
+        templateUrl: 'views/pages/newsletter/sendMail.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/newsletter/sendMailController.js']
             })
           }
         }

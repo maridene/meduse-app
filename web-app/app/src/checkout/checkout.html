@@ -14,7 +14,7 @@
 <!-- Breadcrumb Section Begin -->
 
 <!-- Shopping Cart Section Begin -->
-<section class="checkout-section">
+<section class="checkout-section" ng-if="!$ctrl.checkoutDone">
     <div class="container">
         <form class="checkout-form" role="form" ng-submit="$ctrl.submitOrder()">
             <div class="row">
@@ -127,5 +127,26 @@
                 </div>
             </div>
         </form>
+    </div>
+</section>
+
+<section class="checkout-section checkout-success" ng-if="$ctrl.checkoutDone">
+    <div class="container">
+        <div class="row checkout-success-image">
+            <i class="fas fa-check-circle fa-9x"></i>
+        </div>
+        <div class="row checkout-success-message">
+            <h5>Votre commande a été enregistrée avec success. <br/> Vous pouvez consulter son statut dans la page "Mes commandes".</h3>
+        </div>
+        <div class="row checkout-success-buttons">
+            <div class="container">
+                <div class="row">
+                    <a href="#!/profile/orders" class="site-btn-default">Mes commandes</a>
+                </div>
+                <div class="row">
+                    <a href="#!/" class="site-btn">Continuer mes achats</a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>

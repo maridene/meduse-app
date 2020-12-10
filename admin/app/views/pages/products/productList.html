@@ -27,6 +27,7 @@
                         <option value="pinned">Populaire</option>
                         <option value="new">Nouveau</option>
                         <option value="exclusif">Accès Exclusif</option>
+                        <option value="hidden">Masqué</option>
                     </select>
                 </div>
             </div>
@@ -49,6 +50,7 @@
                                     <th>Populaire</th>
                                     <th>Nouveau</th>
                                     <th>Exclusif</th>
+                                    <th>Masqué</th>
                                     <th>Nom du produit</th>
                                     <th>Marque</th>
                                     <th>Référence</th>
@@ -63,6 +65,7 @@
                                     <td><input type="checkbox" ng-model="product.pinned" ng-change="updateIsPinned(product)"></td>
                                     <td><input type="checkbox" ng-model="product.isNew" ng-change="updateIsNew(product)"></td>
                                     <td><input type="checkbox" ng-model="product.isExclusif" ng-change="updateIsExclusif(product)"></td>
+                                    <td><input type="checkbox" ng-model="product.isHidden" ng-change="updateIsHidden(product)"></td>
                                     <td><a ng-href="#/dashboard/edit-product/{{product.id}}">{{product.label}}</a></td>
                                     <td>{{product.manufacturerName}}</td>
                                     <td>{{product.sku}}</td>

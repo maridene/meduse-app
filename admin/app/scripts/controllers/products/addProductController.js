@@ -10,6 +10,7 @@
 angular.module('sbAdminApp').controller('AddProductCtrl', ['$scope', '$q', '$state', 'uuid', 'Upload', 'ProductService', 'ProductVariantsService', 'CategoryService', 'ManufacturerService', 
 function ($scope, $q, $state, uuid, Upload, ProductService, ProductVariantsService, CategoryService, ManufacturerService) {
   $scope.categories = [];
+  $scope.extendCategories = [];
   $scope.manufacturers = [];
   $scope.imagesThumbs = [];
 
@@ -32,6 +33,12 @@ function ($scope, $q, $state, uuid, Upload, ProductService, ProductVariantsServi
     withVariants: 'none',
     variants: []
   };
+
+  $scope.$watch('form.selectedCategoryId', function() {
+    $scope.extendCategories = $scope.categories.filter(function(each) {
+      return each.id !== $scope.form.selectedCategoryId;
+    });
+  });
 
   $scope.$watch('form', function () {
     if (typeof $scope.form.selectedManufacturerId !== 'undefined' && typeof $scope.form.selectedCategoryId !== 'undefined' && $scope.form.label) {
@@ -150,6 +157,12 @@ function ($scope, $q, $state, uuid, Upload, ProductService, ProductVariantsServi
       }, Number(0));
     }
 
+    var extendCategories = $scope.extendCategories.filter(function(each) {
+      return each.isSelected;
+    }).map(function(each) {
+      return each.id;
+    }).toString();
+
     var product = {
       sku: $scope.form.sku,
       label: $scope.form.label,
@@ -165,7 +178,8 @@ function ($scope, $q, $state, uuid, Upload, ProductService, ProductVariantsServi
       weight: $scope.form.weight,
       images: '',
       video_link: $scope.form.videolink,
-      tags: $scope.form.tags.toString()
+      tags: $scope.form.tags.toString(),
+      extendCategories: extendCategories
     };
     var files = $scope.imagesThumbs.map(function(item) {
       return item.file;
@@ -215,7 +229,7 @@ function ($scope, $q, $state, uuid, Upload, ProductService, ProductVariantsServi
 
     if (files && files.length) {
       Upload.upload({
-        url: SERVER_URL+'/productupload',
+        url: SERVER_URL+'/productupload/',
         data: {
           productImages: files
         }

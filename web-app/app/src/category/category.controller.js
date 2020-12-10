@@ -18,7 +18,7 @@ class CategoryCtrl {
     //this.currentPage = 0;
     
     //filters
-    this.orderBy = 'priceUp';
+    this.orderBy = 'default';
     this.filterQuery = '';
     this.selectedManufacturerId = 'all';
     this.updateProducts();
@@ -67,6 +67,8 @@ class CategoryCtrl {
 
   sortTypeChanged() {
     switch(this.orderBy) {
+      case 'default':
+        break;
       case 'priceUp':
         this.filteredProducts = this.filteredProducts.sort((p1, p2) => {
           if (p1.promo_price && p2.promo_price) {

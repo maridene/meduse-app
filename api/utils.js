@@ -1,7 +1,3 @@
-const role = require("./helpers/role");
-
-
-
 function isEmptyCredentials({email, password}) {
     return (!email || email.length <= 0) || (!password || password.length <= 0);
 }

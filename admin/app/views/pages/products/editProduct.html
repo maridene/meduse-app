@@ -36,6 +36,16 @@
                             <label>Référence</label>
                             <input class="form-control" ng-model="form.product.sku" readonly>
                         </div>
+
+                        <div class="form-group">
+                            <label>Afficher aussi des les catégories:</label>
+                            <div class="form-group form-inline">
+                                <div class="form-check form-check-inline" ng-repeat="ctg in form.extendCategories">
+                                    <input class="form-check-input" type="checkbox" ng-id="inlineCheckbox{{ctg.id}}" ng-value="ctg.id" ng-model="ctg.isSelected">
+                                    <label class="form-check-label" ng-for="inlineCheckbox{{ctg.id}}">{{ctg.label}}</label>
+                                </div>
+                            </div>
+                        </div>
                             
                         <div class="form-group required">
                             <label class="control-label">Description</label>

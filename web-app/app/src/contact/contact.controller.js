@@ -6,6 +6,9 @@ class ContactCtrl {
 
   }
 
+  sendMail() {
+    console.log('ok');
+  }
 
 }
 

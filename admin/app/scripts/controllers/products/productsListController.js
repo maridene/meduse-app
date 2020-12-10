@@ -116,6 +116,11 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
           return item.isExclusif; 
         });
         break;
+      case 'hidden':
+        $scope.filteredProducts = $scope.products.filter(function(item) {
+          return item.isHidden; 
+        });
+        break;
     }
     
     $scope.filteredProducts = $scope.filteredProducts.filter(function(item) {
@@ -148,6 +153,16 @@ angular.module('sbAdminApp').controller('ProductsListCtrl', ['$scope', '$q', '$s
   $scope.updateIsExclusif = function(product) {
     var newValue = product.isExclusif ? 1 : 0;
     ProductService.updateIsExclusif(product.id, newValue)
+      .then(function() {
+        $scope.getProducts();
+      }, function() {
+
+      });
+  };
+
+  $scope.updateIsHidden = function(product) {
+    var newValue = product.isHidden ? 1 : 0;
+    ProductService.updateIsHidden(product.id, newValue)
       .then(function() {
         $scope.getProducts();
       }, function() {

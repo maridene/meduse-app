@@ -7,6 +7,12 @@ handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
+const headerTemplate = "<p></p>";
+const footerTemplate = "<div style=\" background: #999; width: 100%; font-size: 8px; line-height: 1px; color: #999; text-align: center;\">" +
+"<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn </p>" + 
+"<p>Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713 </p>" + 
+"</div>";
+
 const orders = require('./orders.model');
 const orderRowsService = require('./../orderRows/orderRows.service');
 const usersService = require('./../users/user.service');
@@ -271,7 +277,8 @@ async function generateInvoice(orderId, date, mf) {
     const client = await usersService.getById(order.client_id);
     const rows = await orderRowsService.getByOrderId(orderId);
     for(const row of rows) {
-        const product = await productsService.getById(row.product_id);
+        const productAndVariants = await productsService.getById(row.product_id);
+        const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
         rowsDetails.push({
             product,
@@ -318,21 +325,19 @@ async function generateInvoice(orderId, date, mf) {
 
     var filename = `Facture-${order.order_ref}-${milis}.pdf`;
     var pdfPath = path.join('public/invoices', filename);
-
+    // header template = <div style=\"font-size: 8px\"><div class='pageNumber'></div> <div>/</div><div class='totalPages'></div></div>
     var options = {
-        width: '1230px',
-        headerTemplate: "<p></p>",
-        footerTemplate: "<div style=\"font-size: 8px;color: #999; text-align: center;\">" +
-        "<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn <br>" + 
-        "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713</p>" + 
-        "</div>",
+        headerTemplate: headerTemplate,
+        footerTemplate: footerTemplate,
         displayHeaderFooter: true,
         printBackground: true,
         path: pdfPath,
         format: 'A4',
         margin: { 
-            top: "10px", 
-            bottom: "40px"
+            top: "30px", 
+            bottom: "60px",
+            right: "12px",
+            left: "12px"
         }
     };
 
@@ -373,7 +378,8 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const client = await usersService.getById(order.client_id);
     const rows = await orderRowsService.getByOrderId(orderId);
     for(const row of rows) {
-        const product = await productsService.getById(row.product_id);
+        const productAndVariants = await productsService.getById(row.product_id);
+        const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
         rowsDetails.push({
             product,
@@ -423,18 +429,17 @@ async function generateDeliveryInvoice(orderId, date, mf) {
 
     var options = {
         width: '1230px',
-        headerTemplate: "<p></p>",
-        footerTemplate: "<div style=\"font-size: 8px;color: #999; text-align: center;\">" +
-        "<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn <br>" + 
-        "Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713</p>" + 
-        "</div>",
+        headerTemplate: headerTemplate,
+        footerTemplate: footerTemplate,
         displayHeaderFooter: true,
         printBackground: true,
         path: pdfPath,
         format: 'A4',
         margin: { 
-            top: "10px", 
-            bottom: "40px"
+            top: "30px", 
+            bottom: "60px",
+            right: "12px",
+            left: "12px"
         }
     };
 
@@ -513,7 +518,8 @@ async function getOrderTotal(orderId) {
     const rowsDetails = [];
     const rows = await orderRowsService.getByOrderId(orderId);
     for(const row of rows) {
-        const product = await productsService.getById(row.product_id);
+        const productAndVariants = await productsService.getById(row.product_id);
+        const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
         rowsDetails.push({
             product,

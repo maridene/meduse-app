@@ -137,7 +137,7 @@
 .navbar .category-item a {
     padding: 0 14px;
     color: #19346d;
-    font: bold 15px oswald,sans-serif;
+    font: bold 17px oswald,sans-serif;
     text-transform: capitalize;
 }
 .navbar .category-item a:hover,  .navbar .category-item a:focus{

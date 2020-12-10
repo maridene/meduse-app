@@ -355,6 +355,10 @@
 	line-height: 39px;
 }
 
+.product-shop .product-list {
+	width: 100%;
+}
+
 .prduct-list .product-item {
 	margin-bottom: 25px;
 }

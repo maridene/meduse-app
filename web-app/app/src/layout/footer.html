@@ -27,7 +27,7 @@
                     <ul>
                         <li><a href="#!/promotions">Nos promotions</a></li>
                         <li><a href="#!/premium">MedUse PREMIUM</a></li>
-                        <li><a href="#!/contact#contact-form">Conditions d'utilisation</a></li>
+                        <li><a href="#!/conditions-d-utilisation">Conditions d'utilisation</a></li>
                         <li><a href="#!/profile">Mon compte</a></li>
                     </ul>
                 </div>
@@ -46,9 +46,9 @@
                 <div class="newslatter-item">
                     <h5>Abonnez-vous à notre newsletter</h5>
                     <p>Vous recevrez régulièrement des mises à jour par courriel sur nos actualités et nos offres.</p>
-                    <form action="#" class="subscribe-form">
-                        <input type="text" placeholder="Votre adresse e-mail">
-                        <button type="button">Souscrire</button>
+                    <form role="form" ng-submit="$ctrl.subscribe()" class="subscribe-form">
+                        <input class="form-control" type="email" placeholder="Votre adresse e-mail" ng-model="$ctrl.email">
+                        <button type="submit">Souscrire</button>
                     </form>
                 </div>
             </div>

@@ -1,5 +1,7 @@
 const sql = require("../model/db.js");
 const tables = require('../config/db.tables.js');
+const router = require("./products.controller.js");
+const queryUtils = require('./productsQuery.utils.js');
 
 // constructor
 const Product = function(product) {
@@ -41,9 +43,12 @@ Product.getProductVariants = (productId) => {
   });
 }
 
-Product.findById = (productId) => {
+/************************************************/
+//                    Admin
+/************************************************/
+Product.getById = (productId) => {
   return new Promise((resolve, reject) => {
-    sql.query(findByIdQuery(productId), 
+    sql.query(queryUtils.getByIdQuery(productId), 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -52,27 +57,25 @@ Product.findById = (productId) => {
         if (res.length) {
           resolve(res[0]);
         } else {
-          console.log(`no products found with id = ${productId}`);
+          console.log(`[Product.findById]: no products found with id = ${productId}`);
           resolve([]);
         }
-        
       }
     });
   });
 };
-
-Product.findByCategory = (categoryId, startAt, maxResult, orderBy) => {
-    return new Promise((resolve, reject) => {
-        sql.query(findByCategoryQuery(categoryId, startAt, maxResult, orderBy), (err, res) => {
-            if (err) {
-                console.log(err);
-                reject(err);
-            } else if (res) {
-                console.log("found products in category:", res.length);
-                resolve(res);
-            }
-        });
-    });
+Product.getByCategory = (categoryId) => {
+  return new Promise((resolve, reject) => {
+      sql.query(queryUtils.getByCategoryQuery(categoryId), (err, res) => {
+          if (err) {
+              console.log(err);
+              reject(err);
+          } else if (res) {
+              console.log("[Product.getByCategory]: found products in category: ", res.length);
+              resolve(res);
+          }
+      });
+  });
 }
 
 Product.getAll = () => {
@@ -82,89 +85,12 @@ Product.getAll = () => {
         console.log("error: ", err);
         reject(err);
       } else {
-        console.log("all products: ", res.length);
+        console.log("[Product.getAll]: all products: ", res.length);
         resolve(res);
       }
     });
   });
 };
-
-Product.search = (query) => {
-  return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE label LIKE '%${query}%'`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        reject(err);
-      } else {
-        console.log("search result: ", res.length);
-        resolve(res);
-      }
-    });
-  });
-};
-
-Product.findByRef =  (ref) => {
-  return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE sku = '${ref}'`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        reject({error: err});
-      } else if (res.length) {
-        console.log("[findByRef]: found product id: ", res[0].id);
-        resolve(res[0]);
-      } else {
-        console.log(`no product found with reference = ${ref}`);
-        resolve([]);
-      }
-    });
-  });
-};
-
-Product.countItemsByCategory = (categoryId) => {
-  return new Promise((resolve, reject) => {
-    sql.query(`SELECT COUNT(*) FROM ${tables.PRODUCTS} WHERE CATEGORY_ID = ${categoryId}`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        reject({error: err});
-      } else {
-        resolve(res);
-      }
-    });
-  });
-}
-
-function findByCategoryQuery(categoryId, startAt, maxResult, orderBy) {
-  const orderByValues = [
-    {key: 'priceUp', value: 'price ASC'},
-    {key: 'priceDown', value: 'price DESC'},
-    {key: 'AZ', name:'label ASC'},
-    {key: 'ZA', value:'label DESC'}
-  ];
-  let productsQuery =`select products.*, M.name AS manufacturerName, C.label AS categoryLabel FROM ${tables.PRODUCTS}
-    LEFT JOIN ${tables.MANUFACTURERS} as M
-      ON M.id = ${tables.PRODUCTS}.manufacturerId
-    LEFT JOIN ${tables.CATEGORIES} as C
-      ON C.id = ${tables.PRODUCTS}.category_id
-    WHERE category_id = ${categoryId}`;
-
-  const index = orderByValues.map((item) => item.key).indexOf(orderBy);
-  if (index !== -1) {
-    productsQuery +=  ` ORDER BY ${orderByValues[index].value}`;
-  }
-  if (!isNaN(startAt) && !isNaN(maxResult) && startAt >= 0 && maxResult > 0) {
-    productsQuery += ` LIMIT ${startAt}, ${maxResult}`;
-  }
-  return productsQuery;
-}
-
-function findByIdQuery(id) {
-  return `select products.*, M.name AS manufacturerName, C.label AS categoryLabel FROM ${tables.PRODUCTS}
-    LEFT JOIN ${tables.MANUFACTURERS} as M
-      ON M.id = ${tables.PRODUCTS}.manufacturerId
-    LEFT JOIN ${tables.CATEGORIES} as C
-      ON C.id = ${tables.PRODUCTS}.category_id
-    WHERE products.id = ${id}`;
-}
 
 Product.create = (product) => {
   return new Promise((resolve, reject) => {
@@ -219,7 +145,8 @@ Product.updateById = (id, product, result) => {
       "video_link = ?, " +
       "tags = ?, " +
       "creationDate = ?, " +
-      "modificationDate = ? " +
+      "modificationDate = ?, " +
+      "extendCategories = ? " +
       "WHERE id = ?",
       [
         product.label,
@@ -238,6 +165,7 @@ Product.updateById = (id, product, result) => {
         product.tags,
         product.creationDate,
         product.modificationDate,
+        product.extendCategories,
         id
       ],
       (err, res) => {
@@ -259,19 +187,6 @@ Product.updateById = (id, product, result) => {
     );
   });
   
-};
-
-Product.lastNProducts = (n) => {
-  return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM ${tables.PRODUCTS} ORDER BY creationDate DESC LIMIT ${n}`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        reject(err);
-      } else {
-        resolve(res);
-      }
-    });
-  });
 };
 
 Product.updatePinState = (id, state) => {
@@ -352,9 +267,155 @@ Product.updateIsExclusif = (id, value) => {
   });
 };
 
-Product.pinnedProducts = () => {
+Product.updateIsHidden = (id, value) => {
   return new Promise((resolve, reject) => {
-    sql.query(findPinnedQuery(), 
+    sql.query(
+      `UPDATE ${tables.PRODUCTS} SET ` +
+      "isHidden = ? " +
+      "WHERE id = ? ", 
+      [
+        value, 
+        id
+      ], (err, res) => {
+        if (err) {
+          console.log("Error while updating product isHidden, productId = ", id);
+          reject(err);
+          return;
+        }
+        if (res.affectedRows == 0) {
+          // not found product with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+        console.log("updated product: ", id);
+        resolve({ id: id, isHidden: value });
+      });
+  });
+};
+
+Product.updateOrderIndex = (id, value) => {
+  return new Promise((resolve, reject) => {
+    sql.query(
+      `UPDATE ${tables.PRODUCTS} SET ` +
+      "orderIndex = ? " +
+      "WHERE id = ? ", 
+      [
+        value, 
+        id
+      ], (err, res) => {
+        if (err) {
+          console.log("Error while updating product order index, productId = ", id);
+          reject(err);
+          return;
+        }
+        if (res.affectedRows == 0) {
+          // not found product with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+        console.log("updated product order index: ", id);
+        resolve({ id: id, isHidden: value });
+      });
+  });
+};
+
+/************************************************/
+//                    User
+/************************************************/
+
+Product.findById = (productId, params) => {
+  return new Promise((resolve, reject) => {
+    sql.query(queryUtils.findByIdQuery(productId, params), 
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        if (res.length) {
+          resolve(res[0]);
+        } else {
+          console.log(`[Product.findById]: no products found with id = ${productId}`);
+          resolve([]);
+        }
+      }
+    });
+  });
+};
+
+Product.findByCategory = (categoryId, params) => {
+    return new Promise((resolve, reject) => {
+        sql.query(queryUtils.findByCategoryQuery(categoryId, params), (err, res) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else if (res) {
+                console.log("[Product.findByCategory]: found products in category:", res.length);
+                resolve(res);
+            }
+        });
+    });
+}
+
+Product.search = (query, params) => {
+  return new Promise((resolve, reject) => {
+    sql.query(queryUtils.getSearchQuery(query, params), (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        console.log("search result: ", res.length);
+        resolve(res);
+      }
+    });
+  });
+};
+
+Product.findByRef =  (ref) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.PRODUCTS} WHERE sku = '${ref}'`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject({error: err});
+      } else if (res.length) {
+        console.log("[findByRef]: found product id: ", res[0].id);
+        resolve(res[0]);
+      } else {
+        console.log(`no product found with reference = ${ref}`);
+        resolve([]);
+      }
+    });
+  });
+};
+
+Product.countItemsByCategory = (categoryId, params) => {
+  return new Promise((resolve, reject) => {
+    sql.query(queryUtils.countByCategoryQuery(categoryId, params), (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject({error: err});
+      } else {
+        resolve(res);
+      }
+    });
+  });
+}
+
+Product.lastNProducts = (n, params) => {
+  return new Promise((resolve, reject) => {
+    sql.query(queryUtils.lastNProductsQuery(n, params), (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        reject(err);
+      } else {
+        resolve(res);
+      }
+    });
+  });
+};
+
+Product.pinnedProducts = (params) => {
+  return new Promise((resolve, reject) => {
+    sql.query(queryUtils.findPinnedQuery(params), 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -372,9 +433,9 @@ Product.pinnedProducts = () => {
   });
 };
 
-Product.getNewProducts = () => {
+Product.getNewProducts = (params) => {
   return new Promise((resolve, reject) => {
-    sql.query(findNewQuery(), 
+    sql.query(queryUtils.findNewQuery(params), 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -392,9 +453,9 @@ Product.getNewProducts = () => {
   });
 };
 
-Product.getPromoProducts = () => {
+Product.getPromoProducts = (params) => {
   return new Promise((resolve, reject) => {
-    sql.query(getPromoQuery(), 
+    sql.query(queryUtils.getPromoQuery(params), 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -412,9 +473,9 @@ Product.getPromoProducts = () => {
   });
 };
 
-Product.getProductsFromTags = (productId, tags) => {
+Product.getProductsFromTags = (productId, tags, params) => {
   return new Promise((resolve, reject) => {
-    sql.query(findByTagsQuery(productId, tags), (err, res) => {
+    sql.query(queryUtils.findByTagsQuery(productId, tags, params), (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -431,9 +492,9 @@ Product.getProductsFromTags = (productId, tags) => {
   });
 };
 
-Product.getProductsInSameCategory = (categoryId, productId,  maxResult, ignoredIds) => {
+Product.getProductsInSameCategory = (categoryId, productId,  maxResult, ignoredIds, params) => {
   return new Promise((resolve, reject) => {
-    sql.query(findInSameCategoryQuery(categoryId, productId,  maxResult, ignoredIds), (err, res) => {
+    sql.query(queryUtils.findInSameCategoryQuery(categoryId, productId,  maxResult, ignoredIds, params), (err, res) => {
       if (err) {
         console.log("error: ", err);
         reject(err);
@@ -448,31 +509,6 @@ Product.getProductsInSameCategory = (categoryId, productId,  maxResult, ignoredI
       }
     });
   });
-};
-
-function findInSameCategoryQuery(categoryId, productId,  maxResult, ignoredIds) {
-  if (ignoredIds && ignoredIds.length) {
-    return `SELECT * FROM ${tables.PRODUCTS} WHERE id Not IN (${productId}, ${ignoredIds.join(', ')}) AND category_id = '${categoryId}' LIMIT ${maxResult};`; 
-  } else {
-    return `SELECT * FROM ${tables.PRODUCTS} WHERE id <> '${productId}' AND category_id = '${categoryId}' LIMIT ${maxResult};`; 
-  }
-}
-
-function findByTagsQuery(productId, tags) {
-  const tagsCondition = 'tags ' + tags.map((item) => `LIKE '%${item}%' `).join(' OR tags ');
-  return `SELECT * FROM ${tables.PRODUCTS} WHERE id <> ${productId} AND ( ${tagsCondition} )`; 
-}
-
-function findPinnedQuery() {
-  return `select * From ${tables.PRODUCTS} where pinned = '1' AND isExclusif = 0`;
-};
-
-function findNewQuery() {
-  return `select * From ${tables.PRODUCTS} where isNew = '1' AND isExclusif = 0`;
-};
-
-function getPromoQuery() {
-  return `select * From ${tables.PRODUCTS} where promo_price IS NOT NULL AND promo_price <> 0 AND promo_price < price AND isExclusif = 0`;
 };
 
 module.exports = Product;

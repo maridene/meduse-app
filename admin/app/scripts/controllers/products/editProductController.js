@@ -56,7 +56,8 @@ angular.module('sbAdminApp')
                 url: SERVER_URL+'/static/products/' +image,
                 id: uuid.v4()
               }
-            }) : []
+            }) : [],
+          extendCategories: $scope.product.extendCategories ? $scope.product.extendCategories.split(',') : []
         }
         ,
         variants: $scope.variants.map(function(item) {
@@ -70,6 +71,13 @@ angular.module('sbAdminApp')
       //prepare categories list
       CategoryService.getAllCategories().then(function(categories) {
         $scope.categories = categories;
+        $scope.form.extendCategories = categories.map(function(each) {
+          return {
+            id: each.id,
+            label: each.label,
+            isSelected: $scope.form.product.extendCategories.includes('' + each.id)
+          }
+        });
         //prepare manufacturers list
         ManufacturerService.getAll().then(
           function(manufacturers) {
@@ -217,7 +225,10 @@ angular.module('sbAdminApp')
           return each.filename;
         }).join(','),
         video_link: $scope.form.product.video_link,
-        tags: $scope.form.product.tags.toString()
+        tags: $scope.form.product.tags.toString(),
+        extendCategories: $scope.form.extendCategories.filter(function(each) {
+          return each.isSelected;
+        }).map(function(each) {return each.id}).join(',')
       };
 
       var uploadPromise = null;

@@ -1,11 +1,19 @@
 
 class AppFooterCtrl {
-  constructor(AppConstants) {
+  constructor(AppConstants, RestService) {
     'ngInject';
     this.appName = AppConstants.appName;
+    this.RestService = RestService;
 
     // Get today's date to generate the year
     this.date = new Date();
+  }
+
+  subscribe() {
+    this.RestService.post('subscribe', {email: this.email})
+      .then(() => {
+        this.email = '';
+      });
   }
 }
 

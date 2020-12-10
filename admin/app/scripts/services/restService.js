@@ -6,7 +6,8 @@ angular.module('sbAdminApp').service('RestService', ['$http', function ($http) {
       config = {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          'Access-Control-Allow-Credentials': 'true'
+          'Access-Control-Allow-Credentials': 'true',
+          'Requested-By': 'admin'
         }
       };
     } else {

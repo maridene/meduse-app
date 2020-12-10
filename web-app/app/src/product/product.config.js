@@ -10,14 +10,19 @@ function ProductConfig($stateProvider) {
         title: 'Product',
         resolve : {
           data: function(ProductService, $state, $stateParams) {
-            return ProductService.getProductById($stateParams.slug).then((data) => {
+            const id = $stateParams.slug.split('-')[0];
+            return ProductService.getProductById(id).then((data) => {
+              if (!(data.product && data.product.label && data.product.label.length)) {
+                $state.go('app.home');  
+              }
               return data;
             }, (error) => {
               $state.go('app.home');
             });
           },
           relatedProducts: function(ProductService, $stateParams) {
-            return ProductService.getRelatedProducts($stateParams.slug).then((relatedProducts) => {
+            const id = $stateParams.slug.split('-')[0];
+            return ProductService.getRelatedProducts(id).then((relatedProducts) => {
               return relatedProducts;
             })
           }

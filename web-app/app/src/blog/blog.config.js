@@ -36,12 +36,14 @@ function BlogConfig($stateProvider) {
           resolve: {
             data: function(BlogService, $state, $stateParams) {
               const id = $stateParams.slug.split('-')[0];
-              return BlogService.getById(id).then(
-                (data) => {
-                  return data;
-                },
-                (err) => $state.go('app.home')
-              )
+              if (!isNaN(id)) {
+                return BlogService.getById(id).then(
+                  (data) => {
+                    return data;
+                  }, () => $state.go('app.home'));
+              } else {
+                $state.go('app.home');
+              }
             }
           }
         });

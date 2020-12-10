@@ -25,8 +25,7 @@ class HomeCtrl {
 
     this.ProductService.getPromoProducts()
       .then((products) => {
-        const count = products.length - (products.length % 4);
-        this.promoProducts = products.slice(0, count);
+        this.promoProducts = products;
       });
 
     this.ProductService.getNewProducts()

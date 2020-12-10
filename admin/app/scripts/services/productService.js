@@ -14,11 +14,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'ObjectBuilder', function ($q, RestService, ObjectBuilder) {
   var PRODUCTS = 'products';
-  var PRODUCTS_BY_CATEGORY_ID = 'products/category/{0}?startat={1}&maxresult={2}&orderBy={3}';
+  var PRODUCTS_BY_CATEGORY_ID = 'products/getbycategory/{0}';
+  var PRODUCT_BY_ID = 'products/getbyid/{0}';
 
   var getProductById = function getProductById(id) {
     var deferred = $q.defer();
-    RestService.get("".concat(PRODUCTS, "/").concat(id)).then(function (result) {
+    RestService.get(PRODUCT_BY_ID.replace('{0}', id)).then(function (result) {
       deferred.resolve({
         product: ObjectBuilder.buildObject('product', result.data.product),
         variants: ObjectBuilder.buildObject('product_variants', result.data.variants)
@@ -39,9 +40,9 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     return deferred.promise;
   };
 
-  var getProductsByCategory = function getProductsByCategory(categoryId, startAt, maxResult, orderBy) {
+  var getProductsByCategory = function getProductsByCategory(categoryId) {
     var deferred = $q.defer();
-    var url = PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId).replace('{1}', startAt).replace('{2}', maxResult).replace('{3}', orderBy);
+    var url = PRODUCTS_BY_CATEGORY_ID.replace('{0}', categoryId);
     RestService.get(url).then(function (result) {
       return deferred.resolve({
         count: result.data.count,
@@ -83,7 +84,7 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     return deferred.promise;
   };
 
-  var pin = function pin(id, state) {
+  var pin = function (id, state) {
     var deferred = $q.defer();
     RestService.post("".concat(PRODUCTS, "/pin/").concat(id), {state: state}).then(function (result) {
       deferred.resolve(result);
@@ -93,7 +94,7 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     return deferred.promise;
   };
 
-  var updateIsNew = function pin(id, value) {
+  var updateIsNew = function (id, value) {
     var deferred = $q.defer();
     RestService.post("".concat(PRODUCTS, "/new/").concat(id), {value: value}).then(function (result) {
       deferred.resolve(result);
@@ -103,9 +104,29 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     return deferred.promise;
   };
 
-  var updateIsExclusif = function pin(id, value) {
+  var updateIsExclusif = function (id, value) {
     var deferred = $q.defer();
     RestService.post("".concat(PRODUCTS, "/exclusif/").concat(id), {value: value}).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
+  var updateIsHidden = function (id, value) {
+    var deferred = $q.defer();
+    RestService.post("".concat(PRODUCTS, "/hidden/").concat(id), {value: value}).then(function (result) {
+      deferred.resolve(result);
+    }, function (error) {
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
+  var updateOrders = function(data) {
+    var deferred = $q.defer();
+    RestService.post("".concat(PRODUCTS, "/updateorders"), data).then(function (result) {
       deferred.resolve(result);
     }, function (error) {
       deferred.reject(error);
@@ -150,6 +171,8 @@ angular.module('sbAdminApp').service('ProductService', ['$q', 'RestService', 'Ob
     getAll: getAll,
     pin: pin,
     updateIsExclusif: updateIsExclusif,
-    updateIsNew: updateIsNew
+    updateIsNew: updateIsNew,
+    updateIsHidden: updateIsHidden,
+    updateOrders: updateOrders
   };
 }]);

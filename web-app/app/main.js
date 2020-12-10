@@ -22,10 +22,20 @@
         }
     });
 
-    /*------------------
-        Slider
-    ------------------*/
+    initCarousel();
 
+    $(window).on('hashchange', function(e) {
+        initCarousel();
+    });
+
+    function initCarousel() {
+        $( '#home-carousel' ).carousel({
+            interval: 3800,
+            ride: 'carousel',
+            keyboard: true,
+            pause: 'hover'
+        });
+    }
 
     window.onscroll = function() {scrollFunction()};
 

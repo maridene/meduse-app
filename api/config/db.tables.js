@@ -9,5 +9,6 @@ module.exports = {
     ORDERS: "orders",
     ORDER_ROWS: "order_row",
     COUPONS: "coupons",
-    SETTINGS: "settings"
+    SETTINGS: "settings",
+    SUBSCRIBERS: "subscribers"
   };

@@ -17,12 +17,17 @@ router.get('/related/:id', getRelatedProducts);
 router.get('/all/search', search);
 
 //admin routes
+
+router.get('/getbyid/:id', authorize(Role.Admin), getById);
+router.get('/getbycategory/:categoryId', authorize(Role.Admin), getByCategory);
 router.post('/', authorize(Role.Admin), create);
+router.post('/updateorders', authorize(Role.Admin), updateOrders);
 router.delete('/:id', authorize(Role.Admin),deleteById);
 router.put('/:id', authorize(Role.Admin), updateById);
 router.post('/pin/:id', authorize(Role.Admin), updatePinState);
 router.post('/new/:id', authorize(Role.Admin), updateIsNew);
 router.post('/exclusif/:id', authorize(Role.Admin), updateIsExclusif);
+router.post('/hidden/:id', authorize(Role.Admin), updateIsHidden);
 
 // all authenticated users routes
 
@@ -38,21 +43,21 @@ function getAll(req, res, next) {
         .catch(err => next(err));
 }
 
-function search(req, res, next) {
+async function search(req, res, next) {
     const query = req.query.query;
-    productService.search(query)
+    productService.search(query, await getReqParams(req))
         .then((products) => {
             res.json(products);
         })
         .catch(err => next(err));
 }
 
-function lastNProducts(req, res, next) {
+async function lastNProducts(req, res, next) {
     const n = parseInt(req.params.n);
     if (n === NaN) {
         next({message: 'Not a number'});
     } else {
-        productService.lastNProducts(n)
+        productService.lastNProducts(n, await getReqParams(req))
         .then((products) => {
             res.json(products);
         })
@@ -60,20 +65,34 @@ function lastNProducts(req, res, next) {
     }
 }
 
-function findById(req, res, next) {
+async function findById(req, res, next) {
     const id = parseInt(req.params.id);
-    productService.findById(id)
+    productService.findById(id, await getReqParams(req))
         .then((products) => {
             res.json(products);
         })
         .catch(err => next(err));
 }
 
-function findByCategory(req, res, next) {
-    const startAt = req.query.startat;
-    const maxResult = req.query.maxresult;
-    const orderBy = req.query.orderBy || 'default';
-    productService.findByCategory(req.params.categoryId, startAt, maxResult, orderBy)
+function getById(req, res, next) {
+    const id = parseInt(req.params.id);
+    productService.getById(id)
+        .then((products) => {
+            res.json(products);
+        })
+        .catch(err => next(err));
+}
+
+async function findByCategory(req, res, next) {
+    productService.findByCategory(req.params.categoryId, await getReqParams(req))
+        .then((products) => {
+            res.json(products);
+        })
+        .catch(err => next(err));
+}
+
+function getByCategory(req, res, next) {
+    productService.getByCategory(req.params.categoryId)
         .then((products) => {
             res.json(products);
         })
@@ -146,36 +165,66 @@ function updateIsExclusif(req, res, next) {
         .catch(err => next(err));
 }
 
-function getPinnedProducts(req, res, next) {
-    productService.getPinnedProducts()
+function updateIsHidden(req, res, next) {
+    const id = req.params.id;
+    const value = parseInt(req.body.value);
+    productService.updateIsHidden(id, value)
         .then((result) => {
             res.json(result);
         })
         .catch(err => next(err));
 }
 
-function getNewProducts(req, res, next) {
-    productService.getNewProducts()
+async function getPinnedProducts(req, res, next) {
+    productService.getPinnedProducts(await getReqParams(req))
         .then((result) => {
             res.json(result);
         })
         .catch(err => next(err));
 }
 
-function getPromoProducts(req, res, next) {
-    productService.getPromoProducts()
+async function getNewProducts(req, res, next) {
+    productService.getNewProducts(await getReqParams(req))
         .then((result) => {
             res.json(result);
         })
         .catch(err => next(err));
 }
 
-function getRelatedProducts(req, res, next) {
+async function getPromoProducts(req, res, next) {
+    productService.getPromoProducts(await getReqParams(req))
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+async function getRelatedProducts(req, res, next) {
     const id = parseInt(req.params.id);
-    productService.getRelatedProducts(id)
+    productService.getRelatedProducts(id, await getReqParams(req))
         .then((result) => {
             res.json(result);
         })
         .catch(err => next(err));
 }
 
+function updateOrders(req, res, next) {
+    const data = req.body;
+    productService.updateOrders(data)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch(err => next(err));
+}
+
+async function getReqParams(req) {
+    const params = {};
+    const userId = req.headers["userId"];
+    if (userId) {
+        const user = await userService.getById(userId);
+        if (user.premium === '1') {
+            params.premium = true;
+        }
+    }
+    return params;
+}

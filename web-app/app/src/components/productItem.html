@@ -1,6 +1,6 @@
 <div class="ProductItem">
     <div class="ProductItem-img">
-        <a href="#!/product/{{$ctrl.product.id}}">
+        <a href="#!/product/{{$ctrl.product.id}}-{{$ctrl.product.label}}">
             <img ng-if="$ctrl.image" ng-src="{{$ctrl.image}}">
             <img ng-if="!$ctrl.image" src="assets/img/no-image.jpg">
             <div class="sales-tag" ng-if="$ctrl.product.onSale">{{$ctrl.product.onsalePercentage}}</div>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="ProductItem-caption">
-        <a href="#!/product/{{$ctrl.product.id}}">{{$ctrl.product.label}}</a>
+        <a href="#!/product/{{$ctrl.product.id}}-{{$ctrl.product.label}}">{{$ctrl.product.label}}</a>
         <div ng-if="!$ctrl.product.promo_price">
             <span class="price">{{$ctrl.product.price.toFixed(3)}} DT</span>
         </div>
