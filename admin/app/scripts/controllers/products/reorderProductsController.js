@@ -43,7 +43,7 @@ angular.module('sbAdminApp').controller('ReorderProductsCtrl', ['$scope', '$q', 
 
   $scope.apply = function() {
       var data = $scope.table.bootstrapTable('getData', true);
-      console.log(data.map((i) => i.label));
+      console.log(data.map(function(i) {return i.label}));
   }
 
   var updateOrders = function() {
