@@ -149,6 +149,36 @@
 	padding: 13px 35px 11px;
 }
 
+.contact-form  .fa-check-circle {
+	color: #32a852;
+	margin: auto;
+}
+
+.contact-form .success-image {
+	display: flex;
+	justify-content: center;
+}
+
+.contact-form .success-text {
+	padding: 10px 10px;
+	text-align: center;
+}
+
+.contact-form  .fa-times-circle {
+	color: #d9534f;
+	margin: auto;
+}
+
+.contact-form .error-image {
+	display: flex;
+	justify-content: center;
+}
+
+.contact-form .error-text {
+	padding: 20px 10px;
+	text-align: center;
+}
+
 /*---------------------
   Map
 -----------------------*/
