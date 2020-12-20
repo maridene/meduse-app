@@ -44,12 +44,15 @@ export default class OrdersService {
             (error) => deferred.reject(error));
     return deferred.promise;
   }
-  addCategory(category) {
-    this._RestService.post(ApiConstants.CATEGORIES, category)
+  
+  getById(id) {
+    const deferred = this._$q.defer();
+    this._RestService.get(ApiConstants.ORDER_DETAILS.replace('{0}', id))
         .then((result) => {
-
+          deferred.resolve(result.data);
         }, (error) => {
-
+          deferred.reject(error);
         });
+    return deferred.promise;
   }
 }

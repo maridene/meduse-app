@@ -46,7 +46,22 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfileOrdersCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/orders.html',
-          title: 'Profile'
+          title: 'Mes commandes'
+        })
+        .state('app.profileOrderDetails', {
+          url: '/profile/order/details/:id',
+          controller: 'ProfileOrderDetailsCtrl',
+          controllerAs: '$ctrl',
+          templateUrl: 'profile/orderDetails.html',
+          title: 'Détails de la commande',
+          resolve: {
+            orderData: function(OrdersService, $state, $stateParams) {
+              return OrdersService.getById($stateParams.id)
+                .then((orderDetails) => {
+                  return orderDetails;
+                }, () => $state.go('app.profileorders'))
+            }
+          }
         })
         .state('app.profilepoints', {
           url: '/profile/points',

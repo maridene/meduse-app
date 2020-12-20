@@ -33,6 +33,7 @@ router.get('/:id/total', authorize(Role.Admin), getOrderTotal);
 // all authenticated users routes
 router.post('/submit', authorize(Role.User), submitOrder);
 router.get('/myorders/:id', authorize(Role.User), getMyOrders);
+router.get('/myorder/:id', authorize(Role.User), getMyOrder);
 
 module.exports = router;
 
@@ -111,6 +112,15 @@ function getMyOrders(req, res, next) {
 
     ordersService.findByClientId(headerUserId, paramUserId)
         .then(orders => res.json(orders))
+        .catch(err => next(err));
+}
+
+function getMyOrder(req, res, next) {
+    const headerUserId = parseInt(req.header('userId'));
+    const orderId = parseInt(req.params.id);
+
+    ordersService.findMyOrderById(headerUserId, orderId)
+        .then(result => res.json(result))
         .catch(err => next(err));
 }
 

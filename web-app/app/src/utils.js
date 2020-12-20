@@ -72,7 +72,7 @@ export function EnrichOrder(order) {
     return order;
 }
 
-function orderStatusMapper(status) {
+export function orderStatusMapper(status) {
     switch (status) {
         case 'new':
         return 'Nouvelle commande';

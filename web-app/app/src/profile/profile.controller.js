@@ -1,4 +1,4 @@
-import { EnrichOrder, orderSorterByStatusASC } from "../utils";
+import { EnrichOrder, orderSorterByStatusASC, orderStatusMapper } from "../utils";
 
 export class ProfileCtrl {
     constructor(AppConstants, AuthenticationService, $location, $timeout, $rootScope) {
@@ -103,6 +103,31 @@ export class ProfileOrdersCtrl {
       }, () => {
         this.orders = [];
       });
+  }
+}
+
+export class ProfileOrderDetailsCtrl {
+  constructor(AppConstants, OrdersService, orderData) {
+    'ngInject';
+    this.appName = AppConstants.appName;
+    this.OrdersService = OrdersService;
+    this.orderData = orderData;
+    this.order = {};
+  }
+
+  $onInit() {
+    console.log(this.orderData);
+    this.order = {
+      ref: this.orderData.order.order_ref,
+      date: new Date(this.orderData.order.order_date).toLocaleDateString("fr-FR"),
+      productsCount: this.orderData.rowsDetails.length,
+      total: this.orderData.totalInfos.total,
+      products: this.orderData.rowsDetails,
+      sTotal: this.orderData.totalInfos.totalTTC,
+      shippingFee: this.orderData.totalInfos.shippingText,
+      status: orderStatusMapper(this.orderData.order.order_status),
+      
+    };
   }
 }
 

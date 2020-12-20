@@ -1,0 +1,100 @@
+<div class="container">
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+       <div class="container">
+           <div class="row">
+               <div class="col-lg-12">
+                   <div class="breadcrumb-text">
+                       <a href="#"><i class="fa fa-home"></i> Home</a>
+                       <a href="#!/profile">Mon compte</a>
+                       <a href="#!/profile/orders">Mes commandes</a>
+                       <span>Détails commande</span>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- Breadcrumb Section Begin -->
+
+   <section class="OrderDetails section">
+        <div class="container">
+            <div class="row">
+                <div class="page-title">
+                    <h3>Détails de la commande</h3>
+                    <div class="title-separator"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="container">
+                    <div class="OrderDetails-infos">
+                        <div class="container">
+                            <div class="OrderDetails-infos-title row">
+                                <div class="OrderDetails-infos-title-text">Commande {{$ctrl.order.ref}}</div>
+                            </div>
+                            <div class="OrderDetails-infos-description row">
+                                <div class="OrderDetails-infos-description-line">{{$ctrl.order.productsCount}} articles</div>
+                                <div class="OrderDetails-infos-description-line">Effectuée le {{$ctrl.order.date}}</div>
+                                <div class="OrderDetails-infos-description-line">Total: {{$ctrl.order.total}} TND</div>
+                                <div class="OrderDetails-infos-description-line order-status">{{$ctrl.order.status}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row OrderDetails-products">
+                <div class="container">
+                    <div class="row OrderDetails-products-title">
+                        <div class="OrderDetails-products-title-text col-12">articles dans votre commande</div>
+                    </div>
+                    <div class="row OrderDetails-productsList">
+                        <div class="container">
+                            <div class="OrderDetails-productsList-line row" ng-repeat="item in $ctrl.order.products">
+                                <div class="col-3 OrderDetails-productsList-line-image">
+                                    <img ng-src="item.imageUrl">
+                                </div>
+                                <div class="col-9 OrderDetails-productsList-line-description">
+                                    <div class="OrderDetails-productsList-line-description-line">{{item.product.label}}</div>
+                                    <div class="OrderDetails-productsList-line-description-line">Quantité: {{item.quantity}}</div>
+                                    <div class="OrderDetails-productsList-line-description-line">{{item.product.price.toFixed(3)}} TND</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row OrderDetails-delivery">
+                <div class="col-lg-6 OrderDetails-delivery-tab OrderDetails-delivery-tab-left">
+                    <div class="OrderDetails-delivery-tab-header">
+                        Paiement
+                    </div>
+                    <div class="OrderDetails-delivery-tab-body">
+                        <div class="OrderDetails-delivery-tab-body-itemTitle">Méthode de paiement</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Paiement à la livraison</div>
+                        <div class="OrderDetails-delivery-tab-body-itemTitle">Détails du paiement</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Sous-total: {{$ctrl.order.sTotal}} TND</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Frais de livraison: {{$ctrl.order.shippingFee}}</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Timbre fiscale: 0.600 TND</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Total: {{$ctrl.order.total}} TND</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 OrderDetails-delivery-tab OrderDetails-delivery-tab-right">
+                    <div class="OrderDetails-delivery-tab-header">
+                        Livraison
+                    </div>
+                    <div class="OrderDetails-delivery-tab-body">
+                        <div class="OrderDetails-delivery-tab-body-itemTitle">Méthode de livraison</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Aramex</div>
+                        <div class="OrderDetails-delivery-tab-body-itemTitle">Adresse de Livraison</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.clientName}}</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.shippingAddress}}</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.shippingAddressDescription}}</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.shippingCity}}, {{$ctrl.order.shippingZipcode}} {{$ctrl.order.shippingState}}</div>                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+</div>

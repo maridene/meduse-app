@@ -21,6 +21,7 @@ export const ApiConstants = {
   BLOGS_TAGS: 'blogs/tags',
   ORDERS: 'orders',
   MY_ORDERS: 'orders/myorders/{0}',
+  ORDER_DETAILS: 'orders/myorder/{0}',
   COUPONS: 'coupons',
   SETTINGS: 'settings'
 };

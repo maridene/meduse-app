@@ -28,6 +28,7 @@ const { padNumber } = require("../utils");
 module.exports = {
     getAll,
     getById,
+    findMyOrderById,
     findByClientId,
     findByRef,
     findByState,
@@ -64,6 +65,62 @@ function getById(id) {
             .then((result) => resolve(result),
             (err) => reject(err));
     });
+}
+
+async function findMyOrderById(userId, orderId) {
+    if (userId === undefined || orderId === undefined) {
+        throw new Error('no user id || orderId');
+    }
+    const order = await getById(orderId);
+    if (('' + order.client_id) !== '' + userId) {
+        throw new Error('unauthorized');
+    }
+
+    const deliveryAddress = {
+        address: order.delivery_address,
+        zipcode: order.delivery_zipcode,
+        city: order.delivery_city,
+        state: order.delivery_state,
+        phone: order.delivery_phone
+    };
+    const billingAddress = {
+        address: order.billing_address,
+        zipcode: order.billing_zipcode,
+        city: order.billing_city,
+        state: order.billing_state,
+        phone: order.billing_phone
+    };
+
+    const rowsDetails = [];
+    let rows = await orderRowsService.getByOrderId(orderId);
+    rows = rows && rows.length ? rows : [];
+    for(const row of rows) {
+        const productAndVariants = await productsService.getById(row.product_id);
+        const product = productAndVariants.product;
+        const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
+        rowsDetails.push({
+            product,
+            variant,
+            quantity: row.quantity
+        });
+    }
+
+    const shippingSettings = await settingsService.getByType('shipping');
+    const shippingData = {};
+    shippingSettings.forEach((i) => shippingData[i.label] = i.value);
+
+    const client = await usersService.getById(order.client_id);
+    const reductionValue = (order.coupon_id !== null && order.coupon_id !== undefined) ? await couponsService.getById(order.coupon_id).value : null;
+    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
+        : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+    
+        return {
+            order,
+            billingAddress,
+            deliveryAddress,
+            totalInfos,
+            rowsDetails
+        }
 }
 
 function getMyOrders(headerUserId, paramsUserId) {
@@ -560,6 +617,13 @@ async function getOrderTotal(orderId) {
 
 async function grantPoints(orderId) {
     const totalInfo = await getOrderTotal(orderId);
-    const newPoints = +client.points + +Math.floor(totalInfo.totalTTC);
-    return usersService.updateClientPoints(clientId, newPoints);
+    const order = await getById(orderId);
+    const client = order ? await usersService.getById(order.client_id) : null;
+    if (client) {
+        const newPoints = +client.points + +Math.floor(totalInfo.totalTTC);
+        usersService.updateClientPoints(client.id, newPoints);
+    } else {
+        console.error('[orders.service]: failed to grant points to client');
+    }
+    
 }
