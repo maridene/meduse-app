@@ -87,7 +87,7 @@ function getAcoupon(userId) {
 }
 
 function generateCoupon(userId) {
-    const DEFAULT_REDUCTION = '50%';
+    const DEFAULT_REDUCTION = '30%';
     const coupon = {
         code: makeCode(),
         value: DEFAULT_REDUCTION,
