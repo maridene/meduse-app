@@ -1,14 +1,16 @@
 class RegisterCtrl {
-    constructor(AppConstants, UserService, $state, $timeout, $location) {
+    constructor(AppConstants, UserService, AuthenticationService, $state, $timeout, $location, $rootScope) {
       'ngInject';
   
       this.appName = AppConstants.appName;
 
       this.user = {prefix: 'M.'};
       this.UserService = UserService;
+      this.AuthenticationService = AuthenticationService;
       this.$state = $state;
       this.$timeout = $timeout;
       this.$location = $location;
+      this.$rootScope = $rootScope;
       this.errorMessage = null;
   
     }
@@ -24,7 +26,20 @@ class RegisterCtrl {
       };
       this.UserService.create(user)
         .then((result) => {
-          this.$location.path('/login');
+          const email = result.data.email;
+          const password = result.data.password;
+          this.AuthenticationService.login(email, password)
+            .then((response) => {
+              if (response.status === 200 && response.data && response.data.token ) {
+                this.AuthenticationService.setCredentials(response.data);
+                this.$rootScope.$broadcast('userLoggedIn');
+                this.$timeout(() => {
+                  this.$location.path('#!/');
+                });
+              }
+            }, () => {
+              this.$location.path('/login');
+            });
         }, (error) => {
           if (error && error.data.kind === 'email_not_available') {
             this.errorMessage = 'L\'adresse email est déjà utilisée, veuillez en choisir une autre ou vous inscrire';
