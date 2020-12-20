@@ -248,7 +248,8 @@ angular.module('sbAdminApp')
     $scope.getInvoice = function () {
       var data = {
         mf: $scope.invoiceForm.clientMF,
-        date: $scope.invoiceForm.invoiceDate ? new Date($scope.invoiceForm.invoiceDate).getTime() : null
+        date: $scope.invoiceForm.invoiceDate ? new Date($scope.invoiceForm.invoiceDate).toLocaleDateString("fr-FR").toString() : 
+          new Date().toLocaleDateString("fr-FR").toString()
       };
       console.log(data);
       RestService.post('orders/' + $scope.order.id + '/invoice', data)
@@ -261,7 +262,8 @@ angular.module('sbAdminApp')
     $scope.getDeliveryInvoice = function () {
       var data = {
         mf: $scope.invoiceForm.clientMF,
-        date: $scope.invoiceForm.deliveryInvoiceDate ? new Date($scope.invoiceForm.deliveryInvoiceDate).getTime() : null
+        date: $scope.invoiceForm.deliveryInvoiceDate ? new Date($scope.invoiceForm.deliveryInvoiceDate).toLocaleDateString("fr-FR").toString() : 
+          new Date().toLocaleDateString("fr-FR").toString()
       };
       console.log(data);
       RestService.post('orders/' + $scope.order.id + '/deliveryInvoice', data)

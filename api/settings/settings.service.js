@@ -5,7 +5,9 @@ module.exports = {
     getByLabel,
     getByType,
     getAll,
-    updateByLabel
+    updateByLabel,
+    getAndIncrementInvoiceNumber,
+    getAndIncrementDeliveryInvoiceNumber
 };
 
 function getByLabel(label) {
@@ -50,4 +52,18 @@ function updateByLabel(label, value) {
                 reject(error);
             })
     });
+}
+
+async function getAndIncrementInvoiceNumber() {
+    const numObject = await getByLabel('lastInvoice');
+    const num = parseInt(numObject.value);
+    updateByLabel('lastInvoice', num + 1);
+    return num;
+}
+
+async function getAndIncrementDeliveryInvoiceNumber() {
+    const numObject = await getByLabel('lastDeliveryInvoice');
+    const num = parseInt(numObject.value);
+    updateByLabel('lastDeliveryInvoice', num + 1);
+    return num;
 }

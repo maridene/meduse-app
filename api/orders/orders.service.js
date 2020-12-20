@@ -23,6 +23,7 @@ const settingsService = require("../settings/settings.service");
 
 const utils = require('../utils');
 const mailService = require('../mailing/mail.service');
+const { padNumber } = require("../utils");
 
 module.exports = {
     getAll,
@@ -310,9 +311,11 @@ async function generateInvoice(orderId, date, mf) {
 
     const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
         : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+    
+    const num = await getInvoiceNumber();
     const data = {
-        invoiceNumber: getInvoiceNumber(),
-        creationDate: date ? new Date(date).toLocaleDateString() : new Date().toLocaleDateString(),
+        invoiceNumber: num,
+        creationDate: date,
         order,
         lines,
         deliveryAddress,
@@ -411,9 +414,10 @@ async function generateDeliveryInvoice(orderId, date, mf) {
 
     const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
         : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+    const num = await getDeliveryInvoiceNumber();
     const data = {
-        invoiceNumber: getInvoiceNumber(),
-        creationDate: date ? new Date(date).toLocaleDateString() : new Date().toLocaleDateString(),
+        invoiceNumber: num,
+        creationDate: date,
         order,
         lines,
         deliveryAddress,
@@ -513,9 +517,14 @@ function getOrderTotalInfosAfterReduction(orderRowsDetails, premium, shippingSet
     return orderTotalInfos;
 }
 
-function getInvoiceNumber() {
-    const d = new Date();
-    return `${d.getUTCMonth()}${d.getUTCFullYear() % 100}${d.getUTCHours()}${d.getUTCMinutes()}${d.getUTCSeconds()}${d.getUTCMilliseconds()}`;
+async function getInvoiceNumber() {
+    const num = await settingsService.getAndIncrementInvoiceNumber();
+    return padNumber(num, 6);
+}
+
+async function getDeliveryInvoiceNumber() {
+    const num = await settingsService.getAndIncrementDeliveryInvoiceNumber();
+    return padNumber(num, 6);
 }
 
 async function getOrderTotal(orderId) {

@@ -132,9 +132,14 @@ function NumberToLetter(nombre, U=null, D=null) {
 
 }
 
+function padNumber(a, length) {
+    return new Array(length - a.toString().length).fill(0).concat(a.toString().split('')).join('');
+}
+
 module.exports = {
     NumberToLetter,
     isEmptyCredentials,
     formValid: formValid,
-    isNormalInteger
+    isNormalInteger,
+    padNumber
 };
