@@ -365,6 +365,42 @@ ol {
 }
 
 /*---------------------
+	Page section
+----------------------*/
+.section {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/*---------------------
+	Page Title
+----------------------*/
+
+.page-title {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	padding-bottom: 40px;
+	text-transform: uppercase;
+}
+
+.page-title h3 {
+	padding-bottom: 10px;
+}
+
+.page-title .title-separator {
+	border:	2px solid #19346d;
+	background-color: #19346d;
+	width: 150px;
+}
+
+.page-title .title-description {
+	margin-top: 10px;
+}
+
+/*---------------------
   Product Details
 -----------------------*/
 

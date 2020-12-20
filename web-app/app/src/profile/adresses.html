@@ -16,37 +16,39 @@
    <!-- Breadcrumb Section Begin -->
 </div>
 
-<div class="AdressesSection container">
-    <div class="AdressesSection-text"> 
-        <h3>VOS ADRESSES DE LIVRAISON / FACTURATION</h2>
-        <div class="AdressesSection-text-separator"></div>
-    </div>
-
-    <div ng-if="!$ctrl.addresses.length" class="AdressesSection-adresses">
-        <div class="no-address">
-            <div class="alert alert-warning col-lg-8" role="alert">
-                Aucune adresse disponible.
+<div class="AdressesSection section">
+    <div class="container">
+        <div class="row">
+            <div class="page-title">
+                <h3>MES ADRESSES DE LIVRAISON / FACTURATION</h3>
+                <div class="title-separator"></div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="AdressesSection-adresses-item col-lg-5 col-md-5 col-sm-11 offset-1 offset-sm-1 mt-3" ng-repeat="address in $ctrl.addresses">
-            <h5 class="AdressesSection-adresses-item-adressLine">{{address.name}}</h5>
-            <div class="AdressesSection-adresses-item-adressSeparator"></div>
-            <div class="AdressesSection-adresses-item-adressLine">{{address.address}}</div>
-            <div class="AdressesSection-adresses-item-adressLine">{{address.description}}</div>
-            <div class="AdressesSection-adresses-item-adressLine">{{address.zipcode}} {{address.city}}, {{address.state}}</div>
-            <div class="AdressesSection-adresses-item-adressLine">{{address.phone}}</div>
-            <div class="AdressesSection-adresses-item-adressActions">
-                <a ng-href="#!/profile/adresses/edit/{{address.id}}" class="btn btn-info btn-block col-4" > Mettre à jour </a>
-                <button type="button" ng-click="$ctrl.delete(address)"class="btn btn-danger btn-block col-4"> Supprimer </button>
+    
+        <div ng-if="!$ctrl.addresses.length" class="AdressesSection-adresses">
+            <div class="no-address">
+                <div class="alert alert-warning col-lg-8" role="alert">
+                    Aucune adresse disponible.
+                </div>
             </div>
         </div>
+        <div class="row">
+            <div class="AdressesSection-adresses-item col-lg-5 col-md-5 col-sm-11 offset-1 offset-sm-1 mt-3" ng-repeat="address in $ctrl.addresses">
+                <h5 class="AdressesSection-adresses-item-adressLine">{{address.name}}</h5>
+                <div class="AdressesSection-adresses-item-adressSeparator"></div>
+                <div class="AdressesSection-adresses-item-adressLine">{{address.address}}</div>
+                <div class="AdressesSection-adresses-item-adressLine">{{address.description}}</div>
+                <div class="AdressesSection-adresses-item-adressLine">{{address.zipcode}} {{address.city}}, {{address.state}}</div>
+                <div class="AdressesSection-adresses-item-adressLine">{{address.phone}}</div>
+                <div class="AdressesSection-adresses-item-adressActions">
+                    <a ng-href="#!/profile/adresses/edit/{{address.id}}" class="btn btn-info btn-block col-4" > Mettre à jour </a>
+                    <button type="button" ng-click="$ctrl.delete(address)"class="btn btn-danger btn-block col-4"> Supprimer </button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="AdressesSection-addAdress">
+            <div class="site-btn" ng-click="$ctrl.addAddress()">Ajouter une nouvelle adresse</div>
+        </div>
     </div>
-
-    <div class="AdressesSection-addAdress">
-        <div class="site-btn" ng-click="$ctrl.addAddress()">Ajouter une nouvelle adresse</div>
-    </div>
-
-
 </div>

@@ -17,50 +17,57 @@
    <!-- Breadcrumb Section Begin -->
 </div>
 
-<div class="AdressesSection container">
-    <div class="AdressesSection-text"> 
-        <h3>Ajouter une adresse de livraison / Facturation</h2>
-        <div class="AdressesSection-text-separator"></div>
-    </div>
-    <div class="formContainer">
-        <form role="form" ng-submit="$ctrl.add()" class="col-lg-6 addressForm">
-            <div class="form-group required">
-                <label class="control-label">Adresse</label>
-                <input class="form-control"  type="text" ng-model="$ctrl.form.address" required>
+<div class="AdressesSection section">
+    <div class="container">
+        <div class="row">
+            <div class="page-title">
+                <h3>Ajouter une adresse de livraison / Facturation</h3>
+                <div class="title-separator"></div>
             </div>
-            <div class="form-group required">
-                <label class="control-label">Code postal</label>
-                <input class="form-control" ng-model="$ctrl.form.zipcode" pattern="[0-9]{4}" required>
-            </div>
-            <div class="form-group required">
-                <label class="control-label">Ville</label>
-                <input class="form-control" ng-model="$ctrl.form.city" required>
-            </div>
-            <div class="form-group required">
-                <label class="control-label">Gouvernorat</label>
-                <select class="form-control" ng-model="$ctrl.form.state" required>
-                    <option ng-repeat="state in $ctrl.states" ng-value="state">{{state}}</option>
-                </select>
-            </div>
-            <div class="form-group required">
-                <label class="control-label">Téléphone</label>
-                <div class="form-group input-group">
-                    <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
-                        <option selected="true">+216</option>
-                    </select>
-                    <input class="form-control" ng-model="$ctrl.form.phone" pattern="[0-9]{8}" required>
+        </div>
+        <div class="formContainer">
+            <form role="form" ng-submit="$ctrl.add()" class="col-lg-6 addressForm">
+                <div class="form-group required">
+                    <label class="control-label">Adresse</label>
+                    <input class="form-control"  type="text" ng-model="$ctrl.form.address" required>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Informations supplémentaires</label>
-                <textarea class="form-control" ng-model="$ctrl.form.description"></textarea>
-            </div>
-            <div class="form-group required">
-                <label class="control-label">Donnez un titre à cette adresse pour la retrouver plus facilement</label>
-                <input type="text" class="form-control" ng-model="$ctrl.form.name" placeholder="cabinet, domicile, bureau ..." required>
-            </div>
+                <div class="form-group required">
+                    <label class="control-label">Code postal</label>
+                    <input class="form-control" ng-model="$ctrl.form.zipcode" pattern="[0-9]{4}" required>
+                </div>
+                <div class="form-group required">
+                    <label class="control-label">Ville</label>
+                    <input class="form-control" ng-model="$ctrl.form.city" required>
+                </div>
+                <div class="form-group required">
+                    <label class="control-label">Gouvernorat</label>
+                    <select class="form-control" ng-model="$ctrl.form.state" required>
+                        <option ng-repeat="state in $ctrl.states" ng-value="state">{{state}}</option>
+                    </select>
+                </div>
+                <div class="form-group required">
+                    <label class="control-label">Téléphone</label>
+                    <div class="form-group input-group">
+                        <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
+                            <option selected="true">+216</option>
+                        </select>
+                        <input class="form-control" ng-model="$ctrl.form.phone" pattern="[0-9]{8}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Informations supplémentaires</label>
+                    <textarea class="form-control" ng-model="$ctrl.form.description"></textarea>
+                </div>
+                <div class="form-group required">
+                    <label class="control-label">Donnez un titre à cette adresse pour la retrouver plus facilement</label>
+                    <input type="text" class="form-control" ng-model="$ctrl.form.name" placeholder="cabinet, domicile, bureau ..." required>
+                </div>
 
-            <button type="submit" class="btn btn-success">Ajouter adresse</button>
-        </form>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success form-control">Ajouter adresse</button>
+                </div>
+            </form>
+        </div>
     </div>
+    
 </div>
