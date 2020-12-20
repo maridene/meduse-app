@@ -22,6 +22,7 @@ const couponsService = require('./../coupons/coupons.service');
 const settingsService = require("../settings/settings.service");
 
 const utils = require('../utils');
+const mailService = require('../mailing/mail.service');
 
 module.exports = {
     getAll,
@@ -237,6 +238,7 @@ function doCreateOrder(order, orderRows) {
                 rows = rows.map((item) => ({ order_id: addedOrder.id, ...item }));
                 orderRowsService.addAll(rows)
                     .then((addedRows) => {
+                        sendOrderReceivedMail(addedOrder);
                         resolve({addedOrder, lines: addedRows});
                     }, (error) => {
                         remove(addedOrder.id)
@@ -253,6 +255,12 @@ function doCreateOrder(order, orderRows) {
             },
             (err) => reject(err));
     });
+}
+
+async function sendOrderReceivedMail(orderData) {
+    const order = await getById(orderData.id);
+    const user = await usersService.getById(order.client_id);
+    mailService.sendOrderReceivedMail(user.name, user.email, order.order_ref);
 }
 
 async function generateInvoice(orderId, date, mf) {

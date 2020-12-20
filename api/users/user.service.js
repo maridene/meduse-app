@@ -2,6 +2,7 @@ const config = require('../config/config.json');
 const jwt = require('jsonwebtoken');
 const Role = require('../helpers/role');
 const users = require('./user.model');
+const mailService = require('../mailing/mail.service');
 
 module.exports = {
     authenticate,
@@ -120,7 +121,7 @@ function create({prefix, name, email, password, phone, mf}, role) {
             if (result) {
                 users.create({prefix, name, email, phone, password, role, mf})
                     .then((result) => {
-                        console.log('result create', result);
+                        mailService.sendWelcomeMail(name, email);
                         resolve(result);
                     }, (err) => {
                         console.log('err', err);
