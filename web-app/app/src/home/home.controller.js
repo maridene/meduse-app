@@ -1,5 +1,5 @@
 class HomeCtrl {
-  constructor(AppConstants, ProductService, CategoryService, $timeout, $scope, $location) {
+  constructor(AppConstants, ProductService, CategoryService, SettingsService, $timeout, $scope, $location) {
     'ngInject';
 
     const newProductsCount = 4;
@@ -7,6 +7,7 @@ class HomeCtrl {
     this.appName = AppConstants.appName;
     this.ProductService = ProductService;
     this.CategoryService = CategoryService;
+    this.SettingsService = SettingsService;
     this.$timeout = $timeout;
     this.$scope = $scope;
     this.$location = $location;
@@ -32,6 +33,23 @@ class HomeCtrl {
       .then((products) => {
         const count = products.length - (products.length % 4);
         this.newProducts = products.slice(0, count);
+      });
+
+    this.SettingsService.getShippingSettings()
+      .then((result) => {
+        if (result) {
+          const shippingFreeFrom = parseInt(result.freeFrom);
+          const shippingFree = parseInt(result.free) === 1;
+          if (shippingFree) {
+            this.shippingFreeFromText = 'Livraison gratuite!';
+          } else {
+            this.shippingFreeFromText = `Gratuite à partir de ${shippingFreeFrom} dinars`;
+          }
+        } else {
+          this.shippingFreeFromText = 'Gratuite à partir de 50 dinars';
+        }
+      }, () => {
+        this.shippingFreeFromText = 'Gratuite à partir de 50 dinars';
       });
   }
 
