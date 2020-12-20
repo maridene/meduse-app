@@ -7,6 +7,10 @@
 	padding-top: 20px;
 }
 
+.footer-section .container {
+    padding-bottom: 15px;
+}
+
 .footer-section .footer-delivery {
 	background: #ffffff;
 }
