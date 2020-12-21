@@ -36,7 +36,9 @@
                     <div class="col-lg-6 col-sm-6" ng-repeat="blogItem in $ctrl.filteredBlogItems">
                         <div class="blog-item">
                             <div class="bi-pic">
-                                <img ng-src={{blogItem.coverlink}} alt="">
+                                <a ng-href="#!/blog/{{blogItem.id}}-{{blogItem.title}}">
+                                    <img ng-src={{blogItem.coverlink}} alt="">
+                                </a>
                             </div>
                             <div class="bi-text">
                                 <a ng-href="#!/blog/{{blogItem.id}}-{{blogItem.title}}">

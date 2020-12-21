@@ -98,6 +98,14 @@
 	letter-spacing: 0;
 }
 
+.blog-item .bi-text h4 {
+	color: #19346d;
+}
+
+.blog-item .bi-text h4:hover {
+	color: #33c0ec;
+}
+
 /*---------------------
   Blog Details
 -----------------------*/
