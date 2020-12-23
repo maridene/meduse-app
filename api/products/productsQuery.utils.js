@@ -43,7 +43,7 @@ function getByCategoryQuery(categoryId) {
         ON M.id = ${tables.PRODUCTS}.manufacturerId
         LEFT JOIN ${tables.CATEGORIES} as C
         ON C.id = ${tables.PRODUCTS}.category_id
-        WHERE category_id = ${categoryId}  ORDER BY orderIndex ASC`;
+        WHERE (category_id = ${categoryId} OR extendCategories LIKE '%${categoryId}%')  ORDER BY orderIndex ASC`;
 }
 
 function getByIdQuery(id) {
