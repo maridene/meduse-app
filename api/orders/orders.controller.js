@@ -38,7 +38,6 @@ router.get('/myorder/:id', authorize(Role.User), getMyOrder);
 module.exports = router;
 
 function getAll(req, res, next) {
-    console.log("getAll");
     ordersService.getAll()
         .then(orders => res.json(orders))
         .catch(err => next(err));
