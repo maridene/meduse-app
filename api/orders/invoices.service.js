@@ -1,8 +1,8 @@
 const fs = require('fs');
 const constants = require("../config/constants");
 
-const invoicesPath = "public/invoices";
-//const invoicesPath = constants.INVOICES_PATH;
+//const invoicesPath = "public/invoices";
+const invoicesPath = constants.INVOICES_PATH;
 
 module.exports = {
     getAll,

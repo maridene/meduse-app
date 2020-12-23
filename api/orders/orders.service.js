@@ -398,7 +398,7 @@ async function generateInvoice(orderId, date, mf) {
     const html = template(data);
 
     var filename = `Facture-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
-    var pdfPath = path.join('public/invoices', filename);
+    var pdfPath = path.join('/var/www/meduse-static/invoices', filename);
     // header template = <div style=\"font-size: 8px\"><div class='pageNumber'></div> <div>/</div><div class='totalPages'></div></div>
     var options = {
         headerTemplate: headerTemplate,
@@ -417,8 +417,7 @@ async function generateInvoice(orderId, date, mf) {
 
     const browser = await puppeteer.launch({
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            headless: true,
-            executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
+            headless: true
         });
     const page = await browser.newPage();
     await page.goto(`data:text/html;charset=UTF-8,${html}`, {
@@ -498,7 +497,7 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const html = template(data);
 
     var filename = `BonDeCommande-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
-    var pdfPath = path.join('public/invoices', filename);
+    var pdfPath = path.join('/var/www/meduse-static/invoices', filename);
 
     var options = {
         width: '1230px',
@@ -518,8 +517,7 @@ async function generateDeliveryInvoice(orderId, date, mf) {
 
     const browser = await puppeteer.launch({
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            headless: true,
-            executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
+            headless: trunfs.cateSync
         });
     const page = await browser.newPage();
     await page.goto(`data:text/html;charset=UTF-8,${html}`, {
