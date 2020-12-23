@@ -50,6 +50,7 @@ app.use('/api/orderrows', require('./orderRows/orderRows.controller'));
 app.use('/api/settings', require('./settings/settings.controller'));
 app.use('/api/subscribe', require('./mailing/subscribers.controller'));
 app.use('/api/contactform', require('./mailing/contactForm.controller'));
+app.use('/api/invoice', require('./orders/invoices.controller'));
 
 //Serves all the request which includes /images in the url from Images folder
 app.use('/static/blogs', express.static(__dirname + '/public/blog'));
