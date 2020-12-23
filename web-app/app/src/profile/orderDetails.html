@@ -50,14 +50,14 @@
                     </div>
                     <div class="row OrderDetails-productsList">
                         <div class="container">
-                            <div class="OrderDetails-productsList-line row" ng-repeat="item in $ctrl.order.products">
-                                <div class="col-3 OrderDetails-productsList-line-image">
-                                    <img ng-src="item.imageUrl">
+                            <div class="OrderDetails-productsList-line row" ng-repeat="row in $ctrl.order.rows">
+                                <div class="col-2 OrderDetails-productsList-line-image">
+                                    <img ng-src="{{row.image}}">
                                 </div>
-                                <div class="col-9 OrderDetails-productsList-line-description">
-                                    <div class="OrderDetails-productsList-line-description-line">{{item.product.label}}</div>
-                                    <div class="OrderDetails-productsList-line-description-line">Quantité: {{item.quantity}}</div>
-                                    <div class="OrderDetails-productsList-line-description-line">{{item.product.price.toFixed(3)}} TND</div>
+                                <div class="col-10 OrderDetails-productsList-line-description">
+                                    <div class="OrderDetails-productsList-line-description-line">{{row.product.label}}</div>
+                                    <div class="OrderDetails-productsList-line-description-line">Quantité: {{row.quantity}}</div>
+                                    <div class="OrderDetails-productsList-line-description-line">{{row.product.price.toFixed(3)}} TND</div>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,6 @@
                         <div class="OrderDetails-delivery-tab-body-itemTitle">Adresse de Livraison</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.clientName}}</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.shippingAddress}}</div>
-                        <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.shippingAddressDescription}}</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">{{$ctrl.order.shippingCity}}, {{$ctrl.order.shippingZipcode}} {{$ctrl.order.shippingState}}</div>                    </div>
                 </div>
             </div>

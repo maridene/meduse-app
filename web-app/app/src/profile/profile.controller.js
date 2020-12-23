@@ -1,4 +1,4 @@
-import { EnrichOrder, orderSorterByStatusASC, orderStatusMapper } from "../utils";
+import { EnrichOrder, orderSorterByStatusASC, orderStatusMapper, getFirstImageFromArray } from "../utils";
 
 export class ProfileCtrl {
     constructor(AppConstants, AuthenticationService, $location, $timeout, $rootScope) {
@@ -122,11 +122,19 @@ export class ProfileOrderDetailsCtrl {
       date: new Date(this.orderData.order.order_date).toLocaleDateString("fr-FR"),
       productsCount: this.orderData.rowsDetails.length,
       total: this.orderData.totalInfos.total,
-      products: this.orderData.rowsDetails,
+      rows: this.orderData.rowsDetails.map((row) => ({
+        product: row.product,
+        quantity: row.quantity,
+        image: getFirstImageFromArray(row.product.images)
+      })),
       sTotal: this.orderData.totalInfos.totalTTC,
       shippingFee: this.orderData.totalInfos.shippingText,
       status: orderStatusMapper(this.orderData.order.order_status),
-      
+      clientName: '',
+      shippingAddress: this.orderData.deliveryAddress.address,
+      shippingCity: this.orderData.deliveryAddress.city,
+      shippingZipcode: this.orderData.deliveryAddress.zipcode,
+      shippingState: this.orderData.deliveryAddress.state
     };
   }
 }

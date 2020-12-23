@@ -253,3 +253,12 @@
 .OrderDetails .OrderDetails-productsList-line:last-child {
     border: none;
 }
+
+.OrderDetails .OrderDetails-productsList-line-image {
+    padding: 5px;
+}
+
+.OrderDetails .OrderDetails-productsList-line-image img {
+    width: 160px;
+    height: 160px;
+}
