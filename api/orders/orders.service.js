@@ -378,8 +378,9 @@ async function generateInvoice(orderId, date, mf) {
         : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
     
     const num = await getInvoiceNumber();
+    const year = new Date().getUTCFullYear();
     const data = {
-        invoiceNumber: num,
+        invoiceNumber: `${year}-${num}`,
         creationDate: date,
         order,
         lines,
@@ -395,11 +396,8 @@ async function generateInvoice(orderId, date, mf) {
     const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/invoice.html'), 'utf8');
     const template = handlebars.compile(templateHtml);
     const html = template(data);
-    
-    var milis = new Date();
-    milis = milis.getTime();
 
-    var filename = `Facture-${order.order_ref}-${milis}.pdf`;
+    var filename = `Facture-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
     var pdfPath = path.join('public/invoices', filename);
     // header template = <div style=\"font-size: 8px\"><div class='pageNumber'></div> <div>/</div><div class='totalPages'></div></div>
     var options = {
@@ -480,8 +478,9 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
         : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
     const num = await getDeliveryInvoiceNumber();
+    const year = new Date().getUTCFullYear();
     const data = {
-        invoiceNumber: num,
+        invoiceNumber: `${year}-${num}`,
         creationDate: date,
         order,
         lines,
@@ -497,11 +496,8 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/delivery-invoice.html'), 'utf8');
     const template = handlebars.compile(templateHtml);
     const html = template(data);
-    
-    var milis = new Date();
-    milis = milis.getTime();
 
-    var filename = `BonDeCommande-${order.order_ref}-${milis}.pdf`;
+    var filename = `BonDeCommande-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
     var pdfPath = path.join('public/invoices', filename);
 
     var options = {
