@@ -213,7 +213,10 @@ function updateOrderStatus(id, status) {
     });
 }
 
-function updateById(id, newOrder) {
+async function updateById(id, newOrder) {
+    const order = await getById(id);
+    const oldPaymentStatus = order.payment_status;
+
     if(newOrder.order_status === 'shipped') {
         newOrder.shipped_date = new Date();
     } else if (newOrder.order_status === 'canceled') {
@@ -223,9 +226,14 @@ function updateById(id, newOrder) {
     return new Promise((resolve, reject) => {
         orders.updateById(id, newOrder)
             .then(async (result) => {
-                if(newOrder.payment_status === '1') {
-                    await grantPoints(id);
-                } 
+                if(newOrder.payment_status !== oldPaymentStatus) {
+                    if (newOrder.payment_status === '1') {
+                        await grantPoints(order);
+                    } else {
+                        await retrievePoints(order);
+                    }
+                }
+
                 resolve(result);
             },
             (err) => reject(err));
@@ -615,9 +623,8 @@ async function getOrderTotal(orderId) {
     return totalInfo;
 }
 
-async function grantPoints(orderId) {
-    const totalInfo = await getOrderTotal(orderId);
-    const order = await getById(orderId);
+async function grantPoints(order) {
+    const totalInfo = await getOrderTotal(order.id);
     const client = order ? await usersService.getById(order.client_id) : null;
     if (client) {
         const newPoints = +client.points + +Math.floor(totalInfo.totalTTC);
@@ -626,4 +633,15 @@ async function grantPoints(orderId) {
         console.error('[orders.service]: failed to grant points to client');
     }
     
+}
+
+async function retrievePoints(order) {
+    const totalInfo = await getOrderTotal(order.id);
+    const client = order ? await usersService.getById(order.client_id) : null;
+    if (client) {
+        const newPoints = +client.points - +Math.floor(totalInfo.totalTTC);
+        usersService.updateClientPoints(client.id, newPoints);
+    } else {
+        console.error('[orders.service]: failed to grant points to client');
+    }
 }
