@@ -352,6 +352,33 @@ angular
           }
         }
     })
+
+      .state('dashboard.invoices', {
+        url:'/invoices',
+        controller: 'InvoicesListCtrl',
+        templateUrl: 'views/pages/orders/invoicesList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/orders/invoicesListController.js']
+            })
+          }
+        }
+    })
+      .state('dashboard.delivery-invoices', {
+        url:'/delivery-invoices',
+        controller: 'DeliveryInvoicesListCtrl',
+        templateUrl: 'views/pages/orders/deliveryInvoicesList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/orders/deliveryInvoicesListController.js']
+            })
+          }
+        }
+    })
       .state('dashboard.add-pub', {
         url:'/add-pub',
         controller: 'AddPubCtrl',
