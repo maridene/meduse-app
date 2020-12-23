@@ -1,3 +1,4 @@
+import { AppConstants } from "./config/app.constants";
 export function storageAvailable(type) {
     var storage;
     try {
@@ -115,4 +116,8 @@ export function orderSorterByStatusASC(o1, o2) {
     } else {
         return 0;
     }
+}
+
+export function getFirstImageFromArray(images) {
+    return images && images.length ? `${AppConstants.productsStaticContentUrl}${images.split(',')[0]}` : 'assets/img/no-image.jpg'  
 }

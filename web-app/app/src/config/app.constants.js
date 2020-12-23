@@ -1,4 +1,4 @@
-const AppConstants = {
+export const AppConstants = {
   api: 'http://localhost:3000/api',
   productsStaticContentUrl: 'http://localhost:3000/static/products/',
   blogStaticContentUrl: 'http://localhost:3000/static/blogs/',
@@ -25,5 +25,3 @@ export const ApiConstants = {
   COUPONS: 'coupons',
   SETTINGS: 'settings'
 };
-
-export default AppConstants;
