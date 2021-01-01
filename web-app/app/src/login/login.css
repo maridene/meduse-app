@@ -1,10 +1,6 @@
 /*---------------------
 	login
 ---------------------*/
-.LoginSection {
-	padding-top: 30px;
-	padding-bottom: 30px;
-}
 
 .LoginSection .container {
 	max-width: 580px;
@@ -28,7 +24,7 @@
 
 .LoginSection .LoginSection-container {
 	border: 1px solid #b2b2b2;
-	padding: 20px 10px 15px;
+	padding: 10px 10px 15px;
 }
 
 .LoginSection .LoginSection-container .alert {
