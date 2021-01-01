@@ -1,6 +1,6 @@
-function BlogConfig($stateProvider) {
+function BlogConfig($stateProvider, $sceProvider) {
     'ngInject';
-  
+    $sceProvider.enabled(false);
     $stateProvider
         .state('app.blog', {
           url: '/blog',
