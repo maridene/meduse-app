@@ -46,6 +46,9 @@ class ProductCtrl {
     this.AvailableColorsText = this.hasColors ? this.availableColors.map((item) => item.color).join(', ') : 'pas de couleurs';
 
     this.checkAvailability();
+
+    this.productLabelInUrl = this.product.label.replaceAll(' ', '-').replaceAll('\/', '-');
+    this.shareLink = `https://www.facebook.com/plugins/share_button.php?href=http://meduse.tn/#!/product/${this.product.id}-${this.productLabelInUrl}&layout=button_count&size=large&appId=227189032141937&width=113&height=32`;
   }
 
   $onInit() {
