@@ -16,7 +16,6 @@ export function ProductPreviewCtrl($scope, $timeout, $mdDialog, CartService, App
 
     //setVariants
     if ($scope.variants && $scope.variants.length) {
-        console.log($scope.variants);
         $scope.hasSizes = $scope.variants.some((item) => item.size && item.size !== '');
         $scope.hasColors = $scope.variants.some((item) => item.color && item.color !== '');
         if ($scope.hasColors) {
@@ -127,7 +126,6 @@ export function ProductPreviewCtrl($scope, $timeout, $mdDialog, CartService, App
     }
 
     $scope.addToCart = function () {
-        console.log($scope.form);
         if (!$scope.outOfStock) {
             if ($scope.variants && $scope.variants.length) {
                 CartService.addItemToCart($scope.product, $scope.form.quantity, $scope.selectedVariant);
@@ -149,7 +147,6 @@ export function ProductPreviewCtrl($scope, $timeout, $mdDialog, CartService, App
     }
 
     $scope.colorSelected = function () {
-        console.log($scope.availableColors.map((i) => i.color));
         checkAvailability();
     }
 

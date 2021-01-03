@@ -54,7 +54,6 @@ export default class UserService {
 
     update(user) {
         const deferred = this.$q.defer();
-        console.log(`${ApiConstants.USERS_UPDATE}`);
         this.RestService.put(`${ApiConstants.USERS_UPDATE}`, user)
             .then((user) => {
                 deferred.resolve(user);

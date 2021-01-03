@@ -116,7 +116,6 @@ export class ProfileOrderDetailsCtrl {
   }
 
   $onInit() {
-    console.log(this.orderData);
     this.order = {
       ref: this.orderData.order.order_ref,
       date: new Date(this.orderData.order.order_date).toLocaleDateString("fr-FR"),

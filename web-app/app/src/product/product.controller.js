@@ -26,7 +26,6 @@ class ProductCtrl {
 
     //setVariants
     if (this.variants && this.variants.length) {
-      console.log(this.variants);
       this.hasSizes = this.variants.some((item) => item.size && item.size !== '');
       this.hasColors = this.variants.some((item) => item.color && item.color !== '');
       if (this.hasColors) {
@@ -70,7 +69,6 @@ class ProductCtrl {
   }
 
   colorSelected() {
-    console.log(this.availableColors.map((i) => i.color));
     this.checkAvailability();
 }
 
