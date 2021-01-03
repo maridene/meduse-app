@@ -94,7 +94,7 @@ gulp.task('copy-css', function() {
 });
 
 gulp.task('concatCss', function () {
-  return gulp.src(styleFiles)
+  return gulp.src([styleFiles, mainCssFile])
     .pipe(concatCss('bundle.css'))
     .pipe(gulp.dest('build/'));
 });
