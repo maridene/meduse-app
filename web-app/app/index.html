@@ -45,6 +45,32 @@
 
   <!--body ng-app="meduseApp">-->
   <body>
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '227189032141937',
+          xfbml            : true,
+          version          : 'v9.0'
+        });
+      };
+
+      (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/fr_FR/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Your Chat Plugin code -->
+    <div class="fb-customerchat"
+      attribution=setup_tool
+      page_id="100412668483779"
+      logged_in_greeting="Bonjour! N'hésitez pas à nous adresser toutes vos questions!"
+      logged_out_greeting="Bonjour! N'hésitez pas à nous adresser toutes vos questions!">
+    </div>
     <!-- Page Preloder -->
     <div id="preloder">
       <div class="loader">
@@ -53,6 +79,8 @@
     </div>
 
     <div ui-view></div>
+
+    <div class="fb-customerchat" page_id="100412668483779" minimized="true"></div>
 
     <a id="scrollToTopBtn" class="btn btn-light btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
 
@@ -70,7 +98,7 @@
     <script src="bundle.js"></script>
     <script src="main.js"></script>
     <script src="lib/sha3.min.js"></script>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v9.0&appId=227189032141937&autoLogAppEvents=1" nonce="UouxMqK0"></script>
   </body>
 
 </html>
