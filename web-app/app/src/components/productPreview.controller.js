@@ -176,4 +176,18 @@ export function ProductPreviewCtrl($scope, $timeout, $mdDialog, CartService, App
             $scope.selectedVariantAvailable = true;
         }
     }
+
+    $scope.share = function() {
+        FB.ui(
+            {
+                method: 'share',
+                name: $scope.product.label,
+                link: 'http://www.meduse.tn/#!/product/'+ $scope.product.id + '-' + $scope.product.label.replaceAll(' ', '-'),
+                picture: $scope.imagesUrls.length ? this.imagesUrls[0] : '',
+                caption: 'Meduse.tn',
+                description: $scope.product.description,
+                message: ''
+            });
+    };
+    
 }

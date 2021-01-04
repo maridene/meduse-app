@@ -199,10 +199,23 @@ class ProductCtrl {
             this.CartService.addItemToCart(this.product, this.form.quantity, null);
         }
     }
-};
+  }
 
   trust(src) {
     return this.$sce.trustAsResourceUrl(src);
+  }
+
+  share() {
+    FB.ui(
+      {
+          method: 'share',
+          name: this.product.label,
+          link: 'http://www.meduse.tn/#!/product/'+ this.product.id + '-' + this.product.label.replaceAll(' ', '-'),
+          picture: this.imagesUrls.length ? this.imagesUrls[0] : '',
+          caption: 'Meduse.tn',
+          description: this.product.description,
+          message: ''
+      });
   }
 }
 
