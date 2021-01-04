@@ -216,6 +216,7 @@ function updateOrderStatus(id, status) {
 async function updateById(id, newOrder) {
     const order = await getById(id);
     const oldPaymentStatus = order.payment_status;
+    const oldStatus = order.order_status;
 
     if(newOrder.order_status === 'shipped') {
         newOrder.shipped_date = new Date();
@@ -231,6 +232,15 @@ async function updateById(id, newOrder) {
                         await grantPoints(order);
                     } else {
                         await retrievePoints(order);
+                    }
+                }
+                if (newOrder.order_status !== oldStatus) {
+                    if (newOrder.order_status === 'confirmed') {
+                        await processOrder(order);
+                    } else {
+                        if (newOrder.order_status === 'canceled') {
+                            await processOrder(order, true);
+                        }
                     }
                 }
 
@@ -644,4 +654,23 @@ async function retrievePoints(order) {
     } else {
         console.error('[orders.service]: failed to grant points to client');
     }
+}
+
+async function processOrder(order, isCanceled) {
+    const orderRows = await orderRowsService.getByOrderId(order.id);
+    orderRows.forEach((row) => {
+        if (row.variant_id) {
+            if (isCanceled) {
+                productVariantsService.addQuantity(row.variant_id, row.quantity);
+            } else {
+                productVariantsService.subQuantity(row.variant_id, row.quantity);
+            }
+        } else {
+            if (isCanceled) {
+                productsService.addQuantity(row.product_id, row.quantity);
+            } else {
+                productsService.subQuantity(row.product_id, row.quantity);
+            }
+        }
+    });
 }

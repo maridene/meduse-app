@@ -76,7 +76,7 @@ async function findById(req, res, next) {
 
 function getById(req, res, next) {
     const id = parseInt(req.params.id);
-    productService.getById(id)
+    productService.getByIdWithVariants(id)
         .then((products) => {
             res.json(products);
         })

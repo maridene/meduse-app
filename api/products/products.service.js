@@ -24,7 +24,9 @@ module.exports = {
     getPinnedProducts,
     getRelatedProducts,
     getNewProducts,
-    getPromoProducts
+    getPromoProducts,
+    addQuantity,
+    subQuantity
 };
 
 
@@ -196,6 +198,26 @@ async function updateOrders(data) {
 function updateOrderIndex(id, orderIndex) {
     return new Promise((resolve, reject) => {
         products.updateOrderIndex(id, orderIndex)
+            .then((result) => resolve(result),
+            (error) => reject(error));
+    });
+}
+
+async function addQuantity(id, qty) {
+    const product = await getById(id);
+    const newQty = +product.quantity + qty;
+    return updateProductQuantity(id, newQty);
+}
+
+async function subQuantity(id, qty) {
+    const product = await getById(id);
+    const newQty = product.quantity - qty;
+    return updateProductQuantity(id, newQty);
+}
+
+async function updateProductQuantity(id, qty) {
+    return new Promise((resolve, reject) => {
+        products.updateProductQuantity(id, qty)
             .then((result) => resolve(result),
             (error) => reject(error));
     });

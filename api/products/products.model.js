@@ -511,4 +511,30 @@ Product.getProductsInSameCategory = (categoryId, productId,  maxResult, ignoredI
   });
 };
 
+Product.updateProductQuantity = (id, qty) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`UPDATE ${tables.PRODUCTS} SET ` +
+    "quantity = ? " +
+    "WHERE id = ? ", 
+    [
+      qty, 
+      id
+    ], (err, res) => {
+      if (err) {
+        console.error("[Product.updateProductQuantity]: Error while updating product quantity, productId = ", id);
+        reject(err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        console.error("[Product.updateProductQuantity]: not found product with the id, productId = ", id);
+        // not found product with the id
+        reject({ kind: "not_found" });
+        return;
+      }
+      console.log("[Product.updateProductQuantity]: updated product quantity id = ", id);
+      resolve({ id: id, quantity: qty });
+    });
+  });
+}
+
 module.exports = Product;

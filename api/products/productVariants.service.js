@@ -6,7 +6,9 @@ module.exports = {
     updateById,
     getByProductId,
     getById,
-    deleteByProductId
+    deleteByProductId,
+    addQuantity,
+    subQuantity
 };
 
 function create(productVariant) {
@@ -72,5 +74,25 @@ function deleteByProductId(id) {
             }, (err) => {
                 reject(err);
             });
+    });
+}
+
+async function addQuantity(id, qty) {
+    const variant = await getById(id);
+    const newQty = variant.quantity + qty;
+    return updateProductVariantQuantity(id, newQty);
+}
+
+async function subQuantity(id, qty) {
+    const variant = await getById(id);
+    const newQty = variant.quantity - qty;
+    return updateProductVariantQuantity(id, newQty);
+}
+
+async function updateProductVariantQuantity(id, qty) {
+    return new Promise((resolve, reject) => {
+        productVariants.updateProductVariantQuantity(id, qty)
+            .then((result) => resolve(result),
+            (error) => reject(error));
     });
 }

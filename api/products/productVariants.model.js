@@ -177,5 +177,31 @@ ProductVariant.updateById = (id, productVariant) => {
     });
 };
 
+ProductVariant.updateProductVariantQuantity = (id, qty) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`UPDATE ${tables.PRODUCT_VARAINT} SET ` +
+    "quantity = ? " +
+    "WHERE id = ? ", 
+    [
+      qty, 
+      id
+    ], (err, res) => {
+      if (err) {
+        console.error("[Product.updateProductVariantQuantity]: Error while updating product variant quantity productId = ", id);
+        reject(err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        console.error("[Product.updateProductVariantQuantity]: not found product variant with the id = ", id);
+        // not found product with the id
+        reject({ kind: "not_found" });
+        return;
+      }
+      console.log("[Product.updateProductVariantQuantity]: updated product variant quantity id = ", id);
+      resolve({ id: id, quantity: qty });
+    });
+  });
+};
+
 
 module.exports = ProductVariant;
