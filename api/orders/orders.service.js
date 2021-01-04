@@ -268,7 +268,8 @@ async function submitOrder(userId, orderDetails) {
             order.coupon_id = null;
         }
     }
-    return doCreateOrder(order, orderDetails.orderRows);  
+    mailService.sendNewOrderNotification()
+    return doCreateOrder(order, orderDetails.orderRows, true);  
 }
 
 function createOrder(orderDetails) {
@@ -294,7 +295,7 @@ function createOrder(orderDetails) {
     return doCreateOrder(order, orderDetails.orderRows);
 }
 
-function doCreateOrder(order, orderRows) {
+function doCreateOrder(order, orderRows, notifyAdmins) {
     let rows = orderRows.split(';').map((row) => JSON.parse(row));
 
     return new Promise((resolve, reject) => {
@@ -305,6 +306,9 @@ function doCreateOrder(order, orderRows) {
                 orderRowsService.addAll(rows)
                     .then((addedRows) => {
                         sendOrderReceivedMail(addedOrder);
+                        if (notifyAdmins) {
+                            mailService.sendNewOrderNotification(addedOrder);
+                        }
                         resolve({addedOrder, lines: addedRows});
                     }, (error) => {
                         remove(addedOrder.id)

@@ -10,5 +10,6 @@ module.exports = {
     ORDER_ROWS: "order_row",
     COUPONS: "coupons",
     SETTINGS: "settings",
-    SUBSCRIBERS: "subscribers"
+    SUBSCRIBERS: "subscribers",
+    ADMIN_NOTIFICATIONS: "admin_notifications"
   };

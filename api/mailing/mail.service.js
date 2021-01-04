@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 var handlebars = require('handlebars');
 var fs = require('fs');
+const notificationsService = require('../notifications/notifications.service');
 
 const readHTMLFile = function(path, callback) {
     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
@@ -17,7 +18,8 @@ const readHTMLFile = function(path, callback) {
 module.exports = {
     sendWelcomeMail,
     sendOrderConfirmationMail,
-    sendOrderReceivedMail
+    sendOrderReceivedMail,
+    sendNewOrderNotification
 };
 
 
@@ -61,6 +63,28 @@ function sendWelcomeMail(userName, userEmail) {
     }
 }
 
+async function sendNewOrderNotification(order) {
+    if(order) {
+        const notifiedUsers = await notificationsService.getAllNotifiedUsers();
+        if (notifiedUsers && notifiedUsers.length) {
+            const usersEmails = notifiedUsers.map((each) => each.email);
+            const orderDetailsUrl = `http://admin.meduse.tn/#/dashboard/order-details/${order.id}`;
+            const mailOptions = {
+                from: 'contact@meduse.tn',
+                subject: '[MEDUSE.TN] Nouvelle commande',
+                text: '',
+                html: `Une nouvelle commande a été créee, elle est accessible sur <a href="${orderDetailsUrl}"> ce lien</a>`,
+                to: usersEmails
+            };
+            getTransporter().sendMail(mailOptions, (err, res) => {
+                if (error) {
+                    console.error(error);
+                }
+            });
+        }
+    }
+}
+
 function sendOrderConfirmationMail() {
 
 }
@@ -83,7 +107,6 @@ function sendOrderReceivedMail(userName, userEmail, orderRef) {
             getTransporter().sendMail(mailOptions, (err, res) => {
                 if (error) {
                     console.log(error);
-                    callback(error);
                 }
             });
         });
