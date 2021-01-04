@@ -32,6 +32,16 @@ module.exports = {
 function getById(id) {
     return new Promise((resolve, reject) => {
         products.getById(id).then((product) => {
+            resolve(product);
+        }, (err) => {
+            reject(err);
+        });
+    });
+}
+
+function getByIdWithVariants(id) {
+    return new Promise((resolve, reject) => {
+        products.getById(id).then((product) => {
             if (product) {
                 products.getProductVariants(id).then((variants) => {
                     resolve ({product, variants});
@@ -41,30 +51,12 @@ function getById(id) {
                 });
                    
             } else {
+                console.log(`no product found with id = ${id}`);
                 resolve();
             } 
         }, (err) => {
                 reject(err);
         });
-    });
-}
-
-function getByIdWithVariants(id) {
-    products.getById(id).then((product) => {
-        if (product) {
-            products.getProductVariants(id).then((variants) => {
-                resolve ({product, variants});
-            }, (err) => {
-                console.log(err);
-                resolve({product});
-            });
-               
-        } else {
-            console.log(`no product found with id = ${id}`);
-            resolve();
-        } 
-    }, (err) => {
-            reject(err);
     });
 }
 

@@ -95,7 +95,7 @@ async function findMyOrderById(userId, orderId) {
     let rows = await orderRowsService.getByOrderId(orderId);
     rows = rows && rows.length ? rows : [];
     for(const row of rows) {
-        const productAndVariants = await productsService.getById(row.product_id);
+        const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
         const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
         rowsDetails.push({
@@ -351,7 +351,7 @@ async function generateInvoice(orderId, date, mf) {
     const client = await usersService.getById(order.client_id);
     const rows = await orderRowsService.getByOrderId(orderId);
     for(const row of rows) {
-        const productAndVariants = await productsService.getById(row.product_id);
+        const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
         const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
         rowsDetails.push({
@@ -452,7 +452,7 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const client = await usersService.getById(order.client_id);
     const rows = await orderRowsService.getByOrderId(orderId);
     for(const row of rows) {
-        const productAndVariants = await productsService.getById(row.product_id);
+        const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
         const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
         rowsDetails.push({
@@ -596,7 +596,7 @@ async function getOrderTotal(orderId) {
     const rowsDetails = [];
     const rows = await orderRowsService.getByOrderId(orderId);
     for(const row of rows) {
-        const productAndVariants = await productsService.getById(row.product_id);
+        const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
         const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
         rowsDetails.push({
