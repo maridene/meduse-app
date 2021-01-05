@@ -15,7 +15,8 @@ module.exports = {
     deleteUser,
     update,
     upgradeClientToPremium,
-    updateClientPoints
+    updateClientPoints,
+    search
 };
 
 function authenticate({ email, password }) {
@@ -192,6 +193,23 @@ function emailAvailable(email) {
             } else {
                 reject(err);
             }
+        });
+    });
+}
+
+function search(query) {
+    return new Promise((resolve, reject) => {
+        users
+        .search(query)
+        .then((all) => {
+            const usersWithoutPassword = all
+            .map((u) => {
+                const { password, ...userWithoutPassword } = u;
+                return userWithoutPassword;
+            });
+            resolve(usersWithoutPassword);
+        }, (err) => {
+            reject(err);
         });
     });
 }

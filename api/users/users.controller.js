@@ -10,6 +10,7 @@ router.post('/authenticate', authenticate);
 router.post('/register',  register);
 
 //admin routes
+router.get('/search/:query', authorize(Role.Admin), searchUser);
 router.get('/', authorize(Role.Admin), getAll);
 router.get('/clients', authorize(Role.Admin), getClients);
 router.get('/clients/:id', authorize(Role.Admin), getClientById);
@@ -126,4 +127,11 @@ function deleteUser(req, res, next) {
 function update(req, res, next) {
     userService.update(req.body)
         .then((user) => user ? res.json(user) : res.sendStatus)
+}
+
+function searchUser(req, res, next) {
+    const query = req.params.query || ' ';
+    userService.search(query)
+        .then(users => res.json(users))
+        .catch(err => next(err));
 }

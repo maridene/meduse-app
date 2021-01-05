@@ -216,7 +216,7 @@ User.updateClientPoints = (id, points) => {
       ],
       (err, res) => {
         if (err) {
-          console.log("error: ", err);
+          console.error("[User.updateClientPoints]: error: ", err);
           reject(err);
         } else if (res.affectedRows == 0) {
           // not found user with the id
@@ -236,7 +236,7 @@ User.upgradeClientToPremium = (id) => {
     sql.query(updateQuery,
       (err, res) => {
         if (err) {
-          console.log("error: ", err);
+          console.error("[User.upgradeClientToPremium]: error: ", err);
           reject(err);
         } else if (res.affectedRows == 0) {
           // not found user with the id
@@ -257,5 +257,18 @@ function getUpdateUserEntries(user){
 function getUpdateUserValues(user) {
   return Object.values(user);
 }
+
+User.search = (query) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.USERS} WHERE name LIKE '%${query}%'`, (err, res) => {
+      if (err) {
+        console.error("[User.search]: error: ", err);
+        reject(err);
+      } else {
+        resolve(res);
+      }
+    });
+  });
+};
 
 module.exports = User;
