@@ -1,8 +1,9 @@
 const fs = require('fs');
 const constants = require("../config/constants");
 
-const invoicesPath = "public/invoices";
-//const invoicesPath = constants.INVOICES_PATH;
+const dev = process.env.dev === '1';
+
+const invoicesPath = dev ? "public/invoices" : constants.INVOICES_PATH;
 
 module.exports = {
     getAll,

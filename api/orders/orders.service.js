@@ -429,11 +429,15 @@ async function generateInvoice(orderId, date, mf) {
         }
     };
 
-    const browser = await puppeteer.launch({
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            headless: true,
-            executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
-        });
+    const browserParams = {
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: true,    
+    }
+    if (process.env.dev === '1') {
+        browserParams.executablePath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe';
+    }
+
+    const browser = await puppeteer.launch(browserParams);
     const page = await browser.newPage();
     await page.goto(`data:text/html;charset=UTF-8,${html}`, {
 		waitUntil: 'networkidle0'
@@ -530,11 +534,15 @@ async function generateDeliveryInvoice(orderId, date, mf) {
         }
     };
 
-    const browser = await puppeteer.launch({
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            headless: true,
-            executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
-        });
+    const browserParams = {
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: true,    
+    }
+    if (process.env.dev === '1') {
+        browserParams.executablePath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe';
+    }
+
+    const browser = await puppeteer.launch(browserParams);
     const page = await browser.newPage();
     await page.goto(`data:text/html;charset=UTF-8,${html}`, {
 		waitUntil: 'networkidle0'

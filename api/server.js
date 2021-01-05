@@ -1,10 +1,13 @@
 require('rootpath')();
+require('dotenv').config();
 const express = require("express");
 var cors = require('cors');
 const bodyParser = require("body-parser");
 const errorHandler = require('helpers/error-handler');
 var multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
+
+const dev = process.env.dev === '1';
 
 const app = express();
 
@@ -14,14 +17,13 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:9000', 'http://localhost:4000'];
+  const allowedOrigins = ['http://localhost:9000', 'http://localhost:4000', 'http://www.meduse.tn', 'http://www.admin.meduse.tn'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
        res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.append('Access-Control-Allow-Headers', 'Content-Type');
   res.append('Access-Control-Allow-Headers', 'Content-Name');
-  //res.header('Access-Control-Allow-Origin', 'http://localhost:4000');
   next();
 });
 
@@ -32,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(errorHandler);
 
 // simple route
-app.get("/api", (req, res) => {
+app.get(process.env.BASE_API_URL, (req, res) => {
   res.json({ message: "Welcome to meduse." });
 });
 
@@ -53,13 +55,14 @@ app.use('/api/contactform', require('./mailing/contactForm.controller'));
 app.use('/api/invoice', require('./orders/invoices.controller'));
 
 //Serves all the request which includes /images in the url from Images folder
-app.use('/static/blogs', express.static(__dirname + '/public/blog'));
-app.use('/static/products', express.static(__dirname + '/public/pimages'));
-app.use('/static/invoices', express.static(__dirname + '/public/invoices'));
+const staticContentDir = dev ? __dirname + '/public' : '/var/www/meduse-static/public';
+app.use('/static/blogs', express.static(staticContentDir + '/blog'));
+app.use('/static/products', express.static(staticContentDir + '/pimages'));
+app.use('/static/invoices', express.static(staticContentDir + '/invoices'));
 
 var blogStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, __dirname + '/public/blog')
+      cb(null, staticContentDir + '/blog')
   },
   filename: function (req, file, cb) {
       var datetimestamp = Date.now();
@@ -69,7 +72,7 @@ var blogStorage = multer.diskStorage({ //multers disk storage settings
 
 var productsStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, __dirname + '/public/pimages')
+      cb(null, staticContentDir + '/pimages')
   },
   filename: function (req, file, cb) {
       cb(null, 'pImage-' + uuidv4() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
@@ -78,7 +81,7 @@ var productsStorage = multer.diskStorage({ //multers disk storage settings
 
 var productVariantsStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, __dirname + '/public/pimages')
+      cb(null, staticContentDir + '/pimages')
   },
   filename: function (req, file, cb) {
       cb(null, file.fieldname + file.originalname.split('.')[file.originalname.split('.').length -1])
