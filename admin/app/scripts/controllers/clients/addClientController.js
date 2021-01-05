@@ -18,7 +18,8 @@ angular.module('sbAdminApp').controller('AddClientCtrl', ['$scope', 'UsersServic
       name: '',
       email: '',
       phone: '',
-      password: ''
+      password: '',
+      mf: ''
     };
   };
 
