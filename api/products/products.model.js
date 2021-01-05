@@ -1,4 +1,4 @@
-const sql = require("../model/db.js");
+const sql = require("../config/db.js");
 const tables = require('../config/db.tables.js');
 const router = require("./products.controller.js");
 const queryUtils = require('./productsQuery.utils.js');
