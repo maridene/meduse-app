@@ -278,28 +278,28 @@ async function submitOrder(userId, orderDetails) {
             order.coupon_id = null;
         }
     }
-    mailService.sendNewOrderNotification()
+    mailService.sendNewOrderNotification();
     return doCreateOrder(order, orderDetails.orderRows, true);  
 }
 
-function createOrder(orderDetails) {
+function createOrder(userId, orderDetails) {
     const order = {
         client_Id: orderDetails.client_id,
         order_status: 'new',
         order_date: new Date(),
         client_message: orderDetails.client_message,
-        delivery_address: orderDetails.deliveryAddress,
-        delivery_zipcode: orderDetails.deliveryZipCode,
-        delivery_city: orderDetails.deliveryCity,
-        delivery_state: orderDetails.deliveryState,
-        delivery_phone: orderDetails.deliveryPhone,
-        billing_address: orderDetails.billingAddress,
-        billing_zipcode: orderDetails.billingZipCode,
-        billing_city: orderDetails.billingCity,
-        billing_state: orderDetails.billingState,
-        billing_phone: orderDetails.billingPhone,
+        delivery_address: orderDetails.delivery_address,
+        delivery_zipcode: orderDetails.delivery_zipcode,
+        delivery_city: orderDetails.delivery_city,
+        delivery_state: orderDetails.delivery_state,
+        delivery_phone: orderDetails.delivery_phone,
+        billing_address: orderDetails.billing_address,
+        billing_zipcode: orderDetails.billing_zipcode,
+        billing_city: orderDetails.billing_city,
+        billing_state: orderDetails.billing_state,
+        billing_phone: orderDetails.billing_phone,
         ptype: orderDetails.ptype,
-        creator_id: orderDetails.client_id
+        creator_id: userId
     };
 
     return doCreateOrder(order, orderDetails.orderRows);

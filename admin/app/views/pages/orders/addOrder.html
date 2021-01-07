@@ -9,67 +9,237 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Détails de la commande
+                Détails client
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <form role="form" ng-controller="AddOrderCtrl">
-                    <div class="form-group">
-                        <label>Nom de la catégorie</label>
-                        <input class="form-control" ng-model=name required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" ng-model=description rows="3"></textarea>
-                    </div>
-
-                    <button type="submit" ng-click="submit()" class="btn btn-success" data-toggle="modal">Ajouter</button>
-                    <button type="reset" class="btn btn-danger">Réinitialiser</button>
-
-                     <!-- Modal -->
-                     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Commande ajoutée avec succes</h4>
-                                </div>
-                                <div class="modal-body">
-                                    Novelle commande a été bien ajoutée!.
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                </div>
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                    </div>
-                    <!-- /.modal -->
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Erreur</h4>
-                                </div>
-                                <div class="modal-body">
-                                   Un problème est survenu lors de l'ajout de la commande
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                </div>
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                    </div>
-                    <!-- /.modal -->
-
-                </form>
+                <table>
+                    <tr>
+                        <td><b>Nom et prénom:</b></td>
+                        <td>{{client.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>E-mail:</b</td>
+                        <td>{{client.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Téléphone:</b></td>
+                        <td>{{client.phone}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Matricule fiscale:</b</td>
+                        <td>{{client.mf}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Premium:</b></td>
+                        <td>{{client.premium ? 'Oui' : 'Non'}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Solde points:</b></td>
+                        <td>{{client.points}}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
 </div>
+<form role="form" ng-submit="addOrder()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Livraison
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="productVariantType form-group">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="form.useNewAddress" ng-value="'1'" value="'1'">Nouvelle Adresse
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="form.useNewAddress" ng-value="'0'" value="'0'">Adresses du client
+                        </label>
+                    </div>
+                    <div ng-show="form.useNewAddress === '0'">
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <tbody>
+                                    <tr ng-repeat="address in clientAddresses track by address.id" class="odd gradeX">
+                                        <td><input type="checkbox" ng-model="address.isSelected" ng-change="addressSelected(address)"></td>
+                                        <td>{{address.name}}</td>
+                                        <td>{{address.address}}</td>
+                                        <td>{{address.zipcode}}, {{address.city}}</td>
+                                        <td>{{address.state}}</td>
+                                        <td>{{address.phone}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+                    <div ng-show="form.useNewAddress === '1'">
+                        <div class="form-group required">
+                            <label class="control-label">Adresse</label>
+                            <input class="form-control" ng-model="form.newAddress.address">
+                        </div>
+                        <div class="form-group required">
+                            <label class="control-label">Code postale</label>
+                            <input class="form-control" ng-model="form.newAddress.zipcode">
+                        </div>
+                        <div class="form-group required">
+                            <label class="control-label">Ville</label>
+                            <input class="form-control" ng-model="form.newAddress.city">
+                        </div>
+                        <div class="form-group required">
+                            <label class="control-label">Gouvernorat</label>
+                            <select class="form-control" ng-model="form.newAddress.state">
+                                <option ng-repeat="state in states" value="{{state}}">{{state}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group required">
+                            <label class="control-label">Telephone</label>
+                            <input class="form-control" ng-model="form.newAddress.phone">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Commande
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Variante</th>
+                                <th>Quantité</th>
+                                <th>Prix unitaire</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in rows"> 
+                                <td class="center">{{item.product.label}}</td>
+                                <td class="center">{{item.variantLabel}}</td>
+                                <td class="center">
+                                    <input style="width: 60px" type="number" min="1" step="1" ng-model="item.quantity" ng-change="rowQuantityChange()">
+                                </td>
+                                <td class="center" ng-if="item.product.promo_price"><b>{{item.product.promo_price}} D.T </b><del>{{item.product.price}}D.T</del> </td>
+                                <td class="center" ng-if="!item.product.promo_price"><b>{{item.product.price}} D.T</b></td>
+                                <td class="center">
+                                    <button type="button" class="btn btn-danger" ng-click="removeRow($index)">Retirer</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                    <hr/>
+
+                    <div class="form-group form-inline" ng-show="addInProgress">
+                        <select class="form-control col-4" ng-model="addProductForm.selectedCategoryId" required>
+                            <option ng-repeat="category in categories" value="{{category.id}}">{{category.label}}</option>
+                        </select>
+                        <select class="form-control col-4" ng-model="addProductForm.selectedProduct" ng-options="product as product.label for product in addProductForm.productsForCategory" required>
+                        </select>
+                        <select class="form-control col-4" ng-show="addProductForm.variantsForProduct.length" ng-model="addProductForm.selectedVariantIdForProduct" required>
+                            <option ng-repeat="variant in addProductForm.variantsForProduct" value="{{variant.id}}">
+                                {{variant.size ? 'Taille: ' + variant.size : ''}} {{variant.color && variant.size ? ' - ' : ''}} {{variant.color ? 'Couleur: ' + variant.color : ''}}</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" ng-if="!addInProgress" ng-click="addRow()">Ajouter un produit</button>
+                        <button type="button" class="btn btn-success" ng-if="addInProgress" ng-click="confirmRow()">Valider</button>
+                        <button type="button" class="btn btn-danger" ng-if="addInProgress" ng-click="cancelAddRow()">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Infromations supplémentaires
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="productVariantType form-group">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="form.ptype" value="e">Payement en espèces
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="form.ptype" value="c">Payement par chèque
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Message client</label>
+                        <textarea class="form-control" ng-model="form.message"></textarea>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <button type="submit" class="btn btn-success" ng-click="addOrder()">Passer la commande</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<!-- Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Commande ajoutée avec succes</h4>
+            </div>
+            <div class="modal-body">
+                Novelle commande a été bien ajoutée!.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Erreur</h4>
+            </div>
+            <div class="modal-body">
+               Un problème est survenu lors de l'ajout de la commande <br/> {{modal.errorMessage}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
