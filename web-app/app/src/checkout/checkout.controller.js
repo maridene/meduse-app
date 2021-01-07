@@ -15,7 +15,6 @@ class CheckoutCtrl {
       this.checkoutDone = false;
 
       this.form = {
-        useSameAddress: false,
         cash: true,
         check: false
       };
@@ -72,7 +71,6 @@ class CheckoutCtrl {
           if (result && result.length) {
             this.myAddresses = result;
             this.form.selectedDeliveryAddress = this.myAddresses[0];
-            this.form.selectedBillingAddress = this.myAddresses[0];
           }
           
         });
@@ -87,11 +85,11 @@ class CheckoutCtrl {
           delivery_state: this.form.selectedDeliveryAddress.state,
           delivery_city: this.form.selectedDeliveryAddress.city,
           delivery_phone: this.form.selectedDeliveryAddress.phone,
-          billing_address: this.form.useSameAddress ? this.form.selectedDeliveryAddress.address : this.form.selectedBillingAddress.address,
-          billing_zipcode: this.form.useSameAddress ? this.form.selectedDeliveryAddress.zipcode : this.form.selectedBillingAddress.zipcode,
-          billing_state: this.form.useSameAddress ? this.form.selectedDeliveryAddress.state : this.form.selectedBillingAddress.state,
-          billing_city: this.form.useSameAddress ? this.form.selectedDeliveryAddress.city : this.form.selectedBillingAddress.city,
-          billing_phone: this.form.useSameAddress ? this.form.selectedDeliveryAddress.phone : this.form.selectedBillingAddress.phone,
+          billing_address: this.form.selectedDeliveryAddress.address,
+          billing_zipcode: this.form.selectedDeliveryAddress.zipcode,
+          billing_state: this.form.selectedDeliveryAddress.state,
+          billing_city: this.form.selectedDeliveryAddress.city,
+          billing_phone: this.form.selectedDeliveryAddress.phone,
           ptype: this.form.cash ? 'e' : 'c'
         };
   
@@ -157,7 +155,7 @@ class CheckoutCtrl {
     }
 
     canSubmit() {
-      return this.form.selectedDeliveryAddress && (this.form.useSameAddress || this.form.selectedBillingAddress) && this.cartItems.length;
+      return this.form.selectedDeliveryAddress && this.cartItems.length;
     }
 
     ptypeChanged(which) {

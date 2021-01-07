@@ -37,28 +37,6 @@
                                 <a class="btn btn-success"  ng-href="#!/profile/adresses/edit/{{$ctrl.form.selectedDeliveryAddress.id}}?next=checkout"> Mettre à jour </a>
                             </div>
                         </div>
-                        <div ng-if="$ctrl.myAddresses.length" class="form-group form-check">
-                            <input type="checkbox" id="exampleCheck1" ng-model="$ctrl.form.useSameAddress">
-                            <label class="form-check-label" for="useSameAddress">Utiliser la même adressse pour la facturation</label>
-                        </div>
-
-                        <div ng-if="$ctrl.myAddresses.length" class="form-group required col-lg-12" ng-if="!$ctrl.form.useSameAddress">
-                            <label for="cun-name" class="control-label">Adresse de Facturation</label>
-                            <select class="form-control col-md-12" ng-model="$ctrl.form.selectedBillingAddress" required>
-                                <option ng-repeat="address in $ctrl.myAddresses" ng-value="address">{{address.name}}</option>
-                            </select>
-                        </div>
-
-                        <div ng-if="$ctrl.myAddresses.length" class="form-group col-lg-12" ng-if="!$ctrl.form.useSameAddress && $ctrl.form.selectedBillingAddress">
-                            <div class="address-preview">
-                                <h5>{{$ctrl.form.selectedBillingAddress.name}}</h5>
-                                <p>{{$ctrl.form.selectedBillingAddress.address}}</p>
-                                <p>{{$ctrl.form.selectedBillingAddress.zipcode}} {{$ctrl.form.selectedBillingAddress.city}}, {{$ctrl.form.selectedBillingAddress.state}}</p>
-                                <p>{{$ctrl.form.selectedBillingAddress.description}}</p>
-                                <p>{{$ctrl.form.selectedBillingAddress.phone}}</p>
-                                <a class="btn btn-success"  ng-href="#!/profile/adresses/edit/{{$ctrl.form.selectedBillingAddress.id}}?next=checkout"> Mettre à jour </a>
-                            </div>
-                        </div>
 
                         <div class="form-group col-lg-12" id="addNewAddress">
                             <a href="#!/profile/addressForm?next=checkout" class="btn btn-primary">Ajouter une nouvelle adresse</a>
