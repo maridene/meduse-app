@@ -28,7 +28,7 @@ angular.module('sbAdminApp')
           });
           break; 
         
-        case 1:
+        case '1':
           $scope.filteredOrders = $scope.orders.filter(function(item) {
             return item.payment_status === 1; 
           });
