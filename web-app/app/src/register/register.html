@@ -42,7 +42,7 @@
                 <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
                     <option selected="true">+216</option>
                 </select>
-                <input name="" type="text" class="form-control" id="phoneValidation" placeholder="Numéro de téléphone" pattern="[0-9]{8}" ng-model="$ctrl.user.phone" required>
+                <input name="" type="text" class="form-control" id="phoneValidation" placeholder="Numéro de téléphone" pattern="([0-9][ ]*){8}" ng-model="$ctrl.user.phone" required>
             </div> 
             <div class="form-group input-group">
                 <div class="input-group-prepend">
