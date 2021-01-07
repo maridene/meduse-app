@@ -21,7 +21,7 @@ export class ProfileCtrl {
 }
 
 export class ProfileDetailsCtrl {
-  constructor(AppConstants, $rootScope, UserService, AuthenticationService, $location, user) {
+  constructor(AppConstants, UserService, AuthenticationService, $location, user) {
     'ngInject';
 
     this.appName = AppConstants.appName;
