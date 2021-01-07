@@ -74,8 +74,9 @@ function getById(req, res, next) {
 }
 
 function createOrder(req, res, next) {
+    const userId = parseInt(req.header('userId')); 
     const orderDetails = req.body;
-    ordersService.createOrder(orderDetails)
+    ordersService.createOrder(userId, orderDetails)
         .then(order => order ? res.json(order) : res.status(400).json({message : 'error occured while creating order'}))
         .catch(err => next(err));
 }

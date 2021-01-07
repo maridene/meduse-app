@@ -74,6 +74,17 @@ angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'R
           return deferred.reject(error);
         });
       return deferred.promise;
+    },
+    create: function create(orderDetails) {
+      var deferred = $q.defer();
+      var url = ORDERS;
+      RestService.post(url, orderDetails)
+        .then(function(result) {
+          deferred.resolve(result);
+        }, function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
     }
   };
 }]);

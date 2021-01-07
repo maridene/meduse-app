@@ -6,6 +6,7 @@ angular.module('sbAdminApp').service('UsersService', ['$q', 'ObjectBuilder', 'Re
   var USERS = 'users';
   var ADD_USER = 'users/register';
   var ADD_ADMIN = 'users/register-admin';
+  var ADDRESSES = 'addresses';
   return {
     getAllClients: function getAll() {
       var deferred = $q.defer();
@@ -61,5 +62,14 @@ angular.module('sbAdminApp').service('UsersService', ['$q', 'ObjectBuilder', 'Re
       });
       return deferred.promise;
     },
+    getUserAddresses: function getUserAddresses(id) {
+      var deferred = $q.defer();
+      RestService.get("".concat(ADDRESSES, "/").concat("user", "/").concat(id)).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('addresses', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
+    }
   };
 }]);

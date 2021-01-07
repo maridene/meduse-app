@@ -31,6 +31,7 @@
                                 <th>Adresse email</th>
                                 <th>Numéro de téléphone</th>
                                 <th>Date d'inscription</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,7 @@
                                 <td>{{client.email}}</td>
                                 <td>{{client.phone}}</td>
                                 <td>{{client.signupDate}}</td>
+                                <td><a class="btn btn-primary" ng-href="#/dashboard/add-order/{{client.id}}"> Commande </a></td>
                             </tr>
                         </tbody>
                     </table>

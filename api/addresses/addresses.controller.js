@@ -7,6 +7,7 @@ const Role = require('helpers/role');
 //public routes
 
 //admin routes
+router.get('/user/:id', authorize(Role.Admin), getUserAddresses);
 
 //all authenticated users routes
 
@@ -57,5 +58,12 @@ function create(req, res, next) {
     const address = Object.assign({}, req.body, {userId});
     addressService.add(address)
         .then(address => address ? res.json(address) : res.status(400).json({message: 'error occured while adding address'}))
+        .catch(err => next(err));
+}
+
+function getUserAddresses(req, res, next) {
+    const userId = req.params.id;
+    addressService.getByUserId(userId)
+        .then((result) => res.json(result))
         .catch(err => next(err));
 }

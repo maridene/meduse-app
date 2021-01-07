@@ -301,7 +301,7 @@ angular
         }
     })
       .state('dashboard.add-order', {
-        url:'/add-order',
+        url:'/add-order/:clientId',
         controller: 'AddOrderCtrl',
         templateUrl: 'views/pages/orders/addOrder.html',
         resolve: {
@@ -591,6 +591,7 @@ angular
     $rootScope.adminGlobals = $cookieStore.get('adminGlobals') || {};
     if ($rootScope.adminGlobals && $rootScope.adminGlobals.currentUser) {
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $rootScope.adminGlobals.currentUser.token;
+        $http.defaults.headers.common['userId'] = $rootScope.adminGlobals.currentUser.id;
     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {

@@ -24,6 +24,7 @@ app.use((req, res, next) => {
   }
   res.append('Access-Control-Allow-Headers', 'Content-Type');
   res.append('Access-Control-Allow-Headers', 'Content-Name');
+  res.append('Access-Control-Allow-Headers', 'userId');
   next();
 });
 
