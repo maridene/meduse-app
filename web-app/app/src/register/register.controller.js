@@ -15,6 +15,16 @@ class RegisterCtrl {
   
     }
 
+    $onInit() {
+      this.AuthenticationService.clearCredentials();
+      this.$rootScope.$broadcast('userLoggedOut');
+      
+      const nextObj = this.$location.search();
+      if (nextObj && nextObj.next) {
+        this.next = `/${nextObj.next}`;
+      }
+    }
+
     register() {
       const user = {
         prefix: this.user.prefix,
@@ -34,7 +44,12 @@ class RegisterCtrl {
                 this.AuthenticationService.setCredentials(response.data);
                 this.$rootScope.$broadcast('userLoggedIn');
                 this.$timeout(() => {
-                  this.$location.path('#!/');
+                  if (this.next) {
+                    this.$location.search({});
+                    this.$location.path(this.next);
+                  } else {
+                    this.$location.path('#!/');
+                  }
                 });
               }
             }, () => {
