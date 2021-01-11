@@ -208,7 +208,7 @@ class ProductCtrl {
   share() {
     FB.ui(
       {
-          method: 'share',
+          method: 'feed',
           name: this.product.label,
           link: 'http://www.meduse.tn/#!/product/'+ this.product.id + '-' + this.product.label.replaceAll(' ', '-'),
           picture: this.imagesUrls.length ? this.imagesUrls[0] : '',

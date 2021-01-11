@@ -180,7 +180,7 @@ export function ProductPreviewCtrl($scope, $timeout, $mdDialog, CartService, App
     $scope.share = function() {
         FB.ui(
             {
-                method: 'share',
+                method: 'feed',
                 name: $scope.product.label,
                 link: 'http://www.meduse.tn/#!/product/'+ $scope.product.id + '-' + $scope.product.label.replaceAll(' ', '-'),
                 picture: $scope.imagesUrls.length ? this.imagesUrls[0] : '',
