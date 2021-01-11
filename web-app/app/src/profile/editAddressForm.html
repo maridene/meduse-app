@@ -48,13 +48,15 @@
                     <select class="custom-select" style="max-width: 120px;" ng-disabled="true">
                         <option selected="true">+216</option>
                     </select>
-                    <input class="form-control" ng-model="$ctrl.form.phone" pattern="[0-9]{8}" required>
+                    <input class="form-control" ng-model="$ctrl.form.phone" pattern="([0-9][ ]*){8}" required>
                 </div>
             </div>
+            <!--
             <div class="form-group">
                 <label class="control-label">Informations supplémentaires</label>
                 <textarea class="form-control" ng-model="$ctrl.form.description"></textarea>
             </div>
+            -->
             <div class="form-group required">
                 <label class="control-label">Donnez un titre à cette adresse pour la retrouver plus facilement</label>
                 <input type="text" class="form-control" ng-model="$ctrl.form.name" placeholder="cabinet, domicile, bureau ..." required>
