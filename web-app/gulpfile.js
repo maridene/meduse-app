@@ -102,13 +102,25 @@ gulp.task('concatCss', function () {
 gulp.task('copy-resources', ['copy-libs', 'copy-assets', 'copy-css', 'copy-mainjs']);
 
 gulp.task('default', ['html', 'copy-resources', 'concatCss', 'browserify'], function() {
-
+/*
+  browserSync( {
+    proxy: "https://localhost:4000",
+    https: {
+      key: "c:/dev/ca/localhost.key",
+      cert: "c:/dev/ca/localhost.crt"
+    }
+  } );
+*/
   browserSync.init(['./build/**/**.**'], {
     server: "./build",
     port: 4000,
     notify: false,
     ui: {
       port: 4001
+    },
+    https: {
+      key: "c:/dev/ca/localhost.key",
+      cert: "c:/dev/ca/localhost.crt"
     }
   });
 
