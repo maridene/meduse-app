@@ -1,7 +1,12 @@
 const fs = require("fs");
 const path = require("path");
+require('dotenv').config();
 const puppeteer = require('puppeteer');
 const handlebars = require("handlebars");
+const constants = require("../config/constants");
+
+const dev = process.env.dev === '1';
+const invoicesPath = dev ? "public/invoices" : constants.INVOICES_PATH;
 
 handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -412,7 +417,7 @@ async function generateInvoice(orderId, date, mf) {
     const html = template(data);
 
     var filename = `Facture-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
-    var pdfPath = path.join('public/invoices', filename);
+    var pdfPath = path.join(invoicesPath, filename);
     // header template = <div style=\"font-size: 8px\"><div class='pageNumber'></div> <div>/</div><div class='totalPages'></div></div>
     var options = {
         headerTemplate: headerTemplate,
@@ -516,7 +521,7 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const html = template(data);
 
     var filename = `BonDeCommande-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
-    var pdfPath = path.join('public/invoices', filename);
+    var pdfPath = path.join(invoicesPath, filename);
 
     var options = {
         width: '1230px',
