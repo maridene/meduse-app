@@ -42,7 +42,8 @@ Category.getAll = () => {
     const query = `SELECT ${tables.CATEGORIES}.id, ${tables.CATEGORIES}.label, ${tables.CATEGORIES}.description,  COUNT(products.id) AS productscount 
     FROM meduse.${tables.CATEGORIES}
     LEFT JOIN ${tables.PRODUCTS} ON ${tables.CATEGORIES}.id = ${tables.PRODUCTS}.category_id
-    GROUP BY ${tables.CATEGORIES}.id;`
+    GROUP BY ${tables.CATEGORIES}.id
+    ORDER BY ${tables.CATEGORIES}.order ASC;`;
     return new Promise((resolve, reject) => {
         sql.query(query, (err, res) => {
             if (err) {
@@ -111,6 +112,24 @@ sql.query(`DELETE FROM ${tables.CATEGORIES}`, (err, res) => {
     result(null, res);
 });
 };
+
+Category.updateOrderIndex = (id, value) => {
+    return new Promise((resolve, reject) => {
+        const query = `UPDATE ${tables.CATEGORIES} SET \`order\` = '${value}' WHERE (\`id\` = '${id}')`; 
+      sql.query(query, (err, res) => {
+          if (err) {
+            console.log("Error while updating category order index, categoryId = ", id);
+            reject(err);
+            return;
+          }
+          if (res.affectedRows == 0) {
+            return;
+          }
+          console.log("updated category order index: ", id);
+          resolve({ id: id, order: value });
+        });
+    });
+  };
 
 
 module.exports = Category;

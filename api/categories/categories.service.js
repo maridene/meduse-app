@@ -5,7 +5,8 @@ module.exports = {
     findById,
     updateById,
     getAll,
-    remove
+    remove,
+    updateOrders
 };
 
 function getAll() {
@@ -62,5 +63,19 @@ function remove(id) {
             }, (err) => {
                 reject(err);
             });
+    });
+}
+
+async function updateOrders(data) {
+    for(const item of data) {
+        await updateOrderIndex(item.id, item.order);
+    }
+}
+
+function updateOrderIndex(id, order) {
+    return new Promise((resolve, reject) => {
+        categories.updateOrderIndex(id, order)
+            .then((result) => resolve(result),
+            (error) => reject(error));
     });
 }

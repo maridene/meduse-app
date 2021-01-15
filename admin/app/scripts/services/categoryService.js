@@ -47,6 +47,15 @@ angular.module('sbAdminApp').service('CategoryService', ['$q', 'ObjectBuilder', 
         deferred.reject(error);
       });
       return deferred.promise;
+    },
+    updateOrders: function updateOrders(data) {
+      var deferred = $q.defer();
+      RestService.post("".concat(CATEGORIES, "/updateorders"), data).then(function (result) {
+        deferred.resolve(result);
+      }, function (error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
     }
   };
 }]);

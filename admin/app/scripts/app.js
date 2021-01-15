@@ -252,6 +252,19 @@ angular
           }
         }
     })
+      .state('dashboard.categories-order', {
+        url:'/categories-order',
+        controller: 'CategoriesOrderCtrl',
+        templateUrl: 'views/pages/categories/categoriesOrder.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/categories/categoriesOrderController.js']
+            })
+          }
+        }
+    })
       .state('dashboard.edit-category', {
         url:'/edit-category/:categoryId',
         controller: 'EditCategoryCtrl',

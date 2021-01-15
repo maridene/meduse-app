@@ -13,6 +13,7 @@ router.get('/:id', findById);
 router.post('/', authorize(Role.Admin), create);
 router.delete('/:id', authorize(Role.Admin), remove);
 router.put('/:id', authorize(Role.Admin), updateById);
+router.post('/updateorders', authorize(Role.Admin), updateOrders);
 
 // all authenticated users routes
 
@@ -60,6 +61,15 @@ function updateById(req, res, next) {
     categoryService.updateById(id, req.body)
         .then((response) => {
             res.json(response);
+        })
+        .catch(err => next(err));
+}
+
+function updateOrders(req, res, next) {
+    const data = req.body;
+    categoryService.updateOrders(data)
+        .then((result) => {
+            res.json(result);
         })
         .catch(err => next(err));
 }
