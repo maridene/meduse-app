@@ -33,10 +33,8 @@ ProductVariant.getById = (productVariantId) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log("[ProductVariant.getById]: found product variant: ", res[0].id);
           resolve(res[0]);
         } else {
-          console.log(`no product variant found with id = ${productVariantId}`);
           resolve([]);
         }
         
@@ -54,10 +52,8 @@ ProductVariant.getByProductId = (productId) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log(`[ProductVariant.getByProductId]: found product varaiants for product with id ${productId} :${res.length}`);
             resolve(res);
           } else {
-            console.log(`[ProductVariant.getByProductId]: no product variants found for product with id = ${productId}`);
             resolve([]);
           }
         }
@@ -72,10 +68,8 @@ ProductVariant.findBySku =  (sku) => {
         console.log("error: ", err);
         reject({error: err});
       } else if (res.length) {
-        console.log("found product variant: ", res[0]);
         resolve(res[0]);
       } else {
-        console.log(`no product variant found with sku = ${sku}`);
         resolve([]);
       }
     });
@@ -132,7 +126,6 @@ ProductVariant.deleteByProductId = (productId) => {
         
             if (res.affectedRows == 0) {
                 // not found product variant with the product id
-                console.log('not found product variants with the product id = ' + productId);
                 resolve();
                 return;
             }
@@ -187,17 +180,14 @@ ProductVariant.updateProductVariantQuantity = (id, qty) => {
       id
     ], (err, res) => {
       if (err) {
-        console.error("[Product.updateProductVariantQuantity]: Error while updating product variant quantity productId = ", id);
         reject(err);
         return;
       }
       if (res.affectedRows == 0) {
-        console.error("[Product.updateProductVariantQuantity]: not found product variant with the id = ", id);
         // not found product with the id
         reject({ kind: "not_found" });
         return;
       }
-      console.log("[Product.updateProductVariantQuantity]: updated product variant quantity id = ", id);
       resolve({ id: id, quantity: qty });
     });
   });

@@ -35,7 +35,6 @@ Product.getProductVariants = (productId) => {
           console.log("found product varaiants: ", res.length);
           resolve(res);
         } else {
-          console.log(`no product variants found for product with id = ${productId}`);
           resolve([]);
         }
       }
