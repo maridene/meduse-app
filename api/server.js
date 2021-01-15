@@ -56,7 +56,7 @@ app.use('/api/contactform', require('./mailing/contactForm.controller'));
 app.use('/api/invoice', require('./orders/invoices.controller'));
 
 //Serves all the request which includes /images in the url from Images folder
-const staticContentDir = dev ? __dirname + '/public' : '/var/www/meduse-static';
+const staticContentDir = '/var/www/meduse-static';
 app.use('/static/blogs', express.static(staticContentDir + '/blog'));
 app.use('/static/products', express.static(staticContentDir + '/pimages'));
 app.use('/static/invoices', express.static(staticContentDir + '/invoices'));
