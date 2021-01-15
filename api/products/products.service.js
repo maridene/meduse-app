@@ -26,7 +26,8 @@ module.exports = {
     getNewProducts,
     getPromoProducts,
     addQuantity,
-    subQuantity
+    subQuantity,
+    updateProductQuantityFromVariants
 };
 
 
@@ -221,6 +222,22 @@ async function updateProductQuantity(id, qty) {
             .then((result) => resolve(result),
             (error) => reject(error));
     });
+}
+
+async function updateProductQuantityFromVariants(productIds) {
+    const doUpdate = () => {
+        productIds.forEach(async (id) => {
+            const variants = await productVariantsService.getByProductId(id);
+            if (variants.length) {
+                let newQty = 0; 
+                variants.forEach((each) => newQty += each.quantity);
+                await updateProductQuantity(id, newQty);
+            }
+        });
+        console.log('Done updating products quantity from variants...');
+    } 
+
+    setTimeout(doUpdate, 5000, 'Updating products quantity from variants...');
 }
 
 //user

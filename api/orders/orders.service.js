@@ -671,12 +671,12 @@ async function retrievePoints(order) {
 
 async function processOrder(order, isCanceled) {
     const orderRows = await orderRowsService.getByOrderId(order.id);
-    orderRows.forEach((row) => {
+    orderRows.forEach(async (row) => {
         if (row.variant_id) {
             if (isCanceled) {
-                productVariantsService.addQuantity(row.variant_id, row.quantity);
+                await productVariantsService.addQuantity(row.variant_id, row.quantity);
             } else {
-                productVariantsService.subQuantity(row.variant_id, row.quantity);
+                await productVariantsService.subQuantity(row.variant_id, row.quantity);
             }
         } else {
             if (isCanceled) {
@@ -686,4 +686,11 @@ async function processOrder(order, isCanceled) {
             }
         }
     });
+    const productsWithVariants = orderRows
+        .filter((each) => each.variant_id !== null)
+        .map((each) => each.product_id)
+        .filter((v, i, a) => a.indexOf(v) === i);
+    if (productsWithVariants.length) {
+        productsService.updateProductQuantityFromVariants(productsWithVariants);
+    }
 }

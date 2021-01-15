@@ -1,4 +1,5 @@
 const productVariants = require('./productVariants.model');
+const productsService = require('./products.service');
 
 module.exports = {
     create,
@@ -80,13 +81,13 @@ function deleteByProductId(id) {
 async function addQuantity(id, qty) {
     const variant = await getById(id);
     const newQty = variant.quantity + qty;
-    return updateProductVariantQuantity(id, newQty);
+    return await updateProductVariantQuantity(id, newQty);
 }
 
 async function subQuantity(id, qty) {
     const variant = await getById(id);
     const newQty = variant.quantity - qty;
-    return updateProductVariantQuantity(id, newQty);
+    return await updateProductVariantQuantity(id, newQty);
 }
 
 async function updateProductVariantQuantity(id, qty) {
