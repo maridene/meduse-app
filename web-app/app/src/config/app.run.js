@@ -2,8 +2,8 @@ function AppRun(AppConstants, $rootScope, $location, $cookies, $http, $window, C
   'ngInject';
 
   // change page title based on state
-  $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-    //$rootScope.setPageTitle(toState.title);
+  $rootScope.$on('$locationChangeSuccess', (event, toState) => {
+    $rootScope.setPageTitle(toState.title);
   });
 
   $rootScope.$on('$locationChangeSuccess', function () {

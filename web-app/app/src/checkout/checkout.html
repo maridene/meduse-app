@@ -33,7 +33,6 @@
                                 <p>{{$ctrl.form.selectedDeliveryAddress.address}}</p>
                                 <p>{{$ctrl.form.selectedDeliveryAddress.zipcode}} {{$ctrl.form.selectedDeliveryAddress.city}}, {{$ctrl.form.selectedDeliveryAddress.state}}</p>
                                 <p>{{$ctrl.form.selectedDeliveryAddress.description}}</p>
-                                <p>{{$ctrl.form.selectedDeliveryAddress.phone}}</p>
                                 <a class="btn btn-success"  ng-href="#!/profile/adresses/edit/{{$ctrl.form.selectedDeliveryAddress.id}}?next=checkout"> Mettre à jour </a>
                             </div>
                         </div>
@@ -43,11 +42,6 @@
                             <div class="alert alert-warning" role="alert" ng-show="$ctrl.showAddressNeededMessage">
                                 Pas d'adresse pour la livraison!
                             </div>
-                        </div>
-
-                        <div class="form-group col-lg-12">
-                            <label for="cun-name">Si vous voulez nous laisser un message à propos de votre commande, merci de bien vouloir le renseigner ci-dessous (255 caractères maximum)</label>
-                            <textarea class="form-control" maxlength="200" ng-model="$ctrl.form.message" rows="3"></textarea>
                         </div>
                         
                     </div>
