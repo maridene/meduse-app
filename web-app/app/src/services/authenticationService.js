@@ -26,7 +26,7 @@ export default class AuthenticationService {
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
         const cookieExp = new Date();
-        cookieExp.setDate(cookieExp.getDate() + 7);
+        cookieExp.setDate(cookieExp.getDate() + 30);
         this.$cookies.putObject('globals', this.$rootScope.globals, { expires: cookieExp });
     }
 
