@@ -227,6 +227,26 @@
                 </td>
             </tr>
 
+            {{#ifNotZero order.reduction}}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                   Réduction: {{totalInfos.reduction}} D.T
+                </td>
+            </tr>
+            {{/ifNotZero}}
+
+            {{#ifNotZero order.reduction}}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                   Total TTC après réduction: {{totalInfos.totalTTCAfterReduction}} D.T
+                </td>
+            </tr>
+            {{/ifNotZero}}
+
             <tr>
                 <td></td>
                 <td></td>

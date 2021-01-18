@@ -76,6 +76,7 @@
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Paiement à la livraison</div>
                         <div class="OrderDetails-delivery-tab-body-itemTitle">Détails du paiement</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Sous-total: {{$ctrl.order.sTotal}} TND</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription" ng-if="$ctrl.order.reduction"> Réduction: {{$ctrl.order.reduction}} TND</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Frais de livraison: {{$ctrl.order.shippingFee}}</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Timbre fiscale: 0.600 TND</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Total: {{$ctrl.order.total}} TND</div>

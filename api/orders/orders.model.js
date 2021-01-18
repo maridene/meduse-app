@@ -25,6 +25,7 @@ const Orders = function(order) {
     this.creator_id = order.creator_id;
     this.ptype = order.ptype;
     this.payment_status = order.payment_status;
+    this.reduction = order.reduction;
 }
 
 Orders.getAll = () => {
@@ -188,7 +189,6 @@ Orders.findCreatedBetween = (date1, date2) => {
 };
 
 Orders.search = (status, payment, ptype) => {
-  console.log(getSearchQuery(status, payment, ptype));
   return new Promise((resolve, reject) => {
     sql.query(getSearchQuery(status, payment, ptype), 
     (err, res) => {
@@ -197,10 +197,10 @@ Orders.search = (status, payment, ptype) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log(`[Orders.search]: found orders (${status}, ${payment}, ${ptype}): ${res.length}`);
+          console.log(`[Orders.search]: found orders (status = ${status}, payment = ${payment}, ptyep = ${ptype}): ${res.length}`);
           resolve(res);
         } else {
-          console.log(`no order found with query = ${status}, ${payment}, ${ptype}`);
+          console.log(`no order found with query = status = ${status}, payment = ${payment}, ptype = ${ptype}`);
           resolve([]);
         }
       }
@@ -316,6 +316,32 @@ function getSearchQuery(status, payment, ptype) {
     return `${query}${criterias.join(' AND ')}`;
   }
   return query;
+}
+
+Orders.setReduction = (id, value) => {
+  return new Promise((resolve, reject) => {
+    sql.query(
+      `UPDATE ${tables.ORDERS} SET ` +
+      "reduction = ? " +
+      "WHERE id = ? ", 
+      [
+        value, 
+        id
+      ], (err, res) => {
+        if (err) {
+          console.log("Error while setting order reduction, orderId = ", id);
+          reject(err);
+          return;
+        }
+        if (res.affectedRows == 0) {
+          // not found order with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+        console.log("updated order reduction: ", id);
+        resolve({ id: id, reduction: value });
+      });
+  });
 }
 
 module.exports = Orders;

@@ -130,6 +130,7 @@ angular.module('sbAdminApp')
         function(order) {
           
           $scope.order = enrichOrder(order);
+          $scope.reductionApplied = parseFloat(order.reduction) > 0;
           $scope.possibleStatuses = getPossibleNextStatuses($scope.order.order_status);
           $scope.form.selectedOrderStatus = $scope.possibleStatuses[0].key;
           $scope.form.selectedPaymentStatus = $scope.order.payment_status;
@@ -314,6 +315,24 @@ angular.module('sbAdminApp')
 
     $scope.cancelAddRow = function() {
       $scope.addInProgress = false;
+    };
+
+    $scope.applyReduction = function () {
+      OrdersService.applyReduction($scope.order.id, $scope.order.reduction)
+        .then(function() {
+          $window.location.reload();
+        }, function (error) {
+
+        });
+    };
+
+    $scope.cancelReduction = function () {
+      OrdersService.cancelReduction($scope.order.id)
+        .then(function() {
+          $window.location.reload();
+        }, function (error) {
+
+        });
     };
 
 }]);

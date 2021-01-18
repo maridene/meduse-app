@@ -29,6 +29,8 @@ router.put('/status/:id', authorize(Role.Admin), updateOrderStatus);
 router.post('/:id/invoice', authorize(Role.Admin), generateInvoice);
 router.post('/:id/deliveryInvoice', authorize(Role.Admin), generateDeleveryInvoice);
 router.get('/:id/total', authorize(Role.Admin), getOrderTotal);
+router.post('/:id/reduction/apply', authorize(Role.Admin), applyReduction);
+router.post('/:id/reduction/cancel', authorize(Role.Admin), cancelReduction);
 
 // all authenticated users routes
 router.post('/submit', authorize(Role.User), submitOrder);
@@ -153,4 +155,23 @@ function getOrderTotal(req, res, next) {
             res.json(data);
         })
         .catch(err => next(err));
+}
+
+function applyReduction(req, res, next) {
+    const orderId = parseInt(req.params.id);
+    const reduction = parseFloat(req.body.reduction);
+    ordersService.applyReduction(orderId, reduction)
+    .then(data => {
+        res.json(data);
+    })
+    .catch(err => next(err));
+}
+
+function cancelReduction(req, res, next) {
+    const orderId = parseInt(req.params.id);
+    ordersService.cancelReduction(orderId)
+    .then(data => {
+        res.json(data);
+    })
+    .catch(err => next(err));
 }

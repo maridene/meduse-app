@@ -85,6 +85,28 @@ angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'R
           deferred.reject(err);
         });
       return deferred.promise;
+    },
+    applyReduction: function applyReduction(orderId, value) {
+      var deferred = $q.defer();
+      var url = ORDERS + '/' + orderId + '/reduction/apply';
+      RestService.post(url, {reduction: value})
+        .then(function(result) {
+          deferred.resolve(result);
+        }, function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    },
+    cancelReduction: function cancelReduction(orderId) {
+      var deferred = $q.defer();
+      var url = ORDERS + '/' + orderId + '/reduction/cancel';
+      RestService.post(url)
+        .then(function(result) {
+          deferred.resolve(result);
+        }, function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
     }
   };
 }]);

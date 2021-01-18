@@ -87,7 +87,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="form-group">
-                    <labe>Facture</labe>
+                    <label>Facture</label>
                     <div class="form-inline">
                         <label>Date:</label>
                         <div class="form-group input-group">
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="form-group">
-                    <labe>Bon de livraison</labe>
+                    <label>Bon de livraison</label>
                     <div class="form-inline">
                         <label>Date:</label>
                         <div class="form-group input-group">
@@ -183,7 +183,7 @@
                     <tr>
                         <td>Coupon de réduction</td>
                         <td>{{coupon.code}}</td>
-                        <td>50%</td>
+                        <td>{{coupon.value}} %</td>
                     </tr>
                 </table>
 
@@ -199,13 +199,23 @@
                         <td>{{totalInfo.totalTVA}} D.T</td>
                     </tr>
                     <tr>
-                        <td ng-if="totalInfo.reduction"><b>Réduction:</b</td>
-                        <td ng-if="totalInfo.reduction">{{totalInfo.reduction}}</td>
+                        <td ng-if="totalInfo.couponReduction"><b>Coupon de réduction:</b</td>
+                        <td ng-if="totalInfo.couponReduction">{{totalInfo.couponReduction}}</td>
                     </tr>
                     <tr>
                         <td><b>Total TTC:</b</td>
                         <td>{{totalInfo.totalTTC}} D.T</td>
                     </tr>
+                    <tr ng-if="totalInfo.reduction && totalInfo.reduction > 0">
+                        <td><b>Réduction:</b</td>
+                        <td>{{totalInfo.reduction}} D.T</td>
+                    </tr>
+
+                    <tr ng-if="totalInfo.reduction && totalInfo.reduction > 0">
+                        <td><b>Total TTC après réduction:</b</td>
+                        <td>{{totalInfo.totalTTCAfterReduction}} D.T</td>
+                    </tr>
+
                     <tr>
                         <td><b>Frais de livraison:</b</td>
                         <td>{{totalInfo.shippingText}}</td>
@@ -219,6 +229,33 @@
                         <td>{{totalInfo.total}} D.T TTC</td>
                     </tr>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Réduction sur la commande
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form class="form" role="form">
+                    <div class="form-inline">
+                        <label>Valeur de la réduction (D.T) :  </label>
+                        <div class="form-group input-group">
+                            <input type="number" id="reduction" name="reduction" ng-model="order.reduction" ng-disabled="reductionApplied">
+                        </div>
+                        <div class="form-group input-group" ng-if="!reductionApplied">
+                            <button type="button" class="btn btn-primary" ng-click="applyReduction()">Appliquer</button>
+                        </div>
+                        <div class="form-group input-group" ng-if="reductionApplied">
+                            <button type="button" class="btn btn-danger" ng-click="cancelReduction()">Annuler</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

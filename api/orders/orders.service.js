@@ -12,6 +12,10 @@ handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
+handlebars.registerHelper('ifNotZero', function(arg1, options) {
+    return (arg1 && arg1 > 0) ? options.fn(this) : options.inverse(this);
+});
+
 const headerTemplate = "<p></p>";
 const footerTemplate = "<div style=\" background: #999; width: 100%; font-size: 8px; line-height: 1px; color: #999; text-align: center;\">" +
 "<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn </p>" + 
@@ -49,7 +53,9 @@ module.exports = {
     updateById,
     generateInvoice,
     generateDeliveryInvoice,
-    getOrderTotal
+    getOrderTotal,
+    applyReduction,
+    cancelReduction
 };
 
 function getAll() {
@@ -114,10 +120,7 @@ async function findMyOrderById(userId, orderId) {
     const shippingData = {};
     shippingSettings.forEach((i) => shippingData[i.label] = i.value);
 
-    const client = await usersService.getById(order.client_id);
-    const reductionValue = (order.coupon_id !== null && order.coupon_id !== undefined) ? await couponsService.getById(order.coupon_id).value : null;
-    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
-        : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+    const totalInfos = await getOrderTotal(order.id);
     
         return {
             order,
@@ -693,4 +696,20 @@ async function processOrder(order, isCanceled) {
     if (productsWithVariants.length) {
         productsService.updateProductQuantityFromVariants(productsWithVariants);
     }
+}
+
+function applyReduction(id, reduction) {
+    return new Promise((resolve, reject) => {
+        orders.setReduction(id, reduction)
+            .then((result) => resolve(result),
+            (err) => reject(err));
+    });
+}
+
+function cancelReduction(id) {
+    return new Promise((resolve, reject) => {
+        orders.setReduction(id, 0)
+            .then((result) => resolve(result),
+            (err) => reject(err));
+    });
 }

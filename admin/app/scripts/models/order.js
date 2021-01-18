@@ -30,4 +30,5 @@ var Order = function Order(order) {
     this.ptype = order.ptype;
     this.payment_status = order.payment_status;
     this.clientName = order.name;
+    this.reduction = order.reduction;
 };
