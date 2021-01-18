@@ -59,15 +59,10 @@ const requires = [
   'app.conditions'
 ];
 
-// Mount on window for testing
-window.app = angular.module('app', requires);
+angular.module('app', requires);
 
 angular.module('app').constant('AppConstants', AppConstants);
 
 angular.module('app').config(appConfig);
 
 angular.module('app').run(appRun);
-
-angular.bootstrap(document, ['app'], {
-  strictDi: true
-});
