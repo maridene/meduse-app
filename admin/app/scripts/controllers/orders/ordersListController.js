@@ -72,7 +72,8 @@ angular.module('sbAdminApp')
               client: item.clientName,
               ptype: item.ptype === 'c' ? 'Chèque' : 'Espèces',
               date: formatDateTime(item.order_date),
-              payment_status: item.payment_status
+              payment_status: item.payment_status,
+              total: item.total
             }
           });
           $scope.filteredOrders = $scope.orders;

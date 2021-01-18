@@ -31,4 +31,5 @@ var Order = function Order(order) {
     this.payment_status = order.payment_status;
     this.clientName = order.name;
     this.reduction = order.reduction;
+    this.total = order.total !== null &&  order.total !== undefined ? order.total : null;
 };

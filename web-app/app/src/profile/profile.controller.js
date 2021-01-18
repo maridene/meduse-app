@@ -121,6 +121,7 @@ export class ProfileOrderDetailsCtrl {
       date: new Date(this.orderData.order.order_date).toLocaleDateString("fr-FR"),
       productsCount: this.orderData.rowsDetails.length,
       total: this.orderData.totalInfos.total,
+      reduction: this.orderData.totalInfos.reduction ? this.orderData.totalInfos.reduction.toFixed(3) : null, 
       rows: this.orderData.rowsDetails.map((row) => ({
         product: row.product,
         quantity: row.quantity,

@@ -189,12 +189,15 @@ function findCreatedBetween(date1, date2) {
     });
 }
 
-function search(status, payment, ptype) {
-    return new Promise((resolve, reject) => {
-        orders.search(status, payment, ptype)
-            .then((result) => resolve(result),
-            (err) => reject(err));
-    });
+async function search(status, payment, ptype) {
+    const found = await orders.search(status, payment, ptype);
+    const result = [];
+    for (const order of found) {
+        const totalInfos = await getOrderTotal(order.id);
+        order.total = totalInfos.total;
+        result.push(order);
+    }
+    return result;
 }
 
 function remove(id) {
@@ -383,8 +386,6 @@ async function generateInvoice(orderId, date, mf) {
         });
     }
 
-    const reductionValue = (order.coupon_id !== null && order.coupon_id !== undefined) ? await couponsService.getById(order.coupon_id).value : null;
-
     const lines = rowsDetails.map((item) => ({
         name: item.variant ? (`${item.product.label}${item.variant.color ? ' - ' + item.variant.color: ''}${item.variant.size ? ' - ' + item.variant.size: ''}`)
             : item.product.label,
@@ -396,8 +397,7 @@ async function generateInvoice(orderId, date, mf) {
     const shippingData = {};
     shippingSettings.forEach((i) => shippingData[i.label] = i.value);
 
-    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
-        : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+    const totalInfos = await getOrderTotal(orderId);
     
     const num = await getInvoiceNumber();
     const year = new Date().getUTCFullYear();
@@ -488,8 +488,6 @@ async function generateDeliveryInvoice(orderId, date, mf) {
         });
     }
 
-    const reductionValue = (order.coupon_id !== null && order.coupon_id !== undefined) ? await couponsService.getById(order.coupon_id).value : null;
-
     const lines = rowsDetails.map((item) => ({
         name: item.variant ? (`${item.product.label}${item.variant.color ? ' - ' + item.variant.color: ''}${item.variant.size ? ' - ' + item.variant.size: ''}`)
             : item.product.label,
@@ -501,8 +499,8 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const shippingData = {};
     shippingSettings.forEach((i) => shippingData[i.label] = i.value);
 
-    const totalInfos = reductionValue ? getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, reductionValue)
-        : getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+    const totalInfos = await getOrderTotal(orderId);
+
     const num = await getDeliveryInvoiceNumber();
     const year = new Date().getUTCFullYear();
     const data = {
@@ -598,7 +596,7 @@ function getOrderTotalInfos(orderRowsDetails, premium = 0, shippingSettings) {
 
 function getOrderTotalInfosAfterReduction(orderRowsDetails, premium, shippingSettings, reductionValue) {
     const orderTotalInfos = getOrderTotalInfos(orderRowsDetails, premium, shippingSettings);
-    orderTotalInfos.reduction = reductionValue;
+    orderTotalInfos.couponReduction = reductionValue;
     const newTotal = ((100 - parseInt(reductionValue))/100) * orderTotalInfos.totalTTC;
     orderTotalInfos.totalTTC = newTotal;
     orderTotalInfos.total = orderTotalInfos.totalTTC + orderTotalInfos.shipping;
@@ -625,28 +623,38 @@ async function getOrderTotal(orderId) {
 
     const rowsDetails = [];
     const rows = await orderRowsService.getByOrderId(orderId);
-    for(const row of rows) {
-        const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
-        const product = productAndVariants.product;
-        const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
-        rowsDetails.push({
-            product,
-            variant,
-            quantity: row.quantity
-        });
-    }
-    let totalInfo = null;
-    const shippingSettings = await settingsService.getByType('shipping');
-    const shippingData = {};
-    shippingSettings.forEach((i) => shippingData[i.label] = i.value);
-
-    if (order.coupon_id !== null && order.coupon_id !== undefined) {
-        const coupon = await couponsService.getById(order.coupon_id);
-        totalInfo = getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, coupon.value);
+    if (rows && rows.length) {
+        for(const row of rows) {
+            const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
+            const product = productAndVariants.product;
+            const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
+            rowsDetails.push({
+                product,
+                variant,
+                quantity: row.quantity
+            });
+        }
+        let totalInfo = null;
+        const shippingSettings = await settingsService.getByType('shipping');
+        const shippingData = {};
+        shippingSettings.forEach((i) => shippingData[i.label] = i.value);
+    
+        if (order.coupon_id !== null && order.coupon_id !== undefined) {
+            const coupon = await couponsService.getById(order.coupon_id);
+            totalInfo = getOrderTotalInfosAfterReduction(rowsDetails, client.premium, shippingData, coupon.value);
+        } else {
+            totalInfo = getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+        }
+        if (order.reduction && order.reduction > 0) {
+            totalInfo.reduction = order.reduction;
+            totalInfo.totalTTCAfterReduction = totalInfo.totalTTC - order.reduction;
+            totalInfo.total = totalInfo.total - order.reduction;
+        }
+        return totalInfo;
     } else {
-        totalInfo = getOrderTotalInfos(rowsDetails, client.premium, shippingData);
+        return {};
     }
-    return totalInfo;
+    
 }
 
 async function grantPoints(order) {
