@@ -1,5 +1,5 @@
 class ProductCtrl {
-  constructor(AppConstants, data, relatedProducts, ProductService, CartService, $timeout, $sce) {
+  constructor(AppConstants, data, relatedProducts, ProductService, CartService, $timeout, $sce, $rootScope) {
     'ngInject';
 
     this.$timeout = $timeout;
@@ -10,8 +10,12 @@ class ProductCtrl {
     this.product = data.product;
     this.variants = data.variants;
     this.relatedProducts = relatedProducts;
+    this.$rootScope = $rootScope;
+
     this.imagesUrls = this.product.images && this.product.images.length ?
       this.product.images.split(',').map((img) => `${AppConstants.productsStaticContentUrl}${img}`) : null;
+    
+    this.$rootScope.sharingImgUrl = this.imagesUrls && this.imagesUrls.length ? this.imagesUrls[0] : null;
 
     this.outOfStock = this.variants.length ? this.variants.every((variant) => variant.quantity === 0)
       : this.product.quantity === 0;
@@ -210,8 +214,8 @@ class ProductCtrl {
       {
           method: 'feed',
           name: this.product.label,
-          link: 'http://www.meduse.tn/#!/product/'+ this.product.id + '-' + this.product.label.replaceAll(' ', '-'),
-          picture: this.imagesUrls.length ? this.imagesUrls[0] : '',
+          link: 'https://www.meduse.tn/#!/product/'+ this.product.id + '-' + this.product.label.replaceAll(' ', '-'),
+          picture: this.imagesUrls && this.imagesUrls.length ? this.imagesUrls[0] : undefined,
           caption: 'Meduse.tn',
           description: this.product.description,
           message: ''

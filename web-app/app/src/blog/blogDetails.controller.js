@@ -23,7 +23,7 @@ class BlogDetailsCtrl {
             method: 'feed',
             name: this.post.title,
             link: 'http://www.meduse.tn/#!/blog/'+ this.post.id + '-' + this.post.title.replaceAll(' ', '-'),
-            picture: 'https://www.meduse.tn/static/blogs/' + this.post.coverlink,
+            picture: this.post.coverlink,
             caption: 'Meduse.tn',
             description: '',
             message: ''
