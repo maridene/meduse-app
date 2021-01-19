@@ -10,7 +10,7 @@
 angular.module('sbAdminApp').controller('CategoriesOrderCtrl', ['$scope', 'CategoryService', function ($scope, CategoryService) {
   var errorModal = '#errorModal';
   
-  $scope.getAllCategories = () => {
+  $scope.getAllCategories = function () {
     CategoryService.getAllCategories().then(function (result) {
         $scope.categories = result;
         var categories = $scope.categories.map(function(item) {
