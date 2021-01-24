@@ -14,27 +14,6 @@
 <section class="product-shop spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
-                <div class="filter-widget">
-                    <h4 class="fw-title">Marque</h4>
-                    <div class="fw-brand-check">
-                        <div class="bc-item">
-                            <label for="all">
-                                Tous les marques
-                                <input name="manufacturer" type="radio" id="all" ng-model="$ctrl.selectedManufacturerId" value="all" ng-change="$ctrl.updateProducts()">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <div class="bc-item" ng-repeat="manufacturer in $ctrl.manufacturers">
-                            <label ng-for="manufacturer.name">
-                                {{manufacturer.name}}
-                                <input name="manufacturer" type="radio" ng-model="$ctrl.selectedManufacturerId" ng-id="manufacturer.id" ng-value="manufacturer.id" ng-change="$ctrl.updateProducts()">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-9 order-1 order-lg-2">
                 <div class="product-show-option" ng-if="$ctrl.products.length">
                     <div class="row">
