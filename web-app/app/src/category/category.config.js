@@ -7,7 +7,11 @@ function CategoryConfig($stateProvider) {
         controller: 'CategoryCtrl',
         controllerAs: '$ctrl',
         templateUrl: 'category/category.html',
-        title: 'Category',
+        data: {
+          meta: {
+            'title': 'Produits'
+          }
+        },
         resolve: {
           data: function(ProductService, $state, $stateParams) {
             const id = $stateParams.slug.split('-')[0];

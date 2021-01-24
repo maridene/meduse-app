@@ -7,7 +7,11 @@ function LoginConfig($stateProvider) {
           controller: 'LoginCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'login/login.html',
-          title: 'Login'
+          data: {
+            meta: {
+                title: 'Connexion'
+            }
+        }
         });
   
   };

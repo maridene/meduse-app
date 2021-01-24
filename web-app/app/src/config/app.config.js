@@ -1,4 +1,4 @@
-function AppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
+function AppConfig($stateProvider, $locationProvider, $urlRouterProvider, ngMetaProvider) {
   'ngInject';
 
   //$locationProvider.html5Mode(true);
@@ -10,6 +10,11 @@ function AppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
       });
 
   $urlRouterProvider.otherwise('/');
+
+  ngMetaProvider.useTitleSuffix(true);
+  ngMetaProvider.setDefaultTitle('Meduse');
+  ngMetaProvider.setDefaultTitleSuffix(' | Meduse.tn: Medically useful');
+  ngMetaProvider.setDefaultTag('author', 'Mohamed Aziz Ridene');
 
 }
 

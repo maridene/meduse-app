@@ -9,14 +9,22 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfileCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/profile.html',
-          title: 'Profile'
+          data: {
+            meta: {
+              'title': 'Profile'
+            }
+          },
         })
         .state('app.profileinfos', {
           url: '/profile/details',
           controller: 'ProfileDetailsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/infos.html',
-          title: 'Profile',
+          data: {
+            meta: {
+              'title': 'Informations personnelles'
+            }
+          },
           resolve: {
             user: function(UserService, $state) {              
               return UserService.mySelf()
@@ -30,7 +38,11 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfileAdressesCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/adresses.html',
-          title: 'Profile',
+          data: {
+            meta: {
+              'title': 'Mes adresses de livraison'
+            }
+          },
           resolve : {
             data: function(AddressesService, $state) {
               return AddressesService.getMyAddresses().then((data) => {
@@ -46,14 +58,22 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfileOrdersCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/orders.html',
-          title: 'Mes commandes'
+          data: {
+            meta: {
+              'title': 'Mes commandes'
+            }
+          },
         })
         .state('app.profileOrderDetails', {
           url: '/profile/order/details/:id',
           controller: 'ProfileOrderDetailsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/orderDetails.html',
-          title: 'Détails de la commande',
+          data: {
+            meta: {
+              'title': 'Détails de la commande'
+            }
+          },
           resolve: {
             orderData: function(OrdersService, $state, $stateParams) {
               return OrdersService.getById($stateParams.id)
@@ -68,7 +88,11 @@ function ProfileConfig($stateProvider) {
           controller: 'ProfilePointsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/points.html',
-          title: 'Profile',
+          data: {
+            meta: {
+              'title': 'Mes points de fidélité'
+            }
+          },
           resolve: {
             data: function(UserService, $state, $rootScope) {
               if ($rootScope.globals && $rootScope.globals.currentUser) {
@@ -101,14 +125,22 @@ function ProfileConfig($stateProvider) {
           controller: 'AddressFormCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/addressForm.html',
-          title: 'Profile'
+          data: {
+            meta: {
+              'title': 'Ajouter une adresse'
+            }
+          },
         })
         .state('app.editAddress', {
           url: '/profile/adresses/edit/:id',
           controller: 'EditAddressCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'profile/editAddressForm.html',
-          title: 'Profile',
+          data: {
+            meta: {
+              'title': 'Modifier une aadresse'
+            }
+          },
           resolve: {
             data: function(AddressesService, $state, $stateParams) {
               return AddressesService.getById($stateParams.id).then(

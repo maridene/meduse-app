@@ -7,7 +7,11 @@
     <meta name="keywords" content="Meduse, matériel médical, vente en ligne">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title ng-bind="pageTitle"></title>
+    <title ng-bind="ngMeta.title"></title>
+    <meta property="og:image" conetent="ngMeta['og:image']"/>
+    <meta property="og:description" content="ngMeta['og:description']"/>
+    <meta property="og:title" content="ngMeta['og:title']"/>
+
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-icon-72x72.png">

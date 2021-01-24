@@ -7,7 +7,12 @@ function ConditionsConfig($stateProvider) {
           controller: 'ConditionsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'conditions/conditions.html',
-          title: 'Conditions d\'utilisation'
+          title: 'Conditions d\'utilisation',
+          data: {
+              meta: {
+                  title: 'Conditions d\'utilisation'
+              }
+          }
     });
   
 };

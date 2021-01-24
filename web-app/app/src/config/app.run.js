@@ -1,24 +1,11 @@
-function AppRun(AppConstants, $rootScope, $location, $cookies, $http, $window, CartService) {
+function AppRun($rootScope, $location, $cookies, $http, CartService, ngMeta) {
   'ngInject';
 
-  // change page title based on state
-  $rootScope.$on('$locationChangeSuccess', (event, toState) => {
-    $rootScope.setPageTitle(toState.title);
-  });
+  ngMeta.init();
 
   $rootScope.$on('$locationChangeSuccess', function () {
     window.scrollTo(0, 0);
   });
-
-  // Helper method for setting the page's title
-  $rootScope.setPageTitle = (title) => {
-    $rootScope.pageTitle = '';
-    if (title) {
-      $rootScope.pageTitle += title;
-      $rootScope.pageTitle += ' \u2014 ';
-    }
-    $rootScope.pageTitle += AppConstants.appName;
-  };
 
   // keep user logged in after page refresh
   $rootScope.globals = $cookies.getObject('globals') || {};

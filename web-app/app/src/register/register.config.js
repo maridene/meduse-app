@@ -7,7 +7,11 @@
           controller: 'RegisterCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'register/register.html',
-          title: 'Register'
+          data: {
+            meta: {
+                title: 'Inscription'
+            }
+        }
         });
   
   };

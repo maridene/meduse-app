@@ -7,7 +7,11 @@ function PromotionsConfig($stateProvider) {
           controller: 'PromotionsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'promotions/promotions.html',
-          title: 'Promotions',
+          data: {
+            meta: {
+              'title': 'Nos promotions'
+            }
+          },
           resolve : {
             products: function(ProductService, $state) {
               return ProductService.getPromoProducts().then((products) => {

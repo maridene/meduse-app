@@ -8,6 +8,11 @@ function BlogConfig($stateProvider, $sceProvider) {
           controllerAs: '$ctrl',
           templateUrl: 'blog/blog.html',
           title: 'Blog',
+          data: {
+            meta: {
+              'title': 'Blog'
+            }
+          },
           resolve: {
             data: function(BlogService, $state, $stateParams) {
               return BlogService.getAll().then(
@@ -32,19 +37,25 @@ function BlogConfig($stateProvider, $sceProvider) {
           controller: 'BlogDetailsCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'blog/blog-details.html',
-          title: 'Blog',
           resolve: {
-            data: function(BlogService, $state, $stateParams) {
+            data: function(BlogService, $state, $stateParams, ngMeta) {
               const id = $stateParams.slug.split('-')[0];
               if (!isNaN(id)) {
                 return BlogService.getById(id).then(
                   (data) => {
+                    ngMeta.setTitle(data.title);
+                    ngMeta.setTag('og:image', data.coverlink);
+                    ngMeta.setTag('og:description', data.description);
+                    ngMeta.setTag('og:title', data.title);
                     return data;
                   }, () => $state.go('app.home'));
               } else {
                 $state.go('app.home');
               }
             }
+          },
+          meta: {
+            disableUpdate: true
           }
         });
   

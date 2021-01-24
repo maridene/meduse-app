@@ -7,7 +7,11 @@ function ContactConfig($stateProvider) {
         controller: 'ContactCtrl',
         controllerAs: '$ctrl',
         templateUrl: 'contact/contact.html',
-        title: 'Contact'
+        data: {
+          meta: {
+            'title': 'A Propos'
+          }
+        },
       });
 
 };

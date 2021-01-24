@@ -7,7 +7,11 @@ function PremiumConfig($stateProvider) {
         controller: 'PremiumCtrl',
         controllerAs: '$ctrl',
         templateUrl: 'premium/premium.html',
-        title: 'Premium'
+        data: {
+          meta: {
+            'title': 'Premium'
+          }
+        },
       });
 
 };

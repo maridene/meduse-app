@@ -7,7 +7,11 @@ function CartConfig($stateProvider) {
           controller: 'CartCtrl',
           controllerAs: '$ctrl',
           templateUrl: 'cart/cart.html',
-          title: 'Cart',
+          data: {
+            meta: {
+              'title': 'Panier'
+            }
+          },
           resolve: {
             shippingSettings: function(SettingsService, $state) {
               return SettingsService.getShippingSettings()
