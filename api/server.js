@@ -12,6 +12,7 @@ const dev = process.env.dev === '1';
 const app = express();
 
 app.use(cors());
+app.use(require('prerender-node'));
 
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
