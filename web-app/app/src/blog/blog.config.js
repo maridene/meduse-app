@@ -44,9 +44,6 @@ function BlogConfig($stateProvider, $sceProvider) {
                 return BlogService.getById(id).then(
                   (data) => {
                     ngMeta.setTitle(data.title);
-                    ngMeta.setTag('og:image', data.coverlink);
-                    ngMeta.setTag('og:description', data.description);
-                    ngMeta.setTag('og:title', data.title);
                     return data;
                   }, () => $state.go('app.home'));
               } else {
