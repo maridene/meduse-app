@@ -5,8 +5,8 @@
            <div class="row">
                <div class="col-lg-12">
                    <div class="breadcrumb-text">
-                       <a href="#"><i class="fa fa-home"></i> Home</a>
-                       <a href="#!/profile">Mon compte</a>
+                       <a href="/"><i class="fa fa-home"></i> Home</a>
+                       <a href="profile">Mon compte</a>
                        <span>Mes commandes</span>
                    </div>
                </div>
@@ -40,7 +40,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="order in $ctrl.orders">
-              <th scope="row">  <a ng-href="#!/profile/order/details/{{order.id}}">{{order.order_ref}}</a></th>
+              <th scope="row">  <a ng-href="profile/order/details/{{order.id}}">{{order.order_ref}}</a></th>
               <td>{{order.date}}</td>
               <td>{{order.paymentType}}</td>
               <td ng-if="['new', 'confirmed'].indexOf(order.order_status) !== -1"><span class="badge badge-info">{{order.status}}</span></td>

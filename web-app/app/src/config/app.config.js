@@ -1,7 +1,7 @@
 function AppConfig($stateProvider, $locationProvider, $urlRouterProvider, ngMetaProvider) {
   'ngInject';
 
-  //$locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true);
 
   $stateProvider
       .state('app', {

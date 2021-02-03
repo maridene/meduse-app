@@ -18,14 +18,14 @@
                 <input name="email" type="password" class="form-control" minlength="8" ng-model="$ctrl.password" required/>
             </div>
             <div class="LoginSection-resetPassword">
-                <a href="#!/passwordReset">Mot de passe oublié?</a>
+                <a href="passwordReset">Mot de passe oublié?</a>
             </div>
             <div class="LoginSection-login">
                 <button type="submit" class="btn btn-primary">Connexion</button>
             </div>
             <div>
-                <a ng-if ="!$ctrl.next" href="#!/register" type="button" class="btn btn-success">Pas de compte? Créez-en un</a>
-                <a ng-if ="$ctrl.next" href="#!/register?next=checkout" type="button" class="btn btn-success">Pas de compte? Créez-en un</a>
+                <a ng-if ="!$ctrl.next" href="register" type="button" class="btn btn-success">Pas de compte? Créez-en un</a>
+                <a ng-if ="$ctrl.next" href="register?next=checkout" type="button" class="btn btn-success">Pas de compte? Créez-en un</a>
             </div>
         </form>
             

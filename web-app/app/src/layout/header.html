@@ -21,15 +21,15 @@
                 <div class="col-lg-3 offset-lg-3" header-top-right">
                     <div ng-if="!$ctrl.currentUser" class="row">
                         <div class="col-lg-6">
-                            <a href="#!/register" class="login-panel"><i class="fa fa-user-plus"></i>Inscription</a>
+                            <a href="register" class="login-panel"><i class="fa fa-user-plus"></i>Inscription</a>
                         </div>
                         <div class="col-lg-6">
-                            <a href="#!/login" class="login-panel"><i class="fa fa-sign-in"></i>Connexion</a>
+                            <a href="login" class="login-panel"><i class="fa fa-sign-in"></i>Connexion</a>
                         </div>
                     </div>
                     <div ng-if="!!$ctrl.currentUser" class="row">
                         <div class="col-lg-12">
-                            <a  href="#!/profile" class="login-panel"><i class="fa fa-user"></i>{{$ctrl.currentUser.name}}</a>
+                            <a  href="profile" class="login-panel"><i class="fa fa-user"></i>{{$ctrl.currentUser.name}}</a>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="header">
         <div class="container">
-            <a class="navbar-brand logo" href="#!/">
+            <a class="navbar-brand logo" href="/">
                 <img src="assets/img/logo-small-blue.png">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,14 +47,14 @@
             <div class="collapse navbar-collapse" id="collapsingNavbar">           
                 <ul class="navbar-nav ml-auto">
     
-                    <li class="nav-item category-item" ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
-                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/blog">Blog</a></li>
-                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/premium">Premium</a></li>
-                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/contact">a propos</a></li>
-                    <li class="nav-item category-item" data-toggle="collapse"><a href="#!/profile">Mon Compte</a></li>
-                    <li class="nav-item category-item cart-collapsed" data-toggle="collapse"><a href="#!/cart">mon panier ({{$ctrl.cart.items.length}})</a></li>
+                    <li class="nav-item category-item" ng-repeat="category in $ctrl.categories"><a href="category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="blog">Blog</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="premium">Premium</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="contact">a propos</a></li>
+                    <li class="nav-item category-item" data-toggle="collapse"><a href="profile">Mon Compte</a></li>
+                    <li class="nav-item category-item cart-collapsed" data-toggle="collapse"><a href="cart">mon panier ({{$ctrl.cart.items.length}})</a></li>
                     <li class="cart">
-                        <a href="#!/cart">
+                        <a href="cart">
                             <i class="fas fa-shopping-cart"></i>
                             <span>{{$ctrl.cart.items.length}}</span>
                         </a>
@@ -92,7 +92,7 @@
                                 <h5>{{$ctrl.cart.getTotal()}} D.T TTC</h5>
                             </div>
                             <div class="select-button">
-                                <a href="#!/cart" class="primary-btn checkout-btn">Voir panier</a>
+                                <a href="cart" class="primary-btn checkout-btn">Voir panier</a>
                             </div>
                         </div>
                     </li>
@@ -105,49 +105,16 @@
         <div class="container">
             <div class="row">
                 <div class="logo-small col-md-2">
-                    <a href="#!/">
+                    <a href="/">
                         <img src="assets/img/logo-favicon-blue.png">
                     </a>
                 </div>
                 <ul class="col-md-10">
-                    <li ng-repeat="category in $ctrl.categories"><a href="#!/category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
-                    <li><a href="#!/cart">mon panier ({{$ctrl.cart.items.length}})</a></li>
+                    <li ng-repeat="category in $ctrl.categories"><a href="category/{{category.id}}-{{category.label}}">{{category.label}}</a></li>
+                    <li><a href="cart">mon panier ({{$ctrl.cart.items.length}})</a></li>
                 </ul>
                 
             </div>    
         </div>
     </div>
 </header>
-
-
-
-<!--
-
-    <div class="header-top">
-        <div class="container">
-            <div class="ht-left">
-                <div class="mail-service">
-                    <i class=" fa fa-envelope"></i>
-                    <a href="mailto:contact@meduse.tn">contact@meduse.tn</a>
-                </div>
-                <div class="phone-service">
-                    <i class=" fa fa-phone"></i>
-                    +216 50 55 93 88
-                </div>
-            </div>
-            <div class="ht-right">
-                <a ng-if="!$ctrl.currentUser" href="#!/register" class="login-panel"><i class="fa fa-user-plus"></i>Inscription</a>
-                <a ng-if="!$ctrl.currentUser" href="#!/login" class="login-panel"><i class="fa fa-sign-in"></i>Connexion</a>
-                <a ng-if="!!$ctrl.currentUser" href="#!/profile" class="login-panel"><i class="fa fa-user"></i>{{$ctrl.currentUser.name}}</a>
-
-                <div class="top-social">
-                    <a target=”_blank” href="https://www.facebook.com/Medusetunisie"><i class="fab fa-facebook-square"></i></i></a>
-                    <a target=”_blank” href="https://www.instagram.com/meduse_tn"><i class="fa fa-instagram"></i></a>
-                    <a target=”_blank” href="https://www.linkedin.com/company/meduse-tn/"><i class="fa fa-linkedin-square"></i></a>
-                
-                </div>
-            </div>
-        </div>
-    </div>
-
--->

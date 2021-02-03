@@ -33,12 +33,12 @@
                                 <p>{{$ctrl.form.selectedDeliveryAddress.address}}</p>
                                 <p>{{$ctrl.form.selectedDeliveryAddress.zipcode}} {{$ctrl.form.selectedDeliveryAddress.city}}, {{$ctrl.form.selectedDeliveryAddress.state}}</p>
                                 <p>{{$ctrl.form.selectedDeliveryAddress.description}}</p>
-                                <a class="btn btn-success"  ng-href="#!/profile/adresses/edit/{{$ctrl.form.selectedDeliveryAddress.id}}?next=checkout"> Mettre à jour </a>
+                                <a class="btn btn-success"  ng-href="profile/adresses/edit/{{$ctrl.form.selectedDeliveryAddress.id}}?next=checkout"> Mettre à jour </a>
                             </div>
                         </div>
 
                         <div class="form-group col-lg-12" id="addNewAddress">
-                            <a href="#!/profile/addressForm?next=checkout" class="btn btn-primary">Ajouter une nouvelle adresse</a>
+                            <a href="profile/addressForm?next=checkout" class="btn btn-primary">Ajouter une nouvelle adresse</a>
                             <div class="alert alert-warning" role="alert" ng-show="$ctrl.showAddressNeededMessage">
                                 Pas d'adresse pour la livraison!
                             </div>
@@ -113,10 +113,10 @@
         <div class="row checkout-success-buttons">
             <div class="container">
                 <div class="row">
-                    <a href="#!/profile/orders" class="site-btn-default">Mes commandes</a>
+                    <a href="profile/orders" class="site-btn-default">Mes commandes</a>
                 </div>
                 <div class="row">
-                    <a href="#!/" class="site-btn">Continuer mes achats</a>
+                    <a href="/" class="site-btn">Continuer mes achats</a>
                 </div>
             </div>
         </div>

@@ -40,7 +40,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in $ctrl.cartItems">
-                                <td class="cart-pic"><a ng-href="#!/product/{{item.product.id}}-{{item.product.label}}"><img ng-src="{{item.image}}" alt=""></a></td>
+                                <td class="cart-pic"><a ng-href="product/{{item.product.id}}-{{item.product.label}}"><img ng-src="{{item.image}}" alt=""></a></td>
                                 <td class="cart-title">
                                     <h5>{{item.product.label}}</h5>
                                     <p style="font-size: 14px; color: gray;" ng-if="item.variant && item.variant.size && cartItem.variant.color">
