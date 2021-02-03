@@ -51,7 +51,6 @@ class ProductCtrl {
     this.checkAvailability();
 
     this.productLabelInUrl = this.product.label.replaceAll(' ', '-').replaceAll('\/', '-');
-    this.shareLink = `https://www.facebook.com/plugins/share_button.php?href=http://meduse.tn/#!/product/${this.product.id}-${this.productLabelInUrl}&layout=button_count&size=large&appId=227189032141937&width=113&height=32`;
   }
 
   $onInit() {
@@ -214,7 +213,7 @@ class ProductCtrl {
       {
           method: 'feed',
           name: this.product.label,
-          link: 'https://www.meduse.tn/#!/product/'+ this.product.id + '-' + this.product.label.replaceAll(' ', '-'),
+          link: 'https://www.meduse.tn/product/'+ this.product.id + '-' + this.product.label.replaceAll(' ', '-'),
           picture: this.imagesUrls && this.imagesUrls.length ? this.imagesUrls[0] : undefined,
           caption: 'Meduse.tn',
           description: this.product.description,

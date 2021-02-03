@@ -182,8 +182,8 @@ export function ProductPreviewCtrl($scope, $timeout, $mdDialog, CartService, App
             {
                 method: 'feed',
                 name: $scope.product.label,
-                link: 'http://www.meduse.tn/#!/product/'+ $scope.product.id + '-' + $scope.product.label.replaceAll(' ', '-'),
-                picture: $scope.imagesUrls.length ? this.imagesUrls[0] : '',
+                link: 'https://www.meduse.tn/product/'+ $scope.product.id + '-' + $scope.product.label.replaceAll(' ', '-'),
+                picture: this.imagesUrls && this.imagesUrls.length ? this.imagesUrls[0] : undefined,
                 caption: 'Meduse.tn',
                 description: $scope.product.description,
                 message: ''
