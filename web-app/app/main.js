@@ -22,21 +22,6 @@
         }
     });
 
-    initCarousel();
-
-    $(window).on('hashchange', function(e) {
-        initCarousel();
-    });
-
-    function initCarousel() {
-        $( '#home-carousel' ).carousel({
-            interval: 3800,
-            ride: 'carousel',
-            keyboard: true,
-            pause: 'hover'
-        });
-    }
-
     window.onscroll = function() {scrollFunction()};
 
     // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position

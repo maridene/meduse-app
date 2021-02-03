@@ -54,7 +54,15 @@ class HomeCtrl {
   }
 
   $onInit() {
-    
+    const carouselElement = angular.element(document.querySelector("#home-carousel"));
+    if (carouselElement) {
+      carouselElement.carousel({
+          interval: 3800,
+          ride: 'carousel',
+          keyboard: true,
+          pause: 'hover'
+      });
+    } 
   }
 
   search() {

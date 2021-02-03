@@ -161,6 +161,29 @@
 	width: 100%;
 }
 
+.slideshow .carousel-inner .carousel-item img {
+    height: 400px;
+}
+
+@media only screen and (max-width: 768px) {
+    .slideshow {
+        height: 320px;
+    }
+    .slideshow .carousel-inner .carousel-item img {
+        height: 320px;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .slideshow {
+        height: 240px;
+    }
+    .slideshow .carousel-inner .carousel-item img {
+        height: 240px;
+    }
+}
+
+
 /*------------------------
  Advanced Search Section
 -------------------------*/
