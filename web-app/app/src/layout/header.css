@@ -98,6 +98,12 @@
     padding: 0;
 }
 
+.navbar .navbar-toggler {
+    background-color: #33c0ec;
+    color: #33c0ec;
+    border-color: #33c0ec;
+}
+
 @media only screen and (min-width: 1200px) {   
     .navbar .container {
         max-width: 1320px;
