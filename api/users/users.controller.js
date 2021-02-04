@@ -17,6 +17,7 @@ router.get('/clients/:id', authorize(Role.Admin), getClientById);
 router.get('/admins', authorize(Role.Admin), getAdmins);
 router.delete('/:id', authorize(Role.Admin), deleteUser);
 router.post('/register-admin', authorize(Role.Admin), addAdmin);
+router.get('/created/month/:yearMonth', authorize(Role.Admin), getCreatedClientsByMonth);
 
 //user routes
 router.get('/get/myself', authorize(Role.User), mySelf);
@@ -132,6 +133,13 @@ function update(req, res, next) {
 function searchUser(req, res, next) {
     const query = req.params.query || ' ';
     userService.search(query)
+        .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+function getCreatedClientsByMonth(req, res, next) {
+    const month = req.params.yearMonth;
+    userService.getCreatedClientsByMonth(month)
         .then(users => res.json(users))
         .catch(err => next(err));
 }

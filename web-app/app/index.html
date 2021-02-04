@@ -10,6 +10,8 @@
     <meta name="keywords" content="Meduse, matériel médical, vente en ligne">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="801999841007-9dq1rpl3qr6vg7v74uqhbt7afpkc5usc.apps.googleusercontent.com">
+    <title ng-bind="pageTitle"></title>
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-icon-72x72.png">
@@ -97,7 +99,20 @@
     <script src="bundle.js"></script>
     <script src="main.js"></script>
     <script src="lib/sha3.min.js"></script>
+
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v9.0&appId=227189032141937&autoLogAppEvents=1" nonce="UouxMqK0"></script>
+    <script>
+      function renderGoogleButton() {
+        gapi.signin2.render('g-signin2', {
+          'scope': 'profile email',
+          'width': 255,
+          'height': 40,
+          'longtitle': false
+        });
+      }
+    </script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderGoogleButton" async defer></script>
+  
   </body>
 
 </html>

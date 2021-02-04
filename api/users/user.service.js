@@ -16,7 +16,8 @@ module.exports = {
     update,
     upgradeClientToPremium,
     updateClientPoints,
-    search
+    search,
+    getCreatedClientsByMonth
 };
 
 function authenticate({ email, password }) {
@@ -212,4 +213,13 @@ function search(query) {
             reject(err);
         });
     });
+}
+
+async function getCreatedClientsByMonth(yearMonth) {
+    const result = {month: yearMonth, clients: []};
+    const createdUsers = await users.getCreatedClientsByMonth(yearMonth);
+    if (createdUsers && createdUsers.length) {
+        result.clients = createdUsers;
+    }
+    return result;
 }

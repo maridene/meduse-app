@@ -11,22 +11,22 @@
         <stats goto="dashboard.home" number="6" comments="Nouvelles visites!" colour="primary" type="eye"></stats>
         <stats goto="dashboard.home" number="12" comments="Utilisateurs inscrits!" colour="primary" type="user"></stats>
         <stats goto="dashboard.home" number="18" comments="Nouvelles commandes!" colour="yellow" type="shopping-cart"></stats>
-        <stats goto="dashboard.home" number="1200" comments="Recette du mois (D.T)" colour="red" type="money"></stats>
+        <stats ng-if="income" goto="dashboard.home" number="{{income.data[0][12]}}" comments="Recette du mois (D.T)" colour="red" type="money"></stats>
 
     </div>
 
-    <div class="row">
-        <div class="col-lg-6 col-sm-12" id="line-chart" ng-controller="MainCtrl">
+    <div class="row" ng-if="income">
+        <div class="col-lg-6 col-sm-12" id="income-chart">
             <div class="panel panel-default">
                 <div class="panel-heading">Recette par mois</div>
                 <div class="panel-body">
-                    <canvas id="line" class="chart chart-line chart-xl" data="line.data" labels="line.labels" legend="true"
-                    click="line.onClick" series="line.series"></canvas>
+                    <canvas id="income" class="chart chart-line chart-xl" data="income.data" labels="income.labels" legend="true"
+                    click="income.onClick" series="income.series"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-6 col-sm-12" id="pie-chart" ng-controller="MainCtrl">
+        <div class="col-lg-6 col-sm-12" id="pie-chart">
             <div class="panel panel-default">
                 <div class="panel-heading">Recette par catégorie</div>
                 <div class="panel-body">
@@ -37,12 +37,12 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-6 col-sm-12" id="bar-chart" ng-controller="MainCtrl">
+        <div class="col-lg-6 col-sm-12" id="bar-chart">
             <div class="panel panel-default">
                 <div class="panel-heading">Nouveaux clients / Nouvelles commandes</div>
                 <div class="panel-body">
-                    <canvas id="bar" class="chart chart-bar" data="bar.data" labels="bar.labels" series="bar.series"
-                    options="bar.options"></canvas>
+                    <canvas id="usersOrders" class="chart chart-bar" data="usersOrders.data" labels="usersOrders.labels" series="usersOrders.series"
+                    options="usersOrders.options"></canvas>
                 </div>
             </div>
         </div>

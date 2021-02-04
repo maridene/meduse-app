@@ -271,4 +271,22 @@ User.search = (query) => {
   });
 };
 
+User.getCreatedClientsByMonth = (yearMonth) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.USERS} WHERE creationDate LIKE '${yearMonth}-%' AND role = 'User'`, 
+    (err, res) => {
+      if (err) {
+        reject(err);
+      } else {
+        if (res.length) {
+          resolve(res);
+        } else {
+          console.log(`no order users for year-month ${yearMonth}`);
+          resolve();
+        }
+      }
+    });
+  });
+};
+
 module.exports = User;

@@ -1,7 +1,7 @@
 export const AppConstants = {
-  api: 'http://localhost:3000/api',
-  productsStaticContentUrl: 'http://localhost:3000/static/products/',
-  blogStaticContentUrl: 'http://localhost:3000/static/blogs/',
+  api: 'https://meduse.tn/api',
+  productsStaticContentUrl: 'https://meduse.tn/static/products/',
+  blogStaticContentUrl: 'https://meduse.tn/static/blogs/',
   jwtKey: 'jwtToken',
   appName: 'Meduse.tn'
 };
