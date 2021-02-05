@@ -7,7 +7,7 @@ const Role = require('helpers/role');
 
 router.get('/done/month/:yearMonth', authorize(Role.Admin), getDoneOrdersByMonth);
 router.get('/created/month/:yearMonth', authorize(Role.Admin), getCreatedOrdersByMonth);
-
+router.get('/orders/month/:yearMonth', authorize(Role.Admin), getAllOrdersByMonth);
 
 module.exports = router;
 
@@ -23,6 +23,15 @@ function getDoneOrdersByMonth(req, res, next) {
 function getCreatedOrdersByMonth(req, res, next) {
     const yearMonth = req.params.yearMonth;
     ordersStatsService.findCreatedOrdersByMonth(yearMonth)
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => next(err));
+}
+
+function getAllOrdersByMonth(req, res, next) {
+    const yearMonth = req.params.yearMonth;
+    ordersStatsService.findAllOrdersByMonth(yearMonth)
         .then(data => {
             res.json(data);
         })

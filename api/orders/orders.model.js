@@ -224,6 +224,24 @@ Orders.findCreatedOrdersByMonth = (yearMonth) => {
   });
 };
 
+Orders.findCreatedNotCanceledOrdersByMonth = (yearMonth) => {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * FROM ${tables.ORDERS} WHERE order_date LIKE '%${yearMonth}-%' AND order_status <> 'canceled'`, 
+    (err, res) => {
+      if (err) {
+        reject(err);
+      } else {
+        if (res.length) {
+          resolve(res);
+        } else {
+          console.log(`no order found for year-month ${yearMonth}`);
+          resolve();
+        }
+      }
+    });
+  });
+};
+
 Orders.search = (status, payment, ptype) => {
   return new Promise((resolve, reject) => {
     sql.query(getSearchQuery(status, payment, ptype), 
