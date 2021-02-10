@@ -31,16 +31,19 @@
                                 <th>Adresse email</th>
                                 <th>Numéro de téléphone</th>
                                 <th>Date d'inscription</th>
+                                <th>Points</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="client in filteredClients track by client.id" class="odd gradeX">
                                 <td><input type="checkbox" ng-model="client.isSelected" ng-change="updateState()"></td>
-                                <td>{{client.prefix}} {{client.name}}</td>
+                                <td ng-if="client.premium" style="color: gold; font-weight: 600;">{{client.prefix}} {{client.name}}</td>
+                                <td ng-if="!client.premium">{{client.prefix}} {{client.name}}</td>
                                 <td>{{client.email}}</td>
                                 <td>{{client.phone}}</td>
                                 <td>{{client.signupDate}}</td>
+                                <td>{{client.points}}</td>
                                 <td><a class="btn btn-primary" ng-href="#/dashboard/add-order/{{client.id}}"> Commande </a></td>
                             </tr>
                         </tbody>

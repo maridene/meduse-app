@@ -161,7 +161,7 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
   ;
 
   function buildClient(data) {
-    return new User(data);
+    return new Client(data);
   }
 
   function buildOrders(data) {

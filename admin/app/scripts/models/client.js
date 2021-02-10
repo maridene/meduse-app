@@ -12,5 +12,7 @@ var Client = function Client(data) {
   this.name = data.name;
   this.email = data.email;
   this.phone = data.phone;
-  this.signupDate = data.creationDate ? data.creationDate.split('T')[0] : '-';
+  this.premium = !!data.premium;
+  this.points = data.points;
+  this.signupDate = data.creationDate ? formatDate(data.creationDate) : '-';
 };
