@@ -17,7 +17,7 @@
             <div class="col-lg-9 order-1 order-lg-2">
                 <div class="product-show-option" ng-if="$ctrl.products.length">
                     <div class="row">
-                        <div class="col-lg-5 col-md-5">
+                        <div class="col-5">
                             <div class="select-option">
                                 <select class="sorting" ng-model="$ctrl.orderBy" ng-change="$ctrl.updateProducts()">
                                     <option value="default">Par défaut</option>
@@ -28,18 +28,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-7 col-md-7">
+                        <div class="col-7">
                             <div class="search-form">
                                 <form>
                                     <input type="text" placeholder="Rechecrcher..." ng-model="$ctrl.filterQuery" ng-change="$ctrl.updateProducts()">
                                 </form>
                             </div>
                         </div>
-                        <!--
-                        <div class="col-lg-5 col-md-5 text-right">
-                            <p> {{$ctrl.currentPage * $ctrl.itemsPerPage + 1}} - {{($ctrl.currentPage + 1) * $ctrl.itemsPerPage }} de {{$ctrl.count}} Produits</p>
-                        </div>
-                        -->
                     </div>
                 </div>
             </div>

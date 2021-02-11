@@ -2,9 +2,16 @@
   Product Shop
 -----------------------*/
 
-.product-shop {
-	padding-top: 80px;
-	padding-bottom: 80px;
+.product-shop.spad {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+@media only screen and (max-width: 767px) {
+	.product-shop.spad {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
 }
 
 .product-shop .newProducts-section-item {
@@ -61,17 +68,6 @@
 	font-size: 22px;
 	font-weight: 700;
 	margin-bottom: 26px;
-}
-
-.filter-widget .filter-catagories li {
-	list-style: none;
-}
-
-.filter-widget .filter-catagories li a {
-	display: inline-block;
-	color: #636363;
-	font-size: 16px;
-	line-height: 39px;
 }
 
 .filter-widget .fw-brand-check .bc-item {
