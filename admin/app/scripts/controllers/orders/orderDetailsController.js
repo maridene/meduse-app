@@ -155,13 +155,23 @@ angular.module('sbAdminApp')
                     var selectedVariant = row.variantId ? result.variants.filter(function(item) {
                       return item.id === row.variantId;
                     })[0] : null;
+                    var price, originalPrice;
+                    if (row.price) {
+                      price = row.price;
+                      originalPrice = row.originalPrice;
+                    } else {
+                      price = result.product.promo_price ? result.product.promo_price : result.product.price;
+                      originalPrice = result.product.price;
+                    }
+                    var inPromo = price !== originalPrice;
                     var orderRow = {
                       id: row.id,
                       label: getProductLabel(result.product, selectedVariant),
                       quantity : row.quantity,
                       newQuantity: row.quantity,
-                      price: result.product.price,
-                      promo_price: result.product.promo_price,
+                      price: price,
+                      originalPrice: originalPrice,
+                      inPromo: inPromo,
                       availability: getAvailability(result.product, selectedVariant, row.quantity),
                       details: {product: result.product, variant: selectedVariant, quantity: row.quantity}
                     };

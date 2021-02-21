@@ -12,4 +12,6 @@ var OrderRow = function OrderRow(data) {
     this.productId = data.product_id;
     this.variantId = data.variant_id;
     this.quantity = data.quantity;
+    this.price = data.price;
+    this.originalPrice = data.original_price;
 };
