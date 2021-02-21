@@ -8,6 +8,7 @@ const Role = require('helpers/role');
 router.get('/', authorize(Role.Admin), getAll);
 router.get('/invoices', authorize(Role.Admin), getInvoices);
 router.get('/shipping', authorize(Role.Admin), getShippingInvoices);
+router.get('/credit', authorize(Role.Admin), getCreditInvoices);
 
 module.exports = router;
 
@@ -25,6 +26,12 @@ function getInvoices(req, res, next) {
 
 function getShippingInvoices(req, res, next) {
     invoicesService.getShippingInvoices()
+        .then(result => res.json(result))
+        .catch(err => next(err));
+}
+
+function getCreditInvoices(req, res, next) {
+    invoicesService.getCreditInvoices()
         .then(result => res.json(result))
         .catch(err => next(err));
 }

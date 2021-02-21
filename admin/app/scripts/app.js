@@ -392,6 +392,19 @@ angular
           }
         }
     })
+      .state('dashboard.credit-invoices', {
+        url:'/credit-invoices',
+        controller: 'CreditInvoicesListCtrl',
+        templateUrl: 'views/pages/orders/creditInvoicesList.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/orders/creditInvoicesListController.js']
+            })
+          }
+        }
+    })
       .state('dashboard.add-pub', {
         url:'/add-pub',
         controller: 'AddPubCtrl',

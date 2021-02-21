@@ -1,15 +1,15 @@
 'use strict';
 /**
  * @ngdoc function
- * @name sbAdminApp.controller:DeliveryInvoicesListCtrl
+ * @name sbAdminApp.controller:CreditInvoicesListCtrl
  * @description
  * # MainCtrl
- * Controller of the delivery invoices list page
+ * Controller of the invoices list page
  */
 
-angular.module('sbAdminApp').controller('DeliveryInvoicesListCtrl', ['$scope', 'RestService', 'UsersService', function ($scope, RestService, UsersService) {
+angular.module('sbAdminApp').controller('CreditInvoicesListCtrl', ['$scope', 'RestService', 'UsersService', function ($scope, RestService, UsersService) {
     $scope.getList = function() {
-        RestService.get('invoice/shipping')
+        RestService.get('invoice/credit')
             .then(function(result) {
                 $scope.list = result.data.map(function(each) {
                     var url = SERVER_URL + '/static/invoices/' + each.filename;
@@ -23,7 +23,6 @@ angular.module('sbAdminApp').controller('DeliveryInvoicesListCtrl', ['$scope', '
                         refOrder: refOrder,
                     };
                 });
-
                 UsersService.getAllClients().then(function (clients) {
                     $scope.list.forEach(function (row) {
                         row.client = findClientNameById(row.client, clients);
@@ -32,6 +31,7 @@ angular.module('sbAdminApp').controller('DeliveryInvoicesListCtrl', ['$scope', '
                 }, function () {
                     $scope.buildTable();
                 });
+                
             });
 
             const findClientNameById = function (id, list) {
@@ -55,5 +55,4 @@ angular.module('sbAdminApp').controller('DeliveryInvoicesListCtrl', ['$scope', '
   };
 
   $scope.getList();
-
 }]);

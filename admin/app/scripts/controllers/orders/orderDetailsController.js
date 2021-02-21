@@ -274,6 +274,19 @@ angular.module('sbAdminApp')
         });
     };
 
+    $scope.getCreditInvoice = function () {
+      var data = {
+        mf: $scope.invoiceForm.clientMF,
+        date: $scope.invoiceForm.creditInvoiceDate ? new Date($scope.invoiceForm.creditInvoiceDate).toLocaleDateString("fr-FR").toString() : 
+          new Date().toLocaleDateString("fr-FR").toString()
+      };
+      RestService.post('orders/' + $scope.order.id + '/creditInvoice', data)
+        .then(function(response) {
+          var fileUrl = SERVER_URL + '/static/invoices/' + response.data.filename;
+          $window.open(fileUrl, '_blank');
+        });
+    };
+
     $scope.rowQuantityChange = function () {
       var changed = false;
       $scope.rows.forEach(function(row) {
