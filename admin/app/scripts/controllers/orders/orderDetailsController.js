@@ -146,7 +146,6 @@ angular.module('sbAdminApp')
             $scope.totalInfo = result;
           });
 
-          console.log($scope.order);
           OrderRowsService.getByOrderId(order.id).then(
             function (orderRows) {
               $scope.orderRows = orderRows;
@@ -252,7 +251,6 @@ angular.module('sbAdminApp')
         date: $scope.invoiceForm.invoiceDate ? new Date($scope.invoiceForm.invoiceDate).toLocaleDateString("fr-FR").toString() : 
           new Date().toLocaleDateString("fr-FR").toString()
       };
-      console.log(data);
       RestService.post('orders/' + $scope.order.id + '/invoice', data)
         .then(function(response) {
           var fileUrl = SERVER_URL + '/static/invoices/' + response.data.filename;
@@ -266,7 +264,6 @@ angular.module('sbAdminApp')
         date: $scope.invoiceForm.deliveryInvoiceDate ? new Date($scope.invoiceForm.deliveryInvoiceDate).toLocaleDateString("fr-FR").toString() : 
           new Date().toLocaleDateString("fr-FR").toString()
       };
-      console.log(data);
       RestService.post('orders/' + $scope.order.id + '/deliveryInvoice', data)
         .then(function(response) {
           var fileUrl = SERVER_URL + '/static/invoices/' + response.data.filename;
