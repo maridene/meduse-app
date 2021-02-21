@@ -8,6 +8,45 @@ const constants = require("../config/constants");
 const dev = process.env.dev === '1';
 const invoicesPath = dev ? "public/invoices" : constants.INVOICES_PATH;
 
+const browserParams = {
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    headless: true,    
+}
+if (process.env.dev === '1') {
+    browserParams.executablePath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe';
+}
+
+async function generatePdf(html, pdfPath) {
+    const pdfOptions = Object.assign({}, PDF_OPTIONS, {path: pdfPath});
+    const browser = await puppeteer.launch(browserParams);
+    const page = await browser.newPage();
+    await page.goto(`data:text/html;charset=UTF-8,${html}`, {
+		waitUntil: 'networkidle0'
+	});
+	await page.pdf(pdfOptions);
+    await browser.close();
+}
+
+const headerTemplate = "<p></p>";
+const footerTemplate = "<div style=\" background: #999; width: 100%; font-size: 8px; line-height: 1px; color: #999; text-align: center;\">" +
+"<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn </p>" + 
+"<p>Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713 </p>" + 
+"</div>";
+
+const PDF_OPTIONS = {
+    headerTemplate: headerTemplate,
+    footerTemplate: footerTemplate,
+    displayHeaderFooter: true,
+    printBackground: true,
+    format: 'A4',
+    margin: { 
+        top: "30px", 
+        bottom: "60px",
+        right: "12px",
+        left: "12px"
+    }
+};
+
 handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
@@ -15,12 +54,6 @@ handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
 handlebars.registerHelper('ifNotZero', function(arg1, options) {
     return (arg1 && arg1 > 0) ? options.fn(this) : options.inverse(this);
 });
-
-const headerTemplate = "<p></p>";
-const footerTemplate = "<div style=\" background: #999; width: 100%; font-size: 8px; line-height: 1px; color: #999; text-align: center;\">" +
-"<p>Tél: +216 22 55 93 06 - E-mail: contact@meduse.tn | Site web: http://www.meduse.tn </p>" + 
-"<p>Résidence Narjess, Les jardins d'El Aouina, 2036 Tunis | MF:1674042 / N / B / M / 000 | RIB BH : 14093093101700105713 </p>" + 
-"</div>";
 
 const orders = require('./orders.model');
 const orderRowsService = require('./../orderRows/orderRows.service');
@@ -53,6 +86,7 @@ module.exports = {
     updateById,
     generateInvoice,
     generateDeliveryInvoice,
+    generateCreditInvoice,
     getOrderTotal,
     applyReduction,
     cancelReduction
@@ -316,36 +350,37 @@ function createOrder(userId, orderDetails) {
     return doCreateOrder(order, orderDetails.orderRows);
 }
 
-function doCreateOrder(order, orderRows, notifyAdmins) {
-    let rows = orderRows.split(';').map((row) => JSON.parse(row));
+async function doCreateOrder(order, orderRows, notifyAdmins) {
+    let rowsData = orderRows.split(';').map((row) => JSON.parse(row));
+    let rows = [];
+    const addedOrder = await orders.add(order);
 
-    return new Promise((resolve, reject) => {
-        orders.add(order)
-            .then((addedOrder) => {
+    if (addedOrder) {
+        for (const each of rowsData) {
+            const product = await productsService.getById(each.productId);
+            const originalPrice = product.price;
+            const price = product.promo_price ? product.promo_price : product.price;
+            rows.push ({
+                order_id: addedOrder.id,
+                ...each,
+                price,
+                original_price: originalPrice
+            });
+        }
+        const addedRows = await orderRowsService.addAll(rows);
 
-                rows = rows.map((item) => ({ order_id: addedOrder.id, ...item }));
-                orderRowsService.addAll(rows)
-                    .then((addedRows) => {
-                        sendOrderReceivedMail(addedOrder);
-                        if (notifyAdmins) {
-                            mailService.sendNewOrderNotification(addedOrder);
-                        }
-                        resolve({addedOrder, lines: addedRows});
-                    }, (error) => {
-                        remove(addedOrder.id)
-                            .then(() => {
-                                console.error('error while adding order lines');
-                                console.log('removed order after failing adding its lines');
-                                reject(error);
-                            }, (error) => {
-                                console.error('error while adding order lines');
-                                console.error('error while trying to remove order after failing adding its lines');
-                                reject(error);
-                            });
-                    })
-            },
-            (err) => reject(err));
-    });
+        if (addedRows.affectedRows) {
+            await sendOrderReceivedMail(addedOrder);
+            if (notifyAdmins) {
+                await mailService.sendNewOrderNotification(addedOrder);
+            }
+            return {addedOrder, lines: addedRows};
+        } else {
+            console.error('error while adding order lines');
+            await remove(addedOrder.id);
+            console.log('removed order after failing adding its lines');
+        }
+    }
 }
 
 async function sendOrderReceivedMail(orderData) {
@@ -354,8 +389,7 @@ async function sendOrderReceivedMail(orderData) {
     mailService.sendOrderReceivedMail(user.name, user.email, order.order_ref);
 }
 
-async function generateInvoice(orderId, date, mf) {
-
+async function getDataForInvoice(orderId, date, mf, invoiceType) {
     const rowsDetails = [];
     const order = await getById(orderId);
     const deliveryAddress = {
@@ -379,10 +413,17 @@ async function generateInvoice(orderId, date, mf) {
         const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
         const product = productAndVariants.product;
         const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
+        let price;
+        if (row.price) {
+            price = row.price;
+        } else {
+            price = product.promo_price ? product.promo_price : product.price;
+        }
         rowsDetails.push({
             product,
             variant,
-            quantity: row.quantity
+            quantity: row.quantity,
+            price
         });
     }
 
@@ -390,7 +431,7 @@ async function generateInvoice(orderId, date, mf) {
         name: item.variant ? (`${item.product.label}${item.variant.color ? ' - ' + item.variant.color: ''}${item.variant.size ? ' - ' + item.variant.size: ''}`)
             : item.product.label,
         quantity: item.quantity,
-        price: item.product.promo_price ? `${item.product.promo_price} D.T` : `${item.product.price} D.T`
+        price: `${item.price} D.T`
     }));
 
     const shippingSettings = await settingsService.getByType('shipping');
@@ -399,7 +440,19 @@ async function generateInvoice(orderId, date, mf) {
 
     const totalInfos = await getOrderTotal(orderId);
     
-    const num = await getInvoiceNumber();
+    let num;
+    switch(invoiceType) {
+        case 'delivery':
+            num = await getDeliveryInvoiceNumber();
+            break;
+        case 'credit':
+            num = await getCreditInvoiceNumber();
+            break;
+        default:
+            num = await getInvoiceNumber();
+            break; 
+    }
+
     const year = new Date().getUTCFullYear();
     const data = {
         invoiceNumber: `${year}-${num}`,
@@ -415,168 +468,70 @@ async function generateInvoice(orderId, date, mf) {
         mf
     };
 
+    return data;
+}
+
+async function generateInvoice(orderId, date, mf) {
+
+    const data = await getDataForInvoice(orderId, date, mf);
     const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/invoice.html'), 'utf8');
     const template = handlebars.compile(templateHtml);
     const html = template(data);
 
-    var filename = `Facture-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
-    var pdfPath = path.join(invoicesPath, filename);
-    // header template = <div style=\"font-size: 8px\"><div class='pageNumber'></div> <div>/</div><div class='totalPages'></div></div>
-    var options = {
-        headerTemplate: headerTemplate,
-        footerTemplate: footerTemplate,
-        displayHeaderFooter: true,
-        printBackground: true,
-        path: pdfPath,
-        format: 'A4',
-        margin: { 
-            top: "30px", 
-            bottom: "60px",
-            right: "12px",
-            left: "12px"
-        }
-    };
+    const year = new Date().getUTCFullYear();
+    const filename = `Facture-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
+    const pdfPath = path.join(invoicesPath, filename);
 
-    const browserParams = {
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: true,    
-    }
-    if (process.env.dev === '1') {
-        browserParams.executablePath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe';
-    }
-
-    const browser = await puppeteer.launch(browserParams);
-    const page = await browser.newPage();
-    await page.goto(`data:text/html;charset=UTF-8,${html}`, {
-		waitUntil: 'networkidle0'
-	});
-
-	await page.pdf(options);
-    await browser.close();
-    
+    await generatePdf(html, pdfPath);
     return filename;
 }
 
 async function generateDeliveryInvoice(orderId, date, mf) {
-    const rowsDetails = [];
-    const order = await getById(orderId);
-    const deliveryAddress = {
-        address: order.delivery_address,
-        zipcode: order.delivery_zipcode,
-        city: order.delivery_city,
-        state: order.delivery_state,
-        phone: order.delivery_phone
-    };
-    const billingAddress = {
-        address: order.billing_address,
-        zipcode: order.billing_zipcode,
-        city: order.billing_city,
-        state: order.billing_state,
-        phone: order.billing_phone
-    };
-
-    const client = await usersService.getById(order.client_id);
-    const rows = await orderRowsService.getByOrderId(orderId);
-    for(const row of rows) {
-        const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
-        const product = productAndVariants.product;
-        const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
-        rowsDetails.push({
-            product,
-            variant,
-            quantity: row.quantity
-        });
-    }
-
-    const lines = rowsDetails.map((item) => ({
-        name: item.variant ? (`${item.product.label}${item.variant.color ? ' - ' + item.variant.color: ''}${item.variant.size ? ' - ' + item.variant.size: ''}`)
-            : item.product.label,
-        quantity: item.quantity,
-        price: item.product.promo_price ? `${item.product.promo_price} D.T` : `${item.product.price} D.T`
-    }));
-
-    const shippingSettings = await settingsService.getByType('shipping');
-    const shippingData = {};
-    shippingSettings.forEach((i) => shippingData[i.label] = i.value);
-
-    const totalInfos = await getOrderTotal(orderId);
-
-    const num = await getDeliveryInvoiceNumber();
-    const year = new Date().getUTCFullYear();
-    const data = {
-        invoiceNumber: `${year}-${num}`,
-        creationDate: date,
-        order,
-        lines,
-        deliveryAddress,
-        billingAddress,
-        client,
-        totalInfos,
-        totalText: utils.NumberToLetter(totalInfos.total, 'dinars', 'millimes'),
-        points: Math.floor(totalInfos.totalTTC),
-        mf
-    };
-
+    
+    const data = await getDataForInvoice(orderId, date, mf, 'delivery');
     const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/delivery-invoice.html'), 'utf8');
     const template = handlebars.compile(templateHtml);
     const html = template(data);
 
-    var filename = `BonDeCommande-${order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
-    var pdfPath = path.join(invoicesPath, filename);
+    const year = new Date().getUTCFullYear();
+    const filename = `BonDeCommande-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
+    const pdfPath = path.join(invoicesPath, filename);
 
-    var options = {
-        width: '1230px',
-        headerTemplate: headerTemplate,
-        footerTemplate: footerTemplate,
-        displayHeaderFooter: true,
-        printBackground: true,
-        path: pdfPath,
-        format: 'A4',
-        margin: { 
-            top: "30px", 
-            bottom: "60px",
-            right: "12px",
-            left: "12px"
-        }
-    };
+    await generatePdf(html, pdfPath);
+    return filename;
+}
 
-    const browserParams = {
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: true,    
-    }
-    if (process.env.dev === '1') {
-        browserParams.executablePath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe';
-    }
-
-    const browser = await puppeteer.launch(browserParams);
-    const page = await browser.newPage();
-    await page.goto(`data:text/html;charset=UTF-8,${html}`, {
-		waitUntil: 'networkidle0'
-	});
-
-	await page.pdf(options);
-    await browser.close();
+async function generateCreditInvoice(orderId, date, mf) {
     
+    const data = await getDataForInvoice(orderId, date, mf, 'credit');
+    const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/credit-invoice.html'), 'utf8');
+    const template = handlebars.compile(templateHtml);
+    const html = template(data);
+    
+    const year = new Date().getUTCFullYear();
+    const filename = `FactureAvoir-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
+    const pdfPath = path.join(invoicesPath, filename);
+
+    await generatePdf(html, pdfPath);
     return filename;
 }
 
 //orderDetails = [{product, variant, quantity}]
 function getOrderTotalInfos(orderRowsDetails, premium = 0, shippingSettings) {
     const totalTTC = orderRowsDetails.reduce((acc, cur) => {
-        const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
-        const subTotal = price * cur.quantity;
+        const subTotal = cur.price * cur.quantity;
         return acc + subTotal;
     }, 0);
 
     const totalTVA = orderRowsDetails.reduce((acc, cur) => {
-        const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
-        const tva = (price / (+100 + cur.product.tva)) * cur.product.tva;
+        const price = cur.price;
+        const tva = (price / (+100 + cur.tva)) * cur.tva;
         return acc + tva * cur.quantity;
     }, 0);
 
     const totalHT = orderRowsDetails.reduce((acc, cur) => {
-        const price = cur.product.promo_price ? cur.product.promo_price : cur.product.price;
-        const tva = (price / (+100 + cur.product.tva)) * cur.product.tva;
+        const price = cur.price;
+        const tva = (price / (+100 + cur.tva)) * cur.tva;
         return acc + (price - tva) * cur.quantity;
     }, 0);
 
@@ -616,6 +571,11 @@ async function getDeliveryInvoiceNumber() {
     return padNumber(num, 6);
 }
 
+async function getCreditInvoiceNumber() {
+    const num = await settingsService.getAndIncrementCreditInvoiceNumber();
+    return padNumber(num, 6);
+}
+
 async function getOrderTotal(orderId) {
     const order = await getById(orderId);
     const clientId = order.client_id;
@@ -625,13 +585,17 @@ async function getOrderTotal(orderId) {
     const rows = await orderRowsService.getByOrderId(orderId);
     if (rows && rows.length) {
         for(const row of rows) {
-            const productAndVariants = await productsService.getByIdWithVariants(row.product_id);
-            const product = productAndVariants.product;
-            const variant = row.variant_id !== null ? await productVariantsService.getById(row.variant_id) : null;
+            const product = await productsService.getById(row.product_id);
+            let price;
+            if (row.price !== null) {
+                price = row.price;
+            } else {
+                price = product.promo_price !== null ? product.promo_price : product.price;
+            }
             rowsDetails.push({
-                product,
-                variant,
-                quantity: row.quantity
+                price,
+                quantity: row.quantity,
+                tva: product.tva
             });
         }
         let totalInfo = null;
@@ -691,9 +655,9 @@ async function processOrder(order, isCanceled) {
             }
         } else {
             if (isCanceled) {
-                productsService.addQuantity(row.product_id, row.quantity);
+                await productsService.addQuantity(row.product_id, row.quantity);
             } else {
-                productsService.subQuantity(row.product_id, row.quantity);
+                await productsService.subQuantity(row.product_id, row.quantity);
             }
         }
     });
