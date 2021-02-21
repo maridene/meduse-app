@@ -15,4 +15,5 @@ var Client = function Client(data) {
   this.premium = !!data.premium;
   this.points = data.points;
   this.signupDate = data.creationDate ? formatDate(data.creationDate) : '-';
+  this.mf = data.mf;
 };
