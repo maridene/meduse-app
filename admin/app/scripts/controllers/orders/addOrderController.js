@@ -211,7 +211,7 @@ function ($scope, $stateParams, OrdersService, UsersService, CategoryService, Pr
 
   $scope.addOrder = function() {
     var deliveryAddress = getDeliveryAddress();
-    if (canSubmit(deliveryAddress)) {
+    if (canSubmit(deliveryAddress) && $scope.rows && $scope.rows.length) {
       var orderDetails = {
         message: $scope.form.message,
         ptype: $scope.form.ptype,
