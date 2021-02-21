@@ -28,6 +28,7 @@ router.put('/:id', authorize(Role.Admin), updateById);
 router.put('/status/:id', authorize(Role.Admin), updateOrderStatus);
 router.post('/:id/invoice', authorize(Role.Admin), generateInvoice);
 router.post('/:id/deliveryInvoice', authorize(Role.Admin), generateDeleveryInvoice);
+router.post('/:id/creditInvoice', authorize(Role.Admin), generateCreditInvoice);
 router.get('/:id/total', authorize(Role.Admin), getOrderTotal);
 router.post('/:id/reduction/apply', authorize(Role.Admin), applyReduction);
 router.post('/:id/reduction/cancel', authorize(Role.Admin), cancelReduction);
@@ -142,6 +143,17 @@ function generateDeleveryInvoice(req, res, next) {
     const date = req.body.date;
     const mf = req.body.mf;
     ordersService.generateDeliveryInvoice(orderId, date, mf)
+        .then(filename => {
+            res.json({filename: filename});
+        })
+        .catch(err => next(err));
+}
+
+function generateCreditInvoice(req, res, next) {
+    const orderId = parseInt(req.params.id);
+    const date = req.body.date;
+    const mf = req.body.mf;
+    ordersService.generateCreditInvoice(orderId, date, mf)
         .then(filename => {
             res.json({filename: filename});
         })
