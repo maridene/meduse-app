@@ -134,13 +134,30 @@ export class ProfileOrderDetailsCtrl {
           promo = price !== originalPrice;
         }
 
+        let productLabel;
+        if (row.variant) {
+          if (row.variant.size && row.product.color) {
+            productLabel = ` ${row.product.label} - ${row.variant.color} - ${row.product.size}`;
+          } else if (row.variant.color) {
+            productLabel = ` ${row.product.label} - ${row.variant.color}`;
+          } else if (row.variant.size) {
+            productLabel = ` ${row.product.label} - ${row.product.size}`;
+          } else {
+            productLabel = row.product.label;
+          }
+        } else {
+          productLabel = row.product.label;
+        }
+        
+
         return {
           product: row.product,
           quantity: row.quantity,
           image: getFirstImageFromArray(row.product.images),
           price,
           originalPrice,
-          promo
+          promo,
+          productLabel
         }
       }),
       sTotal: this.orderData.totalInfos.totalTTC,

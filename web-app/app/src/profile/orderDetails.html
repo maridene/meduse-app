@@ -36,7 +36,7 @@
                                 <div class="OrderDetails-infos-description-line">{{$ctrl.order.productsCount}} articles</div>
                                 <div class="OrderDetails-infos-description-line">Effectuée le {{$ctrl.order.date}}</div>
                                 <div class="OrderDetails-infos-description-line">Total: {{$ctrl.order.total}} TND</div>
-                                <div class="OrderDetails-infos-description-line order-status">{{$ctrl.order.status}}</div>
+                                <div class="OrderDetails-infos-description-line order-status">Etat de la commande: {{$ctrl.order.status}}</div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                                     <img ng-src="{{row.image}}">
                                 </div>
                                 <div class="col-10 OrderDetails-productsList-line-description">
-                                    <div class="OrderDetails-productsList-line-description-line">{{row.product.label}}</div>
+                                    <div class="OrderDetails-productsList-line-description-line">{{row.productLabel}}</div>
                                     <div class="OrderDetails-productsList-line-description-line">Quantité: {{row.quantity}}</div>
                                     <div class="OrderDetails-productsList-line-description-line">{{row.price.toFixed(3)}} TND</div>
                                 </div>
