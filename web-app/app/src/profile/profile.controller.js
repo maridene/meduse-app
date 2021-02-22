@@ -122,11 +122,27 @@ export class ProfileOrderDetailsCtrl {
       productsCount: this.orderData.rowsDetails.length,
       total: this.orderData.totalInfos.total,
       reduction: this.orderData.totalInfos.reduction ? this.orderData.totalInfos.reduction.toFixed(3) : null, 
-      rows: this.orderData.rowsDetails.map((row) => ({
-        product: row.product,
-        quantity: row.quantity,
-        image: getFirstImageFromArray(row.product.images)
-      })),
+      rows: this.orderData.rowsDetails.map((row) => {
+        let price, originalPrice, promo;
+        if (row.price) {
+          price = row.price;
+          originalPrice = row.original_price;
+          promo = price !== originalPrice;
+        } else {
+          price = row.product.promo_price ? row.product.promo_price : row.product.price;
+          originalPrice = row.product.price;
+          promo = price !== originalPrice;
+        }
+
+        return {
+          product: row.product,
+          quantity: row.quantity,
+          image: getFirstImageFromArray(row.product.images),
+          price,
+          originalPrice,
+          promo
+        }
+      }),
       sTotal: this.orderData.totalInfos.totalTTC,
       shippingFee: this.orderData.totalInfos.shippingText,
       status: orderStatusMapper(this.orderData.order.order_status),
