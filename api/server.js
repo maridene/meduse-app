@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(errorHandler);
 
 // simple route
-app.get(process.env.BASE_API_URL, (req, res) => {
+app.get('/api', (req, res) => {
   res.json({ message: "Welcome to meduse." });
 });
 
