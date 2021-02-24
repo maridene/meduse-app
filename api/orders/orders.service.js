@@ -12,7 +12,7 @@ const browserParams = {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,    
 }
-if (process.env.dev === '1') {
+if (dev) {
     browserParams.executablePath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe';
 }
 
