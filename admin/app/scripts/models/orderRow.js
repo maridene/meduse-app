@@ -14,4 +14,5 @@ var OrderRow = function OrderRow(data) {
     this.quantity = data.quantity;
     this.price = data.price;
     this.originalPrice = data.original_price;
+    this.reduction = data.reduction;
 };

@@ -86,7 +86,7 @@ OrderRow.add = (orderRow) => {
 OrderRow.addAll = (orderRows) => {
     orderRows = orderRows.map((row) => Object.values(row));
     return new Promise((resolve, reject) => {
-        sql.query(`INSERT INTO ${tables.ORDER_ROWS}(order_id, product_id, variant_id, quantity, price, original_price) VALUES ?`,  [orderRows], (err, res) => {
+        sql.query(`INSERT INTO ${tables.ORDER_ROWS}(order_id, product_id, variant_id, quantity, price, original_price, reduction) VALUES ?`,  [orderRows], (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 reject(err);

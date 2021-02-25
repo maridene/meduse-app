@@ -119,8 +119,10 @@
                             <tr>
                                 <th>Produit</th>
                                 <th>Variante</th>
-                                <th>Quantité</th>
-                                <th>Prix unitaire</th>
+                                <th>P.U TTC</th>
+                                <th>%TVA</th>
+                                <th>Qte</th>
+                                <th>% Réduction</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -128,11 +130,15 @@
                             <tr ng-repeat="item in rows"> 
                                 <td class="center">{{item.product.label}}</td>
                                 <td class="center">{{item.variantLabel}}</td>
+                                <td class="center" ng-if="item.product.promo_price"><b>{{item.product.promo_price}} D.T </b><del>{{item.product.price}}D.T</del> </td>
+                                <td class="center" ng-if="!item.product.promo_price"><b>{{item.product.price}} D.T</b></td>
+                                <td class="center"> {{item.product.tva}}</td>
                                 <td class="center">
                                     <input style="width: 60px" type="number" min="1" step="1" ng-model="item.quantity" ng-change="rowQuantityChange()">
                                 </td>
-                                <td class="center" ng-if="item.product.promo_price"><b>{{item.product.promo_price}} D.T </b><del>{{item.product.price}}D.T</del> </td>
-                                <td class="center" ng-if="!item.product.promo_price"><b>{{item.product.price}} D.T</b></td>
+                                <td class="center">
+                                    <input style="width: 60px" type="number" min="0" step="1" max="100" ng-model="item.reduction" ng-change="rowReductionChange()">
+                                </td>
                                 <td class="center">
                                     <button type="button" class="btn btn-danger" ng-click="removeRow($index)">Retirer</button>
                                 </td>
@@ -232,7 +238,8 @@
                 <h4 class="modal-title" id="myModalLabel">Erreur</h4>
             </div>
             <div class="modal-body">
-               Un problème est survenu lors de l'ajout de la commande <br/> {{modal.errorMessage}}
+               <b>Un problème est survenu lors de la création de la commande</b>
+               <p> {{modal.errorMessage}}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>

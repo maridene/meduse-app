@@ -362,9 +362,12 @@ async function doCreateOrder(order, orderRows, notifyAdmins) {
             const price = product.promo_price ? product.promo_price : product.price;
             rows.push ({
                 order_id: addedOrder.id,
-                ...each,
+                product_id: each.productId,
+                variant_id: each.variantId,
+                quantity: each.quantity,
                 price,
-                original_price: originalPrice
+                original_price: originalPrice,
+                reduction: each.reduction || 0
             });
         }
         const addedRows = await orderRowsService.addAll(rows);
