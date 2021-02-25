@@ -94,7 +94,7 @@ function getAdmins() {
 
 function getById(id) {
     return new Promise((resolve, reject) => {
-        const user = users.findById(id)
+        users.findById(id)
         .then((user) => {
             const { password, ...userWithoutPassword } = user;
             resolve(userWithoutPassword);
@@ -106,7 +106,7 @@ function getById(id) {
 
 function getClientById(id) {
     return new Promise((resolve, reject) => {
-        const user = users.findById(id)
+        users.findById(id)
         .then((user) => {
             const { password, ...userWithoutPassword } = user;
             resolve(userWithoutPassword);
