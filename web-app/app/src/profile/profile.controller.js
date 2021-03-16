@@ -116,11 +116,17 @@ export class ProfileOrderDetailsCtrl {
   }
 
   $onInit() {
+    const shipping = this.orderData.totalInfos.lines & this.orderData.totalInfos.lines.some((line) => line.label === 'Livraison') ?
+      this.orderData.totalInfos.lines.filter((line) => line.label === 'Livraison')[0].priceTTC : 0;
+    const shippingText = shipping ? `${this.orderData.totalInfos.lines.filter((line) => line.label === 'Livraison')[0].priceTTC.toFixed(3)} D.T` : 'Livraison gratuite';
+    const sTotal = shipping ? this.orderData.totalInfos.totalInfos.totalTTC - shipping : this.orderData.totalInfos.totalInfos.totalTTC;
+    const sTotalText = `${sTotal} D.T TTC`;  
     this.order = {
       ref: this.orderData.order.order_ref,
       date: new Date(this.orderData.order.order_date).toLocaleDateString("fr-FR"),
+      shippingDate: this.orderData.order.shipping_date ? new Date(this.orderData.order.shipping_date).toLocaleDateString("fr-FR") : null,
       productsCount: this.orderData.rowsDetails.length,
-      total: this.orderData.totalInfos.total,
+      total: this.orderData.totalInfos.totalInfos.totalLabel,
       reduction: this.orderData.totalInfos.reduction ? this.orderData.totalInfos.reduction.toFixed(3) : null, 
       rows: this.orderData.rowsDetails.map((row) => {
         let price, originalPrice, promo;
@@ -160,8 +166,8 @@ export class ProfileOrderDetailsCtrl {
           productLabel
         }
       }),
-      sTotal: this.orderData.totalInfos.totalTTC,
-      shippingFee: this.orderData.totalInfos.shippingText,
+      sTotal: sTotalText,
+      shippingFee: shippingText,
       status: orderStatusMapper(this.orderData.order.order_status),
       clientName: '',
       shippingAddress: this.orderData.deliveryAddress.address,

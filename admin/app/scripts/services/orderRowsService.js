@@ -30,9 +30,9 @@ angular.module('sbAdminApp').service('OrderRowsService', ['$q', 'ObjectBuilder',
       });
       return deferred.promise;
     },
-    updateRowQuantity: function updateRowQuantity(id, newQuantity) {
+    updateRow: function updateRow(id, newQuantity, newReduction) {
       var deferred = $q.defer();
-      RestService.put("".concat(ORDER_ROWS, "/").concat(id).concat("/quantity"), {newQty: newQuantity}).then(function (result) {
+      RestService.put("".concat(ORDER_ROWS, "/").concat(id).concat("/qtyRed"), {newQty: newQuantity, newReduction}).then(function (result) {
         deferred.resolve(result);
       }, function (error) {
         deferred.reject(error);

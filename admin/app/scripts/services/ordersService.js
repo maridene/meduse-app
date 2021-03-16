@@ -107,6 +107,17 @@ angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'R
           deferred.reject(err);
         });
       return deferred.promise;
+    },
+    updateOrderAgent: function updateOrderAgent(orderId, agentId) {
+      var deferred = $q.defer();
+      var url = ORDERS + '/' + orderId + '/agent';
+      RestService.put(url, {agentId: agentId})
+        .then(function(result) {
+          deferred.resolve(result);
+        }, function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
     }
   };
 }]);

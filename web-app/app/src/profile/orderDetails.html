@@ -35,7 +35,8 @@
                             <div class="OrderDetails-infos-description row">
                                 <div class="OrderDetails-infos-description-line">{{$ctrl.order.productsCount}} articles</div>
                                 <div class="OrderDetails-infos-description-line">Effectuée le {{$ctrl.order.date}}</div>
-                                <div class="OrderDetails-infos-description-line">Total: {{$ctrl.order.total}} TND</div>
+                                <div class="OrderDetails-infos-description-line" ng-if="$ctrl.order.shippingDate">Livrée le: {{$ctrl.order.shippingDate}}</div>
+                                <div class="OrderDetails-infos-description-line">Total: {{$ctrl.order.total}}</div>
                                 <div class="OrderDetails-infos-description-line order-status">Etat de la commande: {{$ctrl.order.status}}</div>
                             </div>
                         </div>
@@ -75,11 +76,11 @@
                         <div class="OrderDetails-delivery-tab-body-itemTitle">Méthode de paiement</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Paiement à la livraison</div>
                         <div class="OrderDetails-delivery-tab-body-itemTitle">Détails du paiement</div>
-                        <div class="OrderDetails-delivery-tab-body-itemDescription">Sous-total: {{$ctrl.order.sTotal}} TND</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Sous-total: {{$ctrl.order.sTotal}} D.T TTC</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription" ng-if="$ctrl.order.reduction"> Réduction: {{$ctrl.order.reduction}} TND</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Frais de livraison: {{$ctrl.order.shippingFee}}</div>
                         <div class="OrderDetails-delivery-tab-body-itemDescription">Timbre fiscale: 0.600 TND</div>
-                        <div class="OrderDetails-delivery-tab-body-itemDescription">Total: {{$ctrl.order.total}} TND</div>
+                        <div class="OrderDetails-delivery-tab-body-itemDescription">Total: {{$ctrl.order.total}}</div>
                     </div>
                 </div>
                 <div class="col-lg-6 OrderDetails-delivery-tab OrderDetails-delivery-tab-right">

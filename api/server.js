@@ -56,6 +56,7 @@ app.use('/api/subscribe', require('./mailing/subscribers.controller'));
 app.use('/api/contactform', require('./mailing/contactForm.controller'));
 app.use('/api/invoice', require('./orders/invoices.controller'));
 app.use('/api/ordersstats', require('./orders/ordersStats.controller'));
+app.use('/api/agents', require('./agent/agent.controller'));
 
 //Serves all the request which includes /images in the url from Images folder
 const staticContentDir = dev ? __dirname + '/public' : '/var/www/meduse-static';

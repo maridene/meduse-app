@@ -22,7 +22,9 @@ var RESOURCE = {
   ORDERS: 'orders',
   ORDER: 'order',
   ORDER_ROW: 'orderRow',
-  ORDER_ROWS: 'orderRows'
+  ORDER_ROWS: 'orderRows',
+  AGENT: 'agent',
+  AGENTS: 'agents'
 };
 angular.module('sbAdminApp').service('ObjectBuilder', [function () {
   function getImageUrlFromProduct(baseUrl, product) {
@@ -184,6 +186,16 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
     return new OrderRow(data);
   }
 
+  function buildAgents(data) {
+    return data.map(function(item) {
+      return buildAgent(item);
+    })
+  }
+
+  function buildAgent(data) {
+    return new Agent(data);
+  }
+
   return {
     buildObject: function buildObject(key, response) {
       switch (key) {
@@ -252,9 +264,16 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
 
         case RESOURCE.ORDER_ROW:
           return buildOrderRow(response);
-      }
 
-      return response;
+        case RESOURCE.AGENTS:
+          return buildAgents(response);
+
+        case RESOURCE.AGENT:
+          return buildAgent(response);
+
+        default:
+          return response;
+      }
     }
   };
 }]);

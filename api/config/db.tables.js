@@ -11,5 +11,6 @@ module.exports = {
     COUPONS: "coupons",
     SETTINGS: "settings",
     SUBSCRIBERS: "subscribers",
-    ADMIN_NOTIFICATIONS: "admin_notifications"
+    ADMIN_NOTIFICATIONS: "admin_notifications",
+    AGENTS: "agents"
   };

@@ -61,21 +61,33 @@ function getProductSKU(category, marque, label) {
 }
 
 function formatDate (input) {
+  if (!input) {
+    return "-";
+  }
   var datePart = input.match(/\d+/g),
   year = datePart[0], // get only two digits
   month = datePart[1], day = datePart[2];
 
-  return day+'/'+month+'/'+year;
+  return (+day + 1) +'/'+month+'/'+year;
 }
 
 function formatDateTime(input) {
+  if (!input) {
+    return '';
+  }
   const date = formatDate(input.split('T')[0]);
   const time = input.split('T')[1].split('.')[0];
   return "".concat(date, ' - ').concat(time);
 }
 
 function getDateFromDatetime(input) {
-  return formatDateTime(input).split('-')[0];
+  const date = formatDateTime(input).split('-')[0];
+  if (date) {
+    const toDateObject = new Date(date);
+    toDateObject.setDate(toDateObject.getDate()+1);
+    return toDateObject.toLocaleDateString();
+  }
+  return date;
 }
 
 function orderStatusMapper(status) {

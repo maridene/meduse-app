@@ -1,7 +1,7 @@
 const express = require('express');
-const path = require("path");
 const router = express.Router();
 const ordersService = require('./orders.service');
+const invoicesService = require('./invoices.service');
 const authorize = require('helpers/authorize')
 const Role = require('helpers/role');
 
@@ -32,6 +32,7 @@ router.post('/:id/creditInvoice', authorize(Role.Admin), generateCreditInvoice);
 router.get('/:id/total', authorize(Role.Admin), getOrderTotal);
 router.post('/:id/reduction/apply', authorize(Role.Admin), applyReduction);
 router.post('/:id/reduction/cancel', authorize(Role.Admin), cancelReduction);
+router.put('/:id/agent', authorize(Role.Admin), updateAgent);
 
 // all authenticated users routes
 router.post('/submit', authorize(Role.User), submitOrder);
@@ -131,7 +132,7 @@ function generateInvoice(req, res, next) {
     const orderId = parseInt(req.params.id);
     const date = req.body.date;
     const mf = req.body.mf;
-    ordersService.generateInvoice(orderId, date, mf)
+    invoicesService.generateInvoice(orderId, date, mf)
         .then(filename => {
             res.json({filename: filename});
         })
@@ -142,7 +143,7 @@ function generateDeleveryInvoice(req, res, next) {
     const orderId = parseInt(req.params.id);
     const date = req.body.date;
     const mf = req.body.mf;
-    ordersService.generateDeliveryInvoice(orderId, date, mf)
+    invoicesService.generateDeliveryInvoice(orderId, date, mf)
         .then(filename => {
             res.json({filename: filename});
         })
@@ -153,7 +154,7 @@ function generateCreditInvoice(req, res, next) {
     const orderId = parseInt(req.params.id);
     const date = req.body.date;
     const mf = req.body.mf;
-    ordersService.generateCreditInvoice(orderId, date, mf)
+    invoicesService.generateCreditInvoice(orderId, date, mf)
         .then(filename => {
             res.json({filename: filename});
         })
@@ -182,6 +183,16 @@ function applyReduction(req, res, next) {
 function cancelReduction(req, res, next) {
     const orderId = parseInt(req.params.id);
     ordersService.cancelReduction(orderId)
+    .then(data => {
+        res.json(data);
+    })
+    .catch(err => next(err));
+}
+
+function updateAgent(req, res, next) {
+    const agentId = req.body.agentId;
+    const orderId = parseInt(req.params.id);
+    ordersService.updateAgent(orderId, agentId)
     .then(data => {
         res.json(data);
     })

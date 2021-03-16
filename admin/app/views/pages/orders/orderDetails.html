@@ -13,33 +13,48 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-            <table>
-                <tr>
-                    <td><b>Date de la commande:</b></td>
-                    <td>{{order.date}}</td>
-                </tr>
-                <tr>
-                    <td><b>Etat de la commande:</b</td>
-                    <td>{{order.status}}</td>
-                </tr>
-                <tr ng-if="order.canceledDate">
-                    <td><b>Date d'annulation:</b</td>
-                    <td>{{order.canceledDate}}</td>
-                </tr>
-
-                <tr ng-if="order.shippedDate">
-                    <td><b>Date de livraison:</b</td>
-                    <td>{{order.shippedDate}}</td>
-                </tr>
-                <tr>
-                    <td><b>Type de paiement:</b</td>
-                    <td>{{order.paymentType}}</td>
-                </tr>
-                <tr>
-                    <td><b>Etat de paiement:</b</td>
-                    <td>{{order.paymentStatus}}</td>
-                </tr>
-            </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table>
+                            <tr>
+                                <td><b>Date de la commande:</b></td>
+                                <td>{{order.date}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Etat de la commande:</b</td>
+                                <td>{{order.status}}</td>
+                            </tr>
+                            <tr ng-if="order.canceledDate">
+                                <td><b>Date d'annulation:</b</td>
+                                <td>{{order.canceledDate}}</td>
+                            </tr>
+        
+                            <tr ng-if="order.shippedDate">
+                                <td><b>Date de livraison:</b</td>
+                                <td>{{order.shippedDate}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Type de paiement:</b</td>
+                                <td>{{order.paymentType}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Etat de paiement:</b</td>
+                                <td>{{order.paymentStatus}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Représentant</label>
+                            <select class="form-control form-inline" ng-model="selectedAgent">
+                                <option ng-repeat="agent in agents track by agent.id" value="{{agent.id}}">{{agent.name}}</option>
+                            </select>
+                            <button class="btn btn-success" type="button" ng-disabled="disableApplyAgent" ng-click="applyAgent()" style="margin-top: 10px;">Appliquer</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -72,7 +87,7 @@
                         <td>{{client.premium ? 'Oui' : 'Non'}}</td>
                     </tr>
                     <tr>
-                        <td><b>Solde points:</b></td>
+                        <td><b>Solde de points:</b></td>
                         <td>{{client.points}}</td>
                     </tr>
                 </table>
@@ -90,26 +105,36 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <form role="form" ng-submit="apply()">
-                    <div class="form-group">
-                        <label>Etat de la commande </label>
-                        <select class="form-control" ng-model="form.selectedOrderStatus" required>
-                            <option ng-repeat="status in possibleStatuses" value="{{status.key}}">{{status.label}}</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Etat de la commande </label>
+                                <select class="form-control" ng-model="form.selectedOrderStatus" required>
+                                    <option ng-repeat="status in possibleStatuses" value="{{status.key}}">{{status.label}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Etat de payement </label>
+                                <select class="form-control" ng-model="form.selectedPaymentStatus" required>
+                                    <option value="0">Non payée</option>
+                                    <option value="1">Payée</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Commentaire:</label>
+                                <textarea class="form-control" rows="3" ng-model="form.message" spellcheck="false"></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Etat de payement </label>
-                        <select class="form-control" ng-model="form.selectedPaymentStatus" required>
-                            <option value="0">Non payée</option>
-                            <option value="1">Payée</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="submit" ng-disabled="disableApply" class="btn btn-success">Appliquer</button>
+                            </div>   
+                        </div>  
                     </div>
-                    <div class="form-group">
-                        <label>Commentaire:</label>
-                        <textarea class="form-control" rows="3" ng-model="form.message" spellcheck="false"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" ng-disabled="disableApply" class="btn btn-success">Appliquer</button>
-                    </div>        
                 </form>
             
             </div>
@@ -192,6 +217,7 @@
                             <th>Produit</th>
                             <th>Quantité</th>
                             <th>Prix unitaire</th>
+                            <th>Réduction</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -204,6 +230,9 @@
                             <td class="center" ng-if="item.inPromo"><b>{{item.price}} D.T </b><del>{{item.originalPrice}}D.T</del> </td>
                             <td class="center" ng-if="!item.inPromo"><b>{{item.price}} D.T</b></td>
                             <td class="center">
+                                <input style="width: 60px" type="number" min="0" step="1" max="100" ng-model="item.newReduction" ng-change="rowReductionChange()">
+                            </td>
+                            <td class="center">
                                 <button type="button" class="btn btn-danger" ng-click="removeRow(item)">Retirer</button>
                             </td>
                         </tr>
@@ -211,7 +240,7 @@
                 </table>
 
                 <div>
-                    <button type="button" class="btn btn-success" ng-click="update()" ng-disabled="!rowQuantityChanged">Mettre à jour</button>
+                    <button type="button" class="btn btn-success" ng-click="update()" ng-disabled="!(rowQuantityChanged || rowReductionChanged)">Mettre à jour</button>
                 </div>
 
                 <hr/>
@@ -248,11 +277,11 @@
                 <table>
                     <tr>
                         <td><b>Total HT:</b></td>
-                        <td>{{totalInfo.totalHT}} D.T</td>
+                        <td>{{totalInfo.totalHTLabel}}</td>
                     </tr>
                     <tr>
                         <td><b>Total TVA:</b</td>
-                        <td>{{totalInfo.totalTVA}} D.T</td>
+                        <td>{{totalInfo.totalTVALabel}}</td>
                     </tr>
                     <tr>
                         <td ng-if="totalInfo.couponReduction"><b>Coupon de réduction:</b</td>
@@ -260,21 +289,16 @@
                     </tr>
                     <tr>
                         <td><b>Total TTC:</b</td>
-                        <td>{{totalInfo.totalTTC}} D.T</td>
+                        <td>{{totalInfo.totalTTCLabel}}</td>
                     </tr>
                     <tr ng-if="totalInfo.reduction && totalInfo.reduction > 0">
                         <td><b>Réduction:</b</td>
-                        <td>{{totalInfo.reduction}} D.T</td>
+                        <td>{{totalInfo.reductionLabel}}</td>
                     </tr>
 
                     <tr ng-if="totalInfo.reduction && totalInfo.reduction > 0">
                         <td><b>Total TTC après réduction:</b</td>
-                        <td>{{totalInfo.totalTTCAfterReduction}} D.T</td>
-                    </tr>
-
-                    <tr>
-                        <td><b>Frais de livraison:</b</td>
-                        <td>{{totalInfo.shippingText}}</td>
+                        <td>{{totalInfo.totalTTCAfterReductionLabel}}</td>
                     </tr>
                     <tr>
                         <td><b>Timbre fiscale:</b</td>
@@ -282,36 +306,9 @@
                     </tr>
                     <tr>
                         <td><b>Total à payer:</b</td>
-                        <td>{{totalInfo.total}} D.T TTC</td>
+                        <td>{{totalInfo.totalLabel}}</td>
                     </tr>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-6 col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Réduction sur la commande
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <form class="form" role="form">
-                    <div class="form-inline">
-                        <label>Valeur de la réduction (D.T) :  </label>
-                        <div class="form-group input-group">
-                            <input type="number" id="reduction" name="reduction" ng-model="order.reduction" ng-disabled="reductionApplied">
-                        </div>
-                        <div class="form-group input-group" ng-if="!reductionApplied">
-                            <button type="button" class="btn btn-primary" ng-click="applyReduction()">Appliquer</button>
-                        </div>
-                        <div class="form-group input-group" ng-if="reductionApplied">
-                            <button type="button" class="btn btn-danger" ng-click="cancelReduction()">Annuler</button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

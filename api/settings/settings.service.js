@@ -56,22 +56,22 @@ function updateByLabel(label, value) {
 }
 
 async function getAndIncrementInvoiceNumber() {
-    const numObject = await getByLabel('lastInvoice');
+    const numObject = await getByLabel('nextInvoice');
     const num = parseInt(numObject.value);
-    updateByLabel('lastInvoice', num + 1);
+    updateByLabel('nextInvoice', num + 1);
     return num;
 }
 
 async function getAndIncrementDeliveryInvoiceNumber() {
-    const numObject = await getByLabel('lastDeliveryInvoice');
+    const numObject = await getByLabel('nextDeliveryInvoice');
     const num = parseInt(numObject.value);
-    updateByLabel('lastDeliveryInvoice', num + 1);
+    updateByLabel('nextDeliveryInvoice', num + 1);
     return num;
 }
 
 async function getAndIncrementCreditInvoiceNumber() {
-    const numObject = await getByLabel('lastCreditInvoice');
+    const numObject = await getByLabel('nextCreditInvoice');
     const num = parseInt(numObject.value);
-    updateByLabel('lastCreditInvoice', num + 1);
+    updateByLabel('nextCreditInvoice', num + 1);
     return num;
 }

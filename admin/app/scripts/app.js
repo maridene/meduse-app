@@ -59,6 +59,7 @@ angular
                     'scripts/models/client.js',
                     'scripts/models/order.js',
                     'scripts/models/orderRow.js',
+                    'scripts/models/agent.js',
                     'scripts/utils.js',
                     'scripts/services/objectBuilder.js',
                     'scripts/services/restService.js',
@@ -72,7 +73,8 @@ angular
                     'scripts/services/ordersService.js',
                     'scripts/services/orderRowsService.js',
                     'scripts/services/couponsService.js',
-                    'scripts/services/settingsService.js'
+                    'scripts/services/settingsService.js',
+                    'scripts/services/agentsService.js'
                     ]
                 }));
                   promises.push($ocLazyLoad.load(
@@ -485,6 +487,32 @@ angular
           }
         }
     })
+    .state('dashboard.agents-list', {
+      url:'/agents-list',
+      controller: 'AgentsListCtrl',
+      templateUrl: 'views/pages/agents/agentsList.html',
+      resolve: {
+        loadMyFile:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:['scripts/controllers/agents/agentsListController.js']
+          })
+        }
+      }
+  })
+    .state('dashboard.add-agent', {
+      url:'/add-agent',
+      controller: 'AddAgentCtrl',
+      templateUrl: 'views/pages/agents/addAgent.html',
+      resolve: {
+        loadMyFile:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:['scripts/controllers/agents/addAgentController.js']
+          })
+        }
+      }
+  })
       .state('dashboard.subscribers', {
         url:'/subscribers',
         controller: 'SubscribersCtrl',

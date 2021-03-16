@@ -129,151 +129,120 @@
                             </td>
                             <td></td>
                             <td style="text-align: end; font-size:12px">
-                                Facture d'avoir N°: {{invoiceNumber}}<br>
+                                Facture N°: {{invoiceNumber}}<br>
                                 Ref commande: {{order.order_ref}}<br>
                                 Crée le: {{creationDate}}<br>
+                                {{#ifNotNull agent}}
+                                        Représentant: {{{agent}}}
+                                {{/ifNotNull}}
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-            
+        </table>
+        
+        <table>    
             <tr>
-                <td colspan="3">
+                <td colspan="1">
                     <table>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td style="text-align: center; color: rgb(25,52,109); font-size: 20px; font-weight: bold; width: 100%; ">Facture d'avoir N° {{invoiceNumber}}</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-
-            <tr class="information">
-                <td colspan="3">
-                    <table>
-                        <tr>
-                            <td>
-                                <b>Adresse de Facturation</b><br>
-                                {{{client.name}}}<br>
-                                {{{client.email}}}<br>
-                                {{{order.billing_address}}}<br>
-                                {{order.billing_zipcode}} {{{order.billing_city}}}, {{{order.billing_state}}}<br>
-                                Téléphone: {{client.phone}}<br>
-                                Matricule Fiscale: {{mf}}
-                            </td>
-
-                            <td></td>
-                            
-                            <td style="text-align: end">
-                                <b>Adresse de Livraison</b><br>
-                                {{{client.name}}}<br>
-                                {{{client.email}}}<br>
-                                {{{order.delivery_address}}}<br>
-                                {{order.delivery_zipcode}} {{{order.delivery_city}}}, {{{order.delivery_state}}}<br>
-                                Téléphone: {{client.phone}}
+                            <td style="text-align: center; color: rgb(25,52,109); font-size: 20px; font-weight: bold; width: 100%; ">
+                                Facture d'avoir N° {{invoiceNumber}}
                             </td>
                         </tr>
                     </table>
-                </td>
-            </tr>
-            
-            
-            <tr class="heading">
-                <td>
-                    Produit
-                </td>
-                <td style="text-align: center">Quantité</td>
-                <td>
-                    Prix Unitaire
-                </td>
-            </tr>
-            
-            {{#each lines}}
-            <tr class="item">
-                <td>
-                    {{{this.name}}}
-                </td>
-                <td style="text-align: center">{{this.quantity}}</td>
-                
-                <td>
-                    {{this.price}}
-                </td>
-            </tr>
-            {{/each}}
-            
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                   Total H.T: {{totalInfos.totalHT}} D.T
-                </td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                   T.V.A: {{totalInfos.totalTVA}} D.T
-                </td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                   Total TTC: {{totalInfos.totalTTC}} D.T
-                </td>
-            </tr>
-
-            {{#ifNotZero order.reduction}}
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                   Réduction: {{totalInfos.reduction}} D.T
-                </td>
-            </tr>
-            {{/ifNotZero}}
-
-            {{#ifNotZero order.reduction}}
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                   Total TTC après réduction: {{totalInfos.totalTTCAfterReduction}} D.T
-                </td>
-            </tr>
-            {{/ifNotZero}}
-
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    Livraison: {{totalInfos.shippingText}}
-                </td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                   Timbre fiscale: {{totalInfos.timbreFiscale}} D.T
-                </td>
-            </tr>
-
-            <tr class="total">
-                <td></td>
-                <td></td>
-                <td class="total">
-                   <b>Total: {{totalInfos.total}} D.T TTC</b>
                 </td>
             </tr>
         </table>
 
-        <div>Mode de paiement:  &nbsp;&nbsp;&nbsp; 
+        <table>
+            <tr class="information">
+                <td>
+                    <b>Adresse de Facturation</b><br>
+                    {{{client.name}}}<br>
+                    {{{client.email}}}<br>
+                    {{{order.billing_address}}}<br>
+                    {{order.billing_zipcode}} {{{order.billing_city}}}, {{{order.billing_state}}}<br>
+                    Téléphone: {{client.phone}}<br>
+                    Matricule Fiscale: {{mf}}
+                </td>
+                
+                <td style="text-align: end">
+                    <b>Adresse de Livraison</b><br>
+                    {{{client.name}}}<br>
+                    {{{client.email}}}<br>
+                    {{{order.delivery_address}}}<br>
+                    {{order.delivery_zipcode}} {{{order.delivery_city}}}, {{{order.delivery_state}}}<br>
+                    Téléphone: {{client.phone}}
+                </td>
+            </tr>
+        </table>
+        
+        <table>    
+            <tr class="heading">
+                <td style="text-align: center">Produit</td>
+                <td style="text-align: center">Qté</td>
+                <td style="text-align: center"> P.U HT</td>
+                <td style="text-align: center"> RE/</td>
+                <td style="text-align: center"> Total HT</td>
+                <td style="text-align: center"> TVA</td>
+            </tr>
             
+            {{#each lines}}
+            <tr class="item">
+                <td>{{{this.label}}}</td>
+                <td style="text-align: center">{{this.quantity}}</td>
+                <td style="text-align: center">{{this.priceHTLabel}}</td>
+                <td style="text-align: center">{{this.reductionLabel}}</td>
+                <td style="text-align: center">{{this.totalHTLabel}}</td>
+                <td style="text-align: center">{{this.tvaLabel}}</td>
+            </tr>
+            {{/each}}
+        </table>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; padding-top: 15px;">
+            <div>
+                <table>
+                    <tr class="heading">
+                        <td style="text-align: center">Taux</td>
+                        <td style="text-align: center">Base</td>
+                        <td style="text-align: center">Montant</td>
+                    </tr>
+                    {{#each tvaRows}}
+                    <tr class="item">
+                        <td style="text-align: center">{{this.tvaLabel}}</td>
+                        <td style="text-align: center">{{this.baseLabel}}</td>
+                        <td style="text-align: center">{{this.amountLabel}}</td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <div>Total H.T: {{totalInfos.totalHTLabel}}</div>
+                <div>T.V.A: {{totalInfos.totalTVALabel}}</div>
+                <div>Total TTC: {{totalInfos.totalTTCLabel}}</div>
+
+                {{#ifNotZero order.reduction}}
+                <div>
+                   Réduction: {{totalInfos.reduction}} D.T
+                </div>
+                {{/ifNotZero}}
+
+                {{#ifNotZero order.reduction}}
+                <div>
+                   Total TTC après réduction: {{totalInfos.totalTTCAfterReduction}} D.T
+                </div>
+                {{/ifNotZero}}
+                <div>Timbre fiscale: 0.600 D.T</div>
+                <div style="border: 1px solid black; padding: 10px;">
+                    <div style="font-weight: bold; font-size: 13px;">
+                        Total: {{totalInfos.totalLabel}}
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div>Mode de paiement:  &nbsp;&nbsp;&nbsp; 
             
             {{#ifEquals order.ptype "e"}}
             <b>

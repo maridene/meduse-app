@@ -7,19 +7,22 @@
  * Controller of the order details page
  */
 angular.module('sbAdminApp')
-  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', '$q', 'RestService', 'CategoryService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 'ProductVariantsService', 'CouponsService', 
-  function ($scope, $stateParams, $window, $q, RestService, CategoryService, OrdersService, OrderRowsService, UsersService, ProductService, ProductVariantsService, CouponsService) {
+  .controller('OrderDetailsCtrl', ['$scope', '$stateParams', '$window', '$q', 'RestService', 'CategoryService', 'OrdersService', 'OrderRowsService', 'UsersService', 'ProductService', 'ProductVariantsService', 'CouponsService', 'AgentsService', 
+  function ($scope, $stateParams, $window, $q, RestService, CategoryService, OrdersService, OrderRowsService, UsersService, ProductService, ProductVariantsService, CouponsService, AgentsService) {
     $scope.order = {};
     $scope.coupon = {};
     $scope.totalInfo = {};
+    $scope.agents = [];
     $scope.rows = [];
     $scope.form = {
       message: ''
     };
-
+    $scope.disableApplyAgent = true;
+    
     //Edit rows Form
     $scope.addInProgress = false;
     $scope.rowQuantityChanged = false;
+    $scope.rowReductionChanged = false;
     $scope.categories = [];
     $scope.addProductForm = {
       selectedCategoryId: null,
@@ -34,6 +37,11 @@ angular.module('sbAdminApp')
       clientMF: '',
       deliveryInvoiceDate: new Date()
     };
+
+    AgentsService.getAll()
+      .then(function(result) {
+        $scope.agents = result;
+      });
 
     CategoryService.getAllCategories().then(function(result) {
       if (result.length) {
@@ -109,6 +117,14 @@ angular.module('sbAdminApp')
       }
     });
 
+    $scope.$watch('selectedAgent', function() {
+      if ($scope.selectedAgent != $scope.order.agentId) {
+        $scope.disableApplyAgent = false;
+      } else {
+        $scope.disableApplyAgent = true;
+      }
+    });
+
     $scope.submitRow = function() {
       if ($scope.checkSubmitRow()) {
 
@@ -130,7 +146,7 @@ angular.module('sbAdminApp')
         function(order) {
           
           $scope.order = enrichOrder(order);
-          $scope.reductionApplied = parseFloat(order.reduction) > 0;
+          $scope.selectedAgent = order.agentId;
           $scope.possibleStatuses = getPossibleNextStatuses($scope.order.order_status);
           $scope.form.selectedOrderStatus = $scope.possibleStatuses[0].key;
           $scope.form.selectedPaymentStatus = $scope.order.payment_status;
@@ -143,7 +159,7 @@ angular.module('sbAdminApp')
           }
 
           OrdersService.totalInfo(order.id).then(function (result) {
-            $scope.totalInfo = result;
+            $scope.totalInfo = result.totalInfos;
           });
 
           OrderRowsService.getByOrderId(order.id).then(
@@ -169,6 +185,8 @@ angular.module('sbAdminApp')
                       label: getProductLabel(result.product, selectedVariant),
                       quantity : row.quantity,
                       newQuantity: row.quantity,
+                      reduction: row.reduction,
+                      newReduction: row.reduction,
                       price: price,
                       originalPrice: originalPrice,
                       inPromo: inPromo,
@@ -304,13 +322,23 @@ angular.module('sbAdminApp')
       $scope.rowQuantityChanged = changed;
     };
 
+    $scope.rowReductionChange = function () {
+      var changed = false;
+      $scope.rows.forEach(function(row) {
+        if (row.reduction !== row.newReduction) {
+          changed = true;
+        }
+      });
+      $scope.rowReductionChanged = changed;
+    };
+
     $scope.update = function () {
       var changedRows = $scope.rows.filter(function(row) {
-        return row.quantity !== row.newQuantity; 
+        return row.quantity !== row.newQuantity || row.reduction !== row.newReduction;
       });
       if (changedRows.length) {
         var promises = changedRows.map(function (row) {
-          return OrderRowsService.updateRowQuantity(row.id, row.newQuantity);
+          return OrderRowsService.updateRow(row.id, row.newQuantity, row.newReduction);
         });
         $q.all(promises).then(function () {
           $window.location.reload();
@@ -337,21 +365,10 @@ angular.module('sbAdminApp')
       $scope.addInProgress = false;
     };
 
-    $scope.applyReduction = function () {
-      OrdersService.applyReduction($scope.order.id, $scope.order.reduction)
-        .then(function() {
+    $scope.applyAgent = function() {
+      OrdersService.updateOrderAgent($scope.order.id, $scope.selectedAgent)
+        .then(() => {
           $window.location.reload();
-        }, function (error) {
-
-        });
-    };
-
-    $scope.cancelReduction = function () {
-      OrdersService.cancelReduction($scope.order.id)
-        .then(function() {
-          $window.location.reload();
-        }, function (error) {
-
         });
     };
 

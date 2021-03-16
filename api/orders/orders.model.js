@@ -398,4 +398,30 @@ Orders.setReduction = (id, value) => {
   });
 }
 
+Orders.updateAgent = (id, agentId) => {
+  return new Promise((resolve, reject) => {
+    sql.query(
+      `UPDATE ${tables.ORDERS} SET ` +
+      "agent_id = ? " +
+      "WHERE id = ? ", 
+      [
+        agentId, 
+        id
+      ], (err, res) => {
+        if (err) {
+          console.log("Error while setting order agent, orderId = ", id);
+          reject(err);
+          return;
+        }
+        if (res.affectedRows == 0) {
+          // not found order with the id
+          reject({ kind: "not_found" });
+          return;
+        }
+        console.log("updated order agent: ", id);
+        resolve({ id: id, agentId});
+      });
+  });
+};
+
 module.exports = Orders;

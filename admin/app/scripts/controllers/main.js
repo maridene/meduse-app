@@ -74,7 +74,7 @@ angular.module('sbAdminApp')
 						if (result.data.orders.length) {
 							var total = 0;
 							result.data.orders.forEach(function(order) {
-								total = total + parseFloat(order.totalInfos.total);
+								total = total + parseFloat(order.totalInfos.totalInfos.total.toFixed(3));
 							});
 							defered.resolve({month: result.data.month, value: total});
 						} else {
@@ -182,7 +182,7 @@ angular.module('sbAdminApp')
 						if (result.data.orders.length) {
 							var total = 0;
 							result.data.orders.forEach(function(order) {
-								total = total + parseFloat(order.totalInfos.total || 0);
+								total = total + parseFloat(order.totalInfos.totalInfos.total.toFixed(3) || 0);
 							});
 							total = parseFloat(total.toFixed(3));
 							defered.resolve({month: result.data.month, value: total});
