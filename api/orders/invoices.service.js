@@ -5,6 +5,7 @@ const { padNumber } = require("../utils");
 const puppeteer = require('puppeteer');
 const handlebars = require("handlebars");
 const utils = require('../utils');
+const { v4: uuidv4 } = require('uuid');
 
 const ordersService = require('./orders.service');
 const usersService = require('../users/user.service');
@@ -110,7 +111,7 @@ function getInvoices() {
                 .map((each) => {
                     const splited = each.split('.')[0].split('-');
                     return {
-                        number: `${splited[splited.length-1]}-${splited[splited.length-2]}`,
+                        number: `${splited[6]}-${splited[7]}`,
                         filename: each,
                         orderRef: `${splited[1]}-${splited[2]}-${splited[3]}`,
                         orderId: splited[4]
@@ -302,7 +303,8 @@ async function generateInvoice(orderId, date, mf) {
     const html = template(data);
 
     const year = new Date().getUTCFullYear();
-    const filename = `Facture-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
+    const random = uuidv4();
+    const filename = `Facture-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}-${random}.pdf`;
     const pdfPath = path.join(invoicesPath, filename);
 
     await generatePdf(html, pdfPath);
@@ -317,7 +319,8 @@ async function generateDeliveryInvoice(orderId, date, mf) {
     const html = template(data);
 
     const year = new Date().getUTCFullYear();
-    const filename = `BonDeCommande-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
+    const random = uuidv4();
+    const filename = `BonDeCommande-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}-${random}.pdf`;
     const pdfPath = path.join(invoicesPath, filename);
 
     await generatePdf(html, pdfPath);
@@ -332,7 +335,8 @@ async function generateCreditInvoice(orderId, date, mf) {
     const html = template(data);
     
     const year = new Date().getUTCFullYear();
-    const filename = `FactureAvoir-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}.pdf`;
+    const random = uuidv4();
+    const filename = `FactureAvoir-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}-${random}.pdf`;
     const pdfPath = path.join(invoicesPath, filename);
 
     await generatePdf(html, pdfPath);
