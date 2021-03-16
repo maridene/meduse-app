@@ -1,5 +1,5 @@
 require('rootpath')();
-require('dotenv').config();
+require('dotenv').config({ path: './.env'});
 const express = require("express");
 var cors = require('cors');
 const bodyParser = require("body-parser");

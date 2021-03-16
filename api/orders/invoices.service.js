@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require("path");
+require('dotenv').config({ path: './.env'});
 const constants = require("../config/constants");
 const { padNumber } = require("../utils");
 const puppeteer = require('puppeteer');
