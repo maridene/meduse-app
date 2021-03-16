@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './.env'});
+require('dotenv').config({ path: __dirname + '/.env'});
 
 const dev = process.env.dev === '1';
 let toExport = {};
