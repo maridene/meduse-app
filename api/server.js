@@ -9,6 +9,12 @@ const { v4: uuidv4 } = require('uuid');
 
 const dev = process.env.dev === '1';
 
+if (dev) {
+  console.log('App launched with dev profile!');
+} else {
+  console.log('App launched with production profile!');
+}
+
 const app = express();
 
 app.use(cors());
