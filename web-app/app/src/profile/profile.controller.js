@@ -116,11 +116,11 @@ export class ProfileOrderDetailsCtrl {
   }
 
   $onInit() {
-    const shipping = this.orderData.totalInfos.lines & this.orderData.totalInfos.lines.some((line) => line.label === 'Livraison') ?
+    const shipping = this.orderData.totalInfos.lines && this.orderData.totalInfos.lines.some((line) => line.label === 'Livraison') ?
       this.orderData.totalInfos.lines.filter((line) => line.label === 'Livraison')[0].priceTTC : 0;
     const shippingText = shipping ? `${this.orderData.totalInfos.lines.filter((line) => line.label === 'Livraison')[0].priceTTC.toFixed(3)} D.T` : 'Livraison gratuite';
     const sTotal = shipping ? this.orderData.totalInfos.totalInfos.totalTTC - shipping : this.orderData.totalInfos.totalInfos.totalTTC;
-    const sTotalText = `${sTotal} D.T TTC`;  
+    const sTotalText = `${sTotal.toFixed(3)} D.T TTC`;  
     this.order = {
       ref: this.orderData.order.order_ref,
       date: new Date(this.orderData.order.order_date).toLocaleDateString("fr-FR"),
