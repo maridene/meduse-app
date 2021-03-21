@@ -398,7 +398,7 @@ async function getOrderTotal(orderId) {
         } else {
             price = product.promo_price ? product.promo_price : product.price;
         }
-        const tva = product.tva || 19;
+        const tva = product.tva || 0;
         const priceHT = (price / (100 + tva)) * 100;
         const reduction = row.reduction || 0;
         const hasReduction = reduction !== 0;
