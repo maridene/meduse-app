@@ -32,7 +32,7 @@ angular.module('sbAdminApp').service('OrderRowsService', ['$q', 'ObjectBuilder',
     },
     updateRow: function updateRow(id, newQuantity, newReduction) {
       var deferred = $q.defer();
-      RestService.put("".concat(ORDER_ROWS, "/").concat(id).concat("/qtyRed"), {newQty: newQuantity, newReduction}).then(function (result) {
+      RestService.put("".concat(ORDER_ROWS, "/").concat(id).concat("/qtyRed"), {newQty: newQuantity, newReduction: newReduction}).then(function (result) {
         deferred.resolve(result);
       }, function (error) {
         deferred.reject(error);

@@ -367,7 +367,7 @@ angular.module('sbAdminApp')
 
     $scope.applyAgent = function() {
       OrdersService.updateOrderAgent($scope.order.id, $scope.selectedAgent)
-        .then(() => {
+        .then(function() {
           $window.location.reload();
         });
     };

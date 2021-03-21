@@ -70,5 +70,5 @@ angular.module('sbAdminApp').service('AgentsService', ['$q', 'ObjectBuilder', 'R
 
   }
   
-  return { getAll, getById, add, update, remove, removeByIds };
+  return { getAll: getAll, getById: getById, add: add, update: update, remove: remove, removeByIds: removeByIds };
 }]);
