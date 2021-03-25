@@ -1,4 +1,5 @@
 const orderRows = require('./orderRows.model');
+const productsService = require('../products/products.service');
 
 module.exports = {
     getById,
@@ -46,7 +47,15 @@ function getByProductId(id) {
     });
 }
 
-function add(row) {
+async function add(row) {
+    const product = await productsService.getById(row.product_id);
+    if (product) {
+        const originalPrice = product.price;
+        const price = product.promo_price ? product.promo_price : originalPrice;
+        row.price = price;
+        row.original_price = originalPrice;
+    }
+
     return new Promise((resolve, reject) => {
         orderRows.add(row)
             .then((result) => {
