@@ -198,7 +198,8 @@ function updateOrderStatus(id, status) {
 
 async function updateById(id, newOrder) {
     const order = await getById(id);
-    const oldPaymentStatus = order.payment_status;
+    const oldPaymentStatus = parseInt(order.payment_status);
+    const newPaymentStatus = parseInt(newOrder.payment_status);
     const oldStatus = order.order_status;
 
     if(newOrder.order_status === 'shipped') {
@@ -210,8 +211,8 @@ async function updateById(id, newOrder) {
     return new Promise((resolve, reject) => {
         orders.updateById(id, newOrder)
             .then(async (result) => {
-                if(newOrder.payment_status !== oldPaymentStatus) {
-                    if (newOrder.payment_status === '1') {
+                if(newPaymentStatus !== oldPaymentStatus) {
+                    if (newPaymentStatus === 1) {
                         await grantPoints(order);
                     } else {
                         await retrievePoints(order);
@@ -509,10 +510,10 @@ async function grantPoints(order) {
     const orderTotal = await getOrderTotal(order.id);
     const client = order ? await usersService.getById(order.client_id) : null;
     if (client && orderTotal && orderTotal.totalInfos) {
-        const newPoints = +client.points + +Math.floor(orderTotal.totalInfo.totalTTC);
+        const newPoints = +client.points + +Math.floor(orderTotal.totalInfos.totalTTC);
         usersService.updateClientPoints(client.id, newPoints);
     } else {
-        console.error('[orders.service]: failed to grant points to client');
+        console.error('[ordersService.grantPoints]: failed to grant points to client');
     }
     
 }
@@ -521,10 +522,10 @@ async function retrievePoints(order) {
     const orderTotal = await getOrderTotal(order.id);
     const client = order ? await usersService.getById(order.client_id) : null;
     if (client && orderTotal && orderTotal.totalInfos) {
-        const newPoints = +client.points - +Math.floor(orderTotal.totalInfo.totalTTC);
+        const newPoints = +client.points - +Math.floor(orderTotal.totalInfos.totalTTC);
         usersService.updateClientPoints(client.id, newPoints);
     } else {
-        console.error('[orders.service]: failed to grant points to client');
+        console.error('[ordersService.retrievePoints]: failed to retrieve points from client');
     }
 }
 
