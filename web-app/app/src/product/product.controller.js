@@ -14,8 +14,6 @@ class ProductCtrl {
 
     this.imagesUrls = this.product.images && this.product.images.length ?
       this.product.images.split(',').map((img) => `${AppConstants.productsStaticContentUrl}${img}`) : null;
-    
-    this.$rootScope.sharingImgUrl = this.imagesUrls && this.imagesUrls.length ? this.imagesUrls[0] : null;
 
     this.outOfStock = this.variants.length ? this.variants.every((variant) => variant.quantity === 0)
       : this.product.quantity === 0;
@@ -49,8 +47,6 @@ class ProductCtrl {
     this.AvailableColorsText = this.hasColors ? this.availableColors.map((item) => item.color).join(', ') : 'pas de couleurs';
 
     this.checkAvailability();
-
-    this.productLabelInUrl = this.product.label.replaceAll(' ', '-').replaceAll('\/', '-');
   }
 
   $onInit() {
