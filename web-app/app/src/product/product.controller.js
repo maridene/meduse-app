@@ -15,7 +15,7 @@ class ProductCtrl {
     this.imagesUrls = this.product.images && this.product.images.length ?
       this.product.images.split(',').map((img) => `${AppConstants.productsStaticContentUrl}${img}`) : null;
 
-    this.outOfStock = this.variants.length ? this.variants.every((variant) => variant.quantity === 0)
+    this.outOfStock = this.variants && this.variants.length ? this.variants.every((variant) => variant.quantity === 0)
       : this.product.quantity === 0;
     this.form = {
       quantity: 1,
