@@ -66,8 +66,8 @@
                                             <td class="si-pic"><img ng-src="{{cartItem.image}}" alt=""></td>
                                             <td class="si-text">
                                                 <div class="product-selected">
-                                                    <p ng-if="!cartItem.product.promo_price">{{cartItem.product.price}} DT x {{cartItem.quantity}}</p>
-                                                    <p ng-if="cartItem.product.promo_price">{{cartItem.product.promo_price}} DT x {{cartItem.quantity}}</p>
+                                                    <p ng-if="!cartItem.product.promo_price">{{cartItem.product.price.toFixed(3)}} DT x {{cartItem.quantity}}</p>
+                                                    <p ng-if="cartItem.product.promo_price">{{cartItem.product.promo_price.toFixed(3)}} DT x {{cartItem.quantity}}</p>
                                                     <h6>{{cartItem.product.label}}</h6>
                                                     <p style="font-size: 14px; color: gray;" ng-if="cartItem.variant && cartItem.variant.size && cartItem.variant.color">
                                                         Couleur: {{cartItem.variant.color}} - Taille: {{cartItem.variant.size}}
@@ -89,7 +89,7 @@
                             </div>
                             <div class="select-total">
                                 <span>total:</span>
-                                <h5>{{$ctrl.cart.getTotal()}} D.T TTC</h5>
+                                <h5>{{$ctrl.cart.getTotal().toFixed(3)}} D.T TTC</h5>
                             </div>
                             <div class="select-button">
                                 <a href="cart" class="primary-btn checkout-btn">Voir panier</a>

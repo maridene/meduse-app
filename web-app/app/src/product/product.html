@@ -27,8 +27,8 @@
                             </div>
                             <div class="pd-desc">
                                 <p>{{$ctrl.product.description}}</p>
-                                <h4 ng-if="$ctrl.product.promo_price">{{$ctrl.product.promo_price}} D.T<span>{{$ctrl.product.price}} D.T</span></h4>
-                                <h4 ng-if="!$ctrl.product.promo_price">{{$ctrl.product.price}} D.T</h4>
+                                <h4 ng-if="$ctrl.product.promo_price">{{$ctrl.product.promo_price.toFixed(3)}} D.T<span>{{$ctrl.product.price.toFixed(3)}} D.T</span></h4>
+                                <h4 ng-if="!$ctrl.product.promo_price">{{$ctrl.product.price.toFixed(3)}} D.T</h4>
                             </div>
                             <div class="form-group" ng-if="$ctrl.hasColors">
                                 <label>Couleur:</label>
