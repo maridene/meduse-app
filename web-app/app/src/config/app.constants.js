@@ -3,7 +3,8 @@ export const AppConstants = {
   productsStaticContentUrl: 'http://localhost:3000/static/products/',
   blogStaticContentUrl: 'http://localhost:3000/static/blogs/',
   jwtKey: 'jwtToken',
-  appName: 'Meduse.tn'
+  appName: 'Meduse.tn',
+  reportingEnabled: false
 };
 
 export const ApiConstants = {
@@ -23,5 +24,6 @@ export const ApiConstants = {
   MY_ORDERS: 'orders/myorders/{0}',
   ORDER_DETAILS: 'orders/myorder/{0}',
   COUPONS: 'coupons',
-  SETTINGS: 'settings'
+  SETTINGS: 'settings',
+  REPORT: 'report'
 };
