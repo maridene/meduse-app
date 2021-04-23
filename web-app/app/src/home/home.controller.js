@@ -2,7 +2,6 @@ class HomeCtrl {
   constructor(AppConstants, ProductService, CategoryService, SettingsService, $timeout, $scope, $location) {
     'ngInject';
 
-    const newProductsCount = 4;
     this.AppConstants = AppConstants;
     this.appName = AppConstants.appName;
     this.ProductService = ProductService;
