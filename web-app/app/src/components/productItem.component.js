@@ -10,6 +10,12 @@ export default class ProductItemController {
         this.ProductService = ProductService;
 
         this.product = this.$scope.$parent.product;
+        this.productLabelForUrl = this.product.label
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replaceAll(' ', '-')
+            .replaceAll('\'', '-')
+            .replace('%', 'p');
+        this.href = `product/${this.product.id}-${this.productLabelForUrl}`;
         this.variants = [];
         this.image = this.product.images && this.product.images.length ? 
             `${AppConstants.productsStaticContentUrl}${this.product.images.split(',')[0]}` : null;

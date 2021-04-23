@@ -8,6 +8,11 @@ class ProductCtrl {
     this.ProductService = ProductService;
     this.CartService = CartService;
     this.product = data.product;
+    this.productLabelForUrl = this.product.label
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replaceAll(' ', '-')
+            .replaceAll('\'', '-')
+            .replace('%', 'p');
     this.variants = data.variants;
     this.relatedProducts = relatedProducts;
     this.$rootScope = $rootScope;
@@ -209,7 +214,7 @@ class ProductCtrl {
       {
           method: 'feed',
           name: this.product.label,
-          link: 'https://www.meduse.tn/product/'+ this.product.id + '-' + this.product.label.replaceAll(' ', '-'),
+          link: 'https://www.meduse.tn/product/'+ this.product.id + '-' + this.productLabelForUrl,
           picture: this.imagesUrls && this.imagesUrls.length ? this.imagesUrls[0] : undefined,
           caption: 'Meduse.tn',
           description: this.product.description,
