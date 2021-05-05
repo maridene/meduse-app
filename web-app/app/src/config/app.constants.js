@@ -4,7 +4,7 @@ export const AppConstants = {
   blogStaticContentUrl: 'http://localhost:3000/static/blogs/',
   jwtKey: 'jwtToken',
   appName: 'Meduse.tn',
-  reportingEnabled: false
+  reportingEnabled: true
 };
 
 export const ApiConstants = {
