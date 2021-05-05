@@ -8,6 +8,7 @@ var multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
 const dev = process.env.dev === '1';
+const useReporting = process.env.reporting === '1';
 
 if (dev) {
   console.log('App launched with dev profile!');
@@ -63,6 +64,9 @@ app.use('/api/contactform', require('./mailing/contactForm.controller'));
 app.use('/api/invoice', require('./orders/invoices.controller'));
 app.use('/api/ordersstats', require('./orders/ordersStats.controller'));
 app.use('/api/agents', require('./agent/agent.controller'));
+if (useReporting) {
+  app.use('/api/report', require('./reporting/reporting.controller'));
+}
 
 //Serves all the request which includes /images in the url from Images folder
 const staticContentDir = dev ? __dirname + '/public' : '/var/www/meduse-static';
