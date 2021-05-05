@@ -56,8 +56,16 @@ function NumberToLetter(nombre, U=null, D=null) {
     //if (Math.ceil(nb) != nb) return "Nombre avec virgule non géré.";
     if(Math.ceil(nb) != nb){
         nb = nombre.toString().split('.');
+        var beforePoint = nb[0];
+        var afterPoint = nb[1];
+        if (afterPoint.length > 3) {
+            afterPoint = afterPoint.slice(0, 2);
+        } else if (afterPoint.length < 3) {
+            var length = afterPoint.length;
+            afterPoint = afterPoint + "0".repeat(3- length);
+        }
         //return NumberToLetter(nb[0]) + " virgule " + NumberToLetter(nb[1]);
-        return NumberToLetter(nb[0]) + (U ? " " + U + " et " : " virgule ") + NumberToLetter(nb[1]) + (D ? " " + D : "");
+        return NumberToLetter(beforePoint) + (U ? " " + U + " et " : " virgule ") + NumberToLetter(afterPoint) + (D ? " " + D : "");
     }
     
     n = nb.toString().length;
@@ -128,7 +136,7 @@ function NumberToLetter(nombre, U=null, D=null) {
     /*respect de l'accord de quatre-vingt*/
     if (numberToLetter.substr(numberToLetter.length - "quatre-vingt".length, "quatre-vingt".length) == "quatre-vingt") numberToLetter = numberToLetter + "s";
 
-    return numberToLetter;
+    return numberToLetter + " " + U;
 
 }
 

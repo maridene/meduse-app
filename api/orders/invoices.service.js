@@ -31,9 +31,12 @@ async function generatePdf(html, pdfPath) {
     const pdfOptions = Object.assign({}, PDF_OPTIONS, {path: pdfPath});
     const browser = await puppeteer.launch(browserParams);
     const page = await browser.newPage();
-    await page.goto(`data:text/html;charset=UTF-8,${html}`, {
+    await page.setContent(html);
+    await page.addStyleTag({ path: path.join(__dirname, 'style.css') });
+    
+    /*await page.goto(`data:text/html;charset=UTF-8,${html}`, {
 		waitUntil: 'networkidle0'
-	});
+	});*/
 	await page.pdf(pdfOptions);
     await browser.close();
 }
@@ -287,7 +290,7 @@ async function getDataForInvoice(orderId, date, mf, invoiceType) {
         billingAddress,
         client,
         totalInfos,
-        totalText: utils.NumberToLetter(parseFloat(totalInfos.total.toFixed(3)), 'dinars', 'millimes'),
+        totalText: utils.NumberToLetter(totalInfos.total, 'dinars', 'millimes'),
         points: Math.floor(totalInfos.totalTTC),
         mf,
         agent: agent ? agent.name : null

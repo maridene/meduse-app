@@ -3,117 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>Facture</title>
-    
-    <style>
-    .invoice-box {
-        max-width: 800px;
-        margin: auto;
-        padding: 10px;
-        font-size: 13px;
-        line-height: 21px;
-        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        color: rgb(85,85,85);
-    }
-    
-    .invoice-box table {
-        width: 100%;
-        line-height: inherit;
-        text-align: left;
-    }
-    
-    .invoice-box table td {
-        padding: 5px;
-        vertical-align: top;
-    }
-    
-    .invoice-box table tr td:nth-child(2) {
-        text-align: right;
-    }
-    
-    .invoice-box table tr.top table td {
-        padding-bottom: 20px;
-    }
-    
-    .invoice-box table tr.top table td.title {
-        font-size: 20px;
-        line-height: 24px;
-        color: rgb(51,51,51);
-    }
-    
-    .invoice-box table tr.information table td {
-        font-size: 13px;
-        padding-bottom: 30px;
-    }
-    
-    .invoice-box table tr.heading td {
-        background: rgb(238,238,238);
-        border-bottom: 1px solid rgb(221,221,221);
-        font-weight: bold;
-    }
-    
-    .invoice-box table tr.details td {
-        padding-bottom: 20px;
-    }
-    
-    .invoice-box table tr.item td{
-        border-bottom: 1px solid rgb(238,238,238);
-    }
-    
-    .invoice-box table tr.item.last td {
-        border-bottom: none;
-    }
-    
-    .invoice-box table tr.total td:nth-child(3) {
-        border-top: 2px solid rgb(238,238,238);
-        font-weight: bold;
-    }
-
-    .invoice-box table tr.total td.total {
-        border: 2px double rgb(238,238,238);
-    }
-
-    .invoice-box .total-inline {
-        padding-top: 20px;
-        font-weight: bold;
-    }
-
-    .invoice-box .points {
-        padding-top: 24px;
-        font-size: 12px;
-    }
-
-    .invoice-box .thanks {
-        font-size: 12px;
-    }
-    
-    @media only screen and (max-width: 600px) {
-        .invoice-box table tr.top table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-        
-        .invoice-box table tr.information table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-    }
-    
-    /** RTL **/
-    .rtl {
-        direction: rtl;
-        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-    }
-    
-    .rtl table {
-        text-align: right;
-    }
-    
-    .rtl table tr td:nth-child(2) {
-        text-align: left;
-    }
-    </style>
 </head>
 
 <body>
@@ -179,7 +68,7 @@
             </tr>
         </table>
         
-        <table>    
+        <table class="ProductsList">    
             <tr class="heading">
                 <td style="text-align: center">Produit</td>
                 <td style="text-align: center">Qté</td>
@@ -200,8 +89,9 @@
             </tr>
             {{/each}}
         </table>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; padding-top: 15px;">
-            <div>
+
+        <div class="TotalDetails">
+            <div class="TotalDetails-tva">
                 <table>
                     <tr class="heading">
                         <td style="text-align: center">Taux</td>
@@ -217,7 +107,7 @@
                     {{/each}}
                 </table>
             </div>
-            <div style="display: flex; flex-direction: column;">
+            <div class="TotalDetails-total">
                 <div>Total H.T: {{totalInfos.totalHTLabel}}</div>
                 <div>T.V.A: {{totalInfos.totalTVALabel}}</div>
                 <div>Total TTC: {{totalInfos.totalTTCLabel}}</div>
