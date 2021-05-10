@@ -8,7 +8,7 @@ var multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
 const dev = process.env.dev === '1';
-const useReporting = process.env.reporting === '1';
+const useReporting = process.env.useReporting === '1';
 
 if (dev) {
   console.log('App launched with dev profile!');
@@ -65,6 +65,7 @@ app.use('/api/invoice', require('./orders/invoices.controller'));
 app.use('/api/ordersstats', require('./orders/ordersStats.controller'));
 app.use('/api/agents', require('./agent/agent.controller'));
 if (useReporting) {
+  console.log("Reporting is enabled");
   app.use('/api/report', require('./reporting/reporting.controller'));
 }
 
