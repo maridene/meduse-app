@@ -266,7 +266,8 @@ Orders.add = (order) => {
     return new Promise((resolve, reject) => {
         sql.query(`INSERT INTO ${tables.ORDERS} SET ?`,  order, (err, res) => {
             if (err) {
-            console.log("error: ", err);
+            console.error("Error: ", err);
+            console.error("Order: ", order);
             reject(err);
             } else {
             console.log("created order: ", { id: res.insertId, ...order });
