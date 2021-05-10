@@ -19,7 +19,7 @@ async function report(req, res, next) {
     const date = new Date();
     let dateString = date.toLocaleDateString().replace(/\//g,'-');
     const dateTime =  dateString + ' at ' + date.toLocaleTimeString();
-    const file = reportsPath + '/' + 'client-errors' + '.log';
+    const file = reportsPath + '/' + 'client-errors.log';
     let message = dateTime + '\n' + content;
     
     console.log(message);
