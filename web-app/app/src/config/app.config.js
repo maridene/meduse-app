@@ -51,8 +51,10 @@ function AppConfig($stateProvider, $locationProvider, $urlRouterProvider, ngMeta
           $log.error(cause);
   
           let data = {
-            exception: exception.toString(),
-            cause: cause.toString(),
+            exceptionName: exception.name,
+            exceptionMessage: exception.message,
+            exceptionStack: exception.stack,
+            cause: cause,
             browserInfos: getBrowserInfo()
           };
   
