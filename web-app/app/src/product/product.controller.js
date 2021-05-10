@@ -9,10 +9,10 @@ class ProductCtrl {
     this.CartService = CartService;
     this.product = data.product;
     this.productLabelForUrl = this.product.label
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .replaceAll(' ', '-')
-            .replaceAll('\'', '-')
-            .replace('%', 'p');
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /g, '-')
+      .replace(/\//g, '-')
+      .replace(/%/g, 'p');
     this.variants = data.variants;
     this.relatedProducts = relatedProducts;
     this.$rootScope = $rootScope;

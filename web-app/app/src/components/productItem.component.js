@@ -12,9 +12,9 @@ export default class ProductItemController {
         this.product = this.$scope.$parent.product;
         this.productLabelForUrl = this.product.label
             .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .replaceAll(' ', '-')
-            .replaceAll('\'', '-')
-            .replace('%', 'p');
+            .replace(/ /g, '-')
+            .replace(/\//g, '-')
+            .replace(/%/g, 'p');
         this.href = `product/${this.product.id}-${this.productLabelForUrl}`;
         this.variants = [];
         this.image = this.product.images && this.product.images.length ? 
