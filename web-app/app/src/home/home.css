@@ -267,6 +267,54 @@
     color: #33c0ec;
 }
 
+.home-seeMore {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.home-seeMore a {
+    font-size: 16px;
+    font-weight: 700;
+    color: #33c0ec;
+}
+
+.home-seeMore a:hover, .home-seeMore a:focus {
+    color: #33c0ec;
+}
+
+.HomeCategories {
+    display: none;
+    background-color: #19346d;
+    padding: 20px 15px;   
+}
+
+.HomeCategories ul {
+    list-style: none;
+}
+
+.HomeCategories .HomeCategories-title {
+    font: 400 20px oswald,sans-serif;
+    color: #ffffff;
+    text-align: center;
+}
+
+.HomeCategories .HomeCategories-categories {
+    margin-top: 15px;
+}
+
+.HomeCategories .HomeCategories-categories li {
+    text-align: center;
+}
+
+.HomeCategories .HomeCategories-categories li a {
+    color: #ebebeb;
+}
+
+.HomeCategories .HomeCategories-categories li a:hover, .HomeCategories .HomeCategories-categories li a:active {
+    color: #33c0ec;
+}
+
 @media only screen and (min-width: 1200px) and (max-width: 1920px) {
 	.home-search .advanced-search .input-group button {
 		right: -14px;
@@ -280,6 +328,12 @@
 }
 
 @media only screen and (max-width: 991px) {
+    .HomeCategories {
+        display: block !important;
+    }
+    .newProducts-section {
+        margin-bottom: 40px;
+    }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -289,5 +343,6 @@
 @media only screen and (max-width: 767px) {
 }
 
-@media only screen and (max-width: 479px) {
+@media only screen and (max-width: 479px) {  
+
 }

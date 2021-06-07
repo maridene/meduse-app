@@ -129,3 +129,23 @@
         </div>
     </div>
 </section>
+
+<section class="HomeCategories">
+    <div class="container">
+        <div class="row">
+            <div class="HomeCategories-title col">
+                Découvrez Nos Produits
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="HomeCategories-categories col">
+                <ul>
+                    <li ng-repeat="category in $ctrl.categories">
+                        <a href="category/{{category.id}}-{{category.label}}"> {{category.label}} </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

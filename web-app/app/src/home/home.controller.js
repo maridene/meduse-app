@@ -18,6 +18,12 @@ class HomeCtrl {
     this.newProducts = [];
     this.promoProducts = [];
     this.selectedCategorySearch = 'all';
+    this.categories = [];
+
+    this.CategoryService.getAllCategories()
+      .then((result) => {
+        this.categories = result;
+      });
 
     this.ProductService.getPinnedProducts()
     .then((products) => {
