@@ -2,6 +2,8 @@ class HomeCtrl {
   constructor(AppConstants, ProductService, CategoryService, SettingsService, $timeout, $scope, $location) {
     'ngInject';
 
+    const MAX_PROMO_PRODUCTS_COUNT = 4;
+
     this.AppConstants = AppConstants;
     this.appName = AppConstants.appName;
     this.ProductService = ProductService;
@@ -25,7 +27,13 @@ class HomeCtrl {
 
     this.ProductService.getPromoProducts()
       .then((products) => {
-        this.promoProducts = products;
+        const length = products ? products.length : 0;
+        if (length >= MAX_PROMO_PRODUCTS_COUNT) {
+          this.promoProducts = products.sort((a, b)=> b.onsalePercentageValue - a.onsalePercentageValue)
+          .slice(0, MAX_PROMO_PRODUCTS_COUNT);
+        } else {
+          this.promoProducts = [];
+        }
       });
 
     this.ProductService.getNewProducts()
