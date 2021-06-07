@@ -8,15 +8,23 @@ export default class CategoryService {
     this._RestService = RestService;
     this._$q = $q;
     this.ObjectBuilder = ObjectBuilder;
+    this.categories = [];
   }
 
   getAllCategories() {
     const deferred = this._$q.defer();
-    this._RestService.get(ApiConstants.CATEGORIES)
+    if (this.categories.length) {
+      deferred.resolve(this.categories);
+    } else {
+      this._RestService.get(ApiConstants.CATEGORIES)
         .then(
-            (result) => deferred.resolve(this.ObjectBuilder.buildObject(RESOURCE.CATEGORIES, result.data)),
+            (result) => {
+              this.categories = this.ObjectBuilder.buildObject(RESOURCE.CATEGORIES, result.data); 
+              deferred.resolve(this.categories);
+            },
             (error) => deferred.reject(error)
         );
+    }
     return deferred.promise;
   }
   getCategoryById(id) {
