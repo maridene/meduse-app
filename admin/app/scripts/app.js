@@ -500,19 +500,6 @@ angular
         }
       }
   })
-    .state('dashboard.add-agent', {
-      url:'/add-agent',
-      controller: 'AddAgentCtrl',
-      templateUrl: 'views/pages/agents/addAgent.html',
-      resolve: {
-        loadMyFile:function($ocLazyLoad) {
-          return $ocLazyLoad.load({
-              name:'sbAdminApp',
-              files:['scripts/controllers/agents/addAgentController.js']
-          })
-        }
-      }
-  })
       .state('dashboard.subscribers', {
         url:'/subscribers',
         controller: 'SubscribersCtrl',
