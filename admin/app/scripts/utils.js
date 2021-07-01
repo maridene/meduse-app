@@ -163,3 +163,14 @@ function getStatusObjectFromKey(key) {
       return shippedOrder;
   }
 }
+
+function showModal(title, message) {
+  var dlgModal = angular.element('#adminModal');
+  if (dlgModal) {
+    var titleElement = document.getElementById("adminModalTitle");
+    var messageElement = document.getElementById("adminModalMessage");
+    titleElement.innerHTML = title;
+    messageElement.innerHTML = message;
+    dlgModal.modal("show");
+  }
+}

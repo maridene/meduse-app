@@ -45,6 +45,7 @@ angular
                     name:'sbAdminApp',
                     files:[
                     'scripts/app-constants.js',
+                    'scripts/messages.js',
                     'scripts/directives/header/header.js',
                     'scripts/directives/header/header-notification/header-notification.js',
                     'scripts/directives/sidebar/sidebar.js',
@@ -61,6 +62,7 @@ angular
                     'scripts/models/orderRow.js',
                     'scripts/models/agent.js',
                     'scripts/utils.js',
+                    'scripts/services/modalService.js',
                     'scripts/services/objectBuilder.js',
                     'scripts/services/restService.js',
                     'scripts/services/authenticationService.js',
