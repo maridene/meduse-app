@@ -8,13 +8,15 @@
  */
 
 angular.module('sbAdminApp').controller('AddOrderCtrl', 
-['$scope', '$stateParams', 'OrdersService', 'UsersService', 'CategoryService', 'ProductService', 'ProductVariantsService', 
-function ($scope, $stateParams, OrdersService, UsersService, CategoryService, ProductService, ProductVariantsService) {
+['$scope', '$q', '$stateParams', 'OrdersService', 'UsersService', 'CategoryService', 'ProductService', 'ProductVariantsService', 'ModalService', 
+function ($scope, $q, $stateParams, OrdersService, UsersService, CategoryService, ProductService, ProductVariantsService, ModalService) {
+
   $scope.client = {};
   $scope.clientAddresses = [];
   $scope.rows = [];
   $scope.form = {
     useNewAddress: '1',
+    saveNewAddress: '0',
     newAddress : {},
     ptype: 'e',
     message: ''
@@ -31,19 +33,18 @@ function ($scope, $stateParams, OrdersService, UsersService, CategoryService, Pr
   $scope.addInProgress = false;
 
   $scope.modal = {
-    errorMessage: ''
+    errorMessage: '',
+    warningMessage: ''
   };
 
-  $scope.states = [
-    'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine', 'Kébili', 'Le Kef',
-    'Mahdia', 'La Manouba', 'Mèdenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi Bouzid', 'Siliana', 'Sousse', 'Tataouine', 
-    'Touzeur', 'Tunis', 'Zaghouan'];
+  $scope.states = STATES;
 
   $scope.init = function () {
     UsersService.getById($stateParams.clientId)
       .then(function(result) {
         if (result) {
           $scope.client = result;
+          $scope.form.newAddress.phone = $scope.client.phone;
           UsersService.getUserAddresses($scope.client.id)
             .then(function(addresses) {
               if (addresses && addresses.length) {
@@ -51,13 +52,13 @@ function ($scope, $stateParams, OrdersService, UsersService, CategoryService, Pr
                 $scope.clientAddresses[0].isSelected = true;
               }
             }, function(err) {
-              showErrorModal(err);
+              ModalService.showErrorModal(err);
             });
         } else {
-          showErrorModal("Client introuvable!");
+          ModalService.showErrorModal("Client introuvable!");
         }
       },function (err) {
-        showErrorModal(err);
+        ModalService.showErrorModal(err);
       });
 
       CategoryService.getAllCategories().then(function(result) {
@@ -164,21 +165,6 @@ function ($scope, $stateParams, OrdersService, UsersService, CategoryService, Pr
     return label;
   };
 
-  var showErrorModal = function showErrorModal(message) {
-    var dlgElem = angular.element('#errorModal');
-    if (dlgElem) {
-      $scope.modal.errorMessage = message;
-      dlgElem.modal("show");
-    }
-  };
-
-  var showSuccessModal = function showSuccessModal() {
-    var dlgElem = angular.element('#successModal');
-    if (dlgElem) {
-      dlgElem.modal("show");
-    }
-  };
-
   var getDeliveryAddress = function() {
     if ($scope.form.useNewAddress === '1') {
       return {
@@ -217,43 +203,73 @@ function ($scope, $stateParams, OrdersService, UsersService, CategoryService, Pr
   }
 
   $scope.addOrder = function() {
-    var deliveryAddress = getDeliveryAddress();
-    if (canSubmit(deliveryAddress)) {
-      var orderDetails = {
-        message: $scope.form.message,
-        ptype: $scope.form.ptype,
-        client_id: $scope.client.id
-      };
+    if (hasRows()) {
+      if (addressChoosen()) {
+        if (validateAddress()) {
+          var deliveryAddress = getDeliveryAddress();
+          var orderDetails = {
+            message: $scope.form.message,
+            ptype: $scope.form.ptype,
+            client_id: $scope.client.id,
+            deliveryAddress: deliveryAddress
+          };
 
-      orderDetails = Object.assign({}, orderDetails, deliveryAddress);
+          var orderRows = $scope.rows.map(function (item) {
+            return {
+              productId: item.product.id,
+              variantId: item.variant ? item.variant.id: null,
+              quantity: item.quantity,
+              reduction: item.reduction
+            };
+          })
+          .map(function(row){
+            return JSON.stringify(row);
+          }).join(';');
 
-      var orderRows = $scope.rows.map(function (item) {
-        return {
-          productId: item.product.id,
-          variantId: item.variant ? item.variant.id: null,
-          quantity: item.quantity,
-          reduction: item.reduction
-        };
-      });
+          orderDetails.orderRows = orderRows;
 
-      orderDetails.orderRows = orderRows.map(function(row){
-        return JSON.stringify(row);
-      });
+          var preAddOrderPromise = $q.when();
 
-      orderDetails.orderRows = orderDetails.orderRows.join(';');
+          if ($scope.form.useNewAddress === "1" && $scope.form.saveNewAddress === "1") {
+            preAddOrderPromise = AddressService.add();
+          }
 
-      console.log(orderDetails);
-      OrdersService.create(orderDetails)
-        .then(function() {
-          showSuccessModal();
-          clear();
-        }, function(error) {
-          showErrorModal(error);
-        });
+          preAddOrderPromise.then(function() {
+            OrdersService.create(orderDetails)
+            .then(function() {
+              ModalService.showCustomModal(ADD_ORDER_SUCCESS_TITLE, ADD_ORDER_SUCCESS_MESSAGE);
+              clear();
+            }, function(error) {
+              ModalService.showErrorModal(error);
+            });
+          }, function(error) {
+            ModalService.showErrorModal(error);
+          });
+        }
+      } else {
+        ModalService.showWarningModal(NO_ADDRESS_MESSAGE);
+      }
+    } else {
+      ModalService.showWarningModal(NO_ROW_MESSAGE);
     }
   }
 
-  var canSubmit = function () {
+  var addressChoosen = function () {
+    if ($scope.form.useNewAddress === "1") {
+      return !isBlank($scope.form.newAddress.address) 
+      && !isBlank($scope.form.newAddress.zipcode) 
+      && !isBlank($scope.form.newAddress.state) 
+      && !isBlank($scope.form.newAddress.city) 
+      && !isBlank($scope.form.newAddress.phone);
+    } else {
+      var selectedAddress = $scope.clientAddresses.filter(function(each) {
+        return each.isSelected;
+      });
+      return !!selectedAddress.length;
+    }
+  };
+
+  var hasRows = function () {
     return $scope.rows && $scope.rows.length;
   };
 
@@ -261,6 +277,7 @@ function ($scope, $stateParams, OrdersService, UsersService, CategoryService, Pr
     $scope.rows = [];
     $scope.form = {
       useNewAddress: '1',
+      saveNewAddress: '0',
       newAddress : {},
       ptype: 'e',
       message: ''
@@ -269,8 +286,27 @@ function ($scope, $stateParams, OrdersService, UsersService, CategoryService, Pr
     $scope.addInProgress = false;
   
     $scope.modal = {
-      errorMessage: ''
+      errorMessage: '',
+      warningMessage: ''
     };
+  };
+
+  var validateAddress = function() {
+    if ($scope.form.useNewAddress === "1") {
+      if (!checkZipCode($scope.form.newAddress.zipcode)) {
+        ModalService.showWarningModal(VERIFY_ZIPCODE);
+        return false;
+      }
+      if (!checkPhoneNumber($scope.form.newAddress.phone)) {
+        ModalService.showWarningModal(VERIFY_PHONE);
+        return false;
+      }
+      if (isBlank($scope.form.newAddress.name)) {
+        ModalService.showWarningModal(EMPTY_ADDRESS_TITLE);
+        return false;
+      }
+    }
+    return true;
   };
 
 }]);

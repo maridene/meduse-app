@@ -164,6 +164,23 @@ function getStatusObjectFromKey(key) {
   }
 }
 
+function checkPhoneNumber (s) {
+  if (!s || !s.length) {
+    return false;
+  }
+  var str = s.replace(/\s+/g, '');
+  if (str.length === 0) {
+    return false;
+  }
+
+  str = str.replace(/\+/g, '');
+  return !isNaN(str) && (str.length === 8 || str.length === 11); 
+}
+
+var checkZipCode = function (zipcode) {
+  return !isNaN(zipcode) && parseInt(zipcode) > 999 && parseInt(zipcode) < 10000;
+};
+
 function showModal(title, message) {
   var dlgModal = angular.element('#adminModal');
   if (dlgModal) {
