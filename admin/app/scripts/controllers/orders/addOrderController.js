@@ -8,8 +8,8 @@
  */
 
 angular.module('sbAdminApp').controller('AddOrderCtrl', 
-['$scope', '$q', '$stateParams', 'OrdersService', 'UsersService', 'CategoryService', 'ProductService', 'ProductVariantsService', 'ModalService', 
-function ($scope, $q, $stateParams, OrdersService, UsersService, CategoryService, ProductService, ProductVariantsService, ModalService) {
+['$scope', '$q', '$stateParams', 'OrdersService', 'UsersService', 'CategoryService', 'ProductService', 'ProductVariantsService', 'ModalService', 'AddressService',
+function ($scope, $q, $stateParams, OrdersService, UsersService, CategoryService, ProductService, ProductVariantsService, ModalService, AddressService) {
 
   $scope.client = {};
   $scope.clientAddresses = [];
@@ -210,9 +210,9 @@ function ($scope, $q, $stateParams, OrdersService, UsersService, CategoryService
           var orderDetails = {
             message: $scope.form.message,
             ptype: $scope.form.ptype,
-            client_id: $scope.client.id,
-            deliveryAddress: deliveryAddress
+            client_id: $scope.client.id
           };
+          orderDetails = Object.assign( {}, orderDetails, deliveryAddress);
 
           var orderRows = $scope.rows.map(function (item) {
             return {
@@ -230,8 +230,18 @@ function ($scope, $q, $stateParams, OrdersService, UsersService, CategoryService
 
           var preAddOrderPromise = $q.when();
 
-          if ($scope.form.useNewAddress === "1" && $scope.form.saveNewAddress === "1") {
-            preAddOrderPromise = AddressService.add();
+          if ($scope.form.useNewAddress === "1" && $scope.form.saveNewAddress) {
+            var addressToAdd = {
+                userId: $scope.client.id,
+                name: $scope.form.newAddress.name,
+                city: $scope.form.newAddress.city,
+                state: $scope.form.newAddress.state,
+                address: $scope.form.newAddress.address,
+                description: '',
+                zipcode: $scope.form.newAddress.zipcode,
+                phone: $scope.form.newAddress.phone
+            };
+            preAddOrderPromise = AddressService.add(addressToAdd);
           }
 
           preAddOrderPromise.then(function() {
@@ -240,10 +250,10 @@ function ($scope, $q, $stateParams, OrdersService, UsersService, CategoryService
               ModalService.showCustomModal(ADD_ORDER_SUCCESS_TITLE, ADD_ORDER_SUCCESS_MESSAGE);
               clear();
             }, function(error) {
-              ModalService.showErrorModal(error);
+              ModalService.showErrorModal(error.data.message);
             });
           }, function(error) {
-            ModalService.showErrorModal(error);
+            ModalService.showErrorModal(error.data.message);
           });
         }
       } else {

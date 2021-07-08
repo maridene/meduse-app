@@ -76,7 +76,8 @@ angular
                     'scripts/services/orderRowsService.js',
                     'scripts/services/couponsService.js',
                     'scripts/services/settingsService.js',
-                    'scripts/services/agentsService.js'
+                    'scripts/services/agentsService.js',
+                    'scripts/services/addressesService.js'
                     ]
                 }));
                   promises.push($ocLazyLoad.load(
