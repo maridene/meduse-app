@@ -42,12 +42,12 @@
 
                     <div class="form-group">
                         <label>Mot de passe</label>
-                        <input type="password" class="form-control" minLength=8 ng-model="password" required>
+                        <input type="text" class="form-control" minLength=8 ng-model="password" required>
                     </div>
 
                     <div class="form-group">
                         <label>Confirmer mot de passe</label>
-                        <input type="password" class="form-control" minLength=8 ng-model="passwordConfirm" required>
+                        <input type="text" class="form-control" minLength=8 ng-model="passwordConfirm" required>
                     </div>
 
                     <div class="form-group">
@@ -60,69 +60,6 @@
 
                     <button type="submit" class="btn btn-success" data-toggle="modal">Ajouter</button>
                     <button type="button" class="btn btn-danger" ng-click="initForm()">Réinitialiser</button>
-
-                     <!-- Modal -->
-                     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Client ajoutée avec succes</h4>
-                                </div>
-                                <div class="modal-body">
-                                    Nouveau client a été bien ajouté!.
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                </div>
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                    </div>
-                    <!-- /.modal -->
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Erreur</h4>
-                                </div>
-                                <div class="modal-body">
-                                   Un problème est survenu lors de l'ajout du client.
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                </div>
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                    </div>
-                    <!-- /.modal -->
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="pwdErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Mot de passe non confirmé</h4>
-                                </div>
-                                <div class="modal-body">
-                                   Veuillez vérifier le mot de passe et réessayer
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                </div>
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                    </div>
-                    <!-- /.modal -->
 
                 </form>
             </div>

@@ -11,3 +11,7 @@ var MODAL_TITLE_LABEL = {
 };
 var ADD_ORDER_SUCCESS_TITLE = "Commande ajoutée avec succes";
 var ADD_ORDER_SUCCESS_MESSAGE = "Novelle commande a été bien ajoutée!.";
+var ADD_CLIENT_EMAIL_UNAVAILABLE_MESSAGE = "Cet adresse e-mail est déja utilisée";
+var ADD_CLIENT_SUCCESS_MESSAGE = "Client ajouté avec succès";
+var ADD_CLIENT_ERROR_MESSAGE = "Un problème est survenu lors de l'ajout d'un nouvel client";
+var ADD_CLIENT_CHECK_PASSWORD = "Veuillez vérifier le mot de passe et réessayer";
