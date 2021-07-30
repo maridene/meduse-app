@@ -32,7 +32,7 @@
         </div>
         <div class="form-group form-inline">
             <div class="form-group input-group col-lg-6">
-                <input type="text" class="form-control" ng-model="filterQuery" placeholder="Nom client/Référence commande"/>
+                <input type="text" class="form-control" ng-model="filterQuery" placeholder="Nom client/Référence commande/Nom Agent"/>
             </div>
             <div class="form-group input-group col-lg-4">
                 <select class="form-control" ng-model="selectedPaymentFilter">
@@ -62,6 +62,7 @@
                                 <th>Client</th>
                                 <th>Type paiement</th>
                                 <th>Total</th>
+                                <th>Représentant</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,6 +72,7 @@
                                 <td>{{order.client}}</td>
                                 <td>{{order.ptype}}</td>
                                 <td>{{order.total}}</td>
+                                <td>{{order.agentName}}</td>
                             </tr>
                         </tbody>
                     </table>

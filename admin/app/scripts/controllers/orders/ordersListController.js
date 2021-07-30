@@ -55,7 +55,8 @@ angular.module('sbAdminApp')
         }
       
       $scope.filteredOrders = $scope.filteredOrders.filter(function(item) {
-        return item.ref.toLowerCase().includes($scope.filterQuery.toLowerCase()) || item.client.toLowerCase().includes($scope.filterQuery.toLowerCase());
+        return item.ref.toLowerCase().includes($scope.filterQuery.toLowerCase()) || item.client.toLowerCase().includes($scope.filterQuery.toLowerCase())
+            || item.agentName.toLowerCase().includes($scope.filterQuery.toLowerCase());
       });
     };
 
@@ -73,7 +74,8 @@ angular.module('sbAdminApp')
               ptype: item.ptype === 'c' ? 'Chèque' : 'Espèces',
               date: formatDateTime(item.order_date),
               payment_status: item.payment_status,
-              total: item.total
+              total: item.total,
+              agentName: item.agentName || ''
             }
           });
           $scope.filteredOrders = $scope.orders;

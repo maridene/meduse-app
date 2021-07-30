@@ -355,7 +355,7 @@ function getUpdateOrderValues(order) {
 }
 
 function getSearchQuery(status, payment, ptype) {
-  let query = `SELECT ${tables.ORDERS}.*, U.name FROM ${tables.ORDERS} LEFT JOIN ${tables.USERS} AS U ON U.id = ${tables.ORDERS}.client_id `;
+  let query = `SELECT ${tables.ORDERS}.*, A.name AS agentName, U.name FROM ${tables.ORDERS} LEFT JOIN ${tables.USERS} AS U ON U.id = ${tables.ORDERS}.client_id LEFT JOIN ${tables.AGENTS} AS A on A.id = ${tables.ORDERS}.agent_id`;
   if (status || payment || ptype) {
     query = `${query} WHERE `;
     const criterias = [];
