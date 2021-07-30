@@ -290,7 +290,7 @@ async function getDataForInvoice(orderId, date, mf, invoiceType) {
         billingAddress,
         client,
         totalInfos,
-        totalText: utils.NumberToLetter(totalInfos.total, 'dinars', 'millimes'),
+        totalText: utils.NumberToLetter(Number.parseFloat(totalInfos.total.toFixed(3)), 'dinars', 'millimes'),
         points: Math.floor(totalInfos.totalTTC),
         mf,
         agent: agent ? agent.name : null
