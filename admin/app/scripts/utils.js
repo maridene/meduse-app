@@ -68,7 +68,7 @@ function formatDate (input) {
   year = datePart[0], // get only two digits
   month = datePart[1], day = datePart[2];
 
-  return (+day + 1) +'/'+month+'/'+year;
+  return day + '/' +month + '/' + year;
 }
 
 function formatDateTime(input) {
