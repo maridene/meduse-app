@@ -65,7 +65,7 @@ function NumberToLetter(nombre, U=null, D=null) {
             afterPoint = afterPoint + "0".repeat(3- length);
         }
         //return NumberToLetter(nb[0]) + " virgule " + NumberToLetter(nb[1]);
-        return NumberToLetter(beforePoint) + (U ? " " + U + " et " : " virgule ") + NumberToLetter(afterPoint) + (D ? " " + D : "");
+        return NumberToLetter(beforePoint, U, "") + " et "  + NumberToLetter(afterPoint, D, "");
     }
     
     n = nb.toString().length;
@@ -136,7 +136,7 @@ function NumberToLetter(nombre, U=null, D=null) {
     /*respect de l'accord de quatre-vingt*/
     if (numberToLetter.substr(numberToLetter.length - "quatre-vingt".length, "quatre-vingt".length) == "quatre-vingt") numberToLetter = numberToLetter + "s";
 
-    return numberToLetter + " " + U;
+    return numberToLetter + (U ? " " + U : "");
 
 }
 
