@@ -19,10 +19,10 @@ angular.module('sbAdminApp').service('ModalService', [function () {
     }
 
     return {
-        showErrorModal,
-        showWarningModal,
-        showSuccessModal,
-        showCustomModal
+        showErrorModal: showErrorModal,
+        showWarningModal: showWarningModal,
+        showSuccessModal: showSuccessModal,
+        showCustomModal: showCustomModal
     }
 
 }]);
