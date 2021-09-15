@@ -312,6 +312,19 @@ angular.module('sbAdminApp')
         });
     };
 
+    $scope.getDevisInvoice = function () {
+          var data = {
+            mf: $scope.invoiceForm.clientMF,
+            date: $scope.invoiceForm.devisInvoiceDate ? new Date($scope.invoiceForm.devisInvoiceDate).toLocaleDateString("fr-FR").toString() :
+              new Date().toLocaleDateString("fr-FR").toString()
+          };
+          RestService.post('orders/' + $scope.order.id + '/devisInvoice', data)
+            .then(function(response) {
+              var fileUrl = SERVER_URL + '/static/invoices/' + response.data.filename;
+              $window.open(fileUrl, '_blank');
+            });
+        };
+
     $scope.rowQuantityChange = function () {
       var changed = false;
       $scope.rows.forEach(function(row) {

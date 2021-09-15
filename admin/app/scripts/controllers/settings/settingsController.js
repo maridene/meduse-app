@@ -27,7 +27,8 @@ angular.module('sbAdminApp').controller('SettingsCtrl', ['$scope', '$window', '$
     $scope.invoicesDataChanged = function() {
         $scope.invoicesForm.canApply = $scope.originalInvoicesData.nextInvoiceNumber !== $scope.invoicesForm.nextInvoiceNumber
         || $scope.originalInvoicesData.nextDeliveryInvoiceNumber !== $scope.invoicesForm.nextDeliveryInvoiceNumber
-        || $scope.originalInvoicesData.nextCreditInvoiceNumber !== $scope.invoicesForm.nextCreditInvoiceNumber ;
+        || $scope.originalInvoicesData.nextCreditInvoiceNumber !== $scope.invoicesForm.nextCreditInvoiceNumber
+        || $scope.originalInvoicesData.nextDevisInvoiceNumber !== $scope.invoicesForm.nextDevisInvoiceNumber;
     };
 
     RestService.get('settings/type/shipping').then(function(result) {
@@ -65,6 +66,12 @@ angular.module('sbAdminApp').controller('SettingsCtrl', ['$scope', '$window', '$
         $scope.invoicesForm.nextCreditInvoiceNumber = value;
     });
 
+    RestService.get('settings/type/devis-invoice').then(function(result) {
+        const value = +result.data[0].value;
+        $scope.originalInvoicesData.nextDevisInvoiceNumber = value;
+        $scope.invoicesForm.nextDevisInvoiceNumber = value;
+    });
+
     $scope.updateShippingSettings = function() {
         var promises = [].concat(RestService.put('settings/free', {value: $scope.shippingForm.free ? 1 : 0}))
         .concat(RestService.put('settings/shippingFee', {value: $scope.shippingForm.shippingFee}))
@@ -85,11 +92,14 @@ angular.module('sbAdminApp').controller('SettingsCtrl', ['$scope', '$window', '$
             $scope.invoicesForm.nextDeliveryInvoiceNumber: 1;
         var nextCreditInvoice = !isNaN($scope.invoicesForm.nextCreditInvoiceNumber) && $scope.invoicesForm.nextCreditInvoiceNumber ?  
             $scope.invoicesForm.nextCreditInvoiceNumber : 1;
+        var nextDevisInvoice = !isNaN($scope.invoicesForm.nextDevisInvoiceNumber) && $scope.invoicesForm.nextDevisInvoiceNumber ?
+            $scope.invoicesForm.nextDevisInvoiceNumber : 1;
 
         var promises = []
         .concat(RestService.put('settings/nextInvoice', {value: nextInvoice}))
         .concat(RestService.put('settings/nextDeliveryInvoice', {value: nextDeliveryInvoice}))
-        .concat(RestService.put('settings/nextCreditInvoice', {value: nextCreditInvoice}));
+        .concat(RestService.put('settings/nextCreditInvoice', {value: nextCreditInvoice}))
+        .concat(RestService.put('settings/nextDevisInvoice', {value: nextDevisInvoice}));
 
         $q.all(promises)
             .then(function () {
