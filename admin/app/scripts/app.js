@@ -503,6 +503,19 @@ angular
           }
         }
     })
+    .state('dashboard.export', {
+        url:'/export',
+        controller: 'ExportCtrl',
+        templateUrl: 'views/pages/export/export.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/export/exportController.js']
+            })
+          }
+        }
+    })
     .state('dashboard.agents-list', {
       url:'/agents-list',
       controller: 'AgentsListCtrl',
