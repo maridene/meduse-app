@@ -11,11 +11,9 @@ class PasswordResetCtrl {
     submit() {
         if (this.email) {
             this.userService.resetPassword(this.email)
-                .then(() => {
+                .finally(() => {
                     this.done = true;
-                }, (error) => {
-
-                })
+                });
         }
     }
   }
