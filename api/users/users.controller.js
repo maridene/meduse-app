@@ -8,6 +8,7 @@ const utils = require('utils');
 // public routes
 router.post('/authenticate', authenticate);
 router.post('/register',  register);
+router.post('/resetpassword', resetPassword);
 
 //admin routes
 router.get('/search/:query', authorize(Role.Admin), searchUser);
@@ -36,6 +37,14 @@ function authenticate(req, res, next) {
     userService.authenticate(req.body)
         .then(user => user ? res.json(user) : res.status(400).json({ message: 'email or password is incorrect' }))
         .catch(err => next(err));
+}
+
+function resetPassword(req, res, next) {
+    const email = req.body.email;
+    userService.resetPassword(email)
+        .then(() => res.status(200).json({message: 'password reset successfully'}))
+        .catch(err => next(err))
+
 }
 
 function getAll(req, res, next) {

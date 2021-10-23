@@ -69,4 +69,16 @@ export default class UserService {
         return deferred.promise;
     }
 
+    resetPassword(email) {
+        const deferred = this.$q.defer();
+        const data = {email};
+        this.RestService.post(ApiConstants.USERS_RESET_PASSWORD, data)
+            .then((result) => {
+                deferred.resolve(result);
+            }, (error) => {
+                deferred.reject(error);
+            });
+        return deferred.promise;
+    }
+
 }
