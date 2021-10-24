@@ -10,10 +10,8 @@ const Manufacturer = function(manufacturer) {
 
 Manufacturer.create = (newManufacturer) => {
     return new Promise((resolve, reject) => {
-        console.log(newManufacturer);
         sql.query(`INSERT INTO ${tables.MANUFACTURERS} SET ?`, newManufacturer, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
             resolve({ id: res.insertId, ...newManufacturer });
@@ -25,13 +23,10 @@ Manufacturer.findById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.MANUFACTURERS} WHERE id = ${id}`, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else if (res.length) {
-                console.log("found manufacturer: ", res[0]);
                 resolve(res[0]);
             } else {
-                console.log("no manufacturer found with id " + id);
                 reject();
             }
         });
@@ -42,7 +37,6 @@ Manufacturer.getProductsCountForManufacturer = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT count(*) as count FROM ${tables.PRODUCTS} WHERE manufacturerId = ${id}`, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else {
                 resolve(res[0].count);
@@ -72,11 +66,9 @@ Manufacturer.updateById = (id, manufacturer) => {
     \`name\` = '${manufacturer.name}', 
     \`website\` = '${manufacturer.website}' 
     WHERE (\`id\` = '${id}')`;
-    console.log(query);
     return new Promise((resolve, reject) => {
         sql.query(query, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(null, err);
             }
     
@@ -84,8 +76,6 @@ Manufacturer.updateById = (id, manufacturer) => {
                 // not found manufacturer with the id
                 reject();
             }
-    
-            console.log("updated manufacturer: ", { id: id, ...manufacturer });
             resolve({ id: id, ...manufacturer });
         });
     });
@@ -95,7 +85,6 @@ Manufacturer.remove = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.MANUFACTURERS} WHERE id = ?`, id, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
         
@@ -104,8 +93,6 @@ Manufacturer.remove = (id) => {
                 reject();
                 return;
             }
-        
-            console.log("deleted manufacturer with id: ", id);
             resolve(res);
         });
     });
@@ -115,12 +102,9 @@ Manufacturer.remove = (id) => {
 Manufacturer.removeAll = result => {
 sql.query(`DELETE FROM ${tables.MANUFACTURERS}`, (err, res) => {
     if (err) {
-    console.log("error: ", err);
     result(null, err);
     return;
     }
-
-    console.log(`deleted ${res.affectedRows} manufacturers`);
     result(null, res);
 });
 };

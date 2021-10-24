@@ -19,14 +19,11 @@ Address.getByUserId = (userId) => {
         sql.query(`SELECT * FROM ${tables.ADDRESSES} WHERE userId = ${userId}`,
         (err, res) => {
             if(err) {
-                console.log("error retrieving user adresses: ", err);
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found user adresses: \n", res);
                     resolve(res);
                 } else {
-                    console.log(`no adress found for user with id = ${userId}`);
                     resolve([]);
                 }
             }
@@ -39,14 +36,11 @@ Address.getById = (addressId) => {
       sql.query(`SELECT * FROM ${tables.ADDRESSES} WHERE id = ${addressId}`, 
       (err, res) => {
         if (err) {
-          console.log("error: ", err);
           reject(err);
         } else {
           if (res.length) {
-            console.log("found address: ", res);
             resolve(res[0]);
           } else {
-            console.log(`no addess found with id = ${addressId}`);
             resolve([]);
           }
         }
@@ -59,14 +53,11 @@ Address.getByIdAndUserId = (userId, id) => {
         sql.query(`SELECT * FROM ${tables.ADDRESSES} WHERE id = ${id} AND userid = ${userId}`, 
         (err, res) => {
           if (err) {
-            console.log("error: ", err);
             reject(err);
           } else {
             if (res.length) {
-              console.log("found address: ", res);
               resolve(res[0]);
             } else {
-              console.log(`no addess found with id = ${id} for user with id = ${userId}`);
               resolve();
             }
           }
@@ -78,10 +69,8 @@ Address.add = (newAddress) => {
 return new Promise((resolve, reject) => {
     sql.query(`INSERT INTO ${tables.ADDRESSES} SET ?`,  newAddress, (err, res) => {
         if (err) {
-        console.log("error: ", err);
         reject(err);
         } else {
-        console.log("created address: ", { id: res.insertId, ...newAddress });
         resolve({ id: res.insertId, ...newAddress });
         }
     });
@@ -92,7 +81,6 @@ Address.remove = (adressId) => {
 return new Promise((resolve, reject) => {
     sql.query(`DELETE FROM ${tables.ADDRESSES} WHERE id = ?`, adressId, (err, res) => {
         if (err) {
-        console.log("error: ", err);
         reject(err);
         }
     
@@ -100,8 +88,6 @@ return new Promise((resolve, reject) => {
         // not found address with the id
         reject({ kind: "not_found" });
         }
-    
-        console.log("deleted address with id: ", adressId);
         resolve(res);
     });
     });
@@ -132,13 +118,11 @@ Address.updateById = (id, address) => {
         ],
         (err, res) => {
             if (err) {
-            console.log("error: ", err);
             reject(err);
             } else if (res.affectedRows == 0) {
             // not found address with the id
             reject({ kind: "not_found" });
             } else {
-            console.log("updated address: ", { id: id, ...address });
             resolve({ id: id, ...address });
             }
         }

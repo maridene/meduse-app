@@ -39,10 +39,8 @@ Settings.getByLabel = (label) => {
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log(`[Settings.getByLabel]: found with settings with label: ${label}`);
                     resolve(res[0]);
                 } else {
-                    console.log(`[Settings.getByLabel]: no settings found with label: ${label}`);
                     resolve();
                 }
             }
@@ -54,15 +52,12 @@ Settings.updateByLabel = (label, value) => {
     return new Promise((resolve, reject) => {
         sql.query(`UPDATE ${tables.SETTINGS} SET value = '${value}' WHERE label = '${label}'`, (err, res) => {
             if (err) {
-                console.log('[Settings.updateByLabel]: error while updating settings entry with label = ', label);
                 reject(err);
             } 
             if (res.affectedRows == 0) {
                 // not found blog with the label
                 reject();
             }
-    
-            console.log("updated settings: ", { label, value });
             resolve({ label, value });
         });
     });

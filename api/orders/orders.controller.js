@@ -58,7 +58,6 @@ function search(req, res, next) {
     const status = req.query.status && req.query.status.length ? req.query.status : null;
     const payment = parseInt(req.query.payment) === 0 || parseInt(req.query.payment) === 1 ? parseInt(req.query.payment) : null;
     const ptype = req.query.ptype && req.query.ptype === 'e' || req.query.ptype === 'c' ? req.query.ptype : null;
-    console.log(status, payment, ptype);
     ordersService.search(status, payment, ptype)
         .then(orders => res.json(orders))
         .catch(err => next(err));

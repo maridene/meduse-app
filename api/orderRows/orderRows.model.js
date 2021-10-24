@@ -16,14 +16,11 @@ OrderRow.getById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.ORDER_ROWS} WHERE id = ${id}`, (err, res) => {
             if(err) {
-                console.log("error retrieving order row: ", err);
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found order row: \n", res[0].toString());
                     resolve(res[0]);
                 } else {
-                    console.log(`no order row found with id = ${id}`);
                     resolve();
                 }
             }
@@ -35,14 +32,11 @@ OrderRow.getByOrderId = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.ORDER_ROWS} WHERE order_id = ${id}`, (err, res) => {
             if(err) {
-                console.log("error retrieving order rows: ", err);
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found order rows: \n", res);
                     resolve(res);
                 } else {
-                    console.log(`no order row found with order_id = ${id}`);
                     resolve();
                 }
             }
@@ -54,14 +48,11 @@ OrderRow.getByProductId = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.ORDER_ROWS} WHERE product_id = ${id}`, (err, res) => {
             if(err) {
-                console.log("error retrieving order rows: ", err);
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("found order rows: \n", res);
                     resolve(res);
                 } else {
-                    console.log(`no order row found with product_id = ${id}`);
                     resolve();
                 }
             }
@@ -73,10 +64,8 @@ OrderRow.add = (orderRow) => {
     return new Promise((resolve, reject) => {
         sql.query(`INSERT INTO ${tables.ORDER_ROWS} SET ?`,  orderRow, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else {
-                console.log("created order row: ", { id: res.insertId, ...orderRow });
                 resolve({ id: res.insertId, ...orderRow });
             }
         });
@@ -88,10 +77,8 @@ OrderRow.addAll = (orderRows) => {
     return new Promise((resolve, reject) => {
         sql.query(`INSERT INTO ${tables.ORDER_ROWS}(order_id, product_id, variant_id, quantity, price, original_price, reduction) VALUES ?`,  [orderRows], (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else {
-                console.log(res);
                 resolve(res);
             }
         });
@@ -102,10 +89,8 @@ OrderRow.removeById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.ORDER_ROWS} WHERE id = ?`, id, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else {
-                console.log("deleted order row with id: ", id);
                 resolve(res);
             }
         });
@@ -116,10 +101,8 @@ OrderRow.removeByProductId = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.ORDER_ROWS} WHERE product_id = ?`, id, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else {
-                console.log("deleted order row with product id: ", id);
                 resolve(res);
             }
         });
@@ -131,10 +114,8 @@ OrderRow.updateById = (id, newRow) => {
         const entries = getUpdateOrderRowEntries(newRow);
         const values = getUpdateOrderRowValues(newRow);
         const queryStr = `UPDATE ${tables.ORDER_ROWS} SET ${entries} WHERE id = ${id}`;
-        console.log(queryStr);
         sql.query(queryStr, values, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
                 return;
               }
@@ -144,8 +125,6 @@ OrderRow.updateById = (id, newRow) => {
                 reject({ kind: "not_found" });
                 return;
               }
-      
-              console.log("updated order row: ", { id, ...newRow });
               resolve({id, ...newRow});
         });
     });
@@ -154,10 +133,8 @@ OrderRow.updateById = (id, newRow) => {
 OrderRow.updateQuantityById = (id, qty) => {
     return new Promise((resolve, reject) => {
         const queryStr = `UPDATE ${tables.ORDER_ROWS} SET \`quantity\` = '${qty}' WHERE (\`id\` = '${id}')`;
-        console.log(queryStr);
         sql.query(queryStr, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
                 return;
               }
@@ -167,8 +144,6 @@ OrderRow.updateQuantityById = (id, qty) => {
                 reject({ kind: "not_found" });
                 return;
               }
-      
-              console.log("updated order row quantity: ", { id, qty });
               resolve({id, qty});
         });
     });
@@ -177,10 +152,8 @@ OrderRow.updateQuantityById = (id, qty) => {
 OrderRow.updateQuantityAndReductionById = (id, qty, reduction) => {
     return new Promise((resolve, reject) => {
         const queryStr = `UPDATE ${tables.ORDER_ROWS} SET \`quantity\` = '${qty}', \`reduction\` = '${reduction}' WHERE (\`id\` = '${id}')`;
-        console.log(queryStr);
         sql.query(queryStr, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
                 return;
               }
@@ -190,8 +163,6 @@ OrderRow.updateQuantityAndReductionById = (id, qty, reduction) => {
                 reject({ kind: "not_found" });
                 return;
               }
-      
-              console.log("updated order row quantity and reduction: ", { id, qty , reduction});
               resolve({id, qty});
         });
     });

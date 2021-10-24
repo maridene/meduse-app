@@ -27,10 +27,8 @@ function getMyCoupons(userId) {
     return new Promise((resolve, reject) => {
         coupons.findByUserIdAvailable(userId)
             .then((result) => {
-                console.log('found ' + result.length + ' coupons for user with id = ' + userId);
                 resolve(result);
             }, (error) => {
-                console.error('error while retrieving coupons for user with id = ', id);
                 reject(error);
             })
     });
@@ -43,7 +41,6 @@ function checkCoupon(couponCode) {
                 if (coupon) {
                     resolve(coupon);
                 } else {
-                    console.log('coupon not valid');
                     reject();
                 }
             }, (error) => {

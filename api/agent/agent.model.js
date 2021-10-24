@@ -27,13 +27,10 @@ Agent.getById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.AGENTS} WHERE id = ${id}`, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else if (res.length) {
-                console.log("found agent: ", res[0]);
                 resolve(res[0]);
             } else {
-                console.log("no agent found with id " + id);
                 resolve();
             }
         });
@@ -44,7 +41,6 @@ Agent.create = (newAgent) => {
     return new Promise((resolve, reject) => {
         sql.query(`INSERT INTO ${tables.AGENTS} SET ?`, newAgent, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
             resolve({ id: res.insertId, ...newAgent });
@@ -57,11 +53,9 @@ Agent.updateById = (id, agent) => {
     \`label\` = '${agent.name}', 
     \`description\` = '${agent.modif_date}' 
     WHERE (\`id\` = '${id}')`;
-    console.log(query);
     return new Promise((resolve, reject) => {
         sql.query(query, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(null, err);
             }
     
@@ -70,7 +64,6 @@ Agent.updateById = (id, agent) => {
                 reject();
             }
     
-            console.log("updated agent: ", { id: id, ...agent });
             resolve({ id: id, ...agent });
         });
     });
@@ -80,7 +73,6 @@ Agent.remove = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.AGENTS} WHERE id = ?`, id, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
         
@@ -89,8 +81,6 @@ Agent.remove = (id) => {
                 reject();
                 return;
             }
-        
-            console.log("deleted AGENT with id: ", id);
             resolve(res);
         });
     });
@@ -100,12 +90,9 @@ Agent.remove = (id) => {
 Agent.removeAll = result => {
     sql.query(`DELETE FROM ${tables.AGENTS}`, (err, res) => {
         if (err) {
-            console.log("error: ", err);
             result(null, err);
             return;
         }
-
-        console.log(`deleted ${res.affectedRows} agents`);
         result(null, res);
     });
 };

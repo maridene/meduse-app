@@ -49,12 +49,10 @@ function getByIdWithVariants(id) {
                 products.getProductVariants(id).then((variants) => {
                     resolve ({product, variants});
                 }, (err) => {
-                    console.log(err);
                     resolve({product});
                 });
                    
             } else {
-                console.log(`no product found with id = ${id}`);
                 resolve();
             } 
         }, (err) => {
@@ -82,7 +80,6 @@ function getByCategory(categoryId) {
             manufacturers.getAll().then((manus) => {
                 resolve({items: res, manufacturers: manus});
             }, (err) => {
-                console.log(err);
                 resolve({items: res, manufacturers: []});
             })
         }, (err) => {
@@ -234,7 +231,6 @@ async function updateProductQuantityFromVariants(productIds) {
                 await updateProductQuantity(id, newQty);
             }
         });
-        console.log('Done updating products quantity from variants...');
     } 
 
     setTimeout(doUpdate, 5000, 'Updating products quantity from variants...');
@@ -249,7 +245,6 @@ function findById(id, params) {
                 products.getProductVariants(id).then((variants) => {
                     resolve ({product, variants});
                 }, (err) => {
-                    console.log(err);
                     resolve({product});
                 });
                    
@@ -268,7 +263,6 @@ function findByIdWithoutVariants(id, params) {
             if (product) {
                 resolve(product);
             } else {
-                console.log(`no product found with id = ${id}`);
                 resolve();
             } 
         }, (err) => {
@@ -297,7 +291,6 @@ function findByCategory(categoryId, params) {
                 manufacturers.getAll().then((manus) => {
                     resolve({count: Object.values(count[0])[0], items: res, manufacturers: manus});
                 }, (err) => {
-                    console.log(err);
                     resolve({count: Object.values(count[0])[0], items: res, manufacturers: []});
                 })
             }, (err) => {
@@ -395,8 +388,6 @@ function getRelatedProducts(id, params) {
                                     .then((result) =>{
                                         resolve([...foundProducts, ...result]);
                                     }, (err) => {
-                                        console.log('Error while trying to retrieve products in same category as product with id = ' 
-                                        + id + 'after Not finding enough related products with tags');
                                         reject();
                                     })
                             }
@@ -407,8 +398,6 @@ function getRelatedProducts(id, params) {
                         }
                         
                     }, (error) => {
-                        console.log('Error while trying to retrieve related products by tag for product with id : ' + id);
-                        console.log(error);
                         getProductsInSameCategory(categoryId, id, relatedCount, [], params)
                         .then((result) => resolve(result),
                             (err) => reject(err));
@@ -419,7 +408,6 @@ function getRelatedProducts(id, params) {
                         (err) => reject(err));
                 }
             } else {
-                console.log(`No product found with id = ${id} while trying to retrive related products.`);
                 reject();
             }
         }, (error) => reject(error));

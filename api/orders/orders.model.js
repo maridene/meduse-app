@@ -37,10 +37,8 @@ Orders.getAll = () => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("[Orders.getAll]: found orders: ", res.length);
             resolve(res);
           } else {
-            console.log('no order found.');
             resolve();
           }
         }
@@ -53,14 +51,11 @@ Orders.getById = (id) => {
         sql.query(`SELECT * FROM ${tables.ORDERS} WHERE id = ${id}`,
         (err, res) => {
             if(err) {
-                console.log("error retrieving order: ", err);
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("[getById]: found order with id :", id);
                     resolve(res[0]);
                 } else {
-                    console.log(`no order found with id = ${id}`);
                     resolve();
                 }
             }
@@ -73,14 +68,11 @@ Orders.findByClientId = (userId) => {
         sql.query(`SELECT * FROM ${tables.ORDERS} WHERE client_id = ${userId}`,
         (err, res) => {
             if(err) {
-                console.log("error retrieving orders: ", err);
                 reject(err);
             } else {
                 if (res.length) {
-                    console.log("[Orders.findByClientId]: found orders: \n", res.length);
                     resolve(res);
                 } else {
-                    console.log(`no order found for client with id = ${userId}`);
                     resolve([]);
                 }
             }
@@ -97,10 +89,8 @@ Orders.findByRef = (ref) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("found order: ", res[0]);
             resolve(res[0]);
           } else {
-            console.log(`no order found with ref = ${ref}`);
             resolve();
           }
         }
@@ -117,10 +107,8 @@ Orders.findByState = (state) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("found orders: ", res);
             resolve(res);
           } else {
-            console.log(`no order found with state = ${state}`);
             resolve();
           }
         }
@@ -137,10 +125,8 @@ Orders.findByStatus = (status) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log(`[Orders.findByStatus]: found order with status '${status}': ${res[0]}`);
             resolve(res[0]);
           } else {
-            console.log(`no order found with status = ${status}`);
             resolve();
           }
         }
@@ -157,10 +143,8 @@ Orders.findByCreator = (creatorId) => {
           reject(err);
         } else {
           if (res.length) {
-            console.log("[Orders.findByCreator]: found order: ", res[0]);
             resolve(res);
           } else {
-            console.log(`no order found with creator = ${creatorId}`);
             resolve();
           }
         }
@@ -177,10 +161,8 @@ Orders.findCreatedBetween = (date1, date2) => {
             reject(err);
           } else {
             if (res.length) {
-              console.log("found orders: ", res);
               resolve(res[0]);
             } else {
-              console.log(`no order found between ${date1} and ${date2}`);
               resolve();
             }
           }
@@ -198,7 +180,6 @@ Orders.findDoneAndPaidByMonth = (yearMonth) => {
           if (res.length) {
             resolve(res);
           } else {
-            console.log(`no order found for year-month ${yearMonth}`);
             resolve();
           }
         }
@@ -216,7 +197,6 @@ Orders.findCreatedOrdersByMonth = (yearMonth) => {
         if (res.length) {
           resolve(res);
         } else {
-          console.log(`no order found for year-month ${yearMonth}`);
           resolve();
         }
       }
@@ -234,7 +214,6 @@ Orders.findCreatedNotCanceledOrdersByMonth = (yearMonth) => {
         if (res.length) {
           resolve(res);
         } else {
-          console.log(`no order found for year-month ${yearMonth}`);
           resolve();
         }
       }
@@ -251,10 +230,8 @@ Orders.search = (status, payment, ptype) => {
         reject(err);
       } else {
         if (res.length) {
-          console.log(`[Orders.search]: found orders (status = ${status}, payment = ${payment}, ptyep = ${ptype}): ${res.length}`);
           resolve(res);
         } else {
-          console.log(`no order found with query = status = ${status}, payment = ${payment}, ptype = ${ptype}`);
           resolve([]);
         }
       }
@@ -266,12 +243,9 @@ Orders.add = (order) => {
     return new Promise((resolve, reject) => {
         sql.query(`INSERT INTO ${tables.ORDERS} SET ?`,  order, (err, res) => {
             if (err) {
-            console.error("Error: ", err);
-            console.error("Order: ", order);
-            reject(err);
+              reject(err);
             } else {
-            console.log("created order: ", { id: res.insertId, ...order });
-            resolve({ id: res.insertId, ...order });
+              resolve({ id: res.insertId, ...order });
             }
         });
     });
@@ -281,7 +255,6 @@ Orders.remove = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.ORDERS} WHERE id = ?`, id, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
         
@@ -289,8 +262,6 @@ Orders.remove = (id) => {
             // not found order with the id
             reject({ kind: "not_found" });
             }
-        
-            console.log("deleted order with id: ", id);
             resolve(res);
         });
     });
@@ -301,10 +272,8 @@ Orders.updateOrderStatus = (id, newStatusData) => {
         const entries = getUpdateOrderEntries(newStatusData);
         const values = getUpdateOrderValues(newStatusData);
         const queryStr = `UPDATE ${tables.ORDERS} SET ${entries} WHERE id = ${id}`;
-        console.log(queryStr);
         sql.query(queryStr, values, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
                 return;
               }
@@ -314,8 +283,6 @@ Orders.updateOrderStatus = (id, newStatusData) => {
                 reject({ kind: "not_found" });
                 return;
               }
-      
-              console.log("updated order status: ", { id, status });
               resolve({id, status});
         });
     });
@@ -326,10 +293,8 @@ Orders.updateById = (id, newOrder) => {
     const entries = getUpdateOrderEntries(newOrder);
     const values = getUpdateOrderValues(newOrder);
     const queryStr = `UPDATE ${tables.ORDERS} SET ${entries} WHERE id = ${id}`;
-    console.log(queryStr);
     sql.query(queryStr, values, (err, res) => {
         if (err) {
-            console.log("error: ", err);
             reject(err);
             return;
           }
@@ -339,8 +304,6 @@ Orders.updateById = (id, newOrder) => {
             reject({ kind: "not_found" });
             return;
           }
-  
-          console.log("updated order: ", { id, ...newOrder });
           resolve({id, ...newOrder});
     });
 });
@@ -384,7 +347,6 @@ Orders.setReduction = (id, value) => {
         id
       ], (err, res) => {
         if (err) {
-          console.log("Error while setting order reduction, orderId = ", id);
           reject(err);
           return;
         }
@@ -393,7 +355,6 @@ Orders.setReduction = (id, value) => {
           reject({ kind: "not_found" });
           return;
         }
-        console.log("updated order reduction: ", id);
         resolve({ id: id, reduction: value });
       });
   });
@@ -410,7 +371,6 @@ Orders.updateAgent = (id, agentId) => {
         id
       ], (err, res) => {
         if (err) {
-          console.log("Error while setting order agent, orderId = ", id);
           reject(err);
           return;
         }
@@ -419,7 +379,6 @@ Orders.updateAgent = (id, agentId) => {
           reject({ kind: "not_found" });
           return;
         }
-        console.log("updated order agent: ", id);
         resolve({ id: id, agentId});
       });
   });
