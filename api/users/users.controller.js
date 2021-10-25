@@ -61,10 +61,8 @@ function mySelf(req, res, next) {
 }
 
 function updateMySelf(req, res, next) {
-    console.log('-----------------------------------------------------------------------myself');
     const userId = parseInt(req.header('userId'));
     const userData = req.body;
-    console.log(userData);
     userService.update(userId, userData)
         .then(user => res.json(user))
         .catch(err => next(err));

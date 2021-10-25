@@ -41,10 +41,10 @@ function checkCoupon(couponCode) {
                 if (coupon) {
                     resolve(coupon);
                 } else {
+                    console.log('coupon not valid');
                     reject();
                 }
             }, (error) => {
-                console.error('error while checking coupon valididty');
                 reject(error);
             })
     });
@@ -64,11 +64,9 @@ function getAcoupon(userId) {
                                         resolve(coupon);
                                     }, (error) => reject(error))
                             }, (error) => {
-                                console.error('error while creating coupon for user with id = : ', userId);
                                 reject(error);
                             });
                     } else {
-                        console.error('no enough points to create coupon for user: ', userId);
                         reject();
                     }
                 } else {
@@ -76,7 +74,6 @@ function getAcoupon(userId) {
                     reject();
                 }
             }, (error) => {
-                console.error('error while retrieving user to generate coupon');
                 reject(error);
             });
     });
@@ -96,7 +93,6 @@ function generateCoupon(userId) {
             .then((result) => {
                 resolve(result);
             }, (err) => {
-                console.error('error while creating coupon');
                 reject(err);
             })
     });

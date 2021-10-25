@@ -33,7 +33,6 @@ Orders.getAll = () => {
       sql.query(`SELECT * FROM ${tables.ORDERS}`, 
       (err, res) => {
         if (err) {
-          console.error("error: ", err);
           reject(err);
         } else {
           if (res.length) {
@@ -85,7 +84,6 @@ Orders.findByRef = (ref) => {
       sql.query(`SELECT * FROM ${tables.ORDERS} WHERE ref_id = '${ref}'`, 
       (err, res) => {
         if (err) {
-          console.error("error: ", err);
           reject(err);
         } else {
           if (res.length) {
@@ -103,7 +101,6 @@ Orders.findByState = (state) => {
       sql.query(`SELECT * FROM ${tables.ORDERS} WHERE state = '${state}'`, 
       (err, res) => {
         if (err) {
-          console.error("error: ", err);
           reject(err);
         } else {
           if (res.length) {
@@ -121,7 +118,6 @@ Orders.findByStatus = (status) => {
       sql.query(`SELECT * FROM ${tables.ORDERS} WHERE order_status = '${status}'`, 
       (err, res) => {
         if (err) {
-          console.error("error: ", err);
           reject(err);
         } else {
           if (res.length) {
@@ -139,7 +135,6 @@ Orders.findByCreator = (creatorId) => {
       sql.query(`SELECT * FROM ${tables.ORDERS} WHERE creator_id = '${creatorId}'`, 
       (err, res) => {
         if (err) {
-          console.error("error: ", err);
           reject(err);
         } else {
           if (res.length) {
@@ -157,7 +152,6 @@ Orders.findCreatedBetween = (date1, date2) => {
         sql.query(`SELECT * FROM ${tables.ORDERS} WHERE order_date between = '${date1}' and '${date2}' order by order_date desc`, 
         (err, res) => {
           if (err) {
-            console.error("error: ", err);
             reject(err);
           } else {
             if (res.length) {
@@ -226,7 +220,6 @@ Orders.search = (status, payment, ptype) => {
     sql.query(getSearchQuery(status, payment, ptype), 
     (err, res) => {
       if (err) {
-        console.error("error: ", err);
         reject(err);
       } else {
         if (res.length) {

@@ -22,13 +22,10 @@ async function report(req, res, next) {
     const file = reportsPath + '/' + 'client-errors.log';
     let message = dateTime + '\n' + content;
     
-    console.log(message);
-    
     try {
         if (fs.existsSync(file)) {
             message = '\n \n ' + message; 
             fs.appendFileSync(file, message);
-            console.log('Reporting service: message logged to existing File: ', file);
         } else {
             createAndWrite(file, message);
         }
@@ -41,8 +38,6 @@ async function report(req, res, next) {
 function createAndWrite(file, content) {
     fs.writeFile(file, content, (err) => {
         if (err) throw err;
-        
-        console.log('Reporting service: message logged to new File: ', file);
     });
 }
 

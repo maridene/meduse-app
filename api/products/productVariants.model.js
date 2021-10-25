@@ -16,7 +16,6 @@ ProductVariant.create = (productVariant) => {
     return new Promise((resolve, reject) => {
         sql.query(`INSERT INTO ${tables.PRODUCT_VARAINT} SET ?`, productVariant, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
             resolve({ id: res.insertId, ...productVariant });
@@ -29,7 +28,6 @@ ProductVariant.getById = (productVariantId) => {
     sql.query(`SELECT * FROM ${tables.PRODUCT_VARAINT} WHERE id = ${productVariantId}`, 
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         reject(err);
       } else {
         if (res.length) {
@@ -48,7 +46,6 @@ ProductVariant.getByProductId = (productId) => {
       sql.query(`SELECT * FROM ${tables.PRODUCT_VARAINT} WHERE product_id = ${productId}`,
        (err, res) => {
         if (err) {
-          console.log("error: ", err);
           reject(err);
         } else {
           if (res.length) {
@@ -65,7 +62,6 @@ ProductVariant.findBySku =  (sku) => {
   return new Promise((resolve, reject) => {
     sql.query(`SELECT * FROM ${tables.PRODUCT_VARAINT} WHERE sku = '${sku}'`, (err, res) => {
       if (err) {
-        console.log("error: ", err);
         reject({error: err});
       } else if (res.length) {
         resolve(res[0]);
@@ -80,7 +76,6 @@ ProductVariant.deleteById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.PRODUCT_VARAINT} WHERE id = '${id}'`, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
         
@@ -89,8 +84,6 @@ ProductVariant.deleteById = (id) => {
                 reject();
                 return;
             }
-        
-            console.log("deleted product variant with id: ", id);
             resolve(res);
         });
       });
@@ -100,7 +93,6 @@ ProductVariant.deleteBySku = (sku) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.PRODUCT_VARAINT} WHERE sku = '${sku}'`, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
         
@@ -109,8 +101,6 @@ ProductVariant.deleteBySku = (sku) => {
                 reject();
                 return;
             }
-        
-            console.log("deleted product variant with id: ", id);
             resolve(res);
         });
       });
@@ -120,7 +110,6 @@ ProductVariant.deleteByProductId = (productId) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.PRODUCT_VARAINT} WHERE product_Id = '${productId}'`, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
         
@@ -129,8 +118,6 @@ ProductVariant.deleteByProductId = (productId) => {
                 resolve();
                 return;
             }
-        
-            console.log("deleted product variants with product id: ", productId);
             resolve(res);
         });
       });
@@ -154,7 +141,6 @@ ProductVariant.updateById = (id, productVariant) => {
             ],
             (err, res) => {
                 if (err) {
-                    console.log("error: ", err);
                     reject(null, err);
                 }
         
@@ -162,8 +148,6 @@ ProductVariant.updateById = (id, productVariant) => {
                     // not found product variant with the id
                     reject();
                 }
-        
-                console.log("updated product variant: ", { id: id, ...productVariant });
                 resolve({ id: id, ...productVariant });
             }
         );

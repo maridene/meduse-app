@@ -66,7 +66,6 @@ Coupon.findByCode = (code) => {
       sql.query(`SELECT * FROM ${tables.COUPONS} WHERE code = '${code}'`, 
       (err, res) => {
         if (err) {
-          console.error("error: ", err);
           reject(err);
         } else {
             if (res.length) {
@@ -84,7 +83,6 @@ Coupon.findByCodeAvailable = (code) => {
         sql.query(`SELECT * FROM ${tables.COUPONS} WHERE code = '${code}' AND status = 0`, 
         (err, res) => {
             if (err) {
-                console.error("error: ", err);
                 reject(err);
             } else {
                 if (res.length) {

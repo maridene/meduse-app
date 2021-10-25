@@ -76,7 +76,6 @@ function remove(userId, addressId) {
                         reject(error);
                     })
             } else {
-                console.error('Authenticated user has no right to delete this address.');
                 reject();
             }
         }, (error) => {

@@ -139,14 +139,12 @@ function getClientById(id) {
 function create({prefix, name, email, password, phone, mf}, role) {
     return new Promise((resolve, reject) => {
         emailAvailable(email).then((result) => {
-            console.log('emailAvailable:', result);
             if (result) {
                 users.create({prefix, name, email, phone, password, role, mf})
                     .then((result) => {
                         mailService.sendWelcomeMail(name, email);
                         resolve(result);
                     }, (err) => {
-                        console.log('err', err);
                         reject(err);
                     })
             } else {
@@ -197,7 +195,6 @@ function upgradeClientToPremium(id) {
             .then(() => {
                 resolve();
             }, (error) => {
-                console.error('error while upgrading user to premium.');
                 reject(error);
             })
     });
