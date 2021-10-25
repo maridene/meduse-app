@@ -64,6 +64,7 @@ app.use('/api/contactform', require('./mailing/contactForm.controller'));
 app.use('/api/invoice', require('./orders/invoices.controller'));
 app.use('/api/ordersstats', require('./orders/ordersStats.controller'));
 app.use('/api/agents', require('./agent/agent.controller'));
+app.use('/api/export', require('./export/export.controller'));
 if (useReporting) {
   console.log("Reporting is enabled");
   app.use('/api/report', require('./reporting/reporting.controller'));

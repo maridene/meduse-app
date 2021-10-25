@@ -13,11 +13,6 @@ class CheckoutCtrl {
       this.AuthenticationService = AuthenticationService;
       this.shippingSettings = shippingSettings;
       this.checkoutDone = false;
-
-      this.form = {
-        cash: true,
-        check: false
-      };
       this.canApplyCoupon = true;
     }
 
@@ -156,14 +151,6 @@ class CheckoutCtrl {
 
     canSubmit() {
       return this.form.selectedDeliveryAddress && this.cartItems.length;
-    }
-
-    ptypeChanged(which) {
-      if (which === 'cash') {
-        this.form.check = !this.form.check;
-      } else {
-        this.form.cash = !this.form.cash;
-      }
     }
   }
   

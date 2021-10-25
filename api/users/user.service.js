@@ -4,6 +4,8 @@ const Role = require('../helpers/role');
 const users = require('./user.model');
 const mailService = require('../mailing/mail.service');
 
+sha3_256 = require('js-sha3').sha3_256;
+
 module.exports = {
     authenticate,
     getAll,
@@ -17,7 +19,8 @@ module.exports = {
     upgradeClientToPremium,
     updateClientPoints,
     search,
-    getCreatedClientsByMonth
+    getCreatedClientsByMonth,
+    resetPassword
 };
 
 function authenticate({ email, password }) {
@@ -39,6 +42,23 @@ function authenticate({ email, password }) {
             }
         }, (err) => reject(err));
     });
+}
+
+async function resetPassword(email) {
+    const user = await users.findByEmail(email);
+    if (user) {
+        const newGeneratedPwd = generateNewPassword();
+        const newGeneratedPwdEncrypted = sha3_256(newGeneratedPwd);
+        const newUserData = await users.updateById(user.id, {password: newGeneratedPwdEncrypted});
+        if (newUserData) {
+           mailService.sendPasswordResetMail(user.name, newGeneratedPwd, user.email);
+        }
+    }
+}
+
+function generateNewPassword() {
+    const randomStr = (Math.random() + 1).toString(36).substring(7);
+    return 'meduse-' + randomStr;
 }
 
 function getAll() {
@@ -119,14 +139,12 @@ function getClientById(id) {
 function create({prefix, name, email, password, phone, mf}, role) {
     return new Promise((resolve, reject) => {
         emailAvailable(email).then((result) => {
-            console.log('emailAvailable:', result);
             if (result) {
                 users.create({prefix, name, email, phone, password, role, mf})
                     .then((result) => {
                         mailService.sendWelcomeMail(name, email);
                         resolve(result);
                     }, (err) => {
-                        console.log('err', err);
                         reject(err);
                     })
             } else {
@@ -177,7 +195,6 @@ function upgradeClientToPremium(id) {
             .then(() => {
                 resolve();
             }, (error) => {
-                console.error('error while upgrading user to premium.');
                 reject(error);
             })
     });

@@ -18,6 +18,7 @@ const agentService = require('../agent/agent.service');
 
 const dev = process.env.dev === '1';
 const invoicesPath = dev ? "public/invoices" : constants.INVOICES_PATH;
+const templateUrl = dev ? "orders" : "meduse-app/api/orders";
 
 const browserParams = {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -33,10 +34,6 @@ async function generatePdf(html, pdfPath) {
     const page = await browser.newPage();
     await page.setContent(html);
     await page.addStyleTag({ path: path.join(__dirname, 'style.css') });
-    
-    /*await page.goto(`data:text/html;charset=UTF-8,${html}`, {
-		waitUntil: 'networkidle0'
-	});*/
 	await page.pdf(pdfOptions);
     await browser.close();
 }
@@ -78,9 +75,11 @@ module.exports = {
     getInvoices,
     getShippingInvoices,
     getCreditInvoices,
+    getDevisInvoices,
     generateInvoice,
     generateDeliveryInvoice,
-    generateCreditInvoice
+    generateCreditInvoice,
+    generateDevisInvoice
 };
 
 function getAll() {
@@ -137,7 +136,7 @@ function getShippingInvoices() {
                 .map((each) => {
                     const splited = each.split('.')[0].split('-');
                     return {
-                        number: `${splited[splited.length-1]}-${splited[splited.length-2]}`,
+                        number: `${splited[6]}-${splited[7]}`,
                         filename: each,
                         orderRef: `${splited[1]}-${splited[2]}-${splited[3]}`,
                         orderId: splited[4]
@@ -159,7 +158,29 @@ function getCreditInvoices() {
                 .map((each) => {
                     const splited = each.split('.')[0].split('-');
                     return {
-                        number: `${splited[splited.length-1]}-${splited[splited.length-2]}`,
+                        number: `${splited[6]}-${splited[7]}`,
+                        filename: each,
+                        orderRef: `${splited[1]}-${splited[2]}-${splited[3]}`,
+                        orderId: splited[4]
+                    }
+                });
+                resolve(result);
+            }
+        })
+    })
+}
+
+function getDevisInvoices() {
+    return new Promise((resolve, reject) => {
+        fs.readdir(invoicesPath, (err, files) => {
+            if (err) {
+                reject(err);
+            } else {
+                const result = files.filter((each) => each.split('-')[0] === 'Devis')
+                .map((each) => {
+                    const splited = each.split('.')[0].split('-');
+                    return {
+                        number: `${splited[6]}-${splited[7]}`,
                         filename: each,
                         orderRef: `${splited[1]}-${splited[2]}-${splited[3]}`,
                         orderId: splited[4]
@@ -274,6 +295,9 @@ async function getDataForInvoice(orderId, date, mf, invoiceType) {
         case 'credit':
             num = await getCreditInvoiceNumber();
             break;
+        case 'devis':
+            num = await getDevisInvoiceNumber();
+            break;
         default:
             num = await getInvoiceNumber();
             break; 
@@ -302,7 +326,7 @@ async function getDataForInvoice(orderId, date, mf, invoiceType) {
 async function generateInvoice(orderId, date, mf) {
 
     const data = await getDataForInvoice(orderId, date, mf);
-    const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/invoice.html'), 'utf8');
+    const templateHtml = fs.readFileSync(path.join(process.cwd(), templateUrl + '/invoice.html'), 'utf8');
     const template = handlebars.compile(templateHtml);
     const html = template(data);
 
@@ -318,7 +342,7 @@ async function generateInvoice(orderId, date, mf) {
 async function generateDeliveryInvoice(orderId, date, mf) {
     
     const data = await getDataForInvoice(orderId, date, mf, 'delivery');
-    const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/delivery-invoice.html'), 'utf8');
+    const templateHtml = fs.readFileSync(path.join(process.cwd(), templateUrl + '/delivery-invoice.html'), 'utf8');
     const template = handlebars.compile(templateHtml);
     const html = template(data);
 
@@ -334,13 +358,29 @@ async function generateDeliveryInvoice(orderId, date, mf) {
 async function generateCreditInvoice(orderId, date, mf) {
     
     const data = await getDataForInvoice(orderId, date, mf, 'credit');
-    const templateHtml = fs.readFileSync(path.join(process.cwd(), '/orders/credit-invoice.html'), 'utf8');
+    const templateHtml = fs.readFileSync(path.join(process.cwd(), templateUrl + '/credit-invoice.html'), 'utf8');
     const template = handlebars.compile(templateHtml);
     const html = template(data);
     
     const year = new Date().getUTCFullYear();
     const random = uuidv4();
     const filename = `FactureAvoir-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}-${random}.pdf`;
+    const pdfPath = path.join(invoicesPath, filename);
+
+    await generatePdf(html, pdfPath);
+    return filename;
+}
+
+async function generateDevisInvoice(orderId, date, mf) {
+
+    const data = await getDataForInvoice(orderId, date, mf, 'devis');
+    const templateHtml = fs.readFileSync(path.join(process.cwd(), templateUrl + '/devis-invoice.html'), 'utf8');
+    const template = handlebars.compile(templateHtml);
+    const html = template(data);
+
+    const year = new Date().getUTCFullYear();
+    const random = uuidv4();
+    const filename = `Devis-${data.order.order_ref}-${orderId}-${year}-${data.invoiceNumber}-${random}.pdf`;
     const pdfPath = path.join(invoicesPath, filename);
 
     await generatePdf(html, pdfPath);
@@ -398,5 +438,10 @@ async function getDeliveryInvoiceNumber() {
 
 async function getCreditInvoiceNumber() {
     const num = await settingsService.getAndIncrementCreditInvoiceNumber();
+    return padNumber(num, 6);
+}
+
+async function getDevisInvoiceNumber() {
+    const num = await settingsService.getAndIncrementDevisInvoiceNumber();
     return padNumber(num, 6);
 }

@@ -12,7 +12,6 @@ NotifiedUsers.getAll = () => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.ADMIN_NOTIFICATIONS}`, (err, res) => {
             if (err) {
-                console.error("[NotifiedUsers.getAll]: ", err);
                 reject(err);
             }
             resolve(res);

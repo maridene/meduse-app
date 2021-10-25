@@ -17,6 +17,7 @@ export const ApiConstants = {
   USERS_REGISTER: 'users/register',
   USERS_AUTHENTICATE: 'users/authenticate',
   USERS_UPDATE: 'users/update/myself',
+  USERS_RESET_PASSWORD: 'users/resetpassword',
   ADDRESSES: 'addresses/',
   BLOGS: 'blogs/',
   BLOGS_TAGS: 'blogs/tags',

@@ -20,7 +20,7 @@ angular.module('sbAdminApp')
             id: item.id,
             ref: item.order_ref,
             client: item.clientName,
-            ptype: item.ptype === 'c' ? 'Chèque' : 'Espèces',
+            ptype: ptypeMapper(item.ptype),
             date: formatDateTime(item.order_date),
             shippedDate: formatDateTime(item.shipped_date)
           }
@@ -34,15 +34,20 @@ angular.module('sbAdminApp')
           $scope.filteredOrders = $scope.orders;
           break;
         
-        case 'Espèces':
+        case 'e':
           $scope.filteredOrders = $scope.orders.filter(function(item) {
             return item.ptype ===  'Espèces'; 
           });
           break; 
         
-        case 'Chèque':
+        case 'c':
           $scope.filteredOrders = $scope.orders.filter(function(item) {
             return item.ptype === 'Chèque'; 
+          });
+          break;
+        case 'v':
+          $scope.filteredOrders = $scope.orders.filter(function(item) {
+            return item.ptype === 'Virement'; 
           });
           break;
       }

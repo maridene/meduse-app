@@ -68,8 +68,6 @@ function updateById(id, address) {
 function remove(userId, addressId) {
     return new Promise((resolve, reject) => {
         getById(addressId).then((address) => {
-            console.log(address.userId);
-            console.log(userId);
             if (address.userId === userId) {
                 addresses.remove(addressId)
                     .then((result) => {
@@ -78,7 +76,6 @@ function remove(userId, addressId) {
                         reject(error);
                     })
             } else {
-                console.error('Authenticated user has no right to delete this address.');
                 reject();
             }
         }, (error) => {

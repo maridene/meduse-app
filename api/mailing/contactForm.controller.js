@@ -49,8 +49,6 @@ async function doSendMail(form) {
     text: '', // plain text body
     html: getHtmlMessage(senderName, message) // html body
   });
-
-  console.log("Message sent: %s", info.messageId);
   return true;
 }
 

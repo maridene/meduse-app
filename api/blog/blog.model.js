@@ -15,10 +15,8 @@ const Blog = function(blog) {
 
 Blog.create = (newBlog) => {
     return new Promise((resolve, reject) => {
-        console.log(newBlog);
         sql.query(`INSERT INTO ${tables.BLOG} SET ?`, newBlog, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
             resolve({ id: res.insertId, ...newBlog });
@@ -30,13 +28,10 @@ Blog.findById = (blogId) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM ${tables.BLOG} WHERE id = ${blogId}`, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             } else if (res.length) {
-                console.log("found blog: ", res[0]);
                 resolve(res[0]);
             } else {
-                console.log("no blog found with id " + blogId);
                 resolve();
             }
         });
@@ -70,8 +65,6 @@ Blog.getTags = () => {
                         }
                     })
                 });
-                console.log(res);
-                console.log(tags);
                 resolve(tags);
                 } else {
                     resolve([]);
@@ -103,7 +96,6 @@ Blog.updateById = (id, blog) => {
             ],
             (err, res) => {
                 if (err) {
-                    console.log("error: ", err);
                     reject(null, err);
                 }
         
@@ -112,7 +104,6 @@ Blog.updateById = (id, blog) => {
                     reject();
                 }
         
-                console.log("updated blog: ", { id: id, ...blog });
                 resolve({ id: id, ...blog });
             }
         );
@@ -123,7 +114,6 @@ Blog.remove = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(`DELETE FROM ${tables.BLOG} WHERE id = ?`, id, (err, res) => {
             if (err) {
-                console.log("error: ", err);
                 reject(err);
             }
         
@@ -132,8 +122,6 @@ Blog.remove = (id) => {
                 reject();
                 return;
             }
-        
-            console.log("deleted blog with id: ", id);
             resolve(res);
         });
     });
@@ -143,12 +131,9 @@ Blog.remove = (id) => {
 Blog.removeAll = result => {
 sql.query(`DELETE FROM ${tables.BLOG}`, (err, res) => {
     if (err) {
-    console.log("error: ", err);
-    result(null, err);
-    return;
+        result(null, err);
+        return;
     }
-
-    console.log(`deleted ${res.affectedRows} blogs`);
     result(null, res);
 });
 };

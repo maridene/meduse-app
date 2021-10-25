@@ -132,20 +132,6 @@
             </div>
         </div> 
 
-        <div>Mode de paiement:  &nbsp;&nbsp;&nbsp; 
-            
-            {{#ifEquals order.ptype "e"}}
-            <b>
-                Espèces
-            </b>
-            {{/ifEquals}}
-            {{#ifEquals order.ptype "c"}}
-            <b>
-                Chèque
-            </b>
-            {{/ifEquals}}
-        </div>
-
         <div class="total-inline">
             Arrêtée la présente facture à la somme de {{{totalText}}}.
         </div>

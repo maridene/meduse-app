@@ -40,18 +40,22 @@ angular.module('sbAdminApp')
           $scope.filteredOrders = $scope.filteredOrders;
           break;
         
-        case 'Espèces':
+        case 'e':
           $scope.filteredOrders = $scope.filteredOrders.filter(function(item) {
             return item.ptype ===  'Espèces'; 
           });
           break; 
         
-        case 'Chèque':
+        case 'c':
           $scope.filteredOrders = $scope.filteredOrders.filter(function(item) {
             return item.ptype === 'Chèque'; 
           });
           break;
-
+        case 'v':
+           $scope.filteredOrders = $scope.filteredOrders.filter(function(item) {
+             return item.ptype === 'Virement';
+           });
+          break;
         }
       
       $scope.filteredOrders = $scope.filteredOrders.filter(function(item) {
@@ -67,11 +71,12 @@ angular.module('sbAdminApp')
         $scope.selectedPaymentStatus = 'all';
         OrdersService.search(status).then(function(result) {
           $scope.orders = result.map(function(item) {
+
             return {
               id: item.id,
               ref: item.order_ref,
               client: item.clientName,
-              ptype: item.ptype === 'c' ? 'Chèque' : 'Espèces',
+              ptype: ptypeMapper(item.ptype),
               date: formatDateTime(item.order_date),
               payment_status: item.payment_status,
               total: item.total,

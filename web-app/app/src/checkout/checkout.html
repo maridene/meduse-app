@@ -75,22 +75,6 @@
                                     Votre commande doit être inférieure à 1000 D.T pour pouvoir appliquer un coupon de réduction.
                                 </div>
                             </div>
-                            <div class="payment-check">
-                                <div class="pc-item">
-                                    <label for="pc-paypal">
-                                        Paiement en espèces
-                                        <input type="checkbox" ng-model="$ctrl.form.cash" name="payment" id="pc-paypal" ng-change="$ctrl.ptypeChanged('cash')">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="pc-item">
-                                    <label for="pc-check">
-                                        Paiement par chèque
-                                        <input type="checkbox" ng-model="$ctrl.form.check" name="payment" id="pc-check" ng-change= "$ctrl.ptypeChanged('check')">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
                             <div class="order-btn">
                                 <button type="submit" class="site-btn place-btn">Commander</button>
                             </div>

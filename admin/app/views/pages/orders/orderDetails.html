@@ -21,24 +21,24 @@
                                 <td>{{order.date}}</td>
                             </tr>
                             <tr>
-                                <td><b>Etat de la commande:</b</td>
+                                <td><b>Etat de la commande:</b></td>
                                 <td>{{order.status}}</td>
                             </tr>
                             <tr ng-if="order.canceledDate">
-                                <td><b>Date d'annulation:</b</td>
+                                <td><b>Date d'annulation:</b></td>
                                 <td>{{order.canceledDate}}</td>
                             </tr>
         
                             <tr ng-if="order.shippedDate">
-                                <td><b>Date de livraison:</b</td>
+                                <td><b>Date de livraison:</b></td>
                                 <td>{{order.shippedDate}}</td>
                             </tr>
                             <tr>
-                                <td><b>Type de paiement:</b</td>
+                                <td><b>Type de paiement:</b></td>
                                 <td>{{order.paymentType}}</td>
                             </tr>
                             <tr>
-                                <td><b>Etat de paiement:</b</td>
+                                <td><b>Etat de paiement:</b></td>
                                 <td>{{order.paymentStatus}}</td>
                             </tr>
                         </table>
@@ -71,7 +71,7 @@
                         <td>{{client.name}}</td>
                     </tr>
                     <tr>
-                        <td><b>E-mail:</b</td>
+                        <td><b>E-mail:</b></td>
                         <td>{{client.email}}</td>
                     </tr>
                     <tr>
@@ -79,7 +79,7 @@
                         <td>{{client.phone}}</td>
                     </tr>
                     <tr>
-                        <td><b>Matricule fiscale:</b</td>
+                        <td><b>Matricule fiscale:</b></td>
                         <td>{{client.mf}}</td>
                     </tr>
                     <tr>
@@ -118,6 +118,14 @@
                                 <select class="form-control" ng-model="form.selectedPaymentStatus" required>
                                     <option value="0">Non payée</option>
                                     <option value="1">Payée</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Moyen de paiement</label>
+                                <select class="form-control" ng-model="form.selectedPType" required>
+                                    <option value="e">Especes</option>
+                                    <option value="c">Chèque</option>
+                                    <option value="v">Virement</option>
                                 </select>
                             </div>
                         </div>
@@ -194,6 +202,22 @@
                         </div>
                         <div class="form-group input-group">
                             <button type="button" class="btn btn-primary" ng-click="getCreditInvoice()">Télécharger</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Devis</label>
+                    <div class="form-inline">
+                        <label>Date:</label>
+                        <div class="form-group input-group">
+                            <input type="date" ng-model="invoiceForm.devisInvoiceDate">
+                        </div>
+                        <div class="form-group input-group">
+                            <input type="text" placeholder="Matricule fiscale" ng-model="invoiceForm.clientMF">
+                        </div>
+                        <div class="form-group input-group">
+                            <button type="button" class="btn btn-primary" ng-click="getDevisInvoice()">Télécharger</button>
                         </div>
                     </div>
                 </div>
@@ -280,32 +304,32 @@
                         <td>{{totalInfo.totalHTLabel}}</td>
                     </tr>
                     <tr>
-                        <td><b>Total TVA:</b</td>
+                        <td><b>Total TVA:</b></td>
                         <td>{{totalInfo.totalTVALabel}}</td>
                     </tr>
                     <tr>
-                        <td ng-if="totalInfo.couponReduction"><b>Coupon de réduction:</b</td>
+                        <td ng-if="totalInfo.couponReduction"><b>Coupon de réduction:</b></td>
                         <td ng-if="totalInfo.couponReduction">{{totalInfo.couponReduction}}</td>
                     </tr>
                     <tr>
-                        <td><b>Total TTC:</b</td>
+                        <td><b>Total TTC:</b></td>
                         <td>{{totalInfo.totalTTCLabel}}</td>
                     </tr>
                     <tr ng-if="totalInfo.reduction && totalInfo.reduction > 0">
-                        <td><b>Réduction:</b</td>
+                        <td><b>Réduction:</b></td>
                         <td>{{totalInfo.reductionLabel}}</td>
                     </tr>
 
                     <tr ng-if="totalInfo.reduction && totalInfo.reduction > 0">
-                        <td><b>Total TTC après réduction:</b</td>
+                        <td><b>Total TTC après réduction:</b></td>
                         <td>{{totalInfo.totalTTCAfterReductionLabel}}</td>
                     </tr>
                     <tr>
-                        <td><b>Timbre fiscale:</b</td>
+                        <td><b>Timbre fiscale:</b></td>
                         <td>0.600 D.T</td>
                     </tr>
                     <tr>
-                        <td><b>Total à payer:</b</td>
+                        <td><b>Total à payer:</b></td>
                         <td>{{totalInfo.totalLabel}}</td>
                     </tr>
                 </table>

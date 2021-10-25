@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Facture d'avoir</title>
+    <title>Devis</title>
     
     <style>
     .invoice-box {
@@ -129,7 +129,7 @@
                             </td>
                             <td></td>
                             <td style="text-align: end; font-size:12px">
-                                Facture N°: {{invoiceNumber}}<br>
+                                Devis N°: {{invoiceNumber}}<br>
                                 Ref commande: {{order.order_ref}}<br>
                                 Crée le: {{creationDate}}<br>
                                 {{#ifNotNull agent}}
@@ -148,7 +148,7 @@
                     <table>
                         <tr>
                             <td style="text-align: center; color: rgb(25,52,109); font-size: 20px; font-weight: bold; width: 100%; ">
-                                Facture d'avoir N° {{invoiceNumber}}
+                                Devis N° {{invoiceNumber}}
                             </td>
                         </tr>
                     </table>
@@ -248,7 +248,7 @@
 
 
         <div class="points">
-            {{points}} points ont été crédités dans votre compte de points de fidélité.
+            {{points}} points vont être crédités dans votre compte de points de fidélité.
         </div>
         <div class="thanks">
             MEDUSE.tn vous remercie pour votre confiance.

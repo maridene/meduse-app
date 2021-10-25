@@ -3,6 +3,9 @@ var handlebars = require('handlebars');
 var fs = require('fs');
 const notificationsService = require('../notifications/notifications.service');
 
+const PASSWORD_RESET_EMAIL = "password.reset@meduse.tn"
+const PASSWORD_RESET_EMAIL_PWD = "passwordreset23102021";
+
 const readHTMLFile = function(path, callback) {
     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
         if (err) {
@@ -19,7 +22,8 @@ module.exports = {
     sendWelcomeMail,
     sendOrderConfirmationMail,
     sendOrderReceivedMail,
-    sendNewOrderNotification
+    sendNewOrderNotification,
+    sendPasswordResetMail
 };
 
 
@@ -31,6 +35,20 @@ function getTransporter() {
         auth: {
           user: 'contact.form@meduse.tn',
           pass: 'contactmeduse12122020'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+      });
+}
+
+function getPasswordResetEMailTransporter() {
+    return nodemailer.createTransport({
+        host: 'smtp.meduse.tn',
+        port: '587',
+        auth: {
+          user: PASSWORD_RESET_EMAIL,
+          pass: PASSWORD_RESET_EMAIL_PWD
         },
         tls: {
             rejectUnauthorized: false
@@ -111,4 +129,26 @@ function sendOrderReceivedMail(userName, userEmail, orderRef) {
             });
         });
     }
+}
+
+function sendPasswordResetMail(userName, newPassword, email) {
+    readHTMLFile(__dirname + '/passwordReset.html', function(err, html) {
+        const template = handlebars.compile(html);
+        const replacements = {
+            username: userName,
+            newPassword
+        };
+        const htmlToSend = template(replacements);
+        const mailOptions = {
+            from: PASSWORD_RESET_EMAIL,
+            to: email,
+            subject: 'Mot de passe MEDUSE modifié',
+            html: htmlToSend
+        };
+        getPasswordResetEMailTransporter().sendMail(mailOptions, (err, res) => {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
 }

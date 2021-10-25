@@ -410,6 +410,19 @@ angular
           }
         }
     })
+      .state('dashboard.devis-invoices', {
+              url:'/devis-invoices',
+              controller: 'DevisInvoicesListCtrl',
+              templateUrl: 'views/pages/orders/devisInvoicesList.html',
+              resolve: {
+                loadMyFile:function($ocLazyLoad) {
+                  return $ocLazyLoad.load({
+                      name:'sbAdminApp',
+                      files:['scripts/controllers/orders/devisInvoicesListController.js']
+                  })
+                }
+              }
+          })
       .state('dashboard.add-pub', {
         url:'/add-pub',
         controller: 'AddPubCtrl',
@@ -486,6 +499,19 @@ angular
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
                 files:['scripts/controllers/settings/settingsController.js']
+            })
+          }
+        }
+    })
+    .state('dashboard.export', {
+        url:'/export',
+        controller: 'ExportCtrl',
+        templateUrl: 'views/pages/export/export.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/export/exportController.js']
             })
           }
         }
