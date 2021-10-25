@@ -150,6 +150,8 @@ angular.module('sbAdminApp')
           $scope.possibleStatuses = getPossibleNextStatuses($scope.order.order_status);
           $scope.form.selectedOrderStatus = $scope.possibleStatuses[0].key;
           $scope.form.selectedPaymentStatus = $scope.order.payment_status;
+          $scope.form.selectedPType = $scope.order.ptype;
+          $scope.form.message = $scope.order.admin_message;
           $scope.disableApply = true;
 
           if ($scope.order.coupon_id !== null && $scope.order.coupon_id !== null)  {
@@ -216,9 +218,11 @@ angular.module('sbAdminApp')
       return found.length > 0;
     };
 
-    $scope.$watch('[form.selectedOrderStatus, form.selectedPaymentStatus]', function() {
+    $scope.$watch('[form.selectedOrderStatus, form.selectedPaymentStatus, form.selectedPType, form.message]', function() {
       if ($scope.form.selectedOrderStatus === $scope.order.order_status 
-        && $scope.form.selectedPaymentStatus == $scope.order.payment_status) {
+        && $scope.form.selectedPaymentStatus == $scope.order.payment_status
+        && $scope.form.selectedPType === $scope.order.ptype
+        && $scope.form.message === $scope.order.admin_message) {
           $scope.disableApply = true;
         } else {
           $scope.disableApply = false;
@@ -229,7 +233,8 @@ angular.module('sbAdminApp')
       var data = {
         order_status: $scope.form.selectedOrderStatus,
         payment_status: $scope.form.selectedPaymentStatus,
-        admin_message: $scope.form.message
+        admin_message: $scope.form.message,
+        ptype: $scope.form.selectedPType
       }
 
       OrdersService.updateById($scope.order.id, data)

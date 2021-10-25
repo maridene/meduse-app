@@ -34,4 +34,5 @@ var Order = function Order(order) {
     this.total = order.total !== null &&  order.total !== undefined ? order.total : null;
     this.agentId = order.agent_id;
     this.agentName = order.agentName;
+    this.admin_message = order.admin_message;
 };

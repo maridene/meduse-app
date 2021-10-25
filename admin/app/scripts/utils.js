@@ -118,8 +118,12 @@ function paymentStatusMapper(status) {
 function ptypeMapper(type) {
   if (type === 'c') {
     return 'Chèque';
-  } else {
+  } else if (type === 'e'){
     return 'Espéces';
+  } else if (type === 'v') {
+    return 'Virement'
+  } else {
+    return '-';
   }
 }
 

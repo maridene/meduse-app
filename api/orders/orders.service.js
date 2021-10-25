@@ -318,9 +318,7 @@ async function doCreateOrder(order, orderRows, notifyAdmins) {
             }
             return {addedOrder, lines: addedRows};
         } else {
-            console.error('error while adding order lines');
             await remove(addedOrder.id);
-            console.log('removed order after failing adding its lines');
         }
     }
 }
@@ -513,7 +511,6 @@ async function grantPoints(order) {
         const newPoints = +client.points + +Math.floor(orderTotal.totalInfos.totalTTC);
         usersService.updateClientPoints(client.id, newPoints);
     } else {
-        console.error('[ordersService.grantPoints]: failed to grant points to client');
     }
     
 }
@@ -525,7 +522,6 @@ async function retrievePoints(order) {
         const newPoints = +client.points - +Math.floor(orderTotal.totalInfos.totalTTC);
         usersService.updateClientPoints(client.id, newPoints);
     } else {
-        console.error('[ordersService.retrievePoints]: failed to retrieve points from client');
     }
 }
 
