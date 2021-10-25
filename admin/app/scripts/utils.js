@@ -119,7 +119,7 @@ function ptypeMapper(type) {
   if (type === 'c') {
     return 'Chèque';
   } else if (type === 'e'){
-    return 'Espéces';
+    return 'Espèces';
   } else if (type === 'v') {
     return 'Virement'
   } else {
