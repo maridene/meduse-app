@@ -14,6 +14,9 @@ class CheckoutCtrl {
       this.shippingSettings = shippingSettings;
       this.checkoutDone = false;
       this.canApplyCoupon = true;
+      this.form = {
+        code: ''
+      };
     }
 
     $onInit() {
@@ -84,8 +87,7 @@ class CheckoutCtrl {
           billing_zipcode: this.form.selectedDeliveryAddress.zipcode,
           billing_state: this.form.selectedDeliveryAddress.state,
           billing_city: this.form.selectedDeliveryAddress.city,
-          billing_phone: this.form.selectedDeliveryAddress.phone,
-          ptype: this.form.cash ? 'e' : 'c'
+          billing_phone: this.form.selectedDeliveryAddress.phone
         };
   
         if (this.coupon) {
