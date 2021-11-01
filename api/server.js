@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const errorHandler = require('helpers/error-handler');
 var multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
+const expressSitemapXml = require('express-sitemap-xml')
+const getUrls = require('sitemap/sitemap')
 
 const dev = process.env.dev === '1';
 const useReporting = process.env.useReporting === '1';
@@ -75,6 +77,9 @@ const staticContentDir = dev ? __dirname + '/public' : '/var/www/meduse-static';
 app.use('/static/blogs', express.static(staticContentDir + '/blog'));
 app.use('/static/products', express.static(staticContentDir + '/pimages'));
 app.use('/static/invoices', express.static(staticContentDir + '/invoices'));
+
+//sitemap
+app.use(expressSitemapXml(getUrls, 'https://meduse.tn'));
 
 var blogStorage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
