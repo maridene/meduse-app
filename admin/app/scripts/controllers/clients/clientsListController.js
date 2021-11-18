@@ -37,7 +37,8 @@ function ($scope, $q, UsersService) {
 
   var filterClients = function() {
     $scope.filteredClients = $scope.clients.filter(function(item) {
-      return item.name.includes($scope.filterQuery) || item.email.includes($scope.filterQuery);
+      return item.name.toUpperCase().includes($scope.filterQuery.toUpperCase())
+      || item.email.toUpperCase().includes($scope.filterQuery.toUpperCase());
     });
   };
 
