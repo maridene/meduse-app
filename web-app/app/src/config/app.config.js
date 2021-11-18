@@ -11,8 +11,6 @@ function AppConfig($stateProvider, $locationProvider, $urlRouterProvider, ngMeta
         templateUrl: 'layout/app-view.html'
       });
 
-  $urlRouterProvider.otherwise('/');
-
   ngMetaProvider.useTitleSuffix(true);
   ngMetaProvider.setDefaultTitle('Meduse');
   ngMetaProvider.setDefaultTitleSuffix(' | Meduse.tn: Medically useful');

@@ -1,5 +1,5 @@
-const categoriesService = require('../categories/categories.service');
-const productsService = require('../products/products.service');
+const categoriesDao = require('../categories/categories.model');
+const productsDao = require('../products/products.model');
 const blogService = require('../blog/blog.service');
 
 const buildUrl = (url, lastMod, changeFreq) => ({
@@ -8,7 +8,7 @@ const buildUrl = (url, lastMod, changeFreq) => ({
     changeFreq: changeFreq || 'weekly'
 });
 
-const getUrls = async () => {
+async function getUrls() {
     const contactUsUrl = buildUrl('contact');
     const blogUrl = buildUrl('blog');
     const premiumUrl = buildUrl('premium');
@@ -21,7 +21,7 @@ const getUrls = async () => {
 };
 
 const getCategoriesUrls = async () => {
-    const categories = await categoriesService.getAll();
+    const categories = await categoriesDao.getAll();
     return categories.map((each) => {
         const url = 'category/' + each.id + '-' + each.label.replace(/ /g, '-');
         return buildUrl(url);
@@ -29,7 +29,7 @@ const getCategoriesUrls = async () => {
 };
 
 const getProductsUrls = async () => {
-    const products = await productsService.getAll();
+    const products = await productsDao.getAll();
     return products.filter((each) => each.isHidden !== 1 && each.isExclusif !== 1).map((each) => {
         const url = 'product/' + each.id + '-' + each.label.replace(/ /g, '-');
         return buildUrl(url);
@@ -41,4 +41,6 @@ const getBlogPostsUrls = async () => {
     return posts.map((each) => buildUrl('blog/' + each.id + '-' + each.title.replace(/ /g, '-')));
 };
 
-module.exports = getUrls;
+module.exports = {
+    getUrls
+};
