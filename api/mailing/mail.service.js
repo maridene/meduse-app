@@ -5,6 +5,7 @@ const notificationsService = require('../notifications/notifications.service');
 
 const PASSWORD_RESET_EMAIL = "password.reset@meduse.tn"
 const PASSWORD_RESET_EMAIL_PWD = "passwordreset23102021";
+const CONTACT_MEDUSE_EMAIL = "contact@meduse.tn";
 
 const readHTMLFile = function(path, callback) {
     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
@@ -141,7 +142,7 @@ function sendPasswordResetMail(userName, newPassword, email) {
         const htmlToSend = template(replacements);
         const mailOptions = {
             from: PASSWORD_RESET_EMAIL,
-            to: email,
+            to: [email, CONTACT_MEDUSE_EMAIL],
             subject: 'Mot de passe MEDUSE modifié',
             html: htmlToSend
         };
