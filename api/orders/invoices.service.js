@@ -79,7 +79,8 @@ module.exports = {
     generateInvoice,
     generateDeliveryInvoice,
     generateCreditInvoice,
-    generateDevisInvoice
+    generateDevisInvoice,
+    deleteInvoices
 };
 
 function getAll() {
@@ -444,4 +445,26 @@ async function getCreditInvoiceNumber() {
 async function getDevisInvoiceNumber() {
     const num = await settingsService.getAndIncrementDevisInvoiceNumber();
     return padNumber(num, 6);
+}
+
+async function deleteInvoices(files) {
+    return Promise.all(
+        files.map((file) =>
+            new Promise((resolve, reject) => {
+                      try {
+                        fs.unlink(`${invoicesPath}/${file}`, err => {
+                          if (!err) {
+                            console.log(`${file} was deleted`);
+                            resolve({status: 'deleted', file})
+                          } else {
+                            console.log(`no such file: ${file}`);
+                            resolve({status: 'not deleted', file})
+                          }
+                        });
+                      } catch(err) {
+                          throw err;
+                      }
+                    })
+        )
+    )
 }

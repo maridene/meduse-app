@@ -230,3 +230,8 @@ background-color: #eee;
   display: flex;
   justify-content: center;
 }
+
+.InvoicesList .InvoicesList-listContainer {
+    max-height: 400px;
+    overflow-x: scroll;
+}

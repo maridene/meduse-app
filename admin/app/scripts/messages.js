@@ -15,3 +15,4 @@ var ADD_CLIENT_EMAIL_UNAVAILABLE_MESSAGE = "Cet adresse e-mail est déja utilis�
 var ADD_CLIENT_SUCCESS_MESSAGE = "Client ajouté avec succès";
 var ADD_CLIENT_ERROR_MESSAGE = "Un problème est survenu lors de l'ajout d'un nouvel client";
 var ADD_CLIENT_CHECK_PASSWORD = "Veuillez vérifier le mot de passe et réessayer";
+var INVOICES_DELETED_SUCCESS = "Factures supprimées avec succes";
