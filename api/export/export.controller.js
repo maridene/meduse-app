@@ -4,16 +4,17 @@ const authorize = require('helpers/authorize');
 const Role = require('helpers/role');
 const userService = require('../users/user.service');
 const productService = require('../products/products.service');
-const CsvParser = require("json2csv").Parser;
+const ExportService = require('./export.service');
 
 //admin routes
-router.get('/clients', authorize(Role.Admin), exoportClients);
-router.get('/products', authorize(Role.Admin), exportProducts);
-router.post('/orders', authorize(Role.Admin), exportOrders);
+router.get('/clients/:format', authorize(Role.Admin), exoportClients);
+router.get('/products/:format', authorize(Role.Admin), exportProducts);
+router.post('/orders/:format', authorize(Role.Admin), exportOrders);
 
 module.exports = router;
 
 function exoportClients(req, res, next) {
+    const format = req.params.format === 'csv' || 'mexcel' ? req.params.format : 'csv';
     userService.getClients().then((data) => {
         let clients = [];
     
@@ -21,15 +22,8 @@ function exoportClients(req, res, next) {
           const { password, role, ...clientWithoutPassword } = client;
           clients.push(clientWithoutPassword);
         });
-    
-        const csvFields = ["id", "name", "email", "phone", "creation date", "prefix", "points", "premium", "matricule fiscale"];
-        const csvParser = new CsvParser({ csvFields });
-        const csvData = csvParser.parse(clients);
-    
-        res.setHeader("Content-Type", "text/csv");
-        res.setHeader("Content-Disposition", "attachment; filename=clients.csv");
-    
-        res.status(200).end(csvData);
+
+		ExportService.buildClientsResponse(res, data, format);
     });
 }
 

@@ -9,19 +9,36 @@
 
 angular.module('sbAdminApp').controller('ExportCtrl', ['$scope', '$window', '$q', 'RestService', function ($scope, $window, $q, RestService) {
 
-    $scope.exportClients = function () {
-        RestService.get('export/clients')
+    $scope.exportClientsCSV = function () {
+        RestService.get('export/clients/csv')
             .then(function(result) {
                 var file = new Blob([result.data], { type: 'text/csv' });
                 saveAs(file, 'clients.csv');
             });
     };
 
-    $scope.exportProducts = function () {
-        RestService.get('export/products')
+    $scope.exportClientsMExcel = function () {
+        RestService.get('export/clients/mexcel')
+            .then(function(result) {
+                //var file = new Blob([base64ToArrayBuffer(result.data)], { type: 'application/application/vnd.ms-excel'});
+                var file = new Blob([result.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                saveAs(file, 'clients.xlsx');
+            });
+    };
+
+    $scope.exportProductsCSV = function () {
+        RestService.get('export/products/csv')
             .then(function(result) {
                 var file = new Blob([result.data], { type: 'text/csv' });
                 saveAs(file, 'products.csv');
+            });
+    };
+
+    $scope.exportProductsMExcel = function () {
+        RestService.get('export/products/mexcel')
+            .then(function(result) {
+                var file = new Blob([result.data], { type: 'text/csv' });
+                saveAs(file, 'products.xlsx');
             });
     };
 
