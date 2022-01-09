@@ -167,6 +167,9 @@ angular.module('sbAdminApp').service('ObjectBuilder', [function () {
   }
 
   function buildOrders(data) {
+    if (!Array.isArray(data)) {
+        return [];
+    }
     return data.map(function (item) {
       return buildOrder(item);
     });
