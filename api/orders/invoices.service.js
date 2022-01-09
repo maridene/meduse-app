@@ -18,7 +18,7 @@ const agentService = require('../agent/agent.service');
 
 const dev = process.env.dev === '1';
 const invoicesPath = dev ? "public/invoices" : constants.INVOICES_PATH;
-const templateUrl = dev ? "meduse-app/api/orders" : "orders";
+const templateUrl = dev ? "orders" : "orders";
 
 const browserParams = {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
