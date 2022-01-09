@@ -19,6 +19,7 @@ router.get('/admins', authorize(Role.Admin), getAdmins);
 router.delete('/:id', authorize(Role.Admin), deleteUser);
 router.post('/register-admin', authorize(Role.Admin), addAdmin);
 router.get('/created/month/:yearMonth', authorize(Role.Admin), getCreatedClientsByMonth);
+router.put('/:id', authorize(Role.Admin), update);
 
 //user routes
 router.get('/get/myself', authorize(Role.User), mySelf);
@@ -26,7 +27,6 @@ router.put('/update/myself', authorize(Role.User), updateMySelf);
 
 // all authenticated users routes
 router.get('/:id', authorize(), getById);
-router.put('/:id', authorize(), update);
 
 module.exports = router;
 
@@ -133,7 +133,8 @@ function deleteUser(req, res, next) {
 }
 
 function update(req, res, next) {
-    userService.update(req.body)
+    const id = req.params.id;
+    userService.update(id, req.body)
         .then((user) => user ? res.json(user) : res.sendStatus)
 }
 

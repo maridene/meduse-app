@@ -21,6 +21,15 @@ angular.module('sbAdminApp').service('OrdersService', ['$q', 'ObjectBuilder', 'R
       });
       return deferred.promise;
     },
+    getByClientId: function getByClientId(id) {
+      var deferred = $q.defer();
+      RestService.get("".concat(ORDERS, "/client/").concat(id)).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('orders', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
+    },
     add: function add(order) {
       var deferred = $q.defer();
       RestService.post(ORDERS, order).then(function (result) {

@@ -7,8 +7,8 @@
  * Controller of the clients list page
  */
 
-angular.module('sbAdminApp').controller('ClientsListCtrl', ['$scope', '$q', 'UsersService', 
-function ($scope, $q, UsersService) {
+angular.module('sbAdminApp').controller('ClientsListCtrl', ['$scope', '$q', '$window', 'UsersService',
+function ($scope, $q, $window, UsersService) {
   
   $scope.clients = [];
   $scope.filteredClients = [];
@@ -20,7 +20,6 @@ function ($scope, $q, UsersService) {
     }).length;
 
     $scope.deleteDisabled = selectedItemsCount === 0;
-    $scope.updateDisabled = selectedItemsCount !== 1;
   };
 
   $scope.updateState();
@@ -73,6 +72,18 @@ function ($scope, $q, UsersService) {
         }
       });
     }
+  };
+
+  $scope.showClientInfo = function(id) {
+	$window.location.href = "#/dashboard/client/" + id;
+  };
+
+  $scope.addOrder = function(id) {
+	$window.location.href = "#/dashboard/add-order/" + id;
+  };
+
+  $scope.editClient = function(id) {
+    $window.location.href = "#/dashboard/edit-client/" + id;
   };
 
 }]);

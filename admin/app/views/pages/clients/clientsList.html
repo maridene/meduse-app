@@ -46,12 +46,21 @@
                                 <td>{{client.phone2}}</td>
                                 <td>{{client.signupDate}}</td>
                                 <td>{{client.points}}</td>
-                                <td><a class="btn btn-primary" ng-href="#/dashboard/add-order/{{client.id}}"> Commande </a></td>
+                                <td>
+                                    <button type="button" title="informations" class="btn btn-info btn-circle" ng-click="showClientInfo(client.id)">
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                    <button type="button" title="Effectuer une commande" class="btn btn-primary btn-circle" ng-click="addOrder(client.id)">
+                                        <i class="fa fa-shopping-cart"></i>
+                                    </button>
+                                    <button type="button" title="Modifier" class="btn btn-success btn-circle" ng-click="editClient(client.id)">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button type="button" ng-disabled="updateDisabled" ng-click="update()" class="btn btn-success">Modifier</button>
                 <button type="button" ng-disabled="deleteDisabled" ng-click="delete()" class="btn btn-danger">Supprimer</button>
                 <!-- Modal success -->
                 <div class="modal fade" id="deleteSuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">{{client.name}}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Détails du client
+      </div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        <table>
+          <tr>
+            <td><b>Nom et prénom:</b></td>
+            <td>{{client.name}}</td>
+          </tr>
+          <tr>
+            <td><b>E-mail:</b></td>
+            <td>{{client.email}}</td>
+          </tr>
+          <tr>
+            <td><b>Téléphone:</b></td>
+            <td>{{client.phone}}</td>
+          </tr>
+          <tr>
+            <td><b>Matricule fiscale:</b></td>
+            <td>{{client.mf}}</td>
+          </tr>
+          <tr>
+            <td><b>Premium:</b></td>
+            <td>{{client.premium ? 'Oui' : 'Non'}}</td>
+          </tr>
+          <tr>
+            <td><b>Solde de points:</b></td>
+            <td>{{client.points}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Commandes
+      </div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        <div class="dataTable_wrapper">
+          <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+            <thead>
+              <tr>
+                <th>Référence</th>
+                <th>Date</th>
+                <th>Etat de la commande</th>
+                <th>Paiement</th>
+                <th>Type paiement</th>
+                <th>Total</th>
+                <th>Représentant</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="order in orders track by order.id" class="odd gradeX">
+                <td><a ng-href="#/dashboard/order-details/{{order.id}}">{{order.ref}}</a></td>
+                <td>{{order.date}}</td>
+                <td>{{order.status}}</td>
+                <td>{{order.paymentStatus}}</td>
+                <td>{{order.ptype}}</td>
+                <td>{{order.total}}</td>
+                <td>{{order.agentName}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -70,6 +70,15 @@ angular.module('sbAdminApp').service('UsersService', ['$q', 'ObjectBuilder', 'Re
         return deferred.reject(error);
       });
       return deferred.promise;
+    },
+    updateClient: function updateClient(id, data) {
+      var deferred = $q.defer();
+      RestService.put("".concat(USERS, "/").concat(id), data).then(function (result) {
+        return deferred.resolve(ObjectBuilder.buildObject('client', result.data));
+      }, function (error) {
+        return deferred.reject(error);
+      });
+      return deferred.promise;
     }
   };
 }]);

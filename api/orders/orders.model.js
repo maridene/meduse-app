@@ -62,9 +62,9 @@ Orders.getById = (id) => {
     });
 }
 
-Orders.findByClientId = (userId) => {
+Orders.findByClientId = (clientId) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM ${tables.ORDERS} WHERE client_id = ${userId}`,
+        sql.query(`SELECT ${tables.ORDERS}.*, A.name AS agentName FROM ${tables.ORDERS} LEFT JOIN ${tables.AGENTS} AS A on A.id = ${tables.ORDERS}.agent_id WHERE ${tables.ORDERS}.client_id = ${clientId}`,
         (err, res) => {
             if(err) {
                 reject(err);

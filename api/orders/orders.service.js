@@ -113,12 +113,17 @@ function getMyOrders(headerUserId, paramsUserId) {
     });
 }
 
-function findByClientId(id) {
-    return new Promise((resolve, reject) => {
-        orders.findByClientId(id)
-            .then((result) => resolve(result),
-            (err) => reject(err));
-    });
+async function findByClientId(id) {
+    const found = await orders.findByClientId(id);
+    const result = [];
+    if (found && found.length) {
+        for (const order of found) {
+            const totalInfos = await getOrderTotal(order.id);
+            order.total = totalInfos.totalInfos.totalLabel;
+            result.push(order);
+        }
+    }
+    return result;
 }
 
 function findByRef(ref) {

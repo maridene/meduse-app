@@ -22,6 +22,7 @@ const Role = require('helpers/role');
 router.get('/', authorize(Role.Admin), getAll);
 router.get('/search', authorize(Role.Admin), search);
 router.get('/pending', authorize(Role.Admin), getPendingOrders);
+router.get('/client/:id', authorize(Role.Admin), getByClientId);
 router.get('/:id', authorize(Role.Admin), getById);
 router.post('/', authorize(Role.Admin), createOrder);
 router.put('/:id', authorize(Role.Admin), updateById);
@@ -115,6 +116,14 @@ function getMyOrders(req, res, next) {
     const paramUserId = parseInt(req.params.id);
 
     ordersService.findByClientId(headerUserId, paramUserId)
+        .then(orders => res.json(orders))
+        .catch(err => next(err));
+}
+
+function getByClientId(req, res, next) {
+    const clientId = parseInt(req.params.id);
+
+    ordersService.findByClientId(clientId)
         .then(orders => res.json(orders))
         .catch(err => next(err));
 }

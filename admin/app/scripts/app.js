@@ -477,15 +477,41 @@ angular
           }
         }
     })
-      .state('dashboard.clients-list', {
-        url:'/clients-list',
-        controller: 'ClientsListCtrl',
-        templateUrl: 'views/pages/clients/clientsList.html',
+  .state('dashboard.clients-list', {
+    url:'/clients-list',
+    controller: 'ClientsListCtrl',
+    templateUrl: 'views/pages/clients/clientsList.html',
+    resolve: {
+      loadMyFile:function($ocLazyLoad) {
+        return $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:['scripts/controllers/clients/clientsListController.js']
+        })
+      }
+    }
+  })
+    .state('dashboard.edit-client', {
+        url:'/edit-client/:id',
+        controller: 'EditClientCtrl',
+        templateUrl: 'views/pages/clients/editClient.html',
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/clients/clientsListController.js']
+                files:['scripts/controllers/clients/editClientController.js']
+            })
+          }
+        }
+    })
+    .state('dashboard.show-client', {
+        url:'/client/:id',
+        controller: 'ClientCtrl',
+        templateUrl: 'views/pages/clients/client.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/clients/clientController.js']
             })
           }
         }
