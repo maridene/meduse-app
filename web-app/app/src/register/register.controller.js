@@ -31,6 +31,7 @@ class RegisterCtrl {
         name: this.user.name,
         email: this.user.email,
         phone: `+216${this.user.phone}`,
+        phone2: `+216${this.user.phone2}`,
         mf: this.user.mf,
         password: sha3_256(this.user.password)
       };

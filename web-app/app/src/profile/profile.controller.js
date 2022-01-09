@@ -37,6 +37,7 @@ export class ProfileDetailsCtrl {
       prefix: this.originalUser.prefix,
       name: this.originalUser.name,
       phone: this.originalUser.phone && this.originalUser.phone.indexOf('+216') !== -1 ? this.originalUser.phone.replace('+216', '') : this.originalUser.phone,
+      phone2: this.originalUser.phone2 && this.originalUser.phone2.indexOf('+216') !== -1 ? this.originalUser.phone2.replace('+216', '') : this.originalUser.phone2,
       mf: this.originalUser.mf,
       password: ''
     };
@@ -46,6 +47,7 @@ export class ProfileDetailsCtrl {
     const userForm = Object.assign({}, this.form, 
       {
         phone: `+216${this.form.phone}`,
+        phone2: `+216${this.form.phone2}`,
         password: sha3_256(this.form.password)
       });
     this.UserService.update(userForm)

@@ -6,6 +6,7 @@ class User {
     this.name = data.name;
     this.email = data.email;
     this.phone = data.phone;
+    this.phone2 = data.phone2;
     this.points = data.points;
     this.prefix = data.prefix;
     this.premium = data.premium;

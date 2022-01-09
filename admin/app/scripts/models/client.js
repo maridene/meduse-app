@@ -12,6 +12,7 @@ var Client = function Client(data) {
   this.name = data.name;
   this.email = data.email;
   this.phone = data.phone;
+  this.phone2 = data.phone2;
   this.premium = !!data.premium;
   this.points = data.points;
   this.signupDate = data.creationDate ? formatDate(data.creationDate) : '-';

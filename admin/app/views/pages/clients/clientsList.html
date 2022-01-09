@@ -30,6 +30,7 @@
                                 <th>Nom et prénom</th>
                                 <th>Adresse email</th>
                                 <th>Numéro de téléphone</th>
+                                <th>Numéro de téléphone 2</th>
                                 <th>Date d'inscription</th>
                                 <th>Points</th>
                                 <th></th>
@@ -42,6 +43,7 @@
                                 <td ng-if="!client.premium">{{client.prefix}} {{client.name}}</td>
                                 <td>{{client.email}}</td>
                                 <td>{{client.phone}}</td>
+                                <td>{{client.phone2}}</td>
                                 <td>{{client.signupDate}}</td>
                                 <td>{{client.points}}</td>
                                 <td><a class="btn btn-primary" ng-href="#/dashboard/add-order/{{client.id}}"> Commande </a></td>

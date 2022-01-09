@@ -136,11 +136,11 @@ function getClientById(id) {
     });
 }
 
-function create({prefix, name, email, password, phone, mf}, role) {
+function create({prefix, name, email, password, phone, phone2, mf}, role) {
     return new Promise((resolve, reject) => {
         emailAvailable(email).then((result) => {
             if (result) {
-                users.create({prefix, name, email, phone, password, role, mf})
+                users.create({prefix, name, email, phone, phone2, password, role, mf})
                     .then((result) => {
                         mailService.sendWelcomeMail(name, email);
                         resolve(result);

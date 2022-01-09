@@ -54,6 +54,9 @@
                     {{{order.billing_address}}}<br>
                     {{order.billing_zipcode}} {{{order.billing_city}}}, {{{order.billing_state}}}<br>
                     Téléphone: {{client.phone}}<br>
+                    {{#ifNotNull client.phone2}}
+                        Téléphone2: {{{client.phone2}}} <br>
+                    {{/ifNotNull}}
                     Matricule Fiscale: {{mf}}
                 </td>
                 
@@ -63,7 +66,6 @@
                     {{{client.email}}}<br>
                     {{{order.delivery_address}}}<br>
                     {{order.delivery_zipcode}} {{{order.delivery_city}}}, {{{order.delivery_state}}}<br>
-                    Téléphone: {{client.phone}}
                 </td>
             </tr>
         </table>
